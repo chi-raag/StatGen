@@ -1,9 +1,0 @@
-project:
-  output-dir: _output
-
-format:
-    revealjs:
-        theme: [default, custom.scss]
-        slide-number: true
-    pptx: 
-        output-file: "lecture-01.pptx" 

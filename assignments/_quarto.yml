@@ -1,0 +1,6 @@
+project:
+  output-dir: _output
+
+format: 
+  docx: default
+  pdf: default

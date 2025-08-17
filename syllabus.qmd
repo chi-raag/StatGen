@@ -1,0 +1,56 @@
+---
+title: "Syllabus"
+---
+
+## Course Description
+
+This graduate-level course builds a cohesive toolkit for analyzing complex genetic data, weaving together Mendelian and population-genetic principles, likelihood theory, and Bayesian inference with MCMC. Lectures progress from pedigree linkage and genome-wide association study (GWAS) design to population-structure correction, multiple-testing control, and genomic prediction using BLUP, penalized regressions, and non-parametric learners such as random forests and neural networks. Binary-trait modelling introduces logistic mixed models, AUC evaluation, and family-based tests, while hands-on R/Bioconductor labs guide students from Hardy–Weinberg simulations to full GWAS and polygenic-score pipelines. Weekly problem sets blend mathematical derivations with coding; a capstone project requires analyzing public whole-genome or single-cell data and presenting findings in a conference-style talk. By course end, participants can translate biological questions into formal statistical models, implement inference algorithms on high-dimensional data, control error rates in large-scale studies, and critically evaluate predictive models and their uncertainties.
+
+## Course Prerequisites 
+
+* PUBH 6860: Principles of Bioinformatics
+
+## Course Learning Objectives
+
+- Analyze Mendelian, population-genetic, and demographic models to quantify inheritance patterns, linkage, association, and population structure in diverse organisms. 
+- Apply likelihood, Bayesian, and Markov-chain Monte Carlo techniques to estimate parameters and test hypotheses in genome-scale datasets.
+- Evaluate genome-wide association studies and genomic-prediction pipelines, controlling false-discovery rates and assessing prediction bias, variance, and uncertainty.
+- Synthesize multi-source genomic, phenotypic, and environmental data into reproducible R/Bioconductor workflows that meet FAIR and open-science standards.
+- Design and implement statistical learning models-shrinkage regressions, mixed models, and non-parametric methods-to predict complex traits and interpret model performance in a biological context.
+
+## Textbooks
+
+### Required
+
+- Statistical Learning in Genetics: An Introduction Using R, Daniel Sorensen, 2nd Edition
+- The Fundamentals of Modern Statistical Genetics, Nan M. Laird and Christoph Lange, 1st Edition
+
+### Recommended
+
+- Handbook of Statistical Genomics, David J. Balding, Ida Moltke, John Marioni, 4th Edition
+
+## Technology Requirements
+
+Students should have a desktop or laptop (Windows, macOS, or Linux) with at least 8 GB RAM, 20 GB free disk space, a reliable broadband connection (≥ 10 Mbps), and working webcam, microphone, and speakers or headphones for synchronous Zoom sessions. They must be able to navigate the university’s LMS through a modern web browser to download readings, submit assignments, and join discussion boards; install and update R (4.5 or newer), RStudio (or VS Code with the R extension), Bioconductor packages, Git, and Zoom; and use basic Git commands (clone, commit, push) to submit version-controlled lab work. Familiarity with screen sharing, breakout rooms, captioning, and recording in Zoom is expected. Optional but recommended tools include an SSH client or VPN for connecting to campus HPC resources and a PDF reader that supports annotation. All course materials follow WCAG 2.1 guidelines, and RStudio offers high-contrast and screen-reader modes; students who require further accommodations should contact Disability Services before the first week.
+
+## Assignments and Descriptions
+
+### Problem Sets 
+
+Problem sets are key to exploring the concepts introduced both in class and in the textbook.  These are meant to provide an opportunity to more deeply understand concepts and put them into practice and provide an opportunity for data manipulation.  This is part of the ‘lab’ component of the course and you will be given time in class to work on assignments and collaborate.  However, these problem sets will take substantial time outside of class to complete, so please plan accordingly.
+
+### Research Project
+
+Students will choose a unique project to work on for the final third of the semester. At the end of the semester, students will submit a written project report in the form of a scientific research paper. Students are strongly encouraged to work in groups of up to three on their projects, however such groups will be expected to make proportionally more substantial contributions with clearly delineated responsibilities for each member’s contributions. Projects should be based on a research topic related to statistical genetics, but can be computational, methodological, or applied in nature. The Lab write-ups will follow the standard form of a scientific paper to gain experience in writing.  Specifically, we will follow the format of the journal Genetics, the leading journal in the field.  The paper MUST BE BASED ON THE PRIMARY LITERATURE IN THE APPROPRIATE REFEREED SCIENTIFIC JOURNALS, and it should adhere to the following format:
+
+- Begin the paper with an original title, followed by your name, the course, and the date.  All papers should be typed, single-spaced, and in 12 pt. font.
+- The paper should have the following sections:
+    - Introduction – here you state the general problem or issue you are addressing.
+    - Materials and Methods – describe the methods used to obtain data, analyze data, and test hypotheses associated with the data.
+    - Results – describe the results of the data analysis and hypothesis testing. 
+    - Discussion – here you draw conclusions about the problem you studied; this section should include a synthesis of ideas.
+    - Literature Cited – List the relevant literature you have read and used to support your arguments/analyze your data.  The literature cited should be in the format of the journal Genetics.
+    
+Aspects of the project will be required throughout the course with a final research project submitted in the form of a research paper during finals. See course outline for due dates for each part of project.
+
+

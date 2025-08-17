@@ -1,0 +1,430 @@
+[
+  {
+    "objectID": "schedule.html",
+    "href": "schedule.html",
+    "title": "Schedule",
+    "section": "",
+    "text": "Week\nLecture\nReadings\nAssignment\n\n\n\n\n1\nFoundations: Mendelian genetics & statistical basics\nRequired:\n\nSorensen 1.1-1.3\nLaird Chapters 1-3\n\nProblem Set 01\n\n\n2\nHeritability, segregation, and the gene-mapping toolkit\n\n\n\n\n3\nLikelihood algorithms & practical gene mapping\n\n\n\n\n4\nPopulation structure & Bayesian fundamentals\n\n\n\n\n5\nMCMC in practice & GWAS design issues\n\n\n\n\n6\nPrediction I – Linear models & shrinkage methods\n\n\n\n\n7\n Multiple testing & false-discovery control\n\n\n\n\n8\nBinary traits and family-based association tests\n\n\n\n\n9\nPrediction II – Model Checking and non-parametric methods\n\n\n\n\n10\nAdvanced AI Topics in Statistical Genetics: Language Models for Genomics\nRecommended:\n\nDNABERT: Pre-trained Bidirectional Encoder Representations from DNA (Ji et al., 2021)\nEnformer: Predicting gene expression from sequence (Avsec et al., Nature Methods)\nAlphaMissense: Predicting missense variant pathogenicity (Frazer et al., Science)\nresLes and seqLens\n\n\n\n\n11",
+    "crumbs": [
+      "Course information",
+      "Schedule"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Statistical Genetics",
+    "section": "",
+    "text": "Week\nLecture\nReadings\nAssignment\n\n\n\n\n1\nFoundations: Mendelian genetics & statistical basics\nRequired:\n\nSorensen 1.1-1.3\nLaird Chapters 1-3\n\nProblem Set 01\n\n\n2\nHeritability, segregation, and the gene-mapping toolkit\n\n\n\n\n3\nLikelihood algorithms & practical gene mapping\n\n\n\n\n4\nPopulation structure & Bayesian fundamentals\n\n\n\n\n5\nMCMC in practice & GWAS design issues\n\n\n\n\n6\nPrediction I – Linear models & shrinkage methods\n\n\n\n\n7\n Multiple testing & false-discovery control\n\n\n\n\n8\nBinary traits and family-based association tests\n\n\n\n\n9\nPrediction II – Model Checking and non-parametric methods\n\n\n\n\n10\nAdvanced AI Topics in Statistical Genetics: Language Models for Genomics\nRecommended:\n\nDNABERT: Pre-trained Bidirectional Encoder Representations from DNA (Ji et al., 2021)\nEnformer: Predicting gene expression from sequence (Avsec et al., Nature Methods)\nAlphaMissense: Predicting missense variant pathogenicity (Frazer et al., Science)\nresLes and seqLens\n\n\n\n\n11"
+  },
+  {
+    "objectID": "index.html#schedule",
+    "href": "index.html#schedule",
+    "title": "Statistical Genetics",
+    "section": "",
+    "text": "Week\nLecture\nReadings\nAssignment\n\n\n\n\n1\nFoundations: Mendelian genetics & statistical basics\nRequired:\n\nSorensen 1.1-1.3\nLaird Chapters 1-3\n\nProblem Set 01\n\n\n2\nHeritability, segregation, and the gene-mapping toolkit\n\n\n\n\n3\nLikelihood algorithms & practical gene mapping\n\n\n\n\n4\nPopulation structure & Bayesian fundamentals\n\n\n\n\n5\nMCMC in practice & GWAS design issues\n\n\n\n\n6\nPrediction I – Linear models & shrinkage methods\n\n\n\n\n7\n Multiple testing & false-discovery control\n\n\n\n\n8\nBinary traits and family-based association tests\n\n\n\n\n9\nPrediction II – Model Checking and non-parametric methods\n\n\n\n\n10\nAdvanced AI Topics in Statistical Genetics: Language Models for Genomics\nRecommended:\n\nDNABERT: Pre-trained Bidirectional Encoder Representations from DNA (Ji et al., 2021)\nEnformer: Predicting gene expression from sequence (Avsec et al., Nature Methods)\nAlphaMissense: Predicting missense variant pathogenicity (Frazer et al., Science)\nresLes and seqLens\n\n\n\n\n11"
+  },
+  {
+    "objectID": "assignments/assignment-01.html",
+    "href": "assignments/assignment-01.html",
+    "title": "Assignment 01",
+    "section": "",
+    "text": "Laird, Section 2.4, Exercise 3\nLaird, Section 2.4, Exercise 4\nLaird, Section 2.4, Exercise 7\nConsider a sample size of \\(n\\) of unrelated haploid individuals is obtained from some population with the objective of estimating allele frequency at a biallelic locus. The sample contains \\(x\\) copies of \\(A\\), and \\(n-x\\) copies of \\(a\\).\n\nPlot the probability distribution of \\(X\\) given \\(n = 30\\), and \\(\\theta = .1\\). Plot the probability distribution of \\(X\\) given \\(n = 1000\\), and \\(\\theta = .1\\).\nLets say we observed \\(30\\) samples, with \\(10\\) copies of allele \\(A\\). Plot the likelihood function for \\(\\theta\\)\nWhat is the MLE of \\(\\theta\\)?\nLet’s say \\(n = 1000\\), and \\(x = 100\\). What is the sampling variance of \\(\\hat{\\theta}\\)?\nLet’s say \\(n = 100\\), and \\(x = 10\\). What is the sampling variance of \\(\\hat{\\theta}\\)? Why is this different than the result above?"
+  },
+  {
+    "objectID": "syllabus.html",
+    "href": "syllabus.html",
+    "title": "Syllabus",
+    "section": "",
+    "text": "This graduate-level course builds a cohesive toolkit for analyzing complex genetic data, weaving together Mendelian and population-genetic principles, likelihood theory, and Bayesian inference with MCMC. Lectures progress from pedigree linkage and genome-wide association study (GWAS) design to population-structure correction, multiple-testing control, and genomic prediction using BLUP, penalized regressions, and non-parametric learners such as random forests and neural networks. Binary-trait modelling introduces logistic mixed models, AUC evaluation, and family-based tests, while hands-on R/Bioconductor labs guide students from Hardy–Weinberg simulations to full GWAS and polygenic-score pipelines. Weekly problem sets blend mathematical derivations with coding; a capstone project requires analyzing public whole-genome or single-cell data and presenting findings in a conference-style talk. By course end, participants can translate biological questions into formal statistical models, implement inference algorithms on high-dimensional data, control error rates in large-scale studies, and critically evaluate predictive models and their uncertainties.",
+    "crumbs": [
+      "Course information",
+      "Overview"
+    ]
+  },
+  {
+    "objectID": "syllabus.html#course-description",
+    "href": "syllabus.html#course-description",
+    "title": "Syllabus",
+    "section": "",
+    "text": "This graduate-level course builds a cohesive toolkit for analyzing complex genetic data, weaving together Mendelian and population-genetic principles, likelihood theory, and Bayesian inference with MCMC. Lectures progress from pedigree linkage and genome-wide association study (GWAS) design to population-structure correction, multiple-testing control, and genomic prediction using BLUP, penalized regressions, and non-parametric learners such as random forests and neural networks. Binary-trait modelling introduces logistic mixed models, AUC evaluation, and family-based tests, while hands-on R/Bioconductor labs guide students from Hardy–Weinberg simulations to full GWAS and polygenic-score pipelines. Weekly problem sets blend mathematical derivations with coding; a capstone project requires analyzing public whole-genome or single-cell data and presenting findings in a conference-style talk. By course end, participants can translate biological questions into formal statistical models, implement inference algorithms on high-dimensional data, control error rates in large-scale studies, and critically evaluate predictive models and their uncertainties.",
+    "crumbs": [
+      "Course information",
+      "Overview"
+    ]
+  },
+  {
+    "objectID": "syllabus.html#course-prerequisites",
+    "href": "syllabus.html#course-prerequisites",
+    "title": "Syllabus",
+    "section": "Course Prerequisites",
+    "text": "Course Prerequisites\n\nPUBH 6860: Principles of Bioinformatics",
+    "crumbs": [
+      "Course information",
+      "Overview"
+    ]
+  },
+  {
+    "objectID": "syllabus.html#course-learning-objectives",
+    "href": "syllabus.html#course-learning-objectives",
+    "title": "Syllabus",
+    "section": "Course Learning Objectives",
+    "text": "Course Learning Objectives\n\nAnalyze Mendelian, population-genetic, and demographic models to quantify inheritance patterns, linkage, association, and population structure in diverse organisms.\nApply likelihood, Bayesian, and Markov-chain Monte Carlo techniques to estimate parameters and test hypotheses in genome-scale datasets.\nEvaluate genome-wide association studies and genomic-prediction pipelines, controlling false-discovery rates and assessing prediction bias, variance, and uncertainty.\nSynthesize multi-source genomic, phenotypic, and environmental data into reproducible R/Bioconductor workflows that meet FAIR and open-science standards.\nDesign and implement statistical learning models-shrinkage regressions, mixed models, and non-parametric methods-to predict complex traits and interpret model performance in a biological context.",
+    "crumbs": [
+      "Course information",
+      "Overview"
+    ]
+  },
+  {
+    "objectID": "syllabus.html#textbooks",
+    "href": "syllabus.html#textbooks",
+    "title": "Syllabus",
+    "section": "Textbooks",
+    "text": "Textbooks\n\nRequired\n\nStatistical Learning in Genetics: An Introduction Using R, Daniel Sorensen, 2nd Edition\nThe Fundamentals of Modern Statistical Genetics, Nan M. Laird and Christoph Lange, 1st Edition\n\n\n\nRecommended\n\nHandbook of Statistical Genomics, David J. Balding, Ida Moltke, John Marioni, 4th Edition",
+    "crumbs": [
+      "Course information",
+      "Overview"
+    ]
+  },
+  {
+    "objectID": "syllabus.html#technology-requirements",
+    "href": "syllabus.html#technology-requirements",
+    "title": "Syllabus",
+    "section": "Technology Requirements",
+    "text": "Technology Requirements\nStudents should have a desktop or laptop (Windows, macOS, or Linux) with at least 8 GB RAM, 20 GB free disk space, a reliable broadband connection (≥ 10 Mbps), and working webcam, microphone, and speakers or headphones for synchronous Zoom sessions. They must be able to navigate the university’s LMS through a modern web browser to download readings, submit assignments, and join discussion boards; install and update R (4.5 or newer), RStudio (or VS Code with the R extension), Bioconductor packages, Git, and Zoom; and use basic Git commands (clone, commit, push) to submit version-controlled lab work. Familiarity with screen sharing, breakout rooms, captioning, and recording in Zoom is expected. Optional but recommended tools include an SSH client or VPN for connecting to campus HPC resources and a PDF reader that supports annotation. All course materials follow WCAG 2.1 guidelines, and RStudio offers high-contrast and screen-reader modes; students who require further accommodations should contact Disability Services before the first week.",
+    "crumbs": [
+      "Course information",
+      "Overview"
+    ]
+  },
+  {
+    "objectID": "syllabus.html#assignments-and-descriptions",
+    "href": "syllabus.html#assignments-and-descriptions",
+    "title": "Syllabus",
+    "section": "Assignments and Descriptions",
+    "text": "Assignments and Descriptions\n\nProblem Sets\nProblem sets are key to exploring the concepts introduced both in class and in the textbook. These are meant to provide an opportunity to more deeply understand concepts and put them into practice and provide an opportunity for data manipulation. This is part of the ‘lab’ component of the course and you will be given time in class to work on assignments and collaborate. However, these problem sets will take substantial time outside of class to complete, so please plan accordingly.\n\n\nResearch Project\nStudents will choose a unique project to work on for the final third of the semester. At the end of the semester, students will submit a written project report in the form of a scientific research paper. Students are strongly encouraged to work in groups of up to three on their projects, however such groups will be expected to make proportionally more substantial contributions with clearly delineated responsibilities for each member’s contributions. Projects should be based on a research topic related to statistical genetics, but can be computational, methodological, or applied in nature. The Lab write-ups will follow the standard form of a scientific paper to gain experience in writing. Specifically, we will follow the format of the journal Genetics, the leading journal in the field. The paper MUST BE BASED ON THE PRIMARY LITERATURE IN THE APPROPRIATE REFEREED SCIENTIFIC JOURNALS, and it should adhere to the following format:\n\nBegin the paper with an original title, followed by your name, the course, and the date. All papers should be typed, single-spaced, and in 12 pt. font.\nThe paper should have the following sections:\n\nIntroduction – here you state the general problem or issue you are addressing.\nMaterials and Methods – describe the methods used to obtain data, analyze data, and test hypotheses associated with the data.\nResults – describe the results of the data analysis and hypothesis testing.\nDiscussion – here you draw conclusions about the problem you studied; this section should include a synthesis of ideas.\nLiterature Cited – List the relevant literature you have read and used to support your arguments/analyze your data. The literature cited should be in the format of the journal Genetics.\n\n\nAspects of the project will be required throughout the course with a final research project submitted in the form of a research paper during finals. See course outline for due dates for each part of project.",
+    "crumbs": [
+      "Course information",
+      "Overview"
+    ]
+  },
+  {
+    "objectID": "lectures/lecture-01.html#introductions",
+    "href": "lectures/lecture-01.html#introductions",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "Introductions",
+    "text": "Introductions",
+    "crumbs": [
+      "Lectures",
+      "Lecture 01"
+    ]
+  },
+  {
+    "objectID": "lectures/lecture-01.html#about-me",
+    "href": "lectures/lecture-01.html#about-me",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "About Me",
+    "text": "About Me\n\n\n\n\n\n\nMy dog Rosie and I\n\n\n\n\n\nI’m Chiraag Gohel, a 4th Year PhD student in the Department of Biostatistics and Bioinformatics at George Washington University.\nMy interests are in the modeling of high-dimensional ’omics data\nI play a lot of squash",
+    "crumbs": [
+      "Lectures",
+      "Lecture 01"
+    ]
+  },
+  {
+    "objectID": "lectures/lecture-01.html#syllabus",
+    "href": "lectures/lecture-01.html#syllabus",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "Syllabus",
+    "text": "Syllabus",
+    "crumbs": [
+      "Lectures",
+      "Lecture 01"
+    ]
+  },
+  {
+    "objectID": "lectures/lecture-01.html#what-is-statistical-genetics",
+    "href": "lectures/lecture-01.html#what-is-statistical-genetics",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "What is statistical genetics?",
+    "text": "What is statistical genetics?\n\n\n\n\n\n\nPopulation Genetics\n\n\n\n\n\n\n\nGenetic Epidemiology\n\n\n\n\n\n\n\nQuantitative Genetics",
+    "crumbs": [
+      "Lectures",
+      "Lecture 01"
+    ]
+  },
+  {
+    "objectID": "lectures/lecture-01.html#a-statistical-geneticist-may-want-to-know",
+    "href": "lectures/lecture-01.html#a-statistical-geneticist-may-want-to-know",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "A statistical geneticist may want to know",
+    "text": "A statistical geneticist may want to know\n\nIs there a genetic component contributing to the total variance of these traits?\nIs the genetic component of the traits driven by a few genes located on a particular chromosome, or are there many genes scattered across many chromosomes? How many genes are involved and is this a scientifically sensible question?\nAre the genes detected protein-coding genes, or are there also noncoding genes involved in gene regulation?\nHow is the strength of the signals captured in a statistical analysis related to the two types of genes? What fraction of the total genetic variation is allocated to both types of genes?\nWhat are the frequencies of the genes in the sample? Are the frequencies associated with the magnitude of their effects on the traits?\nWhat is the mode of action of the genes?",
+    "crumbs": [
+      "Lectures",
+      "Lecture 01"
+    ]
+  },
+  {
+    "objectID": "lectures/lecture-01.html#a-statistical-geneticist-may-want-to-know-1",
+    "href": "lectures/lecture-01.html#a-statistical-geneticist-may-want-to-know-1",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "A statistical geneticist may want to know",
+    "text": "A statistical geneticist may want to know\n\nWhat proportion of the genetic variance estimated in 1 can be explained by the discovered genes?\nGiven the information on the set of genes carried by an individual, will a genetic score constructed before observing the trait help with early diagnosis and prevention?\nHow should the predictive ability of the score be measured?\nAre there other non-genetic factors that affect the traits, such as smoking behavior, alcohol consumption, blood pressure measurements, body mass index and level of physical exercise?\nCould the predictive ability of the genetic score be improved by incorporation of these non-genetic sources of information, either additively or considering interactions? What is the relative contribution from the different sources of information?",
+    "crumbs": [
+      "Lectures",
+      "Lecture 01"
+    ]
+  },
+  {
+    "objectID": "lectures/lecture-01.html#what-does-the-data-look-like",
+    "href": "lectures/lecture-01.html#what-does-the-data-look-like",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "What does the data look like?",
+    "text": "What does the data look like?\nFamily/Pedigree Studies\n\nFamily/Pedigree Studies",
+    "crumbs": [
+      "Lectures",
+      "Lecture 01"
+    ]
+  },
+  {
+    "objectID": "lectures/lecture-01.html#what-does-the-data-look-like-1",
+    "href": "lectures/lecture-01.html#what-does-the-data-look-like-1",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "What does the data look like?",
+    "text": "What does the data look like?\nGenome-Wide Association Studies (GWAS)\n\nGenome-Wide Association Studies",
+    "crumbs": [
+      "Lectures",
+      "Lecture 01"
+    ]
+  },
+  {
+    "objectID": "lectures/lecture-01.html#core-abstractions-for-quantitative-biology",
+    "href": "lectures/lecture-01.html#core-abstractions-for-quantitative-biology",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "Core abstractions for quantitative biology",
+    "text": "Core abstractions for quantitative biology\n\nModel-Building\n\nFormulate generative models linking genotype, environment, and phenotype (e.g., linear mixed, Bayesian hierarchical, non-parametric kernels).\nEncode biological structure: linkage & LD, population stratification, dominance/epistasis, multi-omics priors.\nBalance realism and tractability to enable scalable computation on genome-scale data.",
+    "crumbs": [
+      "Lectures",
+      "Lecture 01"
+    ]
+  },
+  {
+    "objectID": "lectures/lecture-01.html#core-abstractions-for-quantitative-biology-1",
+    "href": "lectures/lecture-01.html#core-abstractions-for-quantitative-biology-1",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "Core abstractions for quantitative biology",
+    "text": "Core abstractions for quantitative biology\n\nInference\n\nEstimate unknown parameters and latent effects via likelihood maximisation, EM, MCMC, or SGD\nQuantify uncertainty with standard errors, posterior intervals, and credible sets\nControl false discoveries across millions of tests with FDR/Q-value, permutation, and empirical-Bayes shrinkage.",
+    "crumbs": [
+      "Lectures",
+      "Lecture 01"
+    ]
+  },
+  {
+    "objectID": "lectures/lecture-01.html#core-abstractions-for-quantitative-biology-2",
+    "href": "lectures/lecture-01.html#core-abstractions-for-quantitative-biology-2",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "Core abstractions for quantitative biology",
+    "text": "Core abstractions for quantitative biology\n\nPrediction\n\nUse fitted models for out-of-sample trait prediction: BLUP/GBLUP, ridge/lasso/elastic-net, Bayesian whole-genome regressions, random forests, neural nets.\nEvaluate accuracy (MSE, AUC), bias–variance trade-off, calibration, and portability across ancestries or cell types.\nTranslate genomic predictions into actionable scores for breeding, risk stratification, and drug-target prioritisation.",
+    "crumbs": [
+      "Lectures",
+      "Lecture 01"
+    ]
+  },
+  {
+    "objectID": "lectures/lecture-01.html#core-abstractions-for-quantitative-biology-3",
+    "href": "lectures/lecture-01.html#core-abstractions-for-quantitative-biology-3",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "Core abstractions for quantitative biology",
+    "text": "Core abstractions for quantitative biology\n\nInterpretation & Validation\n\nIntegrate functional annotations, eQTL, and single-cell data to refine biological mechanisms.\nPerform replication, cross-cohort meta-analysis, and sensitivity analyses to population assumptions.\nCommunicate findings with clear visualisations and reproducible workflows (R/Bioconductor, Git, notebooks).",
+    "crumbs": [
+      "Lectures",
+      "Lecture 01"
+    ]
+  },
+  {
+    "objectID": "lectures/lecture-01.html#some-vocabulary",
+    "href": "lectures/lecture-01.html#some-vocabulary",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "Some vocabulary",
+    "text": "Some vocabulary\n\nTrait/Phenotype: A measurable characteristic of an organism, such as height, weight, or disease status.\nGenotype: The genetic constitution of an individual, often represented by specific alleles at particular loci.\nAllele: A variant form of a gene that can exist at a specific locus on a chromosome.\nLocus: A specific, fixed position on a chromosome where a particular gene or genetic marker is located.\nPolymorphism: The occurrence of two or more genetically determined forms in a population, such as single nucleotide polymorphisms (SNPs) or copy number variations (CNVs).\nGenetic Marker: A specific DNA sequence with a known location on a chromosome that can be used to identify individuals or species, often used in genetic mapping or association studies.\nLinkage Disequilibrium (LD): The non-random association of alleles at different loci, indicating that certain allele combinations occur together more frequently than expected by chance.\nHeritability: The proportion of phenotypic variance in a trait that can be attributed to genetic variance, often estimated through twin or family studies.",
+    "crumbs": [
+      "Lectures",
+      "Lecture 01"
+    ]
+  },
+  {
+    "objectID": "lectures/lecture-01.html#some-vocabulary-1",
+    "href": "lectures/lecture-01.html#some-vocabulary-1",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "Some vocabulary",
+    "text": "Some vocabulary\n\nGenome-Wide Association Study (GWAS): A study that looks for associations between genetic variants across the genome and specific traits or diseases in a large population.\nPolygenic Score (PGS): A score that aggregates the effects of multiple genetic variants to predict an individual’s genetic predisposition to a trait or disease.\nQuantitative Trait Locus (QTL): A region of the genome that is associated with a quantitative trait, often identified through linkage or association mapping.\nEpistasis: The interaction between genes where the effect of one gene is modified by one or more other genes, influencing the expression of a trait.\n\nEpigenetics: The study of heritable changes in gene expression that do not involve changes to the underlying DNA sequence, often influenced by environmental factors.\nFunctional Annotation: The process of identifying the functional elements in the genome, such as genes, regulatory regions, and non-coding RNAs, and understanding their roles in biological processes.",
+    "crumbs": [
+      "Lectures",
+      "Lecture 01"
+    ]
+  },
+  {
+    "objectID": "lectures/lecture-01.html#early-work-in-the-field",
+    "href": "lectures/lecture-01.html#early-work-in-the-field",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "Early work in the field",
+    "text": "Early work in the field",
+    "crumbs": [
+      "Lectures",
+      "Lecture 01"
+    ]
+  },
+  {
+    "objectID": "lectures/lecture-01.html#genetics-statistics-and-eugenics-have-always-been-closely-linked",
+    "href": "lectures/lecture-01.html#genetics-statistics-and-eugenics-have-always-been-closely-linked",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "Genetics, statistics, and eugenics, have always been closely linked",
+    "text": "Genetics, statistics, and eugenics, have always been closely linked\n\n\n\n\n\n\nStandard eugenics scheme of descent\n\n\n\n\n\n\n\nFrancis Galton and his work, “Inquires into Human Faculty and its Development”",
+    "crumbs": [
+      "Lectures",
+      "Lecture 01"
+    ]
+  },
+  {
+    "objectID": "lectures/lecture-01.html#the-ethics-of-genetics-and-genomics-iswas-of-great-importance",
+    "href": "lectures/lecture-01.html#the-ethics-of-genetics-and-genomics-iswas-of-great-importance",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "The ethics of genetics and genomics is/(was) of great importance!",
+    "text": "The ethics of genetics and genomics is/(was) of great importance!",
+    "crumbs": [
+      "Lectures",
+      "Lecture 01"
+    ]
+  },
+  {
+    "objectID": "lectures/lecture-01.html#parameter-estimation",
+    "href": "lectures/lecture-01.html#parameter-estimation",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "Parameter Estimation",
+    "text": "Parameter Estimation\n\nImagine a geneticist is studying allele ages (i.e., how many generations ago an allele arose via mutation) under a simplified model where new mutations arise randomly and uniformly over a fixed window — say, the last \\(\\theta\\) generations.\nWe could model \\(\\theta \\sim \\textsf{Uniform}(0, \\theta)\\).\nWe have our observed sample \\(\\{x_1,x_2, \\ldots, x_n\\}\\), ages in generations of \\(n\\) observed alleles.\n\nFor concreteness, let our sample be \\(\\{0, 1, 8, 4, 3, 1, 1, 5\\}\\).\n\nHow should we estimate \\(\\theta\\) ?",
+    "crumbs": [
+      "Lectures",
+      "Lecture 01"
+    ]
+  },
+  {
+    "objectID": "lectures/lecture-01.html#importance-of-statistical-theory",
+    "href": "lectures/lecture-01.html#importance-of-statistical-theory",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "Importance of statistical theory",
+    "text": "Importance of statistical theory\n\nUnderstanding random variables, sampling distributions, and bias/variance of estimators helps motivate biological questions, and understand how they can be answered\nLet y be the expression of a trait, G be the additive contribution of genetic variables, and an environmental value E;\nWhat assumptions do we make via the following models?\n\n\n\n\n\\[\\begin{align}\n\ny &= G + E \\\\\ny &= \\beta_0 + \\beta_1 G + \\beta_2 E + \\epsilon \\\\\ny &= \\beta_0 + \\beta_1 G + \\beta_2 E + \\epsilon, \\quad \\epsilon \\sim N(0, \\sigma^2) \\\\\ny &= \\beta_0 + \\beta_1 G + \\beta_2 E + \\beta_3 \\left(G \\times E\\right) + \\epsilon, \\quad \\epsilon \\sim N(0, \\sigma^2)\n\n\\end{align}\\]",
+    "crumbs": [
+      "Lectures",
+      "Lecture 01"
+    ]
+  },
+  {
+    "objectID": "lectures/lecture-01.html#molecular-genetics",
+    "href": "lectures/lecture-01.html#molecular-genetics",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "Molecular Genetics",
+    "text": "Molecular Genetics",
+    "crumbs": [
+      "Lectures",
+      "Lecture 01"
+    ]
+  },
+  {
+    "objectID": "lectures/lecture-01.html#genetic-variants",
+    "href": "lectures/lecture-01.html#genetic-variants",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "Genetic Variants",
+    "text": "Genetic Variants",
+    "crumbs": [
+      "Lectures",
+      "Lecture 01"
+    ]
+  },
+  {
+    "objectID": "lectures/lecture-01.html#the-sampling-distribution-of-a-random-variable",
+    "href": "lectures/lecture-01.html#the-sampling-distribution-of-a-random-variable",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "The sampling distribution of a random variable",
+    "text": "The sampling distribution of a random variable\n\nA random variable is a function that assigns a numerical value to each outcome in a sample space.\nA probability distribution describes how the probabilities are distributed over the values of the random variable.\nThe likelihood function is a function of the parameters of a statistical model given specific observed data.",
+    "crumbs": [
+      "Lectures",
+      "Lecture 01"
+    ]
+  },
+  {
+    "objectID": "lectures/lecture-01.html#modeling",
+    "href": "lectures/lecture-01.html#modeling",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "Modeling",
+    "text": "Modeling\n\nImagine that we have a sample size of \\(n\\) unrelated haploid individuals from some population\nWe want to estimate allele frequencies for a biallelic SNP, sy A/a\nIn our sample, we observe \\(x\\) individuals with allele A and \\(n - x\\) individuals with allele a\nLet \\(p\\) be the frequency of allele A and \\(q = 1 - p\\) be the frequency of allele a\n\n\\[Pr(X = x| n, p) = \\binom{n}{x} p^x q^{n - x}\\]\n\nLets say we observe \\(n = 27\\) and \\(x = 11\\). How do we estimate \\(p\\)?",
+    "crumbs": [
+      "Lectures",
+      "Lecture 01"
+    ]
+  },
+  {
+    "objectID": "lectures/lecture-01.html#modeling-but-make-it-bayesian",
+    "href": "lectures/lecture-01.html#modeling-but-make-it-bayesian",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "Modeling, but make it bayesian",
+    "text": "Modeling, but make it bayesian\n\nLet’s say we have run a previous experiment and observed \\(n = 20\\) individuals with allele A and \\(x = 3\\) individuals with allele A\nWe can use this information to inform our prior distribution for \\(p\\)\n\n\n\n\np &lt;- seq(0, 1, length.out = 1000)\n# Prior (Beta distribution from previous experiment)\nprior &lt;- dbeta(p, 3 + 1, 17 + 1)\n# Likelihood (Beta distribution from current data)\nlikelihood &lt;- dbeta(p, 11 + 1, 16 + 1)\n# Posterior (Beta distribution combining both)\nposterior &lt;- dbeta(p, 14 + 1, 33 + 1)\n# Combine into a data frame\nplot_data &lt;- data.frame(\n    p = rep(p, 3),\n    density = c(prior, likelihood, posterior),\n    type = rep(c(\"Prior\", \"Likelihood\", \"Posterior\"), each = length(p))\n)\n# Add flat prior distribution\nflat_prior &lt;- dbeta(p, 1, 1)\nflat_posterior &lt;- dbeta(p, 12, 17)\nplot_data &lt;- rbind(\n    plot_data,\n    data.frame(\n        p = rep(p, 3),\n        density = c(flat_prior, likelihood, flat_posterior),\n        type = rep(c(\"Prior\", \"Likelihood\", \"Posterior\"), each = length(p))\n    )\n)\n# Add a column to distinguish between informative and flat scenarios\nplot_data$scenario &lt;- c(rep(\"Informative\", 3000), rep(\"Flat\", 3000))\n\n\n\n\n\n\np1 &lt;- ggplot(\n    plot_data %&gt;% filter(scenario == \"Informative\"),\n    aes(x = p, y = density, color = type)\n) +\n    geom_line(linewidth = 2) +\n    geom_vline(xintercept = 11 / 27, linetype = \"dashed\", color = \"red\") +\n    labs(\n        x = \"Allele Frequency (p)\",\n        y = \"Density\",\n        title = \"Bayesian Update with Informative Prior\"\n    ) +\n    scale_color_viridis_d() +\n    theme_minimal(base_size = 15)\n\n\n\np2 &lt;- ggplot(\n  plot_data %&gt;% filter(scenario == \"Flat\"),\n  aes(x = p, y = density, color = type, linetype = type)\n) +\n  geom_line(linewidth = 2) +\n  scale_linetype_manual(values = c(\"Prior\" = \"dotted\", \"Likelihood\" = \"solid\", \"Posterior\" = \"dashed\")) +\n  geom_vline(xintercept = 11 / 27, linetype = \"dotdash\", color = \"red\") +\n  labs(\n    x = \"Allele Frequency (p)\",\n    y = \"Density\",\n    title = \"Bayesian Update with Flat Prior\"\n  ) +\n  theme_minimal(base_size = 15) +\n  scale_color_viridis_d() +\n  annotate(\"text\",\n    x = 0.7, y = max(flat_posterior) * 0.8,\n    label = \"Likelihood ≈ Posterior\", color = \"gray30\"\n  )",
+    "crumbs": [
+      "Lectures",
+      "Lecture 01"
+    ]
+  },
+  {
+    "objectID": "lectures/lecture-01.html#about-the-instructors",
+    "href": "lectures/lecture-01.html#about-the-instructors",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "About the Instructors",
+    "text": "About the Instructors\n\n\n\n\n\n\nMy dog Rosie and I\n\n\n\n\n\nI’m Chiraag Gohel, a 4th Year PhD student in the Department of Biostatistics and Bioinformatics at George Washington University.\nMy interests are in the modeling of high-dimensional ’omics data\nI play a lot of squash",
+    "crumbs": [
+      "Lectures",
+      "Lecture 01"
+    ]
+  },
+  {
+    "objectID": "lectures/lecture-01.html#maximum-likelihood-estimator",
+    "href": "lectures/lecture-01.html#maximum-likelihood-estimator",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "Maximum Likelihood Estimator",
+    "text": "Maximum Likelihood Estimator\nOur likelihood function for \\(p\\) is \\[\nL(P|x = 11, n = 27) = {27 \\choose 11} p^{11} q^{27-11}\n\\]\n\n\n\nn &lt;- 27\nx &lt;- 11\np_seq &lt;- seq(0, 1, length.out = 200)\nlikelihood &lt;- dbinom(x, n, p_seq)\nplot &lt;- ggplot(\n    data.frame(p = p_seq, likelihood = likelihood),\n    aes(x = p, y = likelihood)\n) +\n    geom_line(linewidth = 1) +\n    labs(\n        x = \"Probability of Success (p)\",\n        y = \"Likelihood\",\n        title = \"Binomial Likelihood Function\"\n    ) +\n    geom_vline(\n        xintercept = x / n,\n        color = \"red\",\n        linetype = \"dashed\"\n    ) +\n    theme_light(base_size = 18) +\n    theme(panel.grid = element_blank())",
+    "crumbs": [
+      "Lectures",
+      "Lecture 01"
+    ]
+  },
+  {
+    "objectID": "lectures/lecture-01.html#modeling-but-make-it-bayesian-1",
+    "href": "lectures/lecture-01.html#modeling-but-make-it-bayesian-1",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "Modeling, but make it Bayesian",
+    "text": "Modeling, but make it Bayesian",
+    "crumbs": [
+      "Lectures",
+      "Lecture 01"
+    ]
+  },
+  {
+    "objectID": "lectures/lecture-01.html#continuous-penetrance-functions",
+    "href": "lectures/lecture-01.html#continuous-penetrance-functions",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "Continuous penetrance functions",
+    "text": "Continuous penetrance functions\nWhat is the difference in what these two plots are showing?\n\n\n\n\n\n\n\n\n\n\nFrom Goodrich, J. K et al. (2021), “Determinants of penetrance and variable expressivity in monogenic metabolic conditions across 77,184 exomes,” Nature Communications, Nature Publishing Group, 12, 3505.",
+    "crumbs": [
+      "Lectures",
+      "Lecture 01"
+    ]
+  },
+  {
+    "objectID": "lectures/lecture-01.html#mendels-laws",
+    "href": "lectures/lecture-01.html#mendels-laws",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "Mendel’s Laws",
+    "text": "Mendel’s Laws\n\n\nMendel’s First Law (Segregation): One allele of each parent is randomly and independently selected, with probability 1/2 for transmission to the offspring; the alleles unite randomly to form the offspring’s genotype.\nMendel’s Second Law (Independent Assortment): The alleles underlying two or more different traits are transmitted to offspring independently of each other; the transmission of each trait separately follows the first law of segregation.",
+    "crumbs": [
+      "Lectures",
+      "Lecture 01"
+    ]
+  }
+]

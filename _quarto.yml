@@ -1,0 +1,37 @@
+project:
+  type: website
+
+website:
+  title: "Statistical Genetics"
+  sidebar:
+    pinned: true
+    align: center
+    tools:
+      - icon: github
+        href: https://github.com/gwcbi/StatGen
+        text: "GitHub organization"
+
+    style: docked
+    search: true
+    collapse-level: 1
+    contents:
+      - section: "Course information"
+        contents:
+          - href: syllabus.qmd
+            text: Overview
+          - href: schedule.qmd
+            text: Schedule
+      - section: "Lectures"
+        contents:
+          - href: lectures/lecture-01.qmd
+            text: "Lecture 01"
+format:
+  html:
+    theme: 
+      - cosmo
+      - brand
+    css: styles.css
+    toc: true
+
+
+

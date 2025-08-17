@@ -1,0 +1,18 @@
+---
+title: "Assignment 01"
+subtitle: "PUBH 8878"
+---
+
+1.  Laird, Section 2.4, Exercise 3
+
+2.  Laird, Section 2.4, Exercise 4
+
+3.  Laird, Section 2.4, Exercise 7
+
+4.  Consider a sample size of $n$ of unrelated haploid individuals is obtained from some population with the objective of estimating allele frequency at a biallelic locus. The sample contains $x$ copies of $A$, and $n-x$ copies of $a$.
+
+    a.  Plot the probability distribution of $X$ given $n = 30$, and $\theta = .1$. Plot the probability distribution of $X$ given $n = 1000$, and $\theta = .1$.
+    b.  Lets say we observed $30$ samples, with $10$ copies of allele $A$. Plot the likelihood function for $\theta$
+    c.  What is the MLE of $\theta$?
+    d.  Let's say $n = 1000$, and $x = 100$. What is the sampling variance of $\hat{\theta}$?
+    e.  Let's say $n = 100$, and $x = 10$. What is the sampling variance of $\hat{\theta}$? Why is this different than the result above?
