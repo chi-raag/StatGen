@@ -6,6 +6,7 @@ format:
         theme: [default, custom.scss]
         slide-number: true
         chalkboard: true
+        html-math-method: katex
 execute:
   freeze: auto
   echo: true
@@ -461,6 +462,33 @@ img(src = knitr::include_graphics("scripts/_output/sequential_bayesian_update.gi
 
 ::::
 
+## Genetic Models
+
+### Mendelian
+
+::: {.callout title="Dominant"}
+
+$$P(Y = 1 | DD) = P(Y = 1 | Dd) = 1$$
+$$P(Y = 1 | dd) = 0$$
+
+:::
+
+::: {.callout title="Recessive"}
+
+$$P(Y = 1 | DD) = 1$$
+$$P(Y = 1 | Dd) = P(Y = 1 | dd) = 0$$
+
+:::
+
+These models are not reasonable for non rare/mendelian diseases
+
+## Penetrance
+
+A genetic model is of **reduced penetrance** if the probability of disease is less than 1 for individuals with a disease genotype
+
+- Recessive: $P(Y = 1 | DD) < 1$
+- Dominant: $P(Y = 1 | DD) < 1, P(Y = 1 | Dd) < 1$
+
 ## Continuous penetrance functions
 
 What is the difference in what these two plots are showing?
@@ -474,3 +502,148 @@ What is the difference in what these two plots are showing?
 :::
 
 [From Goodrich, J. K et al. (2021), “Determinants of penetrance and variable expressivity in monogenic metabolic conditions across 77,184 exomes,” Nature Communications, Nature Publishing Group, 12, 3505.]{.aside style="font-size:.6em;"}
+
+## Mode of Inheritance
+
+For quantitative traits, there exist four modes of inheritance:
+
+1. Dominant, when only one copy of the allele is required to induce an effect on the disease phenotype
+2. Recessive, when two copies of the allele are required to induce an effect on the disease phenotype
+3. Additive, when the effect of the allele is proportional to the number of copies present
+4. Codominant, when the effect of the allele is equal to the sum of the effects of each copy
+
+# DETOUR
+
+## Generalized Linear Models
+
+::: {.callout title="Simple Linear Model"}
+
+$$
+y_i = \beta_0 + \beta_1 x_i + \epsilon_i
+$$
+
+:::
+
+::: {.callout title="Generalized Linear Model"}
+
+$$
+g(y_i) = \beta_0 + \beta_1 x_i + \epsilon_i
+$$
+
+Where
+
+- $g(\cdot)$ is a link function that relates the linear predictor to the mean of the response variable
+- $V(\cdot)$ is a variance function that relates the mean of the response variable to its variance
+:::
+
+# Population Genetics
+
+## Estimating Allele Frequencies
+
+Consider a sample of $n$ individuals, and let
+
+- $n_{AA}$ be the number of individuals with genotype $AA$
+- $n_{Aa}$ be the number of individuals with genotype $Aa$
+- $n_{aa}$ be the number of individuals with genotype $aa$
+
+1. What is $n_{AA} + n_{Aa} + n_{aa}$?
+2. What is the frequency of allele $A$ in the population?
+3. How many alleles are there in total?
+4. What is the frequency of allele $a$ in the population?
+5. What is the standard error of the allele frequency estimate?
+
+## Population Substructure
+
+![Shriner, D., Adeyemo, A., Ramos, E., Chen, G., and Rotimi, C. N. (2011), [“Mapping of disease-associated variants in admixed populations,”](https://doi.org/10.1186/gb-2011-12-5-223) Genome Biology, BioMed Central, 12, 1–8.
+](https://media.springernature.com/full/springer-static/image/art%3A10.1186%2Fgb-2011-12-5-223/MediaObjects/13059_2011_Article_2523_Fig1_HTML.jpg)
+
+## Hardy-Weinberg Equilibrium
+
+![Khan Academy](https://cdn.kastatic.org/ka-perseus-images/010efe45f63d8da65c92d7af25c503c0bc91f105.png)
+
+## Testing for HWE {auto-animate="true"}
+
+1. Estimate allele frequencies from the sample
+2. Estimate $\hat{p}$, the frequency of allele A
+3. Calculate expected genotype frequencies under HWE
+4. Compare observed and expected genotype frequencies using a statistical test (e.g., Pearson goodness-of-fit test)
+
+## Testing for HWE {auto-animate="true"}
+
+1. **Estimate allele frequencies from the sample**
+2. Estimate $\hat{p}$, the frequency of allele A
+3. Calculate expected genotype frequencies under HWE
+4. Compare observed and expected genotype frequencies using a statistical test (e.g., Pearson goodness-of-fit test)
+
+```{r}
+n <- 212
+n_AA <- 175
+n_Aa <- 33
+n_aa <- 4
+```
+
+## Testing for HWE {auto-animate="true"}
+
+1. Estimate allele frequencies from the sample
+2. **Estimate $\hat{p}$, the frequency of allele A**
+3. Calculate expected genotype frequencies under HWE
+4. Compare observed and expected genotype frequencies using a statistical test (e.g., Pearson goodness-of-fit test)
+
+```{r}
+n <- 212
+n_AA <- 175
+n_Aa <- 33
+n_aa <- 4
+
+p_hat <- (2* n_AA + n_Aa) / (2*n)
+p_hat
+```
+
+## Testing for HWE {auto-animate="true"}
+
+1. Estimate allele frequencies from the sample
+2. Estimate $\hat{p}$, the frequency of allele A
+3. **Calculate expected genotype frequencies under HWE**
+4. Compare observed and expected genotype frequencies using a statistical test (e.g., Pearson goodness-of-fit test)
+
+```{r}
+n <- 212
+n_AA <- 175
+n_Aa <- 33
+n_aa <- 4
+
+p_hat <- (2* n_AA + n_Aa) / (2*n)
+p_hat
+
+e_AA <- round(n * p_hat^2)
+e_Aa <- round(2 * n * p_hat * (1 - p_hat))
+e_aa <- round(n * (1 - p_hat)^2)
+c(e_AA, e_Aa, e_aa)
+```
+
+## Testing for HWE {auto-animate="true"}
+
+1. Estimate allele frequencies from the sample
+2. Estimate $\hat{p}$, the frequency of allele A
+3. Calculate expected genotype frequencies under HWE
+4. **Compare observed and expected genotype frequencies using a statistical test (e.g., Pearson goodness-of-fit test)**
+
+```{r}
+n <- 212
+n_AA <- 175
+n_Aa <- 33
+n_aa <- 4
+
+p_hat <- (2* n_AA + n_Aa) / (2*n)
+p_hat
+
+e_AA <- round(n * p_hat^2)
+e_Aa <- round(2 * n * p_hat * (1 - p_hat))
+e_aa <- round(n * (1 - p_hat)^2)
+c(e_AA, e_Aa, e_aa)
+
+observed <- c(n_AA, n_Aa, n_aa)
+expected <- c(e_AA, e_Aa, e_aa)
+test_stat <- sum((observed - expected)^2 / expected)
+pchisq(test_stat, df = 1, lower.tail = FALSE)
+```

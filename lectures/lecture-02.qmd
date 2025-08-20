@@ -1,0 +1,198 @@
+---
+title: "Lecture 02: Heritability, segregation, and the gene-mapping toolkit"
+subtitle: PUBH 8878, Statistical Genetics
+format: 
+    revealjs:
+        theme: [default, custom.scss]
+        slide-number: true
+        chalkboard: true
+execute:
+  freeze: auto
+  echo: true
+  warning: true
+engine: knitr
+knitr:
+  opts_chunk: 
+    R.options:
+      width: 80
+---
+
+## Aggregation, heritability, and segregation analyses
+
+:::::: columns
+:::: {.column width="35%"}
+-   **Aggregation/heritability analyses**: Investigating patterns of phenotypic correlation between relatives
+-   **Segregation analysis**: Finding support for a specific genetic model underlying inheritance patterns
+
+::: {.callout-note .fragment}
+These analysis **do not** use molecular genetic data… so why should we care?
+:::
+::::
+
+::: {.column width="65%"}
+![](https://www.cell.com/cms/10.1016/j.cell.2018.04.032/asset/c2ada063-7d56-4685-8c66-3dcb8e71217b/main.assets/fx1_lrg.jpg)
+:::
+::::::
+
+## A gap in estimation
+
+::::: columns
+::: {.column width="80%"}
+![Young, A. I. (2019), “Solving the missing heritability problem,” PLOS Genetics, Public Library of Science, 15, e1008222. https://doi.org/10.1371/journal.pgen.1008222.](https://journals.plos.org/plosgenetics/article/figure/image?size=large&id=10.1371/journal.pgen.1008222.g001)
+:::
+
+::: {.column width="20%"}
+-   Aggregation and heritability analyses tend to have **much higher heritability** estimates of traits than genotyping methods
+-   Understanding these models may help **explain this delta**
+:::
+:::::
+
+## Recurrence Risk Ratios
+
+-   Estimating strength of genetic aggregation across relatives
+-   Compares probability of a study subject being affected, given that given that a relative is affected to the general risk in the population.
+-   Let $K$ be the population prevalence of the disease
+
+$$\lambda_R = P(Y_2 = 1 | Y_1 = 1) / K$$
+
+Where
+
+-   $Y_1$ is the status of the relative (affected or not affected)
+-   $Y_2$ is the status of the study subject (affected or not affected)
+-   $K = P(Y_1 = 1) = P(Y_2 = 1)$ is the population prevalence of the disease
+
+What assumptions does this model make?
+
+## Heritability Analysis
+
+-   Assume that a trait of interest is measured on a quantitative scale
+-   Heritability analysis measures the overall genetic component of a trait, relative to the total observed phenotypic variation of the trait
+-   It is not analyzing “how much” a trait is passed down to offspring
+-   Let $Y$ be the phenotype of interest, $G$ be genetics, and $\epsilon$ be the environment
+-   Given the model, $Y = G + \epsilon$, how do we partition out the variance?
+
+## Calculation of parent-offspring genotype distribution for a pair of siblings
+
+| Mating Type $(MT)$ | $P(MT)$ | Offspring Genotypes $(OG)$ | $P(OG|MT)$ |
+|------------------|------------------|------------------|------------------|
+| $DD \times DD$ | $p^4$ | $\{(DD, DD)\}$ | $1$ |
+| $DD \times Dd$ | $4p^3(1-p)$ | $\{(DD, DD), (DD, Dd), (Dd, Dd)\}$ | $\frac{1}{4}, \frac{1}{2}, \frac{1}{4}$ |
+| $DD \times dd$ | $2p^2(1-p)^2$ | $\{(Dd, Dd)\}$ | $1$ |
+| $Dd \times Dd$ | $4p^2(1-p)^2$ | $\{(DD, DD), (DD, Dd), (DD, dd),$ $(Dd, Dd), (Dd, DD), (dd, dd)\}$ | $\frac{1}{16}, \frac{1}{4}, \frac{1}{8}, \frac{1}{4}, \frac{1}{4}, \frac{1}{16}$ |
+| $Dd \times dd$ | $4p(1-p)^3$ | $\{(Dd, Dd), (DD, dd), (dd, dd)\}$ | $\frac{1}{4}, \frac{1}{2}, \frac{1}{4}$ |
+| $dd \times dd$ | $(1-p)^4$ | $\{(dd, dd)\}$ | $1$ |
+
+## Heritability Analysis
+
+![](https://www.biostat.wisc.edu/~yeshuyun/HERETIBILITY/heregre.jpg)
+
+## Heritability Analysis
+
+-   Assume trait is measured on a quantitative scale
+-   Model as a function of multiple QTLs:
+
+$$
+Y = \mu + \sum_{m=1}^M \{a_m X_m + d_m I [X_m = 1]\} + \epsilon
+$$
+
+Where:
+
+- $M$ is the unknown number of QTLs
+- $X_m$ is the number of disease alleles at the $m$-th disease locus
+- $I [X_m = 1]$ is an indicator function that is 1 if $X_m = 1$ and 0 otherwise
+
+## Heritability Analysis
+
+The following R code simulates the model above to demonstrate how different parameter choices affect the parent-offspring phenotypic relationship. We will vary the number of QTLs ($M$) and the presence of dominance effects ($d_m$).
+
+```{r, message = F}
+#| layout-ncol: 1
+#| fig-cap: "Parent-offspring regression under different genetic architectures. Each point is a family. The red line is the regression slope, which estimates narrow-sense heritability (h²)."
+#| echo: false
+
+library(ggplot2)
+library(dplyr)
+library(purrr)
+library(patchwork)
+
+# This simulation models Y = sum(a_m * X_m + d_m * I(X_m=1)) + epsilon
+run_sim <- function(n_qtl, sd_d, n_families = 500, sd_a = 1, sd_e = 10) {
+    # 1. Simulate QTL effects
+    a_effects <- rnorm(n_qtl, 0, sd_a)
+    d_effects <- rnorm(n_qtl, 0, sd_d)
+
+    # 2. Simulate parental genotypes
+    p1_geno <- matrix(rbinom(n_families * n_qtl, 2, 0.5), nrow = n_families)
+    p2_geno <- matrix(rbinom(n_families * n_qtl, 2, 0.5), nrow = n_families)
+
+    # 3. Simulate offspring genotypes
+    offspring_geno <- matrix(0, nrow = n_families, ncol = n_qtl)
+    for (i in 1:n_qtl) {
+        p1_alleles <- rbinom(n_families, 1, p1_geno[, i] / 2)
+        p2_alleles <- rbinom(n_families, 1, p2_geno[, i] / 2)
+        offspring_geno[, i] <- p1_alleles + p2_alleles
+    }
+
+    # 4. Calculate genetic values (G)
+    calc_g <- function(geno) {
+        g_a <- geno %*% a_effects
+        g_d <- (geno == 1) %*% d_effects
+        return(g_a + g_d)
+    }
+    g_p1 <- calc_g(p1_geno)
+    g_p2 <- calc_g(p2_geno)
+    g_offspring <- calc_g(offspring_geno)
+
+    # 5. Calculate phenotypes (P = G + E)
+    p_p1 <- g_p1 + rnorm(n_families, 0, sd_e)
+    p_p2 <- g_p2 + rnorm(n_families, 0, sd_e)
+    p_offspring <- g_offspring + rnorm(n_families, 0, sd_e)
+
+    # 6. Parent-offspring regression
+    mid_parent_phenotype <- (p_p1 + p_p2) / 2
+    fit <- lm(p_offspring ~ mid_parent_phenotype)
+    est_h2 <- coef(fit)[2]
+
+    # 7. Return data for plotting
+    tibble(
+        MidParent = as.vector(mid_parent_phenotype),
+        Offspring = as.vector(p_offspring),
+        est_h2 = est_h2,
+        n_qtl = n_qtl,
+        sd_d = sd_d
+    )
+}
+
+# Define parameter scenarios
+params <- expand.grid(
+    n_qtl = c(10, 200), # Oligogenic vs. Polygenic
+    sd_d = c(0, 1) # Additive vs. Dominance
+)
+
+# Run simulations
+sim_results <- pmap_dfr(params, run_sim)
+
+# Create individual plots for each scenario
+plots <- sim_results %>%
+    group_by(n_qtl, sd_d) %>%
+    do(
+        plot = ggplot(., aes(x = MidParent, y = Offspring)) +
+            geom_point(alpha = 0.4) +
+            geom_smooth(method = "lm", se = FALSE, color = "red") +
+            labs(
+                title = paste0(
+                    "M=", .$n_qtl[[1]], ", ",
+                    if (.$sd_d[[1]] > 0) "Additive + Dominance" else "Purely Additive"
+                ),
+                subtitle = paste0("Estimated h² = ", round(.$est_h2[[1]], 2)),
+                x = "Mid-Parent Phenotype",
+                y = "Offspring Phenotype"
+            ) +
+            theme_minimal()
+    ) %>%
+    pull(plot)
+
+# Arrange plots in a grid
+(plots[[1]] | plots[[3]]) / (plots[[2]] | plots[[4]])
+```
+

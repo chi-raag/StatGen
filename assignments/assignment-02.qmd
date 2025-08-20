@@ -1,5 +1,5 @@
 ---
-title: "Assignment 01"
+title: "Assignment 02"
 subtitle: "PUBH 8878"
 format: 
   html: default
@@ -8,7 +8,13 @@ format:
 format-links: [pdf, docx]
 ---
 
-1.  Laird, Section 2.4, Exercise 3
+1.  Laird, Section 4.5, Exercise 2
+
+1.  Laird, Section 4.5, Exercise 7
+
+1.  Laird, Section 4.5, Exercise 11
+
+1.  Laird, Section 4.5, Exercise 14
 
 2.  Laird, Section 2.4, Exercise 4
 

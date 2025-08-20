@@ -1,37 +1,36 @@
 project:
   type: website
+  output-dir: docs
 
 website:
   title: "Statistical Genetics"
   sidebar:
     pinned: true
-    align: center
-    tools:
-      - icon: github
-        href: https://github.com/gwcbi/StatGen
-        text: "GitHub organization"
-
+    logo: course_logo.png
     style: docked
     search: true
     collapse-level: 1
     contents:
-      - section: "Course information"
-        contents:
-          - href: syllabus.qmd
-            text: Overview
-          - href: schedule.qmd
-            text: Schedule
-      - section: "Lectures"
-        contents:
-          - href: lectures/lecture-01.qmd
-            text: "Lecture 01"
+      - href: index.qmd
+        text: Schedule
+        icon: calendar
+      - href: syllabus.qmd
+        text: Syllabus
+        icon: book
+      - href: https://github.com/gwcbi/StatGen
+        text: "GitHub"
+        icon: github
+        target: _blank 
 format:
   html:
+    grid:
+      sidebar-width: 200px
     theme: 
       - cosmo
       - brand
     css: styles.css
     toc: true
+    mainfont: Avenir Next LT Pro, Avenir Next, Avenir, sans-serif
 
 
 
