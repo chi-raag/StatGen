@@ -22,12 +22,12 @@ This graduate-level course builds a cohesive toolkit for analyzing complex genet
 
 ### Required
 
-- Statistical Learning in Genetics: An Introduction Using R, Daniel Sorensen, 2nd Edition
+- Statistical Learning in Genetics: An Introduction Using R, Daniel Sorensen, 2nd Edition (Available via the [GWU Library](https://wrlc-gwu.primo.exlibrisgroup.com/discovery/fulldisplay?docid=alma99186479493504107&context=L&vid=01WRLC_GWA:live&lang=en&search_scope=DN_and_CI&adaptor=Local%20Search%20Engine&tab=Everything&query=any,contains,Statistical%20Learning%20in%20Genetics%20:%20An%20Introduction%20Using%20R))
 
 ### Recommended
 
-- Handbook of Statistical Genomics, David J. Balding, Ida Moltke, John Marioni, 4th Edition
-- The Fundamentals of Modern Statistical Genetics, Nan M. Laird and Christoph Lange, 1st Edition
+- Handbook of Statistical Genomics, David J. Balding, Ida Moltke, John Marioni, 4th Edition (Available via the [GWU Library](https://wrlc-gwu.primo.exlibrisgroup.com/discovery/fulldisplay?docid=alma99186542370004107&context=L&vid=01WRLC_GWA:live&lang=en&search_scope=DN_and_CI&adaptor=Local%20Search%20Engine&tab=Everything&query=any,contains,Handbook%20of%20Statistical%20Genomics&offset=0))
+- The Fundamentals of Modern Statistical Genetics, Nan M. Laird and Christoph Lange, 1st Edition (Available via the [GWU Library](https://wrlc-gwu.primo.exlibrisgroup.com/permalink/01WRLC_GWA/1j51gk4/alma9987533363604107))
 
 ## Technology Requirements
 

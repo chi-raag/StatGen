@@ -29,6 +29,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./course_logo.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -67,6 +68,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -176,7 +206,8 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <td>1</td>
-<td><a href="./lectures/lecture-01.html">Foundations: Mendelian genetics &amp; statistical basics</a></td>
+<td><p><a href="./lectures/lecture-01.html">Foundations: Mendelian genetics &amp; statistical basics</a></p>
+<p>Mendel’s laws, Hardy–Weinberg equilibrium, <span class="math inline">\(\chi^2\)</span>goodness‑of‑fit. Sampling distributions; linking population parameters to sample estimates. One‑locus likelihood: building and interpreting likelihood functions.</p></td>
 <td><ul>
 <li>Sorensen Chapter 1</li>
 <li>Edwards, A. W. F. (2008), <a href="https://www.zotero.org/groups/6113424/pubh-8878/items/K7VHXW7X/attachment/CABRB84T/reader">“G. H. Hardy (1908) and Hardy–Weinberg Equilibrium,”</a> <em>Genetics</em>.</li>
@@ -186,39 +217,43 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td>2</td>
-<td><a href="./lectures/lecture-02.html">Heritability, segregation, and the gene-mapping toolkit</a></td>
+<td><p><a href="./lectures/lecture-02.html" target="_blank">Heritability, segregation, and the gene-mapping toolkit</a></p>
+<p>Narrow and broad sense heritability; variance-component interpretation. Segregation analysis and modelling genetic inheritance without marker data. Conceptual framework for linkage versus association studies and marker maps</p></td>
 <td><ul>
 <li>Sorensen Chapter 2.1-2.2, 2.4, 2.8</li>
-<li>Visscher, P. M., Hill, W. G., and Wray, N. R. (2008), <a href="https://www.zotero.org/groups/6113424/pubh-8878/items/3WV5AULA/attachment/SKL5CU9C/reader">“Heritability in the genomics era — concepts and misconceptions,”</a> <em>Nature Reviews Genetics</em>.</li>
+<li>Visscher, P. M., et al., (2008), <a href="https://www.zotero.org/groups/6113424/pubh-8878/items/3WV5AULA/attachment/SKL5CU9C/reader">“Heritability in the genomics era — concepts and misconceptions,”</a> <em>Nature Reviews Genetics</em>.</li>
 </ul></td>
-<td></td>
+<td><a href="./assignments/assignment-02.html">Problem Set 02</a></td>
 </tr>
 <tr class="odd">
 <td>3</td>
-<td>Likelihood algorithms &amp; practical gene mapping</td>
+<td><p><a href="lectures/lecture-03.qmd" style="target: _blank;">Likelihood algorithms &amp; practical gene mapping</a></p>
+<p>Newton-Raphson, EM, and stochastic gradient algorithms for complex likelihoods. Pedigree linkage analysis, LOD-score calculation, and missing-data EM steps. Single-marker and haplotype association tests with basic quality control</p></td>
 <td><ul>
 <li>Sorensen, Chapter 3</li>
 <li>Lander, E. S., and Green, P. (1987), <a href="https://www.zotero.org/groups/6113424/pubh-8878/items/TUHQAN7Q/attachment/CC5K3VW6/reader">“Construction of multilocus genetic linkage maps in humans.,”</a> <em>Proceedings of the National Academy of Sciences of the United States of America</em>.</li>
 </ul></td>
-<td></td>
+<td><a href="assignments/assignment-03.qmd">Problem Set 03</a></td>
 </tr>
 <tr class="even">
 <td>4</td>
-<td>Population structure &amp; Bayesian fundamentals</td>
+<td><p>Population structure &amp; Bayesian fundamentals</p>
+<p>Detecting and correcting for population stratification and admixture confounding. Priors, posteriors, and the Bayes-frequentist debate in genetic inference. Bayesian admixture/STRUCTURE-style modelling implemented in Stan.</p></td>
 <td><ul>
 <li>Sorensen 4.1-4.5, 4.7-4.8, 5.1</li>
-<li>Porras-Hurtado, L., Ruiz, Y., Santos, C., Phillips, C., Carracedo, Á., and Lareu, M. (2013), “An overview of STRUCTURE: applications, parameter settings, and supporting software,” <em>Frontiers in Genetics</em>, Frontiers, 4. <a href="https://doi.org/10.3389/fgene.2013.00098" class="uri">https://doi.org/10.3389/fgene.2013.00098</a>.</li>
-<li>Lawson, D. J., van Dorp, L., and Falush, D. (2018), “A tutorial on how not to over-interpret STRUCTURE and ADMIXTURE bar plots,” <em>Nature Communications</em>, Nature Publishing Group, 9, 3258. <a href="https://doi.org/10.1038/s41467-018-05257-7" class="uri">https://doi.org/10.1038/s41467-018-05257-7</a>.</li>
+<li>Porras-Hurtado, L. et al., (2013), <a href="https://doi.org/10.3389/fgene.2013.00098">“An overview of STRUCTURE: applications, parameter settings, and supporting software,”</a> <em>Frontiers in Genetics</em>.</li>
+<li>Lawson, D. J. et al., (2018), <a href="https://doi.org/10.1038/s41467-018-05257-7">“A tutorial on how not to over-interpret STRUCTURE and ADMIXTURE bar plots,”</a> <em>Nature Communications</em>.</li>
 </ul></td>
-<td></td>
+<td><a href="assignments/assignment-04.qmd">Problem Set 04</a></td>
 </tr>
 <tr class="odd">
 <td>5</td>
-<td>GWAS at Scale – design, LMMs, and meta-analysis</td>
+<td><p>GWAS at Scale – design, LMMs, and meta-analysis</p>
+<p>End to end GWAS workflow: sample QC, variant QC, power, pitfalls. Linear mixed models (BOLT LMM/REML concepts) and SAIGE for imbalance/relatedness. Fixed/random effects meta-analysis; genomic inflation and calibration.</p></td>
 <td><ul>
-<li>Loh, P.-R., Tucker, G., Bulik-Sullivan, B. K., Vilhjálmsson, B. J., Finucane, H. K., Salem, R. M., Chasman, D. I., Ridker, P. M., Neale, B. M., Berger, B., Patterson, N., and Price, A. L. (2015), “Efficient Bayesian mixed model analysis increases association power in large cohorts,” <em>Nature genetics</em>, 47, 284–290. <a href="https://doi.org/10.1038/ng.3190" class="uri">https://doi.org/10.1038/ng.3190</a>.</li>
+<li>Loh, P.-R. et al., (2015), <a href="https://doi.org/10.1038/ng.3190">“Efficient Bayesian mixed model analysis increases association power in large cohorts,”</a> <em>Nature Genetics</em>.</li>
 </ul></td>
-<td></td>
+<td><a href="assignments/assignment-05.qmd">Problem Set 05</a></td>
 </tr>
 <tr class="even">
 <td>6</td>

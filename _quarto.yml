@@ -4,6 +4,7 @@ project:
 
 website:
   title: "Statistical Genetics"
+  favicon: course_logo.png
   sidebar:
     pinned: true
     background: "#033C5A"

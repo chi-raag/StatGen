@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head>
+<link href="../course_logo.png" rel="icon" type="image/png">
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-html/tabby.min.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -537,6 +538,148 @@
 </div>
 </div>
 </section>
+<section id="sampling-distributions-in-genetics" class="slide level2">
+<h2>Sampling Distributions in Genetics</h2>
+<h3 id="from-population-to-sample-allele-frequency-estimation">From Population to Sample: Allele Frequency Estimation</h3>
+<p><strong>True population parameter</strong>: <span class="math inline">p = 0.3</span> (allele frequency) <strong>Sample estimates</strong>: <span class="math inline">\hat{p} = \frac{\text{# A alleles observed}}{\text{total alleles sampled}}</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="co"># Simulate sampling from population with p = 0.3</span></span>
+<span id="cb1-2"><a></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb1-3"><a></a>true_p <span class="ot">&lt;-</span> <span class="fl">0.3</span></span>
+<span id="cb1-4"><a></a>sample_sizes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">100</span>, <span class="dv">500</span>)</span>
+<span id="cb1-5"><a></a>n_sims <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb1-6"><a></a></span>
+<span id="cb1-7"><a></a>sampling_results <span class="ot">&lt;-</span> <span class="fu">map_dfr</span>(sample_sizes, <span class="cf">function</span>(n) {</span>
+<span id="cb1-8"><a></a>  p_hats <span class="ot">&lt;-</span> <span class="fu">replicate</span>(n_sims, {</span>
+<span id="cb1-9"><a></a>    <span class="co"># Sample n individuals (2n alleles total)</span></span>
+<span id="cb1-10"><a></a>    alleles <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">2</span>, true_p)  <span class="co"># Each individual contributes 2 alleles</span></span>
+<span id="cb1-11"><a></a>    <span class="fu">sum</span>(alleles) <span class="sc">/</span> (<span class="dv">2</span> <span class="sc">*</span> n)  <span class="co"># Sample allele frequency</span></span>
+<span id="cb1-12"><a></a>  })</span>
+<span id="cb1-13"><a></a>  </span>
+<span id="cb1-14"><a></a>  <span class="fu">data.frame</span>(</span>
+<span id="cb1-15"><a></a>    <span class="at">sample_size =</span> n,</span>
+<span id="cb1-16"><a></a>    <span class="at">p_hat =</span> p_hats,</span>
+<span id="cb1-17"><a></a>    <span class="at">theoretical_se =</span> <span class="fu">sqrt</span>(true_p <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> true_p) <span class="sc">/</span> (<span class="dv">2</span> <span class="sc">*</span> n))</span>
+<span id="cb1-18"><a></a>  )</span>
+<span id="cb1-19"><a></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<h3 id="sampling-distribution-properties">Sampling Distribution Properties</h3>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a><span class="co"># Plot sampling distributions</span></span>
+<span id="cb2-2"><a></a><span class="fu">ggplot</span>(sampling_results, <span class="fu">aes</span>(<span class="at">x =</span> p_hat)) <span class="sc">+</span></span>
+<span id="cb2-3"><a></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> ..density..), <span class="at">bins =</span> <span class="dv">30</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb2-4"><a></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> true_p, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb2-5"><a></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span><span class="fu">paste</span>(<span class="st">"n ="</span>, sample_size), <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
+<span id="cb2-6"><a></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Sampling Distribution of p̂"</span>, </span>
+<span id="cb2-7"><a></a>       <span class="at">x =</span> <span class="st">"Sample Allele Frequency (p̂)"</span>, <span class="at">y =</span> <span class="st">"Density"</span>) <span class="sc">+</span></span>
+<span id="cb2-8"><a></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: The dot-dot notation (`..density..`) was deprecated in ggplot2 3.4.0.
+ℹ Please use `after_stat(density)` instead.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a><span class="co"># Compare theoretical vs empirical standard errors</span></span>
+<span id="cb5-2"><a></a>se_comparison <span class="ot">&lt;-</span> sampling_results <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a></a>  <span class="fu">group_by</span>(sample_size) <span class="sc">%&gt;%</span></span>
+<span id="cb5-4"><a></a>  <span class="fu">summarise</span>(</span>
+<span id="cb5-5"><a></a>    <span class="at">empirical_se =</span> <span class="fu">sd</span>(p_hat),</span>
+<span id="cb5-6"><a></a>    <span class="at">theoretical_se =</span> <span class="fu">first</span>(theoretical_se),</span>
+<span id="cb5-7"><a></a>    <span class="at">empirical_mean =</span> <span class="fu">mean</span>(p_hat)</span>
+<span id="cb5-8"><a></a>  )</span>
+<span id="cb5-9"><a></a></span>
+<span id="cb5-10"><a></a><span class="fu">ggplot</span>(se_comparison, <span class="fu">aes</span>(<span class="at">x =</span> sample_size)) <span class="sc">+</span></span>
+<span id="cb5-11"><a></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">y =</span> empirical_se, <span class="at">color =</span> <span class="st">"Empirical"</span>), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb5-12"><a></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">y =</span> theoretical_se, <span class="at">color =</span> <span class="st">"Theoretical"</span>), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb5-13"><a></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> theoretical_se, <span class="at">color =</span> <span class="st">"Theoretical"</span>)) <span class="sc">+</span></span>
+<span id="cb5-14"><a></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Standard Error: Theory vs Practice"</span>,</span>
+<span id="cb5-15"><a></a>       <span class="at">x =</span> <span class="st">"Sample Size"</span>, <span class="at">y =</span> <span class="st">"Standard Error of p̂"</span>) <span class="sc">+</span></span>
+<span id="cb5-16"><a></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Empirical"</span> <span class="ot">=</span> <span class="st">"blue"</span>, <span class="st">"Theoretical"</span> <span class="ot">=</span> <span class="st">"red"</span>)) <span class="sc">+</span></span>
+<span id="cb5-17"><a></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img data-src="lecture-01_files/figure-revealjs/unnamed-chunk-4-1.png" width="960"></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img data-src="lecture-01_files/figure-revealjs/unnamed-chunk-4-2.png" width="960"></p>
+</div>
+</div>
+</div>
+</section>
+<section id="population-vs-sample-key-insights" class="slide level2">
+<h2>Population vs Sample: Key Insights</h2>
+<ul>
+<li class="fragment"><strong>Unbiased Estimator</strong>: <span class="math inline">E[\hat{p}] = p</span> (sample mean equals population parameter)</li>
+<li class="fragment"><strong>Standard Error</strong>: <span class="math inline">SE(\hat{p}) = \sqrt{\frac{p(1-p)}{2n}}</span> decreases with sample size</li>
+<li class="fragment"><strong>Normal Approximation</strong>: For large <span class="math inline">n</span>, <span class="math inline">\hat{p} \sim N\left(p, \frac{p(1-p)}{2n}\right)</span></li>
+<li class="fragment"><strong>Confidence Intervals</strong>: <span class="math inline">\hat{p} \pm 1.96 \times SE(\hat{p})</span> covers true <span class="math inline">p</span> ~95% of time</li>
+<li class="fragment"><strong>Power</strong>: Larger samples = better ability to detect true differences between populations</li>
+</ul>
+</section>
+<section id="sampling-distribution-hardy-weinberg-testing" class="slide level2">
+<h2>Sampling Distribution: Hardy-Weinberg Testing</h2>
+<p><strong>Population</strong>: HWE with <span class="math inline">p = 0.6</span>, genotype frequencies: <span class="math inline">p^2 = 0.36</span>, <span class="math inline">2pq = 0.48</span>, <span class="math inline">q^2 = 0.16</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a><span class="co"># Simulate HWE sampling and testing</span></span>
+<span id="cb6-2"><a></a>simulate_hwe_test <span class="ot">&lt;-</span> <span class="cf">function</span>(n, p_true) {</span>
+<span id="cb6-3"><a></a>  <span class="co"># Expected HWE frequencies</span></span>
+<span id="cb6-4"><a></a>  exp_AA <span class="ot">&lt;-</span> n <span class="sc">*</span> p_true<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb6-5"><a></a>  exp_Aa <span class="ot">&lt;-</span> n <span class="sc">*</span> <span class="dv">2</span> <span class="sc">*</span> p_true <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_true)  </span>
+<span id="cb6-6"><a></a>  exp_aa <span class="ot">&lt;-</span> n <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_true)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb6-7"><a></a>  </span>
+<span id="cb6-8"><a></a>  <span class="co"># Sample genotypes under HWE</span></span>
+<span id="cb6-9"><a></a>  genotypes <span class="ot">&lt;-</span> <span class="fu">rmultinom</span>(<span class="dv">1</span>, n, <span class="fu">c</span>(p_true<span class="sc">^</span><span class="dv">2</span>, <span class="dv">2</span><span class="sc">*</span>p_true<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>p_true), (<span class="dv">1</span><span class="sc">-</span>p_true)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb6-10"><a></a>  </span>
+<span id="cb6-11"><a></a>  <span class="co"># Estimate allele frequency from sample</span></span>
+<span id="cb6-12"><a></a>  p_hat <span class="ot">&lt;-</span> (<span class="dv">2</span><span class="sc">*</span>genotypes[<span class="dv">1</span>] <span class="sc">+</span> genotypes[<span class="dv">2</span>]) <span class="sc">/</span> (<span class="dv">2</span><span class="sc">*</span>n)</span>
+<span id="cb6-13"><a></a>  </span>
+<span id="cb6-14"><a></a>  <span class="co"># Recalculate expected frequencies with estimated p</span></span>
+<span id="cb6-15"><a></a>  exp_AA_hat <span class="ot">&lt;-</span> n <span class="sc">*</span> p_hat<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb6-16"><a></a>  exp_Aa_hat <span class="ot">&lt;-</span> n <span class="sc">*</span> <span class="dv">2</span> <span class="sc">*</span> p_hat <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat)</span>
+<span id="cb6-17"><a></a>  exp_aa_hat <span class="ot">&lt;-</span> n <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb6-18"><a></a>  </span>
+<span id="cb6-19"><a></a>  <span class="co"># Chi-square test statistic</span></span>
+<span id="cb6-20"><a></a>  chi_sq <span class="ot">&lt;-</span> <span class="fu">sum</span>((genotypes <span class="sc">-</span> <span class="fu">c</span>(exp_AA_hat, exp_Aa_hat, exp_aa_hat))<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> </span>
+<span id="cb6-21"><a></a>                <span class="fu">c</span>(exp_AA_hat, exp_Aa_hat, exp_aa_hat))</span>
+<span id="cb6-22"><a></a>  </span>
+<span id="cb6-23"><a></a>  p_value <span class="ot">&lt;-</span> <span class="fu">pchisq</span>(chi_sq, <span class="at">df =</span> <span class="dv">1</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb6-24"><a></a>  </span>
+<span id="cb6-25"><a></a>  <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">p_hat =</span> p_hat, <span class="at">chi_sq =</span> chi_sq, <span class="at">p_value =</span> p_value))</span>
+<span id="cb6-26"><a></a>}</span>
+<span id="cb6-27"><a></a></span>
+<span id="cb6-28"><a></a><span class="co"># Run simulation</span></span>
+<span id="cb6-29"><a></a><span class="fu">set.seed</span>(<span class="dv">456</span>)</span>
+<span id="cb6-30"><a></a>n_sample <span class="ot">&lt;-</span> <span class="dv">200</span></span>
+<span id="cb6-31"><a></a>hwe_results <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">simulate_hwe_test</span>(n_sample, <span class="fl">0.6</span>), <span class="at">simplify =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<h3 id="sampling-distribution-of-hwe-tests">Sampling Distribution of HWE Tests</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a></a>p_values <span class="ot">&lt;-</span> <span class="fu">map_dbl</span>(hwe_results, <span class="sc">~</span>.<span class="sc">$</span>p_value)</span>
+<span id="cb7-2"><a></a>p_hats <span class="ot">&lt;-</span> <span class="fu">map_dbl</span>(hwe_results, <span class="sc">~</span>.<span class="sc">$</span>p_hat)</span>
+<span id="cb7-3"><a></a></span>
+<span id="cb7-4"><a></a><span class="fu">cat</span>(<span class="st">"Proportion of tests rejecting HWE (α = 0.05):"</span>, <span class="fu">mean</span>(p_values <span class="sc">&lt;</span> <span class="fl">0.05</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Proportion of tests rejecting HWE (α = 0.05): 0.053</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Mean estimated allele frequency:"</span>, <span class="fu">round</span>(<span class="fu">mean</span>(p_hats), <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Mean estimated allele frequency: 0.599</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">SD of estimated allele frequency:"</span>, <span class="fu">round</span>(<span class="fu">sd</span>(p_hats), <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+SD of estimated allele frequency: 0.025</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Theoretical SE:"</span>, <span class="fu">round</span>(<span class="fu">sqrt</span>(<span class="fl">0.6</span> <span class="sc">*</span> <span class="fl">0.4</span> <span class="sc">/</span> (<span class="dv">2</span> <span class="sc">*</span> n_sample)), <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Theoretical SE: 0.024</code></pre>
+</div>
+</div>
+</section>
 <section id="importance-of-statistical-theory" class="slide level2">
 <h2>Importance of statistical theory</h2>
 <ul>
@@ -600,34 +743,34 @@ L(P|x = 11, n = 27) = {27 \choose 11} p^{11} q^{27-11}
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a>n <span class="ot">&lt;-</span> <span class="dv">27</span></span>
-<span id="cb1-2"><a></a>x <span class="ot">&lt;-</span> <span class="dv">11</span></span>
-<span id="cb1-3"><a></a>p_seq <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">200</span>)</span>
-<span id="cb1-4"><a></a>likelihood <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(x, n, p_seq)</span>
-<span id="cb1-5"><a></a>plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
-<span id="cb1-6"><a></a>    <span class="fu">data.frame</span>(<span class="at">p =</span> p_seq, <span class="at">likelihood =</span> likelihood),</span>
-<span id="cb1-7"><a></a>    <span class="fu">aes</span>(<span class="at">x =</span> p, <span class="at">y =</span> likelihood)</span>
-<span id="cb1-8"><a></a>) <span class="sc">+</span></span>
-<span id="cb1-9"><a></a>    <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb1-10"><a></a>    <span class="fu">labs</span>(</span>
-<span id="cb1-11"><a></a>        <span class="at">x =</span> <span class="st">"Probability of Success (p)"</span>,</span>
-<span id="cb1-12"><a></a>        <span class="at">y =</span> <span class="st">"Likelihood"</span>,</span>
-<span id="cb1-13"><a></a>        <span class="at">title =</span> <span class="st">"Binomial Likelihood Function"</span></span>
-<span id="cb1-14"><a></a>    ) <span class="sc">+</span></span>
-<span id="cb1-15"><a></a>    <span class="fu">geom_vline</span>(</span>
-<span id="cb1-16"><a></a>        <span class="at">xintercept =</span> x <span class="sc">/</span> n,</span>
-<span id="cb1-17"><a></a>        <span class="at">color =</span> <span class="st">"red"</span>,</span>
-<span id="cb1-18"><a></a>        <span class="at">linetype =</span> <span class="st">"dashed"</span></span>
-<span id="cb1-19"><a></a>    ) <span class="sc">+</span></span>
-<span id="cb1-20"><a></a>    <span class="fu">theme_light</span>(<span class="at">base_size =</span> <span class="dv">18</span>) <span class="sc">+</span></span>
-<span id="cb1-21"><a></a>    <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a></a>n <span class="ot">&lt;-</span> <span class="dv">27</span></span>
+<span id="cb15-2"><a></a>x <span class="ot">&lt;-</span> <span class="dv">11</span></span>
+<span id="cb15-3"><a></a>p_seq <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">200</span>)</span>
+<span id="cb15-4"><a></a>likelihood <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(x, n, p_seq)</span>
+<span id="cb15-5"><a></a>plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
+<span id="cb15-6"><a></a>    <span class="fu">data.frame</span>(<span class="at">p =</span> p_seq, <span class="at">likelihood =</span> likelihood),</span>
+<span id="cb15-7"><a></a>    <span class="fu">aes</span>(<span class="at">x =</span> p, <span class="at">y =</span> likelihood)</span>
+<span id="cb15-8"><a></a>) <span class="sc">+</span></span>
+<span id="cb15-9"><a></a>    <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb15-10"><a></a>    <span class="fu">labs</span>(</span>
+<span id="cb15-11"><a></a>        <span class="at">x =</span> <span class="st">"Probability of Success (p)"</span>,</span>
+<span id="cb15-12"><a></a>        <span class="at">y =</span> <span class="st">"Likelihood"</span>,</span>
+<span id="cb15-13"><a></a>        <span class="at">title =</span> <span class="st">"Binomial Likelihood Function"</span></span>
+<span id="cb15-14"><a></a>    ) <span class="sc">+</span></span>
+<span id="cb15-15"><a></a>    <span class="fu">geom_vline</span>(</span>
+<span id="cb15-16"><a></a>        <span class="at">xintercept =</span> x <span class="sc">/</span> n,</span>
+<span id="cb15-17"><a></a>        <span class="at">color =</span> <span class="st">"red"</span>,</span>
+<span id="cb15-18"><a></a>        <span class="at">linetype =</span> <span class="st">"dashed"</span></span>
+<span id="cb15-19"><a></a>    ) <span class="sc">+</span></span>
+<span id="cb15-20"><a></a>    <span class="fu">theme_light</span>(<span class="at">base_size =</span> <span class="dv">18</span>) <span class="sc">+</span></span>
+<span id="cb15-21"><a></a>    <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div><div class="column" style="width:50%;">
 <div class="cell">
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="lecture-01_files/figure-revealjs/unnamed-chunk-3-1.png" width="960"></p>
+<p><img data-src="lecture-01_files/figure-revealjs/unnamed-chunk-7-1.png" width="960"></p>
 </figure>
 </div>
 </div>
@@ -678,21 +821,21 @@ L(P|x = 11, n = 27) = {27 \choose 11} p^{11} q^{27-11}
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a><span class="co"># Genotype probabilities for parents</span></span>
-<span id="cb2-2"><a></a>parent_probs <span class="ot">&lt;-</span> <span class="cf">function</span>(p, genotype) {</span>
-<span id="cb2-3"><a></a>  <span class="fu">case_when</span>(</span>
-<span id="cb2-4"><a></a>    genotype <span class="sc">==</span> <span class="st">"AA"</span> <span class="sc">~</span> p<span class="sc">^</span><span class="dv">2</span>,</span>
-<span id="cb2-5"><a></a>    genotype <span class="sc">==</span> <span class="st">"Aa"</span> <span class="sc">~</span> <span class="dv">2</span><span class="sc">*</span>p<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>p),</span>
-<span id="cb2-6"><a></a>    genotype <span class="sc">==</span> <span class="st">"aa"</span> <span class="sc">~</span> (<span class="dv">1</span><span class="sc">-</span>p)<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb2-7"><a></a>  )</span>
-<span id="cb2-8"><a></a>}</span>
-<span id="cb2-9"><a></a></span>
-<span id="cb2-10"><a></a><span class="co"># Offspring probability given parents</span></span>
-<span id="cb2-11"><a></a>offspring_prob <span class="ot">&lt;-</span> <span class="cf">function</span>(p1_geno, p2_geno, </span>
-<span id="cb2-12"><a></a>                          offspring_geno) {</span>
-<span id="cb2-13"><a></a>  <span class="co"># Mendelian transmission probabilities</span></span>
-<span id="cb2-14"><a></a>  <span class="co"># Implementation depends on parental genotypes</span></span>
-<span id="cb2-15"><a></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a></a><span class="co"># Genotype probabilities for parents</span></span>
+<span id="cb16-2"><a></a>parent_probs <span class="ot">&lt;-</span> <span class="cf">function</span>(p, genotype) {</span>
+<span id="cb16-3"><a></a>  <span class="fu">case_when</span>(</span>
+<span id="cb16-4"><a></a>    genotype <span class="sc">==</span> <span class="st">"AA"</span> <span class="sc">~</span> p<span class="sc">^</span><span class="dv">2</span>,</span>
+<span id="cb16-5"><a></a>    genotype <span class="sc">==</span> <span class="st">"Aa"</span> <span class="sc">~</span> <span class="dv">2</span><span class="sc">*</span>p<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>p),</span>
+<span id="cb16-6"><a></a>    genotype <span class="sc">==</span> <span class="st">"aa"</span> <span class="sc">~</span> (<span class="dv">1</span><span class="sc">-</span>p)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb16-7"><a></a>  )</span>
+<span id="cb16-8"><a></a>}</span>
+<span id="cb16-9"><a></a></span>
+<span id="cb16-10"><a></a><span class="co"># Offspring probability given parents</span></span>
+<span id="cb16-11"><a></a>offspring_prob <span class="ot">&lt;-</span> <span class="cf">function</span>(p1_geno, p2_geno, </span>
+<span id="cb16-12"><a></a>                          offspring_geno) {</span>
+<span id="cb16-13"><a></a>  <span class="co"># Mendelian transmission probabilities</span></span>
+<span id="cb16-14"><a></a>  <span class="co"># Implementation depends on parental genotypes</span></span>
+<span id="cb16-15"><a></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div><div class="column" style="width:50%;">
 <p><strong>Likelihood Components</strong> - <span class="math inline">L_{\text{parents}} = P(G_1, G_2 | p)</span> - <span class="math inline">L_{\text{offspring}} = \prod_{i=1}^3 P(G_i | G_1, G_2)</span> - <strong>Total</strong>: <span class="math inline">L(p) = L_{\text{parents}} \times L_{\text{offspring}}</span></p>
@@ -712,7 +855,7 @@ L(P|x = 11, n = 27) = {27 \choose 11} p^{11} q^{27-11}
 </div>
 
 </div>
-<img data-src="lecture-01_files/figure-revealjs/unnamed-chunk-5-1.png" width="960" class="r-stretch"></section>
+<img data-src="lecture-01_files/figure-revealjs/unnamed-chunk-9-1.png" width="960" class="r-stretch"></section>
 <section id="building-one-locus-likelihood-functions-5" class="slide level2">
 <h2>Building One-Locus Likelihood Functions</h2>
 <h3 id="key-principles-for-likelihood-construction">Key Principles for Likelihood Construction</h3>
@@ -734,72 +877,72 @@ L(P|x = 11, n = 27) = {27 \choose 11} p^{11} q^{27-11}
 <div class="r-stack">
 <div class="fragment fade-in-then-out">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a>p <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">1000</span>)</span>
-<span id="cb4-2"><a></a><span class="co"># Prior (Beta distribution from previous experiment)</span></span>
-<span id="cb4-3"><a></a>prior <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(p, <span class="dv">3</span> <span class="sc">+</span> <span class="dv">1</span>, <span class="dv">17</span> <span class="sc">+</span> <span class="dv">1</span>)</span>
-<span id="cb4-4"><a></a><span class="co"># Likelihood (Beta distribution from current data)</span></span>
-<span id="cb4-5"><a></a>likelihood <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(p, <span class="dv">11</span> <span class="sc">+</span> <span class="dv">1</span>, <span class="dv">16</span> <span class="sc">+</span> <span class="dv">1</span>)</span>
-<span id="cb4-6"><a></a><span class="co"># Posterior (Beta distribution combining both)</span></span>
-<span id="cb4-7"><a></a>posterior <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(p, <span class="dv">14</span> <span class="sc">+</span> <span class="dv">1</span>, <span class="dv">33</span> <span class="sc">+</span> <span class="dv">1</span>)</span>
-<span id="cb4-8"><a></a><span class="co"># Combine into a data frame</span></span>
-<span id="cb4-9"><a></a>plot_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb4-10"><a></a>    <span class="at">p =</span> <span class="fu">rep</span>(p, <span class="dv">3</span>),</span>
-<span id="cb4-11"><a></a>    <span class="at">density =</span> <span class="fu">c</span>(prior, likelihood, posterior),</span>
-<span id="cb4-12"><a></a>    <span class="at">type =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Prior"</span>, <span class="st">"Likelihood"</span>, <span class="st">"Posterior"</span>), <span class="at">each =</span> <span class="fu">length</span>(p))</span>
-<span id="cb4-13"><a></a>)</span>
-<span id="cb4-14"><a></a><span class="co"># Add flat prior distribution</span></span>
-<span id="cb4-15"><a></a>flat_prior <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(p, <span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb4-16"><a></a>flat_posterior <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(p, <span class="dv">12</span>, <span class="dv">17</span>)</span>
-<span id="cb4-17"><a></a>plot_data <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
-<span id="cb4-18"><a></a>    plot_data,</span>
-<span id="cb4-19"><a></a>    <span class="fu">data.frame</span>(</span>
-<span id="cb4-20"><a></a>        <span class="at">p =</span> <span class="fu">rep</span>(p, <span class="dv">3</span>),</span>
-<span id="cb4-21"><a></a>        <span class="at">density =</span> <span class="fu">c</span>(flat_prior, likelihood, flat_posterior),</span>
-<span id="cb4-22"><a></a>        <span class="at">type =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Prior"</span>, <span class="st">"Likelihood"</span>, <span class="st">"Posterior"</span>), <span class="at">each =</span> <span class="fu">length</span>(p))</span>
-<span id="cb4-23"><a></a>    )</span>
-<span id="cb4-24"><a></a>)</span>
-<span id="cb4-25"><a></a><span class="co"># Add a column to distinguish between informative and flat scenarios</span></span>
-<span id="cb4-26"><a></a>plot_data<span class="sc">$</span>scenario <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"Informative"</span>, <span class="dv">3000</span>), <span class="fu">rep</span>(<span class="st">"Flat"</span>, <span class="dv">3000</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a></a>p <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">1000</span>)</span>
+<span id="cb18-2"><a></a><span class="co"># Prior (Beta distribution from previous experiment)</span></span>
+<span id="cb18-3"><a></a>prior <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(p, <span class="dv">3</span> <span class="sc">+</span> <span class="dv">1</span>, <span class="dv">17</span> <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb18-4"><a></a><span class="co"># Likelihood (Beta distribution from current data)</span></span>
+<span id="cb18-5"><a></a>likelihood <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(p, <span class="dv">11</span> <span class="sc">+</span> <span class="dv">1</span>, <span class="dv">16</span> <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb18-6"><a></a><span class="co"># Posterior (Beta distribution combining both)</span></span>
+<span id="cb18-7"><a></a>posterior <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(p, <span class="dv">14</span> <span class="sc">+</span> <span class="dv">1</span>, <span class="dv">33</span> <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb18-8"><a></a><span class="co"># Combine into a data frame</span></span>
+<span id="cb18-9"><a></a>plot_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb18-10"><a></a>    <span class="at">p =</span> <span class="fu">rep</span>(p, <span class="dv">3</span>),</span>
+<span id="cb18-11"><a></a>    <span class="at">density =</span> <span class="fu">c</span>(prior, likelihood, posterior),</span>
+<span id="cb18-12"><a></a>    <span class="at">type =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Prior"</span>, <span class="st">"Likelihood"</span>, <span class="st">"Posterior"</span>), <span class="at">each =</span> <span class="fu">length</span>(p))</span>
+<span id="cb18-13"><a></a>)</span>
+<span id="cb18-14"><a></a><span class="co"># Add flat prior distribution</span></span>
+<span id="cb18-15"><a></a>flat_prior <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(p, <span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb18-16"><a></a>flat_posterior <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(p, <span class="dv">12</span>, <span class="dv">17</span>)</span>
+<span id="cb18-17"><a></a>plot_data <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb18-18"><a></a>    plot_data,</span>
+<span id="cb18-19"><a></a>    <span class="fu">data.frame</span>(</span>
+<span id="cb18-20"><a></a>        <span class="at">p =</span> <span class="fu">rep</span>(p, <span class="dv">3</span>),</span>
+<span id="cb18-21"><a></a>        <span class="at">density =</span> <span class="fu">c</span>(flat_prior, likelihood, flat_posterior),</span>
+<span id="cb18-22"><a></a>        <span class="at">type =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Prior"</span>, <span class="st">"Likelihood"</span>, <span class="st">"Posterior"</span>), <span class="at">each =</span> <span class="fu">length</span>(p))</span>
+<span id="cb18-23"><a></a>    )</span>
+<span id="cb18-24"><a></a>)</span>
+<span id="cb18-25"><a></a><span class="co"># Add a column to distinguish between informative and flat scenarios</span></span>
+<span id="cb18-26"><a></a>plot_data<span class="sc">$</span>scenario <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"Informative"</span>, <span class="dv">3000</span>), <span class="fu">rep</span>(<span class="st">"Flat"</span>, <span class="dv">3000</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div class="fragment fade-in-then-out">
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
-<span id="cb5-2"><a></a>    plot_data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(scenario <span class="sc">==</span> <span class="st">"Informative"</span>),</span>
-<span id="cb5-3"><a></a>    <span class="fu">aes</span>(<span class="at">x =</span> p, <span class="at">y =</span> density, <span class="at">color =</span> type)</span>
-<span id="cb5-4"><a></a>) <span class="sc">+</span></span>
-<span id="cb5-5"><a></a>    <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb5-6"><a></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">11</span> <span class="sc">/</span> <span class="dv">27</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb5-7"><a></a>    <span class="fu">labs</span>(</span>
-<span id="cb5-8"><a></a>        <span class="at">x =</span> <span class="st">"Allele Frequency (p)"</span>,</span>
-<span id="cb5-9"><a></a>        <span class="at">y =</span> <span class="st">"Density"</span>,</span>
-<span id="cb5-10"><a></a>        <span class="at">title =</span> <span class="st">"Bayesian Update with Informative Prior"</span></span>
-<span id="cb5-11"><a></a>    ) <span class="sc">+</span></span>
-<span id="cb5-12"><a></a>    <span class="fu">scale_color_viridis_d</span>() <span class="sc">+</span></span>
-<span id="cb5-13"><a></a>    <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
+<span id="cb19-2"><a></a>    plot_data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(scenario <span class="sc">==</span> <span class="st">"Informative"</span>),</span>
+<span id="cb19-3"><a></a>    <span class="fu">aes</span>(<span class="at">x =</span> p, <span class="at">y =</span> density, <span class="at">color =</span> type)</span>
+<span id="cb19-4"><a></a>) <span class="sc">+</span></span>
+<span id="cb19-5"><a></a>    <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb19-6"><a></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">11</span> <span class="sc">/</span> <span class="dv">27</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb19-7"><a></a>    <span class="fu">labs</span>(</span>
+<span id="cb19-8"><a></a>        <span class="at">x =</span> <span class="st">"Allele Frequency (p)"</span>,</span>
+<span id="cb19-9"><a></a>        <span class="at">y =</span> <span class="st">"Density"</span>,</span>
+<span id="cb19-10"><a></a>        <span class="at">title =</span> <span class="st">"Bayesian Update with Informative Prior"</span></span>
+<span id="cb19-11"><a></a>    ) <span class="sc">+</span></span>
+<span id="cb19-12"><a></a>    <span class="fu">scale_color_viridis_d</span>() <span class="sc">+</span></span>
+<span id="cb19-13"><a></a>    <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div><div class="column" style="width:50%;">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
-<span id="cb6-2"><a></a>  plot_data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(scenario <span class="sc">==</span> <span class="st">"Flat"</span>),</span>
-<span id="cb6-3"><a></a>  <span class="fu">aes</span>(<span class="at">x =</span> p, <span class="at">y =</span> density, <span class="at">color =</span> type, <span class="at">linetype =</span> type)</span>
-<span id="cb6-4"><a></a>) <span class="sc">+</span></span>
-<span id="cb6-5"><a></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb6-6"><a></a>  <span class="fu">scale_linetype_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Prior"</span> <span class="ot">=</span> <span class="st">"dotted"</span>, <span class="st">"Likelihood"</span> <span class="ot">=</span> <span class="st">"solid"</span>, <span class="st">"Posterior"</span> <span class="ot">=</span> <span class="st">"dashed"</span>)) <span class="sc">+</span></span>
-<span id="cb6-7"><a></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">11</span> <span class="sc">/</span> <span class="dv">27</span>, <span class="at">linetype =</span> <span class="st">"dotdash"</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb6-8"><a></a>  <span class="fu">labs</span>(</span>
-<span id="cb6-9"><a></a>    <span class="at">x =</span> <span class="st">"Allele Frequency (p)"</span>,</span>
-<span id="cb6-10"><a></a>    <span class="at">y =</span> <span class="st">"Density"</span>,</span>
-<span id="cb6-11"><a></a>    <span class="at">title =</span> <span class="st">"Bayesian Update with Flat Prior"</span></span>
-<span id="cb6-12"><a></a>  ) <span class="sc">+</span></span>
-<span id="cb6-13"><a></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">15</span>) <span class="sc">+</span></span>
-<span id="cb6-14"><a></a>  <span class="fu">scale_color_viridis_d</span>() <span class="sc">+</span></span>
-<span id="cb6-15"><a></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>,</span>
-<span id="cb6-16"><a></a>    <span class="at">x =</span> <span class="fl">0.7</span>, <span class="at">y =</span> <span class="fu">max</span>(flat_posterior) <span class="sc">*</span> <span class="fl">0.8</span>,</span>
-<span id="cb6-17"><a></a>    <span class="at">label =</span> <span class="st">"Likelihood ≈ Posterior"</span>, <span class="at">color =</span> <span class="st">"gray30"</span></span>
-<span id="cb6-18"><a></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
+<span id="cb20-2"><a></a>  plot_data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(scenario <span class="sc">==</span> <span class="st">"Flat"</span>),</span>
+<span id="cb20-3"><a></a>  <span class="fu">aes</span>(<span class="at">x =</span> p, <span class="at">y =</span> density, <span class="at">color =</span> type, <span class="at">linetype =</span> type)</span>
+<span id="cb20-4"><a></a>) <span class="sc">+</span></span>
+<span id="cb20-5"><a></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb20-6"><a></a>  <span class="fu">scale_linetype_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Prior"</span> <span class="ot">=</span> <span class="st">"dotted"</span>, <span class="st">"Likelihood"</span> <span class="ot">=</span> <span class="st">"solid"</span>, <span class="st">"Posterior"</span> <span class="ot">=</span> <span class="st">"dashed"</span>)) <span class="sc">+</span></span>
+<span id="cb20-7"><a></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">11</span> <span class="sc">/</span> <span class="dv">27</span>, <span class="at">linetype =</span> <span class="st">"dotdash"</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb20-8"><a></a>  <span class="fu">labs</span>(</span>
+<span id="cb20-9"><a></a>    <span class="at">x =</span> <span class="st">"Allele Frequency (p)"</span>,</span>
+<span id="cb20-10"><a></a>    <span class="at">y =</span> <span class="st">"Density"</span>,</span>
+<span id="cb20-11"><a></a>    <span class="at">title =</span> <span class="st">"Bayesian Update with Flat Prior"</span></span>
+<span id="cb20-12"><a></a>  ) <span class="sc">+</span></span>
+<span id="cb20-13"><a></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">15</span>) <span class="sc">+</span></span>
+<span id="cb20-14"><a></a>  <span class="fu">scale_color_viridis_d</span>() <span class="sc">+</span></span>
+<span id="cb20-15"><a></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>,</span>
+<span id="cb20-16"><a></a>    <span class="at">x =</span> <span class="fl">0.7</span>, <span class="at">y =</span> <span class="fu">max</span>(flat_posterior) <span class="sc">*</span> <span class="fl">0.8</span>,</span>
+<span id="cb20-17"><a></a>    <span class="at">label =</span> <span class="st">"Likelihood ≈ Posterior"</span>, <span class="at">color =</span> <span class="st">"gray30"</span></span>
+<span id="cb20-18"><a></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div></div>
 </div>
@@ -807,10 +950,10 @@ L(P|x = 11, n = 27) = {27 \choose 11} p^{11} q^{27-11}
 <div class="cell quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img data-src="lecture-01_files/figure-revealjs/unnamed-chunk-9-1.png" width="960"></p>
+<p><img data-src="lecture-01_files/figure-revealjs/unnamed-chunk-13-1.png" width="960"></p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img data-src="lecture-01_files/figure-revealjs/unnamed-chunk-9-2.png" width="960"></p>
+<p><img data-src="lecture-01_files/figure-revealjs/unnamed-chunk-13-2.png" width="960"></p>
 </div>
 </div>
 </div>
@@ -830,6 +973,181 @@ L(P|x = 11, n = 27) = {27 \choose 11} p^{11} q^{27-11}
 </div><div class="column" style="width:50%;">
 <p><img data-src="https://upload.wikimedia.org/wikipedia/commons/8/8e/Intermediate_inheritance_P_-_F1_-_F2.png" style="width:100.0%"></p>
 </div></div>
+</section>
+<section id="worked-example-segregation-31-ratio" class="slide level2">
+<h2>Worked Example: Segregation (3:1 Ratio)</h2>
+<h3 id="cross-aa-aa">Cross: Aa × Aa</h3>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<p><strong>Punnett Square</strong></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;"><strong>A</strong></th>
+<th style="text-align: left;"><strong>a</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>A</strong></td>
+<td style="text-align: left;">AA</td>
+<td style="text-align: left;">Aa</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>a</strong></td>
+<td style="text-align: left;">Aa</td>
+<td style="text-align: left;">aa</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<p><strong>Expected Ratios</strong> - <strong>Genotypic</strong>: 1 AA : 2 Aa : 1 aa - <strong>Phenotypic</strong>: 3 dominant : 1 recessive - <strong>Probabilities</strong>: <span class="math inline">P(AA) = \frac{1}{4}</span>, <span class="math inline">P(Aa) = \frac{1}{2}</span>, <span class="math inline">P(aa) = \frac{1}{4}</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="testing-segregation-ratios" class="slide level2">
+<h2>Testing Segregation Ratios</h2>
+<p>Observed offspring from Aa × Aa cross: 240 total - 180 dominant phenotype, 60 recessive phenotype - <strong>Expected under 3:1 ratio</strong>: 180 dominant, 60 recessive</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a></a><span class="co"># Test for 3:1 segregation ratio</span></span>
+<span id="cb21-2"><a></a>observed <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">180</span>, <span class="dv">60</span>)</span>
+<span id="cb21-3"><a></a>expected <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">180</span>, <span class="dv">60</span>)  <span class="co"># 3:1 ratio from 240 total</span></span>
+<span id="cb21-4"><a></a>chi_sq <span class="ot">&lt;-</span> <span class="fu">sum</span>((observed <span class="sc">-</span> expected)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> expected)</span>
+<span id="cb21-5"><a></a>p_value <span class="ot">&lt;-</span> <span class="fu">pchisq</span>(chi_sq, <span class="at">df =</span> <span class="dv">1</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb21-6"><a></a><span class="fu">cat</span>(<span class="st">"χ² ="</span>, chi_sq, <span class="st">", p-value ="</span>, p_value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>χ² = 0 , p-value = 1</code></pre>
+</div>
+</div>
+<p><strong>Conclusion</strong>: Perfect fit to Mendelian expectations (p = 1.0)</p>
+</section>
+<section id="test-cross-example" class="slide level2">
+<h2>Test Cross Example</h2>
+<h3 id="cross-aa-aa-11-expected">Cross: Aa × aa (1:1 Expected)</h3>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<p><strong>Punnett Square</strong></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;"><strong>A</strong></th>
+<th style="text-align: left;"><strong>a</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>a</strong></td>
+<td style="text-align: left;">Aa</td>
+<td style="text-align: left;">aa</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>a</strong></td>
+<td style="text-align: left;">Aa</td>
+<td style="text-align: left;">aa</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<p><strong>Purpose &amp; Results</strong> - <strong>Use</strong>: Test if unknown dominant is AA or Aa - <strong>Expected</strong>: 1:1 ratio (50% each phenotype) - <strong>Observed</strong>: 23 dominant, 27 recessive (n=50)</p>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a></a>observed_testcross <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">23</span>, <span class="dv">27</span>)</span>
+<span id="cb23-2"><a></a>expected_testcross <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">25</span>)  <span class="co"># 1:1 ratio</span></span>
+<span id="cb23-3"><a></a>chi_sq_test <span class="ot">&lt;-</span> <span class="fu">sum</span>((observed_testcross <span class="sc">-</span> expected_testcross)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> expected_testcross)</span>
+<span id="cb23-4"><a></a>p_val_test <span class="ot">&lt;-</span> <span class="fu">pchisq</span>(chi_sq_test, <span class="at">df =</span> <span class="dv">1</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb23-5"><a></a><span class="fu">cat</span>(<span class="st">"χ² ="</span>, chi_sq_test, <span class="st">", p-value ="</span>, p_val_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>χ² = 0.32 , p-value = 0.5716076</code></pre>
+</div>
+</div>
+</section>
+<section id="dihybrid-cross-independent-assortment" class="slide level2">
+<h2>Dihybrid Cross: Independent Assortment</h2>
+<h3 id="aabb-aabb-9331-expected">AaBb × AaBb (9:3:3:1 Expected)</h3>
+<p><strong>Two traits</strong>: Seed shape (A/a) and color (B/b)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a></a><span class="co"># Calculate expected probabilities</span></span>
+<span id="cb25-2"><a></a>prob_AB <span class="ot">&lt;-</span> (<span class="dv">3</span><span class="sc">/</span><span class="dv">4</span>) <span class="sc">*</span> (<span class="dv">3</span><span class="sc">/</span><span class="dv">4</span>)  <span class="co"># 9/16 Round Yellow</span></span>
+<span id="cb25-3"><a></a>prob_Ab <span class="ot">&lt;-</span> (<span class="dv">3</span><span class="sc">/</span><span class="dv">4</span>) <span class="sc">*</span> (<span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>)  <span class="co"># 3/16 Round Green</span></span>
+<span id="cb25-4"><a></a>prob_aB <span class="ot">&lt;-</span> (<span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>) <span class="sc">*</span> (<span class="dv">3</span><span class="sc">/</span><span class="dv">4</span>)  <span class="co"># 3/16 Wrinkled Yellow  </span></span>
+<span id="cb25-5"><a></a>prob_ab <span class="ot">&lt;-</span> (<span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>) <span class="sc">*</span> (<span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>)  <span class="co"># 1/16 Wrinkled Green</span></span>
+<span id="cb25-6"><a></a></span>
+<span id="cb25-7"><a></a><span class="fu">cat</span>(<span class="st">"Expected ratios:"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Expected ratios:</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Round Yellow:"</span>, <span class="dv">9</span>, <span class="st">"("</span>, prob_AB, <span class="st">")"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Round Yellow: 9 ( 0.5625 )</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Round Green:"</span>, <span class="dv">3</span>, <span class="st">"("</span>, prob_Ab, <span class="st">")"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Round Green: 3 ( 0.1875 )</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Wrinkled Yellow:"</span>, <span class="dv">3</span>, <span class="st">"("</span>, prob_aB, <span class="st">")"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Wrinkled Yellow: 3 ( 0.1875 )</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Wrinkled Green:"</span>, <span class="dv">1</span>, <span class="st">"("</span>, prob_ab, <span class="st">")"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Wrinkled Green: 1 ( 0.0625 )</code></pre>
+</div>
+</div>
+</section>
+<section id="testing-independent-assortment" class="slide level2">
+<h2>Testing Independent Assortment</h2>
+<p><strong>Mendel’s observed data</strong>: 556 F₂ offspring - Round Yellow: 315, Round Green: 108<br>
+- Wrinkled Yellow: 101, Wrinkled Green: 32</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a></a>total_f2 <span class="ot">&lt;-</span> <span class="dv">556</span></span>
+<span id="cb35-2"><a></a>observed_dihybrid <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">315</span>, <span class="dv">108</span>, <span class="dv">101</span>, <span class="dv">32</span>)</span>
+<span id="cb35-3"><a></a>expected_dihybrid <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb35-4"><a></a>  total_f2 <span class="sc">*</span> <span class="dv">9</span><span class="sc">/</span><span class="dv">16</span>,  <span class="co"># Round Yellow: 312.75</span></span>
+<span id="cb35-5"><a></a>  total_f2 <span class="sc">*</span> <span class="dv">3</span><span class="sc">/</span><span class="dv">16</span>,  <span class="co"># Round Green: 104.25</span></span>
+<span id="cb35-6"><a></a>  total_f2 <span class="sc">*</span> <span class="dv">3</span><span class="sc">/</span><span class="dv">16</span>,  <span class="co"># Wrinkled Yellow: 104.25</span></span>
+<span id="cb35-7"><a></a>  total_f2 <span class="sc">*</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">16</span>   <span class="co"># Wrinkled Green: 34.75</span></span>
+<span id="cb35-8"><a></a>)</span>
+<span id="cb35-9"><a></a></span>
+<span id="cb35-10"><a></a>chi_sq_dihybrid <span class="ot">&lt;-</span> <span class="fu">sum</span>((observed_dihybrid <span class="sc">-</span> expected_dihybrid)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> expected_dihybrid)</span>
+<span id="cb35-11"><a></a>p_val_dihybrid <span class="ot">&lt;-</span> <span class="fu">pchisq</span>(chi_sq_dihybrid, <span class="at">df =</span> <span class="dv">3</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb35-12"><a></a></span>
+<span id="cb35-13"><a></a><span class="fu">cat</span>(<span class="st">"Expected:"</span>, <span class="fu">round</span>(expected_dihybrid, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Expected: 312.8 104.2 104.2 34.8</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Observed:"</span>, observed_dihybrid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Observed: 315 108 101 32</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">χ² ="</span>, <span class="fu">round</span>(chi_sq_dihybrid, <span class="dv">3</span>), <span class="st">", p-value ="</span>, <span class="fu">round</span>(p_val_dihybrid, <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+χ² = 0.47 , p-value = 0.925</code></pre>
+</div>
+</div>
+<p><strong>Conclusion</strong>: Excellent fit supports independent assortment</p>
 </section>
 <section id="genetic-models" class="slide level2">
 <h2>Genetic Models</h2>
@@ -981,10 +1299,10 @@ g(y_i) = \beta_0 + \beta_1 x_i + \epsilon_i
 <li>Compare observed and expected genotype frequencies using a statistical test (e.g., Pearson goodness-of-fit test)</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb7-1" class="hljs-ln-code"><a></a>n <span class="ot">&lt;-</span> <span class="dv">212</span></span>
-<span id="cb7-2" class="hljs-ln-code"><a></a>n_AA <span class="ot">&lt;-</span> <span class="dv">175</span></span>
-<span id="cb7-3" class="hljs-ln-code"><a></a>n_Aa <span class="ot">&lt;-</span> <span class="dv">33</span></span>
-<span id="cb7-4" class="hljs-ln-code"><a></a>n_aa <span class="ot">&lt;-</span> <span class="dv">4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb41-1" class="hljs-ln-code"><a></a>n <span class="ot">&lt;-</span> <span class="dv">212</span></span>
+<span id="cb41-2" class="hljs-ln-code"><a></a>n_AA <span class="ot">&lt;-</span> <span class="dv">175</span></span>
+<span id="cb41-3" class="hljs-ln-code"><a></a>n_Aa <span class="ot">&lt;-</span> <span class="dv">33</span></span>
+<span id="cb41-4" class="hljs-ln-code"><a></a>n_aa <span class="ot">&lt;-</span> <span class="dv">4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="testing-for-hwe-2" class="slide level2" data-auto-animate="true">
@@ -996,13 +1314,13 @@ g(y_i) = \beta_0 + \beta_1 x_i + \epsilon_i
 <li>Compare observed and expected genotype frequencies using a statistical test (e.g., Pearson goodness-of-fit test)</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb8-1" class="hljs-ln-code"><a></a>n <span class="ot">&lt;-</span> <span class="dv">212</span></span>
-<span id="cb8-2" class="hljs-ln-code"><a></a>n_AA <span class="ot">&lt;-</span> <span class="dv">175</span></span>
-<span id="cb8-3" class="hljs-ln-code"><a></a>n_Aa <span class="ot">&lt;-</span> <span class="dv">33</span></span>
-<span id="cb8-4" class="hljs-ln-code"><a></a>n_aa <span class="ot">&lt;-</span> <span class="dv">4</span></span>
-<span id="cb8-5" class="hljs-ln-code"><a></a></span>
-<span id="cb8-6" class="hljs-ln-code"><a></a>p_hat <span class="ot">&lt;-</span> (<span class="dv">2</span><span class="sc">*</span> n_AA <span class="sc">+</span> n_Aa) <span class="sc">/</span> (<span class="dv">2</span><span class="sc">*</span>n)</span>
-<span id="cb8-7" class="hljs-ln-code"><a></a>p_hat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb42-1" class="hljs-ln-code"><a></a>n <span class="ot">&lt;-</span> <span class="dv">212</span></span>
+<span id="cb42-2" class="hljs-ln-code"><a></a>n_AA <span class="ot">&lt;-</span> <span class="dv">175</span></span>
+<span id="cb42-3" class="hljs-ln-code"><a></a>n_Aa <span class="ot">&lt;-</span> <span class="dv">33</span></span>
+<span id="cb42-4" class="hljs-ln-code"><a></a>n_aa <span class="ot">&lt;-</span> <span class="dv">4</span></span>
+<span id="cb42-5" class="hljs-ln-code"><a></a></span>
+<span id="cb42-6" class="hljs-ln-code"><a></a>p_hat <span class="ot">&lt;-</span> (<span class="dv">2</span><span class="sc">*</span> n_AA <span class="sc">+</span> n_Aa) <span class="sc">/</span> (<span class="dv">2</span><span class="sc">*</span>n)</span>
+<span id="cb42-7" class="hljs-ln-code"><a></a>p_hat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.9033019</code></pre>
 </div>
@@ -1017,20 +1335,20 @@ g(y_i) = \beta_0 + \beta_1 x_i + \epsilon_i
 <li>Compare observed and expected genotype frequencies using a statistical test (e.g., Pearson goodness-of-fit test)</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a></a>n <span class="ot">&lt;-</span> <span class="dv">212</span></span>
-<span id="cb10-2"><a></a>n_AA <span class="ot">&lt;-</span> <span class="dv">175</span></span>
-<span id="cb10-3"><a></a>n_Aa <span class="ot">&lt;-</span> <span class="dv">33</span></span>
-<span id="cb10-4"><a></a>n_aa <span class="ot">&lt;-</span> <span class="dv">4</span></span>
-<span id="cb10-5"><a></a></span>
-<span id="cb10-6"><a></a>p_hat <span class="ot">&lt;-</span> (<span class="dv">2</span><span class="sc">*</span> n_AA <span class="sc">+</span> n_Aa) <span class="sc">/</span> (<span class="dv">2</span><span class="sc">*</span>n)</span>
-<span id="cb10-7"><a></a>p_hat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a></a>n <span class="ot">&lt;-</span> <span class="dv">212</span></span>
+<span id="cb44-2"><a></a>n_AA <span class="ot">&lt;-</span> <span class="dv">175</span></span>
+<span id="cb44-3"><a></a>n_Aa <span class="ot">&lt;-</span> <span class="dv">33</span></span>
+<span id="cb44-4"><a></a>n_aa <span class="ot">&lt;-</span> <span class="dv">4</span></span>
+<span id="cb44-5"><a></a></span>
+<span id="cb44-6"><a></a>p_hat <span class="ot">&lt;-</span> (<span class="dv">2</span><span class="sc">*</span> n_AA <span class="sc">+</span> n_Aa) <span class="sc">/</span> (<span class="dv">2</span><span class="sc">*</span>n)</span>
+<span id="cb44-7"><a></a>p_hat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.9033019</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a></a>e_AA <span class="ot">&lt;-</span> <span class="fu">round</span>(n <span class="sc">*</span> p_hat<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb12-2"><a></a>e_Aa <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">2</span> <span class="sc">*</span> n <span class="sc">*</span> p_hat <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat))</span>
-<span id="cb12-3"><a></a>e_aa <span class="ot">&lt;-</span> <span class="fu">round</span>(n <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat)<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb12-4"><a></a><span class="fu">c</span>(e_AA, e_Aa, e_aa)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a></a>e_AA <span class="ot">&lt;-</span> <span class="fu">round</span>(n <span class="sc">*</span> p_hat<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb46-2"><a></a>e_Aa <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">2</span> <span class="sc">*</span> n <span class="sc">*</span> p_hat <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat))</span>
+<span id="cb46-3"><a></a>e_aa <span class="ot">&lt;-</span> <span class="fu">round</span>(n <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb46-4"><a></a><span class="fu">c</span>(e_AA, e_Aa, e_aa)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 173  37   2</code></pre>
 </div>
@@ -1045,27 +1363,27 @@ g(y_i) = \beta_0 + \beta_1 x_i + \epsilon_i
 <li><strong>Compare observed and expected genotype frequencies using a statistical test (e.g., Pearson goodness-of-fit test)</strong></li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a></a>n <span class="ot">&lt;-</span> <span class="dv">212</span></span>
-<span id="cb14-2"><a></a>n_AA <span class="ot">&lt;-</span> <span class="dv">175</span></span>
-<span id="cb14-3"><a></a>n_Aa <span class="ot">&lt;-</span> <span class="dv">33</span></span>
-<span id="cb14-4"><a></a>n_aa <span class="ot">&lt;-</span> <span class="dv">4</span></span>
-<span id="cb14-5"><a></a></span>
-<span id="cb14-6"><a></a>p_hat <span class="ot">&lt;-</span> (<span class="dv">2</span><span class="sc">*</span> n_AA <span class="sc">+</span> n_Aa) <span class="sc">/</span> (<span class="dv">2</span><span class="sc">*</span>n)</span>
-<span id="cb14-7"><a></a>p_hat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a></a>n <span class="ot">&lt;-</span> <span class="dv">212</span></span>
+<span id="cb48-2"><a></a>n_AA <span class="ot">&lt;-</span> <span class="dv">175</span></span>
+<span id="cb48-3"><a></a>n_Aa <span class="ot">&lt;-</span> <span class="dv">33</span></span>
+<span id="cb48-4"><a></a>n_aa <span class="ot">&lt;-</span> <span class="dv">4</span></span>
+<span id="cb48-5"><a></a></span>
+<span id="cb48-6"><a></a>p_hat <span class="ot">&lt;-</span> (<span class="dv">2</span><span class="sc">*</span> n_AA <span class="sc">+</span> n_Aa) <span class="sc">/</span> (<span class="dv">2</span><span class="sc">*</span>n)</span>
+<span id="cb48-7"><a></a>p_hat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.9033019</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a></a>e_AA <span class="ot">&lt;-</span> <span class="fu">round</span>(n <span class="sc">*</span> p_hat<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb16-2"><a></a>e_Aa <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">2</span> <span class="sc">*</span> n <span class="sc">*</span> p_hat <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat))</span>
-<span id="cb16-3"><a></a>e_aa <span class="ot">&lt;-</span> <span class="fu">round</span>(n <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat)<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb16-4"><a></a><span class="fu">c</span>(e_AA, e_Aa, e_aa)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a></a>e_AA <span class="ot">&lt;-</span> <span class="fu">round</span>(n <span class="sc">*</span> p_hat<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb50-2"><a></a>e_Aa <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">2</span> <span class="sc">*</span> n <span class="sc">*</span> p_hat <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat))</span>
+<span id="cb50-3"><a></a>e_aa <span class="ot">&lt;-</span> <span class="fu">round</span>(n <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb50-4"><a></a><span class="fu">c</span>(e_AA, e_Aa, e_aa)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 173  37   2</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a></a>observed <span class="ot">&lt;-</span> <span class="fu">c</span>(n_AA, n_Aa, n_aa)</span>
-<span id="cb18-2"><a></a>expected <span class="ot">&lt;-</span> <span class="fu">c</span>(e_AA, e_Aa, e_aa)</span>
-<span id="cb18-3"><a></a>test_stat <span class="ot">&lt;-</span> <span class="fu">sum</span>((observed <span class="sc">-</span> expected)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> expected)</span>
-<span id="cb18-4"><a></a><span class="fu">pchisq</span>(test_stat, <span class="at">df =</span> <span class="dv">1</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a></a>observed <span class="ot">&lt;-</span> <span class="fu">c</span>(n_AA, n_Aa, n_aa)</span>
+<span id="cb52-2"><a></a>expected <span class="ot">&lt;-</span> <span class="fu">c</span>(e_AA, e_Aa, e_aa)</span>
+<span id="cb52-3"><a></a>test_stat <span class="ot">&lt;-</span> <span class="fu">sum</span>((observed <span class="sc">-</span> expected)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> expected)</span>
+<span id="cb52-4"><a></a><span class="fu">pchisq</span>(test_stat, <span class="at">df =</span> <span class="dv">1</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.1171099</code></pre>
 </div>

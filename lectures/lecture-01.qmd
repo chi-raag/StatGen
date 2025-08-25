@@ -305,6 +305,128 @@ ggplot(demo_data_2, aes(x = estimate, fill = estimator)) +
 ```
 :::
 
+## Sampling Distributions in Genetics
+
+### From Population to Sample: Allele Frequency Estimation
+
+**True population parameter**: $p = 0.3$ (allele frequency)
+**Sample estimates**: $\hat{p} = \frac{\text{# A alleles observed}}{\text{total alleles sampled}}$
+
+```{r}
+# Simulate sampling from population with p = 0.3
+set.seed(123)
+true_p <- 0.3
+sample_sizes <- c(20, 100, 500)
+n_sims <- 1000
+
+sampling_results <- map_dfr(sample_sizes, function(n) {
+  p_hats <- replicate(n_sims, {
+    # Sample n individuals (2n alleles total)
+    alleles <- rbinom(n, 2, true_p)  # Each individual contributes 2 alleles
+    sum(alleles) / (2 * n)  # Sample allele frequency
+  })
+  
+  data.frame(
+    sample_size = n,
+    p_hat = p_hats,
+    theoretical_se = sqrt(true_p * (1 - true_p) / (2 * n))
+  )
+})
+```
+
+### Sampling Distribution Properties
+
+```{r}
+#| layout-ncol: 2
+
+# Plot sampling distributions
+ggplot(sampling_results, aes(x = p_hat)) +
+  geom_histogram(aes(y = ..density..), bins = 30, alpha = 0.7) +
+  geom_vline(xintercept = true_p, color = "red", linetype = "dashed", size = 1) +
+  facet_wrap(~paste("n =", sample_size), scales = "free_y") +
+  labs(title = "Sampling Distribution of p̂", 
+       x = "Sample Allele Frequency (p̂)", y = "Density") +
+  theme_minimal()
+
+# Compare theoretical vs empirical standard errors
+se_comparison <- sampling_results %>%
+  group_by(sample_size) %>%
+  summarise(
+    empirical_se = sd(p_hat),
+    theoretical_se = first(theoretical_se),
+    empirical_mean = mean(p_hat)
+  )
+
+ggplot(se_comparison, aes(x = sample_size)) +
+  geom_point(aes(y = empirical_se, color = "Empirical"), size = 3) +
+  geom_point(aes(y = theoretical_se, color = "Theoretical"), size = 3) +
+  geom_line(aes(y = theoretical_se, color = "Theoretical")) +
+  labs(title = "Standard Error: Theory vs Practice",
+       x = "Sample Size", y = "Standard Error of p̂") +
+  scale_color_manual(values = c("Empirical" = "blue", "Theoretical" = "red")) +
+  theme_minimal()
+```
+
+## Population vs Sample: Key Insights
+
+::: incremental
+- **Unbiased Estimator**: $E[\hat{p}] = p$ (sample mean equals population parameter)
+- **Standard Error**: $SE(\hat{p}) = \sqrt{\frac{p(1-p)}{2n}}$ decreases with sample size
+- **Normal Approximation**: For large $n$, $\hat{p} \sim N\left(p, \frac{p(1-p)}{2n}\right)$
+- **Confidence Intervals**: $\hat{p} \pm 1.96 \times SE(\hat{p})$ covers true $p$ ~95% of time
+- **Power**: Larger samples = better ability to detect true differences between populations
+:::
+
+## Sampling Distribution: Hardy-Weinberg Testing
+
+**Population**: HWE with $p = 0.6$, genotype frequencies: $p^2 = 0.36$, $2pq = 0.48$, $q^2 = 0.16$
+
+```{r}
+# Simulate HWE sampling and testing
+simulate_hwe_test <- function(n, p_true) {
+  # Expected HWE frequencies
+  exp_AA <- n * p_true^2
+  exp_Aa <- n * 2 * p_true * (1 - p_true)  
+  exp_aa <- n * (1 - p_true)^2
+  
+  # Sample genotypes under HWE
+  genotypes <- rmultinom(1, n, c(p_true^2, 2*p_true*(1-p_true), (1-p_true)^2))
+  
+  # Estimate allele frequency from sample
+  p_hat <- (2*genotypes[1] + genotypes[2]) / (2*n)
+  
+  # Recalculate expected frequencies with estimated p
+  exp_AA_hat <- n * p_hat^2
+  exp_Aa_hat <- n * 2 * p_hat * (1 - p_hat)
+  exp_aa_hat <- n * (1 - p_hat)^2
+  
+  # Chi-square test statistic
+  chi_sq <- sum((genotypes - c(exp_AA_hat, exp_Aa_hat, exp_aa_hat))^2 / 
+                c(exp_AA_hat, exp_Aa_hat, exp_aa_hat))
+  
+  p_value <- pchisq(chi_sq, df = 1, lower.tail = FALSE)
+  
+  return(list(p_hat = p_hat, chi_sq = chi_sq, p_value = p_value))
+}
+
+# Run simulation
+set.seed(456)
+n_sample <- 200
+hwe_results <- replicate(1000, simulate_hwe_test(n_sample, 0.6), simplify = FALSE)
+```
+
+### Sampling Distribution of HWE Tests
+
+```{r}
+p_values <- map_dbl(hwe_results, ~.$p_value)
+p_hats <- map_dbl(hwe_results, ~.$p_hat)
+
+cat("Proportion of tests rejecting HWE (α = 0.05):", mean(p_values < 0.05))
+cat("\nMean estimated allele frequency:", round(mean(p_hats), 3))
+cat("\nSD of estimated allele frequency:", round(sd(p_hats), 3))
+cat("\nTheoretical SE:", round(sqrt(0.6 * 0.4 / (2 * n_sample)), 3))
+```
+
 ## Importance of statistical theory
 
 -   Understanding random variables, sampling distributions, and bias/variance of estimators helps motivate biological questions, and understand how they can be answered
@@ -639,6 +761,117 @@ img(src = knitr::include_graphics("scripts/_output/sequential_bayesian_update.gi
 ![](https://upload.wikimedia.org/wikipedia/commons/8/8e/Intermediate_inheritance_P_-_F1_-_F2.png){width="100%"}
 :::
 :::::
+
+## Worked Example: Segregation (3:1 Ratio)
+
+### Cross: Aa × Aa
+
+::: {layout-ncol="2"}
+
+**Punnett Square**
+
+|     | **A** | **a** |
+|-----|-------|-------|
+| **A** | AA    | Aa    |
+| **a** | Aa    | aa    |
+
+**Expected Ratios**
+- **Genotypic**: 1 AA : 2 Aa : 1 aa
+- **Phenotypic**: 3 dominant : 1 recessive
+- **Probabilities**: $P(AA) = \frac{1}{4}$, $P(Aa) = \frac{1}{2}$, $P(aa) = \frac{1}{4}$
+
+:::
+
+## Testing Segregation Ratios
+
+Observed offspring from Aa × Aa cross: 240 total
+- 180 dominant phenotype, 60 recessive phenotype
+- **Expected under 3:1 ratio**: 180 dominant, 60 recessive
+
+```{r}
+# Test for 3:1 segregation ratio
+observed <- c(180, 60)
+expected <- c(180, 60)  # 3:1 ratio from 240 total
+chi_sq <- sum((observed - expected)^2 / expected)
+p_value <- pchisq(chi_sq, df = 1, lower.tail = FALSE)
+cat("χ² =", chi_sq, ", p-value =", p_value)
+```
+
+**Conclusion**: Perfect fit to Mendelian expectations (p = 1.0)
+
+## Test Cross Example
+
+### Cross: Aa × aa (1:1 Expected)
+
+::: {layout-ncol="2"}
+
+**Punnett Square**
+
+|     | **A** | **a** |
+|-----|-------|-------|
+| **a** | Aa    | aa    |
+| **a** | Aa    | aa    |
+
+**Purpose & Results**
+- **Use**: Test if unknown dominant is AA or Aa
+- **Expected**: 1:1 ratio (50% each phenotype)
+- **Observed**: 23 dominant, 27 recessive (n=50)
+
+:::
+
+```{r}
+observed_testcross <- c(23, 27)
+expected_testcross <- c(25, 25)  # 1:1 ratio
+chi_sq_test <- sum((observed_testcross - expected_testcross)^2 / expected_testcross)
+p_val_test <- pchisq(chi_sq_test, df = 1, lower.tail = FALSE)
+cat("χ² =", chi_sq_test, ", p-value =", p_val_test)
+```
+
+## Dihybrid Cross: Independent Assortment
+
+### AaBb × AaBb (9:3:3:1 Expected)
+
+**Two traits**: Seed shape (A/a) and color (B/b)
+
+```{r}
+# Calculate expected probabilities
+prob_AB <- (3/4) * (3/4)  # 9/16 Round Yellow
+prob_Ab <- (3/4) * (1/4)  # 3/16 Round Green
+prob_aB <- (1/4) * (3/4)  # 3/16 Wrinkled Yellow  
+prob_ab <- (1/4) * (1/4)  # 1/16 Wrinkled Green
+
+cat("Expected ratios:")
+cat("\nRound Yellow:", 9, "(", prob_AB, ")")
+cat("\nRound Green:", 3, "(", prob_Ab, ")")
+cat("\nWrinkled Yellow:", 3, "(", prob_aB, ")")
+cat("\nWrinkled Green:", 1, "(", prob_ab, ")")
+```
+
+## Testing Independent Assortment
+
+**Mendel's observed data**: 556 F₂ offspring
+- Round Yellow: 315, Round Green: 108  
+- Wrinkled Yellow: 101, Wrinkled Green: 32
+
+```{r}
+total_f2 <- 556
+observed_dihybrid <- c(315, 108, 101, 32)
+expected_dihybrid <- c(
+  total_f2 * 9/16,  # Round Yellow: 312.75
+  total_f2 * 3/16,  # Round Green: 104.25
+  total_f2 * 3/16,  # Wrinkled Yellow: 104.25
+  total_f2 * 1/16   # Wrinkled Green: 34.75
+)
+
+chi_sq_dihybrid <- sum((observed_dihybrid - expected_dihybrid)^2 / expected_dihybrid)
+p_val_dihybrid <- pchisq(chi_sq_dihybrid, df = 3, lower.tail = FALSE)
+
+cat("Expected:", round(expected_dihybrid, 1))
+cat("\nObserved:", observed_dihybrid)
+cat("\nχ² =", round(chi_sq_dihybrid, 3), ", p-value =", round(p_val_dihybrid, 3))
+```
+
+**Conclusion**: Excellent fit supports independent assortment
 
 ## Genetic Models
 
