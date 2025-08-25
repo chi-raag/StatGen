@@ -6,9 +6,12 @@ website:
   title: "Statistical Genetics"
   sidebar:
     pinned: true
+    background: "#033C5A"
+    foreground: white 
+    border: true
     logo: course_logo.png
     style: docked
-    search: true
+    search: false
     collapse-level: 1
     contents:
       - href: index.qmd
@@ -17,20 +20,25 @@ website:
       - href: syllabus.qmd
         text: Syllabus
         icon: book
+      - href: faq.qmd
+        text: "FAQ"
+        icon: question
       - href: https://github.com/gwcbi/StatGen
         text: "GitHub"
         icon: github
         target: _blank 
+      - href: https://www.zotero.org/groups/6113424/pubh-8878/library
+        text: "Zotero Library"
+        icon: book
+        target: _blank
 format:
   html:
     grid:
-      sidebar-width: 200px
-    theme: 
-      - cosmo
-      - brand
+      sidebar-width: 250px
     css: styles.css
     toc: true
-    mainfont: Avenir Next LT Pro, Avenir Next, Avenir, sans-serif
+    mainfont: system-ui, sans-serif
+    linkcolor: "#0190DB"
 
 
 

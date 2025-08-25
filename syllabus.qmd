@@ -23,15 +23,15 @@ This graduate-level course builds a cohesive toolkit for analyzing complex genet
 ### Required
 
 - Statistical Learning in Genetics: An Introduction Using R, Daniel Sorensen, 2nd Edition
-- The Fundamentals of Modern Statistical Genetics, Nan M. Laird and Christoph Lange, 1st Edition
 
 ### Recommended
 
 - Handbook of Statistical Genomics, David J. Balding, Ida Moltke, John Marioni, 4th Edition
+- The Fundamentals of Modern Statistical Genetics, Nan M. Laird and Christoph Lange, 1st Edition
 
 ## Technology Requirements
 
-Students should have a desktop or laptop (Windows, macOS, or Linux) with at least 8 GB RAM, 20 GB free disk space, a reliable broadband connection (≥ 10 Mbps), and working webcam, microphone, and speakers or headphones for synchronous Zoom sessions. They must be able to navigate the university’s LMS through a modern web browser to download readings, submit assignments, and join discussion boards; install and update R (4.5 or newer), RStudio (or VS Code with the R extension), Bioconductor packages, Git, and Zoom; and use basic Git commands (clone, commit, push) to submit version-controlled lab work. Familiarity with screen sharing, breakout rooms, captioning, and recording in Zoom is expected. Optional but recommended tools include an SSH client or VPN for connecting to campus HPC resources and a PDF reader that supports annotation. All course materials follow WCAG 2.1 guidelines, and RStudio offers high-contrast and screen-reader modes; students who require further accommodations should contact Disability Services before the first week.
+Students should have a desktop or laptop (Windows, macOS, or Linux) with at least 8 GB RAM, 20 GB free disk space, a reliable broadband connection (≥ 10 Mbps), and working webcam, microphone, and speakers or headphones for synchronous Zoom sessions. They must be able to navigate the university’s LMS through a modern web browser to download readings, submit assignments, and join discussion boards; install and update R (4.5 or newer), RStudio (or VS Code with the R extension), Bioconductor packages, Git, and Zoom; and use basic Git commands (clone, commit, push) to submit version-controlled lab work. We will use Zotero for file sharing and collaboration. Familiarity with screen sharing, breakout rooms, captioning, and recording in Zoom is expected. Optional but recommended tools include an SSH client or VPN for connecting to campus HPC resources and a PDF reader that supports annotation. All course materials follow WCAG 2.1 guidelines, and RStudio offers high-contrast and screen-reader modes; students who require further accommodations should contact Disability Services before the first week.
 
 ## Assignments and Descriptions
 

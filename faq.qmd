@@ -1,0 +1,7 @@
+---
+title: "Frequently Asked Questions"
+---
+
+## The required paper is not open source, how do I access it?
+
+Via our shared [Zotero library](https://www.zotero.org/groups/6113424/pubh-/library). If you don't have access, please email [chiraaggohel@gwu.edu](mailto:chiraaggohel@gwu.edu) to be added.

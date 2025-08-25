@@ -217,34 +217,50 @@
 </div>
 
 </section>
-<section id="introductions" class="slide level2">
-<h2>Introductions</h2>
-</section>
 <section id="about-the-instructors" class="slide level2">
 <h2>About the Instructors</h2>
-<div class="quarto-layout-panel" data-layout="[30, 70]">
+<div class="quarto-layout-panel" data-layout="[100, 70, 66.5]">
 <div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 30.0%;justify-content: flex-start;">
+<div class="quarto-layout-cell" style="flex-basis: 42.3%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="https://chiraaggohel.com/favicon.jpeg"></p>
-<figcaption>My dog Rosie and I</figcaption>
+<p><img data-src="https://publichealth.gwu.edu/sites/g/files/zaxdzs4586/files/styles/d07/public/2023-02/keith-crandall-up-2014-jmc_3352lowres.jpeg"></p>
+<figcaption>Dr.&nbsp;Keith Crandall</figcaption>
 </figure>
 </div>
 </div>
-<div class="quarto-layout-cell" style="flex-basis: 70.0%;justify-content: flex-start;">
-<ul>
-<li>I’m Chiraag Gohel, a 4th Year PhD student in the Department of Biostatistics and Bioinformatics at George Washington University.</li>
-<li>My interests are in the modeling of high-dimensional ’omics data</li>
-<li>I play a lot of squash</li>
-</ul>
+<div class="quarto-layout-cell" style="flex-basis: 29.6%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="https://publichealth.gwu.edu/sites/g/files/zaxdzs4586/files/styles/d07/public/2024-11/ali_rahnavard_102024.jpg"></p>
+<figcaption>Dr.&nbsp;Ali Rahnavard</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 28.1%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="https://chiraaggohel.com/favicon.jpeg"></p>
+<figcaption>Chiraag Gohel</figcaption>
+</figure>
+</div>
 </div>
 </div>
 </div>
 </section>
-<section id="syllabus" class="slide level2">
-<h2>Syllabus</h2>
+<section id="introductions" class="slide level2">
+<h2>Introductions</h2>
 </section>
+<section id="course-site" class="slide level2">
+<h2>Course Site</h2>
+<p><a href="https://gwcbi.github.io/StatGen/">https://gwcbi.github.io/StatGen/</a></p>
+<iframe src="https://gwcbi.github.io/StatGen/" width="100%" height="600px">
+</iframe>
+</section>
+<section id="zotero" class="slide level2">
+<h2>Zotero</h2>
+
+<img data-src="images/paste-1.png" class="r-stretch"></section>
 <section id="what-is-statistical-genetics" class="slide level2">
 <h2>What is statistical genetics?</h2>
 <div class="quarto-layout-panel" data-layout-ncol="3">
@@ -396,6 +412,65 @@
 </li>
 <li><strong>Epigenetics</strong>: The study of heritable changes in gene expression that do not involve changes to the underlying DNA sequence, often influenced by environmental factors.</li>
 <li><strong>Functional Annotation</strong>: The process of identifying the functional elements in the genome, such as genes, regulatory regions, and non-coding RNAs, and understanding their roles in biological processes.</li>
+</ul>
+</section>
+<section id="probability-refresher" class="slide level2">
+<h2>Probability Refresher</h2>
+<h3 id="random-variables-and-distributions">Random Variables and Distributions</h3>
+<ul>
+<li class="fragment"><strong>Random Variable</strong>: <span class="math inline">X: \Omega \to \mathbb{R}</span> – A function mapping sample space <span class="math inline">\Omega</span> to real numbers</li>
+<li class="fragment"><strong>Discrete RV</strong>: <span class="math inline">X \in \{x_1, x_2, \ldots\}</span> (e.g., genotype counts, number of mutations)
+<ul>
+<li class="fragment"><strong>Probability Mass Function (PMF)</strong>: <span class="math inline">p_X(x) = P(X = x)</span></li>
+<li class="fragment"><strong>Cumulative Distribution Function (CDF)</strong>: <span class="math inline">F_X(x) = P(X \leq x) = \sum_{x_i \leq x} p_X(x_i)</span></li>
+</ul></li>
+<li class="fragment"><strong>Continuous RV</strong>: <span class="math inline">X \in \mathbb{R}</span> or interval (e.g., gene expression, quantitative traits)
+<ul>
+<li class="fragment"><strong>Probability Density Function (PDF)</strong>: <span class="math inline">f_X(x)</span> where <span class="math inline">P(a &lt; X &lt; b) = \int_a^b f_X(x) dx</span></li>
+<li class="fragment"><strong>Cumulative Distribution Function (CDF)</strong>: <span class="math inline">F_X(x) = P(X \leq x) = \int_{-\infty}^x f_X(t) dt</span></li>
+</ul></li>
+<li class="fragment"><strong>Key Properties</strong>: <span class="math inline">F_X(-\infty) = 0</span>, <span class="math inline">F_X(\infty) = 1</span>, <span class="math inline">f_X(x) = \frac{d}{dx}F_X(x)</span></li>
+</ul>
+</section>
+<section id="probability-refresher-1" class="slide level2">
+<h2>Probability Refresher</h2>
+<h3 id="key-distributions-in-statistical-genetics">Key Distributions in Statistical Genetics</h3>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<p><strong>Binomial Distribution</strong> <span class="math display">X \sim \text{Binomial}(n, p)</span> <span class="math display">P(X = k) = \binom{n}{k} p^k (1-p)^{n-k}</span></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<p>Used for: Allele counts, genotype frequencies</p>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<p><strong>Normal Distribution</strong> <span class="math display">X \sim N(\mu, \sigma^2)</span> <span class="math display">f(x) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(x-\mu)^2}{2\sigma^2}}</span></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<p>Used for: Quantitative traits, effect sizes</p>
+</div>
+</div>
+</div>
+</section>
+<section id="probability-refresher-2" class="slide level2">
+<h2>Probability Refresher</h2>
+<h3 id="expected-value-and-variance">Expected Value and Variance</h3>
+<ul>
+<li class="fragment"><strong>Expected Value</strong>: <span class="math inline">E[X] = \sum x \cdot P(X = x)</span> (discrete) or <span class="math inline">E[X] = \int x f(x) dx</span> (continuous)</li>
+<li class="fragment"><strong>Variance</strong>: <span class="math inline">\text{Var}(X) = E[(X - E[X])^2] = E[X^2] - (E[X])^2</span></li>
+<li class="fragment"><strong>Standard Error</strong>: <span class="math inline">\text{SE} = \frac{\sigma}{\sqrt{n}}</span> (uncertainty in sample estimates)</li>
+<li class="fragment"><strong>Central Limit Theorem</strong>: Sample means approach normality as <span class="math inline">n \to \infty</span></li>
+</ul>
+</section>
+<section id="probability-refresher-3" class="slide level2">
+<h2>Probability Refresher</h2>
+<h3 id="conditional-probability-and-independence">Conditional Probability and Independence</h3>
+<ul>
+<li class="fragment"><strong>Conditional Probability</strong>: <span class="math inline">P(A|B) = \frac{P(A \cap B)}{P(B)}</span></li>
+<li class="fragment"><strong>Bayes’ Theorem</strong>: <span class="math inline">P(A|B) = \frac{P(B|A)P(A)}{P(B)}</span></li>
+<li class="fragment"><strong>Independence</strong>: <span class="math inline">P(A \cap B) = P(A) \cdot P(B)</span> iff <span class="math inline">A</span> and <span class="math inline">B</span> are independent</li>
 </ul>
 </section>
 <section id="early-work-in-the-field" class="slide level2">
@@ -559,6 +634,97 @@ L(P|x = 11, n = 27) = {27 \choose 11} p^{11} q^{27-11}
 </div>
 </div></div>
 </section>
+<section id="building-one-locus-likelihood-functions" class="slide level2">
+<h2>Building One-Locus Likelihood Functions</h2>
+<h3 id="the-general-framework">The General Framework</h3>
+<ul>
+<li class="fragment"><strong>Genetic Data</strong>: Observed phenotypes/genotypes from individuals or families</li>
+<li class="fragment"><strong>Genetic Model</strong>: Hypotheses about mode of inheritance, penetrance, allele frequencies</li>
+<li class="fragment"><strong>Likelihood Function</strong>: <span class="math inline">L(\boldsymbol{\theta} | \text{data}) = P(\text{data} | \boldsymbol{\theta})</span></li>
+<li class="fragment"><strong>Parameters</strong> <span class="math inline">\boldsymbol{\theta}</span>: May include allele frequencies, penetrance values, recombination rates</li>
+</ul>
+</section>
+<section id="building-one-locus-likelihood-functions-1" class="slide level2">
+<h2>Building One-Locus Likelihood Functions</h2>
+<h3 id="example-1-dominant-disease-model">Example 1: Dominant Disease Model</h3>
+<p>Consider a rare dominant disease in a family pedigree:</p>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<p><strong>Family Data</strong> - Parents: Affected father, unaffected mother - 4 offspring: 2 affected, 2 unaffected - Disease allele frequency: <span class="math inline">p</span> (rare, so <span class="math inline">p \approx 0</span>)</p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<p><strong>Likelihood Construction</strong> 1. <strong>Parental genotypes</strong>: <span class="math inline">Dd \times dd</span> 2. <strong>Expected offspring ratio</strong>: 1:1 (affected:unaffected) 3. <strong>Observed data</strong>: 2 affected, 2 unaffected 4. <strong>Likelihood</strong>: <span class="math inline">L(p) = \binom{4}{2} \left(\frac{1}{2}\right)^2 \left(\frac{1}{2}\right)^2 = \frac{6}{16}</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="building-one-locus-likelihood-functions-2" class="slide level2">
+<h2>Building One-Locus Likelihood Functions</h2>
+<h3 id="example-2-penetrance-model">Example 2: Penetrance Model</h3>
+<p>Disease with reduced penetrance:</p>
+<ul>
+<li class="fragment"><strong>Genotype-specific risks</strong>: <span class="math inline">P(\text{disease} | DD) = f_2</span>, <span class="math inline">P(\text{disease} | Dd) = f_1</span>, <span class="math inline">P(\text{disease} | dd) = f_0</span></li>
+<li class="fragment"><strong>Observed data</strong>: <span class="math inline">n</span> individuals, <span class="math inline">k</span> affected</li>
+<li class="fragment"><strong>Genotype frequencies</strong>: Hardy-Weinberg proportions <span class="math inline">p^2, 2pq, q^2</span></li>
+<li class="fragment"><strong>Population disease risk</strong>: <span class="math inline">K = p^2 f_2 + 2pq f_1 + q^2 f_0</span></li>
+</ul>
+<p><span class="math display">L(p, f_0, f_1, f_2) = \binom{n}{k} K^k (1-K)^{n-k}</span></p>
+</section>
+<section id="building-one-locus-likelihood-functions-3" class="slide level2">
+<h2>Building One-Locus Likelihood Functions</h2>
+<h3 id="example-3-family-based-likelihood">Example 3: Family-Based Likelihood</h3>
+<p>Nuclear family with 2 parents, 3 offspring:</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a><span class="co"># Genotype probabilities for parents</span></span>
+<span id="cb2-2"><a></a>parent_probs <span class="ot">&lt;-</span> <span class="cf">function</span>(p, genotype) {</span>
+<span id="cb2-3"><a></a>  <span class="fu">case_when</span>(</span>
+<span id="cb2-4"><a></a>    genotype <span class="sc">==</span> <span class="st">"AA"</span> <span class="sc">~</span> p<span class="sc">^</span><span class="dv">2</span>,</span>
+<span id="cb2-5"><a></a>    genotype <span class="sc">==</span> <span class="st">"Aa"</span> <span class="sc">~</span> <span class="dv">2</span><span class="sc">*</span>p<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>p),</span>
+<span id="cb2-6"><a></a>    genotype <span class="sc">==</span> <span class="st">"aa"</span> <span class="sc">~</span> (<span class="dv">1</span><span class="sc">-</span>p)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb2-7"><a></a>  )</span>
+<span id="cb2-8"><a></a>}</span>
+<span id="cb2-9"><a></a></span>
+<span id="cb2-10"><a></a><span class="co"># Offspring probability given parents</span></span>
+<span id="cb2-11"><a></a>offspring_prob <span class="ot">&lt;-</span> <span class="cf">function</span>(p1_geno, p2_geno, </span>
+<span id="cb2-12"><a></a>                          offspring_geno) {</span>
+<span id="cb2-13"><a></a>  <span class="co"># Mendelian transmission probabilities</span></span>
+<span id="cb2-14"><a></a>  <span class="co"># Implementation depends on parental genotypes</span></span>
+<span id="cb2-15"><a></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div><div class="column" style="width:50%;">
+<p><strong>Likelihood Components</strong> - <span class="math inline">L_{\text{parents}} = P(G_1, G_2 | p)</span> - <span class="math inline">L_{\text{offspring}} = \prod_{i=1}^3 P(G_i | G_1, G_2)</span> - <strong>Total</strong>: <span class="math inline">L(p) = L_{\text{parents}} \times L_{\text{offspring}}</span></p>
+<p><strong>Interpretation</strong>: Peak likelihood value gives MLE for allele frequency</p>
+</div></div>
+</section>
+<section id="building-one-locus-likelihood-functions-4" class="slide level2">
+<h2>Building One-Locus Likelihood Functions</h2>
+<h3 id="likelihood-surfaces-and-interpretation">Likelihood Surfaces and Interpretation</h3>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: The following aesthetics were dropped during statistical transformation: fill.
+ℹ This can happen when ggplot fails to infer the correct grouping structure in
+  the data.
+ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
+  variable into a factor?</code></pre>
+</div>
+
+</div>
+<img data-src="lecture-01_files/figure-revealjs/unnamed-chunk-5-1.png" width="960" class="r-stretch"></section>
+<section id="building-one-locus-likelihood-functions-5" class="slide level2">
+<h2>Building One-Locus Likelihood Functions</h2>
+<h3 id="key-principles-for-likelihood-construction">Key Principles for Likelihood Construction</h3>
+<ol type="1">
+<li class="fragment"><strong>Start with the data</strong>: What did you observe?</li>
+<li class="fragment"><strong>Specify the model</strong>: Mode of inheritance, penetrance assumptions</li>
+<li class="fragment"><strong>Write conditional probabilities</strong>: <span class="math inline">P(\text{data} | \text{parameters})</span></li>
+<li class="fragment"><strong>Account for ascertainment</strong>: How were families/individuals selected?</li>
+<li class="fragment"><strong>Maximize or explore</strong>: Find MLE or examine likelihood surface</li>
+<li class="fragment"><strong>Interpret biologically</strong>: What do parameter estimates tell us about the genetics?</li>
+</ol>
+</section>
 <section id="modeling-but-make-it-bayesian" class="slide level2">
 <h2>Modeling, but make it bayesian</h2>
 <ul>
@@ -568,72 +734,72 @@ L(P|x = 11, n = 27) = {27 \choose 11} p^{11} q^{27-11}
 <div class="r-stack">
 <div class="fragment fade-in-then-out">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a>p <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">1000</span>)</span>
-<span id="cb2-2"><a></a><span class="co"># Prior (Beta distribution from previous experiment)</span></span>
-<span id="cb2-3"><a></a>prior <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(p, <span class="dv">3</span> <span class="sc">+</span> <span class="dv">1</span>, <span class="dv">17</span> <span class="sc">+</span> <span class="dv">1</span>)</span>
-<span id="cb2-4"><a></a><span class="co"># Likelihood (Beta distribution from current data)</span></span>
-<span id="cb2-5"><a></a>likelihood <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(p, <span class="dv">11</span> <span class="sc">+</span> <span class="dv">1</span>, <span class="dv">16</span> <span class="sc">+</span> <span class="dv">1</span>)</span>
-<span id="cb2-6"><a></a><span class="co"># Posterior (Beta distribution combining both)</span></span>
-<span id="cb2-7"><a></a>posterior <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(p, <span class="dv">14</span> <span class="sc">+</span> <span class="dv">1</span>, <span class="dv">33</span> <span class="sc">+</span> <span class="dv">1</span>)</span>
-<span id="cb2-8"><a></a><span class="co"># Combine into a data frame</span></span>
-<span id="cb2-9"><a></a>plot_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb2-10"><a></a>    <span class="at">p =</span> <span class="fu">rep</span>(p, <span class="dv">3</span>),</span>
-<span id="cb2-11"><a></a>    <span class="at">density =</span> <span class="fu">c</span>(prior, likelihood, posterior),</span>
-<span id="cb2-12"><a></a>    <span class="at">type =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Prior"</span>, <span class="st">"Likelihood"</span>, <span class="st">"Posterior"</span>), <span class="at">each =</span> <span class="fu">length</span>(p))</span>
-<span id="cb2-13"><a></a>)</span>
-<span id="cb2-14"><a></a><span class="co"># Add flat prior distribution</span></span>
-<span id="cb2-15"><a></a>flat_prior <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(p, <span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb2-16"><a></a>flat_posterior <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(p, <span class="dv">12</span>, <span class="dv">17</span>)</span>
-<span id="cb2-17"><a></a>plot_data <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
-<span id="cb2-18"><a></a>    plot_data,</span>
-<span id="cb2-19"><a></a>    <span class="fu">data.frame</span>(</span>
-<span id="cb2-20"><a></a>        <span class="at">p =</span> <span class="fu">rep</span>(p, <span class="dv">3</span>),</span>
-<span id="cb2-21"><a></a>        <span class="at">density =</span> <span class="fu">c</span>(flat_prior, likelihood, flat_posterior),</span>
-<span id="cb2-22"><a></a>        <span class="at">type =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Prior"</span>, <span class="st">"Likelihood"</span>, <span class="st">"Posterior"</span>), <span class="at">each =</span> <span class="fu">length</span>(p))</span>
-<span id="cb2-23"><a></a>    )</span>
-<span id="cb2-24"><a></a>)</span>
-<span id="cb2-25"><a></a><span class="co"># Add a column to distinguish between informative and flat scenarios</span></span>
-<span id="cb2-26"><a></a>plot_data<span class="sc">$</span>scenario <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"Informative"</span>, <span class="dv">3000</span>), <span class="fu">rep</span>(<span class="st">"Flat"</span>, <span class="dv">3000</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a>p <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">1000</span>)</span>
+<span id="cb4-2"><a></a><span class="co"># Prior (Beta distribution from previous experiment)</span></span>
+<span id="cb4-3"><a></a>prior <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(p, <span class="dv">3</span> <span class="sc">+</span> <span class="dv">1</span>, <span class="dv">17</span> <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb4-4"><a></a><span class="co"># Likelihood (Beta distribution from current data)</span></span>
+<span id="cb4-5"><a></a>likelihood <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(p, <span class="dv">11</span> <span class="sc">+</span> <span class="dv">1</span>, <span class="dv">16</span> <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb4-6"><a></a><span class="co"># Posterior (Beta distribution combining both)</span></span>
+<span id="cb4-7"><a></a>posterior <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(p, <span class="dv">14</span> <span class="sc">+</span> <span class="dv">1</span>, <span class="dv">33</span> <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb4-8"><a></a><span class="co"># Combine into a data frame</span></span>
+<span id="cb4-9"><a></a>plot_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb4-10"><a></a>    <span class="at">p =</span> <span class="fu">rep</span>(p, <span class="dv">3</span>),</span>
+<span id="cb4-11"><a></a>    <span class="at">density =</span> <span class="fu">c</span>(prior, likelihood, posterior),</span>
+<span id="cb4-12"><a></a>    <span class="at">type =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Prior"</span>, <span class="st">"Likelihood"</span>, <span class="st">"Posterior"</span>), <span class="at">each =</span> <span class="fu">length</span>(p))</span>
+<span id="cb4-13"><a></a>)</span>
+<span id="cb4-14"><a></a><span class="co"># Add flat prior distribution</span></span>
+<span id="cb4-15"><a></a>flat_prior <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(p, <span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb4-16"><a></a>flat_posterior <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(p, <span class="dv">12</span>, <span class="dv">17</span>)</span>
+<span id="cb4-17"><a></a>plot_data <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb4-18"><a></a>    plot_data,</span>
+<span id="cb4-19"><a></a>    <span class="fu">data.frame</span>(</span>
+<span id="cb4-20"><a></a>        <span class="at">p =</span> <span class="fu">rep</span>(p, <span class="dv">3</span>),</span>
+<span id="cb4-21"><a></a>        <span class="at">density =</span> <span class="fu">c</span>(flat_prior, likelihood, flat_posterior),</span>
+<span id="cb4-22"><a></a>        <span class="at">type =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Prior"</span>, <span class="st">"Likelihood"</span>, <span class="st">"Posterior"</span>), <span class="at">each =</span> <span class="fu">length</span>(p))</span>
+<span id="cb4-23"><a></a>    )</span>
+<span id="cb4-24"><a></a>)</span>
+<span id="cb4-25"><a></a><span class="co"># Add a column to distinguish between informative and flat scenarios</span></span>
+<span id="cb4-26"><a></a>plot_data<span class="sc">$</span>scenario <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"Informative"</span>, <span class="dv">3000</span>), <span class="fu">rep</span>(<span class="st">"Flat"</span>, <span class="dv">3000</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div class="fragment fade-in-then-out">
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
-<span id="cb3-2"><a></a>    plot_data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(scenario <span class="sc">==</span> <span class="st">"Informative"</span>),</span>
-<span id="cb3-3"><a></a>    <span class="fu">aes</span>(<span class="at">x =</span> p, <span class="at">y =</span> density, <span class="at">color =</span> type)</span>
-<span id="cb3-4"><a></a>) <span class="sc">+</span></span>
-<span id="cb3-5"><a></a>    <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb3-6"><a></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">11</span> <span class="sc">/</span> <span class="dv">27</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb3-7"><a></a>    <span class="fu">labs</span>(</span>
-<span id="cb3-8"><a></a>        <span class="at">x =</span> <span class="st">"Allele Frequency (p)"</span>,</span>
-<span id="cb3-9"><a></a>        <span class="at">y =</span> <span class="st">"Density"</span>,</span>
-<span id="cb3-10"><a></a>        <span class="at">title =</span> <span class="st">"Bayesian Update with Informative Prior"</span></span>
-<span id="cb3-11"><a></a>    ) <span class="sc">+</span></span>
-<span id="cb3-12"><a></a>    <span class="fu">scale_color_viridis_d</span>() <span class="sc">+</span></span>
-<span id="cb3-13"><a></a>    <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
+<span id="cb5-2"><a></a>    plot_data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(scenario <span class="sc">==</span> <span class="st">"Informative"</span>),</span>
+<span id="cb5-3"><a></a>    <span class="fu">aes</span>(<span class="at">x =</span> p, <span class="at">y =</span> density, <span class="at">color =</span> type)</span>
+<span id="cb5-4"><a></a>) <span class="sc">+</span></span>
+<span id="cb5-5"><a></a>    <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb5-6"><a></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">11</span> <span class="sc">/</span> <span class="dv">27</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb5-7"><a></a>    <span class="fu">labs</span>(</span>
+<span id="cb5-8"><a></a>        <span class="at">x =</span> <span class="st">"Allele Frequency (p)"</span>,</span>
+<span id="cb5-9"><a></a>        <span class="at">y =</span> <span class="st">"Density"</span>,</span>
+<span id="cb5-10"><a></a>        <span class="at">title =</span> <span class="st">"Bayesian Update with Informative Prior"</span></span>
+<span id="cb5-11"><a></a>    ) <span class="sc">+</span></span>
+<span id="cb5-12"><a></a>    <span class="fu">scale_color_viridis_d</span>() <span class="sc">+</span></span>
+<span id="cb5-13"><a></a>    <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div><div class="column" style="width:50%;">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
-<span id="cb4-2"><a></a>  plot_data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(scenario <span class="sc">==</span> <span class="st">"Flat"</span>),</span>
-<span id="cb4-3"><a></a>  <span class="fu">aes</span>(<span class="at">x =</span> p, <span class="at">y =</span> density, <span class="at">color =</span> type, <span class="at">linetype =</span> type)</span>
-<span id="cb4-4"><a></a>) <span class="sc">+</span></span>
-<span id="cb4-5"><a></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb4-6"><a></a>  <span class="fu">scale_linetype_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Prior"</span> <span class="ot">=</span> <span class="st">"dotted"</span>, <span class="st">"Likelihood"</span> <span class="ot">=</span> <span class="st">"solid"</span>, <span class="st">"Posterior"</span> <span class="ot">=</span> <span class="st">"dashed"</span>)) <span class="sc">+</span></span>
-<span id="cb4-7"><a></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">11</span> <span class="sc">/</span> <span class="dv">27</span>, <span class="at">linetype =</span> <span class="st">"dotdash"</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb4-8"><a></a>  <span class="fu">labs</span>(</span>
-<span id="cb4-9"><a></a>    <span class="at">x =</span> <span class="st">"Allele Frequency (p)"</span>,</span>
-<span id="cb4-10"><a></a>    <span class="at">y =</span> <span class="st">"Density"</span>,</span>
-<span id="cb4-11"><a></a>    <span class="at">title =</span> <span class="st">"Bayesian Update with Flat Prior"</span></span>
-<span id="cb4-12"><a></a>  ) <span class="sc">+</span></span>
-<span id="cb4-13"><a></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">15</span>) <span class="sc">+</span></span>
-<span id="cb4-14"><a></a>  <span class="fu">scale_color_viridis_d</span>() <span class="sc">+</span></span>
-<span id="cb4-15"><a></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>,</span>
-<span id="cb4-16"><a></a>    <span class="at">x =</span> <span class="fl">0.7</span>, <span class="at">y =</span> <span class="fu">max</span>(flat_posterior) <span class="sc">*</span> <span class="fl">0.8</span>,</span>
-<span id="cb4-17"><a></a>    <span class="at">label =</span> <span class="st">"Likelihood ≈ Posterior"</span>, <span class="at">color =</span> <span class="st">"gray30"</span></span>
-<span id="cb4-18"><a></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
+<span id="cb6-2"><a></a>  plot_data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(scenario <span class="sc">==</span> <span class="st">"Flat"</span>),</span>
+<span id="cb6-3"><a></a>  <span class="fu">aes</span>(<span class="at">x =</span> p, <span class="at">y =</span> density, <span class="at">color =</span> type, <span class="at">linetype =</span> type)</span>
+<span id="cb6-4"><a></a>) <span class="sc">+</span></span>
+<span id="cb6-5"><a></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb6-6"><a></a>  <span class="fu">scale_linetype_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Prior"</span> <span class="ot">=</span> <span class="st">"dotted"</span>, <span class="st">"Likelihood"</span> <span class="ot">=</span> <span class="st">"solid"</span>, <span class="st">"Posterior"</span> <span class="ot">=</span> <span class="st">"dashed"</span>)) <span class="sc">+</span></span>
+<span id="cb6-7"><a></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">11</span> <span class="sc">/</span> <span class="dv">27</span>, <span class="at">linetype =</span> <span class="st">"dotdash"</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb6-8"><a></a>  <span class="fu">labs</span>(</span>
+<span id="cb6-9"><a></a>    <span class="at">x =</span> <span class="st">"Allele Frequency (p)"</span>,</span>
+<span id="cb6-10"><a></a>    <span class="at">y =</span> <span class="st">"Density"</span>,</span>
+<span id="cb6-11"><a></a>    <span class="at">title =</span> <span class="st">"Bayesian Update with Flat Prior"</span></span>
+<span id="cb6-12"><a></a>  ) <span class="sc">+</span></span>
+<span id="cb6-13"><a></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">15</span>) <span class="sc">+</span></span>
+<span id="cb6-14"><a></a>  <span class="fu">scale_color_viridis_d</span>() <span class="sc">+</span></span>
+<span id="cb6-15"><a></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>,</span>
+<span id="cb6-16"><a></a>    <span class="at">x =</span> <span class="fl">0.7</span>, <span class="at">y =</span> <span class="fu">max</span>(flat_posterior) <span class="sc">*</span> <span class="fl">0.8</span>,</span>
+<span id="cb6-17"><a></a>    <span class="at">label =</span> <span class="st">"Likelihood ≈ Posterior"</span>, <span class="at">color =</span> <span class="st">"gray30"</span></span>
+<span id="cb6-18"><a></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div></div>
 </div>
@@ -641,10 +807,10 @@ L(P|x = 11, n = 27) = {27 \choose 11} p^{11} q^{27-11}
 <div class="cell quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img data-src="lecture-01_files/figure-revealjs/unnamed-chunk-7-1.png" width="960"></p>
+<p><img data-src="lecture-01_files/figure-revealjs/unnamed-chunk-9-1.png" width="960"></p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img data-src="lecture-01_files/figure-revealjs/unnamed-chunk-7-2.png" width="960"></p>
+<p><img data-src="lecture-01_files/figure-revealjs/unnamed-chunk-9-2.png" width="960"></p>
 </div>
 </div>
 </div>
@@ -815,28 +981,28 @@ g(y_i) = \beta_0 + \beta_1 x_i + \epsilon_i
 <li>Compare observed and expected genotype frequencies using a statistical test (e.g., Pearson goodness-of-fit test)</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb5-1" class="hljs-ln-code"><a></a>n <span class="ot">&lt;-</span> <span class="dv">212</span></span>
-<span id="cb5-2" class="hljs-ln-code"><a></a>n_AA <span class="ot">&lt;-</span> <span class="dv">175</span></span>
-<span id="cb5-3" class="hljs-ln-code"><a></a>n_Aa <span class="ot">&lt;-</span> <span class="dv">33</span></span>
-<span id="cb5-4" class="hljs-ln-code"><a></a>n_aa <span class="ot">&lt;-</span> <span class="dv">4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb7-1" class="hljs-ln-code"><a></a>n <span class="ot">&lt;-</span> <span class="dv">212</span></span>
+<span id="cb7-2" class="hljs-ln-code"><a></a>n_AA <span class="ot">&lt;-</span> <span class="dv">175</span></span>
+<span id="cb7-3" class="hljs-ln-code"><a></a>n_Aa <span class="ot">&lt;-</span> <span class="dv">33</span></span>
+<span id="cb7-4" class="hljs-ln-code"><a></a>n_aa <span class="ot">&lt;-</span> <span class="dv">4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="testing-for-hwe-2" class="slide level2" data-auto-animate="true">
 <h2 data-id="quarto-animate-title">Testing for HWE</h2>
 <ol type="1">
 <li>Estimate allele frequencies from the sample</li>
-<li><strong>Estimate <span class="math inline">\hat{p}</span>, the frequency of allele A</strong></li>
+<li><strong>Estimate</strong> <span class="math inline">\hat{p}</span>, the frequency of allele A</li>
 <li>Calculate expected genotype frequencies under HWE</li>
 <li>Compare observed and expected genotype frequencies using a statistical test (e.g., Pearson goodness-of-fit test)</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb6-1" class="hljs-ln-code"><a></a>n <span class="ot">&lt;-</span> <span class="dv">212</span></span>
-<span id="cb6-2" class="hljs-ln-code"><a></a>n_AA <span class="ot">&lt;-</span> <span class="dv">175</span></span>
-<span id="cb6-3" class="hljs-ln-code"><a></a>n_Aa <span class="ot">&lt;-</span> <span class="dv">33</span></span>
-<span id="cb6-4" class="hljs-ln-code"><a></a>n_aa <span class="ot">&lt;-</span> <span class="dv">4</span></span>
-<span id="cb6-5" class="hljs-ln-code"><a></a></span>
-<span id="cb6-6" class="hljs-ln-code"><a></a>p_hat <span class="ot">&lt;-</span> (<span class="dv">2</span><span class="sc">*</span> n_AA <span class="sc">+</span> n_Aa) <span class="sc">/</span> (<span class="dv">2</span><span class="sc">*</span>n)</span>
-<span id="cb6-7" class="hljs-ln-code"><a></a>p_hat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb8-1" class="hljs-ln-code"><a></a>n <span class="ot">&lt;-</span> <span class="dv">212</span></span>
+<span id="cb8-2" class="hljs-ln-code"><a></a>n_AA <span class="ot">&lt;-</span> <span class="dv">175</span></span>
+<span id="cb8-3" class="hljs-ln-code"><a></a>n_Aa <span class="ot">&lt;-</span> <span class="dv">33</span></span>
+<span id="cb8-4" class="hljs-ln-code"><a></a>n_aa <span class="ot">&lt;-</span> <span class="dv">4</span></span>
+<span id="cb8-5" class="hljs-ln-code"><a></a></span>
+<span id="cb8-6" class="hljs-ln-code"><a></a>p_hat <span class="ot">&lt;-</span> (<span class="dv">2</span><span class="sc">*</span> n_AA <span class="sc">+</span> n_Aa) <span class="sc">/</span> (<span class="dv">2</span><span class="sc">*</span>n)</span>
+<span id="cb8-7" class="hljs-ln-code"><a></a>p_hat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.9033019</code></pre>
 </div>
@@ -851,20 +1017,20 @@ g(y_i) = \beta_0 + \beta_1 x_i + \epsilon_i
 <li>Compare observed and expected genotype frequencies using a statistical test (e.g., Pearson goodness-of-fit test)</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a></a>n <span class="ot">&lt;-</span> <span class="dv">212</span></span>
-<span id="cb8-2"><a></a>n_AA <span class="ot">&lt;-</span> <span class="dv">175</span></span>
-<span id="cb8-3"><a></a>n_Aa <span class="ot">&lt;-</span> <span class="dv">33</span></span>
-<span id="cb8-4"><a></a>n_aa <span class="ot">&lt;-</span> <span class="dv">4</span></span>
-<span id="cb8-5"><a></a></span>
-<span id="cb8-6"><a></a>p_hat <span class="ot">&lt;-</span> (<span class="dv">2</span><span class="sc">*</span> n_AA <span class="sc">+</span> n_Aa) <span class="sc">/</span> (<span class="dv">2</span><span class="sc">*</span>n)</span>
-<span id="cb8-7"><a></a>p_hat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a></a>n <span class="ot">&lt;-</span> <span class="dv">212</span></span>
+<span id="cb10-2"><a></a>n_AA <span class="ot">&lt;-</span> <span class="dv">175</span></span>
+<span id="cb10-3"><a></a>n_Aa <span class="ot">&lt;-</span> <span class="dv">33</span></span>
+<span id="cb10-4"><a></a>n_aa <span class="ot">&lt;-</span> <span class="dv">4</span></span>
+<span id="cb10-5"><a></a></span>
+<span id="cb10-6"><a></a>p_hat <span class="ot">&lt;-</span> (<span class="dv">2</span><span class="sc">*</span> n_AA <span class="sc">+</span> n_Aa) <span class="sc">/</span> (<span class="dv">2</span><span class="sc">*</span>n)</span>
+<span id="cb10-7"><a></a>p_hat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.9033019</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a></a>e_AA <span class="ot">&lt;-</span> <span class="fu">round</span>(n <span class="sc">*</span> p_hat<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb10-2"><a></a>e_Aa <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">2</span> <span class="sc">*</span> n <span class="sc">*</span> p_hat <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat))</span>
-<span id="cb10-3"><a></a>e_aa <span class="ot">&lt;-</span> <span class="fu">round</span>(n <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat)<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb10-4"><a></a><span class="fu">c</span>(e_AA, e_Aa, e_aa)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a></a>e_AA <span class="ot">&lt;-</span> <span class="fu">round</span>(n <span class="sc">*</span> p_hat<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb12-2"><a></a>e_Aa <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">2</span> <span class="sc">*</span> n <span class="sc">*</span> p_hat <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat))</span>
+<span id="cb12-3"><a></a>e_aa <span class="ot">&lt;-</span> <span class="fu">round</span>(n <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb12-4"><a></a><span class="fu">c</span>(e_AA, e_Aa, e_aa)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 173  37   2</code></pre>
 </div>
@@ -879,27 +1045,27 @@ g(y_i) = \beta_0 + \beta_1 x_i + \epsilon_i
 <li><strong>Compare observed and expected genotype frequencies using a statistical test (e.g., Pearson goodness-of-fit test)</strong></li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a></a>n <span class="ot">&lt;-</span> <span class="dv">212</span></span>
-<span id="cb12-2"><a></a>n_AA <span class="ot">&lt;-</span> <span class="dv">175</span></span>
-<span id="cb12-3"><a></a>n_Aa <span class="ot">&lt;-</span> <span class="dv">33</span></span>
-<span id="cb12-4"><a></a>n_aa <span class="ot">&lt;-</span> <span class="dv">4</span></span>
-<span id="cb12-5"><a></a></span>
-<span id="cb12-6"><a></a>p_hat <span class="ot">&lt;-</span> (<span class="dv">2</span><span class="sc">*</span> n_AA <span class="sc">+</span> n_Aa) <span class="sc">/</span> (<span class="dv">2</span><span class="sc">*</span>n)</span>
-<span id="cb12-7"><a></a>p_hat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a></a>n <span class="ot">&lt;-</span> <span class="dv">212</span></span>
+<span id="cb14-2"><a></a>n_AA <span class="ot">&lt;-</span> <span class="dv">175</span></span>
+<span id="cb14-3"><a></a>n_Aa <span class="ot">&lt;-</span> <span class="dv">33</span></span>
+<span id="cb14-4"><a></a>n_aa <span class="ot">&lt;-</span> <span class="dv">4</span></span>
+<span id="cb14-5"><a></a></span>
+<span id="cb14-6"><a></a>p_hat <span class="ot">&lt;-</span> (<span class="dv">2</span><span class="sc">*</span> n_AA <span class="sc">+</span> n_Aa) <span class="sc">/</span> (<span class="dv">2</span><span class="sc">*</span>n)</span>
+<span id="cb14-7"><a></a>p_hat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.9033019</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a></a>e_AA <span class="ot">&lt;-</span> <span class="fu">round</span>(n <span class="sc">*</span> p_hat<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb14-2"><a></a>e_Aa <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">2</span> <span class="sc">*</span> n <span class="sc">*</span> p_hat <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat))</span>
-<span id="cb14-3"><a></a>e_aa <span class="ot">&lt;-</span> <span class="fu">round</span>(n <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat)<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb14-4"><a></a><span class="fu">c</span>(e_AA, e_Aa, e_aa)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a></a>e_AA <span class="ot">&lt;-</span> <span class="fu">round</span>(n <span class="sc">*</span> p_hat<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb16-2"><a></a>e_Aa <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">2</span> <span class="sc">*</span> n <span class="sc">*</span> p_hat <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat))</span>
+<span id="cb16-3"><a></a>e_aa <span class="ot">&lt;-</span> <span class="fu">round</span>(n <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb16-4"><a></a><span class="fu">c</span>(e_AA, e_Aa, e_aa)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 173  37   2</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a></a>observed <span class="ot">&lt;-</span> <span class="fu">c</span>(n_AA, n_Aa, n_aa)</span>
-<span id="cb16-2"><a></a>expected <span class="ot">&lt;-</span> <span class="fu">c</span>(e_AA, e_Aa, e_aa)</span>
-<span id="cb16-3"><a></a>test_stat <span class="ot">&lt;-</span> <span class="fu">sum</span>((observed <span class="sc">-</span> expected)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> expected)</span>
-<span id="cb16-4"><a></a><span class="fu">pchisq</span>(test_stat, <span class="at">df =</span> <span class="dv">1</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a></a>observed <span class="ot">&lt;-</span> <span class="fu">c</span>(n_AA, n_Aa, n_aa)</span>
+<span id="cb18-2"><a></a>expected <span class="ot">&lt;-</span> <span class="fu">c</span>(e_AA, e_Aa, e_aa)</span>
+<span id="cb18-3"><a></a>test_stat <span class="ot">&lt;-</span> <span class="fu">sum</span>((observed <span class="sc">-</span> expected)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> expected)</span>
+<span id="cb18-4"><a></a><span class="fu">pchisq</span>(test_stat, <span class="at">df =</span> <span class="dv">1</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.1171099</code></pre>
 </div>

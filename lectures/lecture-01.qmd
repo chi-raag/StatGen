@@ -3,7 +3,7 @@ title: "Lecture 01: Introduction and Foundations"
 subtitle: PUBH 8878, Statistical Genetics
 format: 
     revealjs:
-        theme: [default, custom.scss]
+        theme: [default, "custom.scss"]
         slide-number: true
         chalkboard: true
         html-math-method: katex
@@ -25,19 +25,29 @@ library(viridis)
 library(htmltools)
 ```
 
-## Introductions
-
 ## About the Instructors
 
-::: {layout="[30, 70]"}
-![My dog Rosie and I](https://chiraaggohel.com/favicon.jpeg)
+::: {layout="[100, 70, 66.5]"}
+![Dr. Keith Crandall](https://publichealth.gwu.edu/sites/g/files/zaxdzs4586/files/styles/d07/public/2023-02/keith-crandall-up-2014-jmc_3352lowres.jpeg)
 
--   I'm Chiraag Gohel, a 4th Year PhD student in the Department of Biostatistics and Bioinformatics at George Washington University.
--   My interests are in the modeling of high-dimensional 'omics data
--   I play a lot of squash
+![Dr. Ali Rahnavard](https://publichealth.gwu.edu/sites/g/files/zaxdzs4586/files/styles/d07/public/2024-11/ali_rahnavard_102024.jpg)
+
+![Chiraag Gohel](https://chiraaggohel.com/favicon.jpeg)
 :::
 
-## Syllabus
+## Introductions
+
+
+
+## Course Site
+
+[https://gwcbi.github.io/StatGen/](https://gwcbi.github.io/StatGen/)
+
+<iframe src="https://gwcbi.github.io/StatGen/" width="100%" height="600px"></iframe>
+
+## Zotero
+
+![](images/paste-1.png)
 
 ## What is statistical genetics?
 
@@ -144,6 +154,61 @@ library(htmltools)
 -   **Epigenetics**: The study of heritable changes in gene expression that do not involve changes to the underlying DNA sequence, often influenced by environmental factors.
 -   **Functional Annotation**: The process of identifying the functional elements in the genome, such as genes, regulatory regions, and non-coding RNAs, and understanding their roles in biological processes.
 
+## Probability Refresher
+
+### Random Variables and Distributions
+
+::: incremental
+- **Random Variable**: $X: \Omega \to \mathbb{R}$ -- A function mapping sample space $\Omega$ to real numbers
+- **Discrete RV**: $X \in \{x_1, x_2, \ldots\}$ (e.g., genotype counts, number of mutations)
+  - **Probability Mass Function (PMF)**: $p_X(x) = P(X = x)$
+  - **Cumulative Distribution Function (CDF)**: $F_X(x) = P(X \leq x) = \sum_{x_i \leq x} p_X(x_i)$
+- **Continuous RV**: $X \in \mathbb{R}$ or interval (e.g., gene expression, quantitative traits)  
+  - **Probability Density Function (PDF)**: $f_X(x)$ where $P(a < X < b) = \int_a^b f_X(x) dx$
+  - **Cumulative Distribution Function (CDF)**: $F_X(x) = P(X \leq x) = \int_{-\infty}^x f_X(t) dt$
+- **Key Properties**: $F_X(-\infty) = 0$, $F_X(\infty) = 1$, $f_X(x) = \frac{d}{dx}F_X(x)$
+:::
+
+## Probability Refresher
+
+### Key Distributions in Statistical Genetics
+
+::: {layout-ncol="2"}
+
+**Binomial Distribution**
+$$X \sim \text{Binomial}(n, p)$$
+$$P(X = k) = \binom{n}{k} p^k (1-p)^{n-k}$$
+
+Used for: Allele counts, genotype frequencies
+
+**Normal Distribution**
+$$X \sim N(\mu, \sigma^2)$$
+$$f(x) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(x-\mu)^2}{2\sigma^2}}$$
+
+Used for: Quantitative traits, effect sizes
+:::
+
+## Probability Refresher
+
+### Expected Value and Variance
+
+::: incremental
+- **Expected Value**: $E[X] = \sum x \cdot P(X = x)$ (discrete) or $E[X] = \int x f(x) dx$ (continuous)
+- **Variance**: $\text{Var}(X) = E[(X - E[X])^2] = E[X^2] - (E[X])^2$
+- **Standard Error**: $\text{SE} = \frac{\sigma}{\sqrt{n}}$ (uncertainty in sample estimates)
+- **Central Limit Theorem**: Sample means approach normality as $n \to \infty$
+:::
+
+## Probability Refresher
+
+### Conditional Probability and Independence
+
+::: incremental
+- **Conditional Probability**: $P(A|B) = \frac{P(A \cap B)}{P(B)}$
+- **Bayes' Theorem**: $P(A|B) = \frac{P(B|A)P(A)}{P(B)}$
+- **Independence**: $P(A \cap B) = P(A) \cdot P(B)$ iff $A$ and $B$ are independent
+:::
+
 ## Early work in the field
 
 ::: {layout="[70, 30]"}
@@ -172,8 +237,7 @@ library(htmltools)
     -   For concreteness, let our sample be $\{0, 1, 8, 4, 3, 1, 1, 5\}$.
 -   How should we estimate $\theta$ ?
 
-::: {.fragment}
-
+::: fragment
 ```{r, echo = F}
 #| layout-ncol: 2
 
@@ -239,7 +303,6 @@ ggplot(demo_data_2, aes(x = estimate, fill = estimator)) +
     ) +
     theme_minimal()
 ```
-
 :::
 
 ## Importance of statistical theory
@@ -297,9 +360,9 @@ $$
 L(P|x = 11, n = 27) = {27 \choose 11} p^{11} q^{27-11}
 $$
 
-:::: {.columns}
-
+::: columns
 ::: {.column width = "50%"}
+
 ```{r mle-plot-core}
 n <- 27
 x <- 11
@@ -323,26 +386,154 @@ plot <- ggplot(
     theme_light(base_size = 18) +
     theme(panel.grid = element_blank())
 ```
+:::
+
+::: {.column width="50%"}
+```{r, echo = F}
+plot
+```
+:::
+
+::::
+
+## Building One-Locus Likelihood Functions
+
+### The General Framework
+
+::: incremental
+- **Genetic Data**: Observed phenotypes/genotypes from individuals or families
+- **Genetic Model**: Hypotheses about mode of inheritance, penetrance, allele frequencies
+- **Likelihood Function**: $L(\boldsymbol{\theta} | \text{data}) = P(\text{data} | \boldsymbol{\theta})$
+- **Parameters** $\boldsymbol{\theta}$: May include allele frequencies, penetrance values, recombination rates
+:::
+
+## Building One-Locus Likelihood Functions
+
+### Example 1: Dominant Disease Model
+
+Consider a rare dominant disease in a family pedigree:
+
+::: {layout-ncol="2"}
+
+**Family Data**
+- Parents: Affected father, unaffected mother
+- 4 offspring: 2 affected, 2 unaffected
+- Disease allele frequency: $p$ (rare, so $p \approx 0$)
+
+**Likelihood Construction**
+1. **Parental genotypes**: $Dd \times dd$ 
+2. **Expected offspring ratio**: 1:1 (affected:unaffected)
+3. **Observed data**: 2 affected, 2 unaffected
+4. **Likelihood**: $L(p) = \binom{4}{2} \left(\frac{1}{2}\right)^2 \left(\frac{1}{2}\right)^2 = \frac{6}{16}$
+
+:::
+
+## Building One-Locus Likelihood Functions
+
+### Example 2: Penetrance Model
+
+Disease with reduced penetrance:
+
+::: incremental
+- **Genotype-specific risks**: $P(\text{disease} | DD) = f_2$, $P(\text{disease} | Dd) = f_1$, $P(\text{disease} | dd) = f_0$
+- **Observed data**: $n$ individuals, $k$ affected
+- **Genotype frequencies**: Hardy-Weinberg proportions $p^2, 2pq, q^2$
+- **Population disease risk**: $K = p^2 f_2 + 2pq f_1 + q^2 f_0$
+:::
+
+$$L(p, f_0, f_1, f_2) = \binom{n}{k} K^k (1-K)^{n-k}$$
+
+## Building One-Locus Likelihood Functions
+
+### Example 3: Family-Based Likelihood
+
+Nuclear family with 2 parents, 3 offspring:
+
+::: columns
+::: {.column width="50%"}
+
+```{r, echo = TRUE, eval = FALSE}
+# Genotype probabilities for parents
+parent_probs <- function(p, genotype) {
+  case_when(
+    genotype == "AA" ~ p^2,
+    genotype == "Aa" ~ 2*p*(1-p),
+    genotype == "aa" ~ (1-p)^2
+  )
+}
+
+# Offspring probability given parents
+offspring_prob <- function(p1_geno, p2_geno, 
+                          offspring_geno) {
+  # Mendelian transmission probabilities
+  # Implementation depends on parental genotypes
+}
+```
 
 :::
 
 ::: {.column width="50%"}
 
-```{r, echo = F}
-plot
-```
+**Likelihood Components**
+- $L_{\text{parents}} = P(G_1, G_2 | p)$
+- $L_{\text{offspring}} = \prod_{i=1}^3 P(G_i | G_1, G_2)$
+- **Total**: $L(p) = L_{\text{parents}} \times L_{\text{offspring}}$
+
+**Interpretation**: Peak likelihood value gives MLE for allele frequency
 
 :::
-
 ::::
+
+## Building One-Locus Likelihood Functions
+
+### Likelihood Surfaces and Interpretation
+
+```{r, echo = FALSE}
+# Generate likelihood surface for penetrance model
+p_vals <- seq(0.01, 0.5, length.out = 50)
+f1_vals <- seq(0.1, 1.0, length.out = 50)
+
+# Example data: 100 individuals, 15 affected, assuming f0=0, f2=1
+n <- 100
+k <- 15
+
+likelihood_surface <- expand.grid(p = p_vals, f1 = f1_vals) %>%
+  mutate(
+    K = p^2 * 1 + 2 * p * (1-p) * f1 + (1-p)^2 * 0,
+    log_likelihood = dbinom(k, n, K, log = TRUE)
+  )
+
+ggplot(likelihood_surface, aes(x = p, y = f1, fill = log_likelihood)) +
+  geom_tile() +
+  geom_contour(aes(z = log_likelihood), color = "white", alpha = 0.7) +
+  scale_fill_viridis_c(name = "Log\nLikelihood") +
+  labs(
+    x = "Allele Frequency (p)",
+    y = "Penetrance (f₁)",
+    title = "Likelihood Surface: Dominant Model with Reduced Penetrance"
+  ) +
+  theme_minimal(base_size = 14)
+```
+
+## Building One-Locus Likelihood Functions
+
+### Key Principles for Likelihood Construction
+
+::: incremental
+1. **Start with the data**: What did you observe?
+2. **Specify the model**: Mode of inheritance, penetrance assumptions
+3. **Write conditional probabilities**: $P(\text{data} | \text{parameters})$
+4. **Account for ascertainment**: How were families/individuals selected?
+5. **Maximize or explore**: Find MLE or examine likelihood surface
+6. **Interpret biologically**: What do parameter estimates tell us about the genetics?
+:::
 
 ## Modeling, but make it bayesian
 
 -   Let's say we have run a previous experiment and observed $n = 20$ individuals with allele A and $x = 3$ individuals with allele A
 -   We can use this information to inform our prior distribution for $p$
 
-:::: {.r-stack}
-
+::::::::: r-stack
 ::: {.fragment .fade-in-then-out}
 ```{r}
 p <- seq(0, 1, length.out = 1000)
@@ -372,15 +563,11 @@ plot_data <- rbind(
 # Add a column to distinguish between informative and flat scenarios
 plot_data$scenario <- c(rep("Informative", 3000), rep("Flat", 3000))
 ```
+:::
 
-::: 
-
-::: {.fragment .fade-in-then-out}
-
-:::: {.columns}
-
+:::::: {.fragment .fade-in-then-out}
+::::: columns
 ::: {.column width="50%"}
-
 ```{r}
 p1 <- ggplot(
     plot_data %>% filter(scenario == "Informative"),
@@ -396,11 +583,9 @@ p1 <- ggplot(
     scale_color_viridis_d() +
     theme_minimal(base_size = 15)
 ```
-
 :::
 
 ::: {.column width="50%"}
-
 ```{r}
 p2 <- ggplot(
   plot_data %>% filter(scenario == "Flat"),
@@ -421,15 +606,11 @@ p2 <- ggplot(
     label = "Likelihood ≈ Posterior", color = "gray30"
   )
 ```
-
 :::
+:::::
+::::::
 
-::::
-
-:::
-
-::: {.fragment}
-
+::: fragment
 ```{r, echo = F}
 #| layout-ncol: 2
 #| fig.height: 8
@@ -437,8 +618,7 @@ p1
 p2
 ```
 :::
-
-::::
+:::::::::
 
 ## Modeling, but make it Bayesian
 
@@ -448,8 +628,7 @@ img(src = knitr::include_graphics("scripts/_output/sequential_bayesian_update.gi
 
 ## Mendel's Laws
 
-:::: {.columns}
-
+::::: columns
 ::: {.column width="50%"}
 **Mendel’s First Law (Segregation)**: One allele of each parent is randomly and independently selected, with probability 1/2 for transmission to the offspring; the alleles unite randomly to form the offspring’s genotype.
 
@@ -459,25 +638,18 @@ img(src = knitr::include_graphics("scripts/_output/sequential_bayesian_update.gi
 ::: {.column width="50%"}
 ![](https://upload.wikimedia.org/wikipedia/commons/8/8e/Intermediate_inheritance_P_-_F1_-_F2.png){width="100%"}
 :::
-
-::::
+:::::
 
 ## Genetic Models
 
 ### Mendelian
 
 ::: {.callout title="Dominant"}
-
-$$P(Y = 1 | DD) = P(Y = 1 | Dd) = 1$$
-$$P(Y = 1 | dd) = 0$$
-
+$$P(Y = 1 | DD) = P(Y = 1 | Dd) = 1$$ $$P(Y = 1 | dd) = 0$$
 :::
 
 ::: {.callout title="Recessive"}
-
-$$P(Y = 1 | DD) = 1$$
-$$P(Y = 1 | Dd) = P(Y = 1 | dd) = 0$$
-
+$$P(Y = 1 | DD) = 1$$ $$P(Y = 1 | Dd) = P(Y = 1 | dd) = 0$$
 :::
 
 These models are not reasonable for non rare/mendelian diseases
@@ -486,19 +658,17 @@ These models are not reasonable for non rare/mendelian diseases
 
 A genetic model is of **reduced penetrance** if the probability of disease is less than 1 for individuals with a disease genotype
 
-- Recessive: $P(Y = 1 | DD) < 1$
-- Dominant: $P(Y = 1 | DD) < 1, P(Y = 1 | Dd) < 1$
+-   Recessive: $P(Y = 1 | DD) < 1$
+-   Dominant: $P(Y = 1 | DD) < 1, P(Y = 1 | Dd) < 1$
 
 ## Continuous penetrance functions
 
 What is the difference in what these two plots are showing?
 
 ::: {layout-ncol="2"}
-
 ![](images/penetrance-01.png)
 
 ![](images/penetrance-02.jpg)
-
 :::
 
 [From Goodrich, J. K et al. (2021), “Determinants of penetrance and variable expressivity in monogenic metabolic conditions across 77,184 exomes,” Nature Communications, Nature Publishing Group, 12, 3505.]{.aside style="font-size:.6em;"}
@@ -507,33 +677,30 @@ What is the difference in what these two plots are showing?
 
 For quantitative traits, there exist four modes of inheritance:
 
-1. Dominant, when only one copy of the allele is required to induce an effect on the disease phenotype
-2. Recessive, when two copies of the allele are required to induce an effect on the disease phenotype
-3. Additive, when the effect of the allele is proportional to the number of copies present
-4. Codominant, when the effect of the allele is equal to the sum of the effects of each copy
+1.  Dominant, when only one copy of the allele is required to induce an effect on the disease phenotype
+2.  Recessive, when two copies of the allele are required to induce an effect on the disease phenotype
+3.  Additive, when the effect of the allele is proportional to the number of copies present
+4.  Codominant, when the effect of the allele is equal to the sum of the effects of each copy
 
 # DETOUR
 
 ## Generalized Linear Models
 
 ::: {.callout title="Simple Linear Model"}
-
 $$
 y_i = \beta_0 + \beta_1 x_i + \epsilon_i
 $$
-
 :::
 
 ::: {.callout title="Generalized Linear Model"}
-
 $$
 g(y_i) = \beta_0 + \beta_1 x_i + \epsilon_i
 $$
 
 Where
 
-- $g(\cdot)$ is a link function that relates the linear predictor to the mean of the response variable
-- $V(\cdot)$ is a variance function that relates the mean of the response variable to its variance
+-   $g(\cdot)$ is a link function that relates the linear predictor to the mean of the response variable
+-   $V(\cdot)$ is a variance function that relates the mean of the response variable to its variance
 :::
 
 # Population Genetics
@@ -542,20 +709,19 @@ Where
 
 Consider a sample of $n$ individuals, and let
 
-- $n_{AA}$ be the number of individuals with genotype $AA$
-- $n_{Aa}$ be the number of individuals with genotype $Aa$
-- $n_{aa}$ be the number of individuals with genotype $aa$
+-   $n_{AA}$ be the number of individuals with genotype $AA$
+-   $n_{Aa}$ be the number of individuals with genotype $Aa$
+-   $n_{aa}$ be the number of individuals with genotype $aa$
 
-1. What is $n_{AA} + n_{Aa} + n_{aa}$?
-2. What is the frequency of allele $A$ in the population?
-3. How many alleles are there in total?
-4. What is the frequency of allele $a$ in the population?
-5. What is the standard error of the allele frequency estimate?
+1.  What is $n_{AA} + n_{Aa} + n_{aa}$?
+2.  What is the frequency of allele $A$ in the population?
+3.  How many alleles are there in total?
+4.  What is the frequency of allele $a$ in the population?
+5.  What is the standard error of the allele frequency estimate?
 
 ## Population Substructure
 
-![Shriner, D., Adeyemo, A., Ramos, E., Chen, G., and Rotimi, C. N. (2011), [“Mapping of disease-associated variants in admixed populations,”](https://doi.org/10.1186/gb-2011-12-5-223) Genome Biology, BioMed Central, 12, 1–8.
-](https://media.springernature.com/full/springer-static/image/art%3A10.1186%2Fgb-2011-12-5-223/MediaObjects/13059_2011_Article_2523_Fig1_HTML.jpg)
+![Shriner, D., Adeyemo, A., Ramos, E., Chen, G., and Rotimi, C. N. (2011), [“Mapping of disease-associated variants in admixed populations,”](https://doi.org/10.1186/gb-2011-12-5-223) Genome Biology, BioMed Central, 12, 1–8.](https://media.springernature.com/full/springer-static/image/art%3A10.1186%2Fgb-2011-12-5-223/MediaObjects/13059_2011_Article_2523_Fig1_HTML.jpg)
 
 ## Hardy-Weinberg Equilibrium
 
@@ -563,17 +729,17 @@ Consider a sample of $n$ individuals, and let
 
 ## Testing for HWE {auto-animate="true"}
 
-1. Estimate allele frequencies from the sample
-2. Estimate $\hat{p}$, the frequency of allele A
-3. Calculate expected genotype frequencies under HWE
-4. Compare observed and expected genotype frequencies using a statistical test (e.g., Pearson goodness-of-fit test)
+1.  Estimate allele frequencies from the sample
+2.  Estimate $\hat{p}$, the frequency of allele A
+3.  Calculate expected genotype frequencies under HWE
+4.  Compare observed and expected genotype frequencies using a statistical test (e.g., Pearson goodness-of-fit test)
 
 ## Testing for HWE {auto-animate="true"}
 
-1. **Estimate allele frequencies from the sample**
-2. Estimate $\hat{p}$, the frequency of allele A
-3. Calculate expected genotype frequencies under HWE
-4. Compare observed and expected genotype frequencies using a statistical test (e.g., Pearson goodness-of-fit test)
+1.  **Estimate allele frequencies from the sample**
+2.  Estimate $\hat{p}$, the frequency of allele A
+3.  Calculate expected genotype frequencies under HWE
+4.  Compare observed and expected genotype frequencies using a statistical test (e.g., Pearson goodness-of-fit test)
 
 ```{r}
 n <- 212
@@ -584,10 +750,10 @@ n_aa <- 4
 
 ## Testing for HWE {auto-animate="true"}
 
-1. Estimate allele frequencies from the sample
-2. **Estimate $\hat{p}$, the frequency of allele A**
-3. Calculate expected genotype frequencies under HWE
-4. Compare observed and expected genotype frequencies using a statistical test (e.g., Pearson goodness-of-fit test)
+1.  Estimate allele frequencies from the sample
+2.  **Estimate** $\hat{p}$, the frequency of allele A
+3.  Calculate expected genotype frequencies under HWE
+4.  Compare observed and expected genotype frequencies using a statistical test (e.g., Pearson goodness-of-fit test)
 
 ```{r}
 n <- 212
@@ -601,10 +767,10 @@ p_hat
 
 ## Testing for HWE {auto-animate="true"}
 
-1. Estimate allele frequencies from the sample
-2. Estimate $\hat{p}$, the frequency of allele A
-3. **Calculate expected genotype frequencies under HWE**
-4. Compare observed and expected genotype frequencies using a statistical test (e.g., Pearson goodness-of-fit test)
+1.  Estimate allele frequencies from the sample
+2.  Estimate $\hat{p}$, the frequency of allele A
+3.  **Calculate expected genotype frequencies under HWE**
+4.  Compare observed and expected genotype frequencies using a statistical test (e.g., Pearson goodness-of-fit test)
 
 ```{r}
 n <- 212
@@ -623,10 +789,10 @@ c(e_AA, e_Aa, e_aa)
 
 ## Testing for HWE {auto-animate="true"}
 
-1. Estimate allele frequencies from the sample
-2. Estimate $\hat{p}$, the frequency of allele A
-3. Calculate expected genotype frequencies under HWE
-4. **Compare observed and expected genotype frequencies using a statistical test (e.g., Pearson goodness-of-fit test)**
+1.  Estimate allele frequencies from the sample
+2.  Estimate $\hat{p}$, the frequency of allele A
+3.  Calculate expected genotype frequencies under HWE
+4.  **Compare observed and expected genotype frequencies using a statistical test (e.g., Pearson goodness-of-fit test)**
 
 ```{r}
 n <- 212
