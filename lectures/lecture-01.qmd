@@ -137,6 +137,12 @@ library(htmltools)
 ![Quantitative Genetics](https://brightspotcdn.byu.edu/dims4/default/6658c6f/2147483647/strip/true/crop/1602x2400+0+0/resize/534x800!/quality/90/?url=https%3A%2F%2Fbrigham-young-brightspot-us-east-2.s3.us-east-2.amazonaws.com%2F9b%2Faf%2F9f5a135aaaf234b6420456b7312c%2Fbradley-measure.jpg)
 :::
 
+::: {.notes}
+- Population genetics is the study of evolutionary processes affecting genetic variation between organisms. A classic example is Darwin's finches, where beak shape and size vary between islands in the Galapagos, driven by natural selection.
+- Genetic Epidemiology is the study of how genetic factors contribute to health and disease in populations. A classic example is the study of genetic variants associated with diseases like diabetes or heart disease.
+- Quantitative genetics is the study of continuous traits influenced by multiple genes and environmental factors. A classic example is human height, which is influenced by many genetic variants and environmental factors like nutrition.
+:::
+
 ## A statistical geneticist may want to know
 
 ::: incremental
@@ -261,20 +267,33 @@ library(htmltools)
 ### Random Variables and Distributions
 
 ::: incremental
--   A **random variable** is a numerical summary of randomness (e.g., the count of (A) alleles in a sample).
+-   A **random variable** is a numerical summary of randomness (e.g., the count of (A) alleles in a sample). We will denote random variables with uppercase letters (e.g., $X$, $Y$).
 -   We use a **model** (e.g., binomial/multinomial) to describe how data vary from sample to sample.
--   Key ideas we need (no advanced probability):
+    - This is otherwise known as a probability mass function (pmf) for discrete variables, or a probability density function (pdf) for continuous variables
+-   Key ideas:
     -   **Expectation (mean)** and **variance**: long‑run average and spread.
+        -   $E[X] = \sum x \cdot P(X = x)$ (discrete) or $E[X] = \int x f(x) dx$ (continuous)
+        -   $\textsf{Var}(X) = E[(X - E[X])^2] = E[X^2] - (E[X])^2$
     -   **Standard error (SE)**: typical sampling variability of an estimator.
+        -   $\textsf{SE} = \frac{\sigma}{\sqrt{n}}$ (uncertainty in sample estimates)
     -   **Central Limit Theorem (CLT)**: averages and proportions are roughly normal for large (n).
+        -   $\bar{X} \sim N\left(\mu, \frac{\sigma^2}{n}\right)$ as $n \to \infty$ 
 :::
+
+## Probability Distributions vs Sampling Distributions
+
+-  A **probability distribution** describes how a random variable behaves in the population.
+    -   Example: $X \sim \textsf{Binomial}(n, p)$
+
+-  A **sampling distribution** describes how a statistic (e.g., sample mean, sample proportion) behaves across repeated samples from the population.
+    -   Example: $\bar{X} \sim N\left(np, \frac{(p(1-p))}{n}\right)$ as $n \to \infty$
 
 ## Probability Refresher
 
 ### Key Distributions in Statistical Genetics
 
 ::: {layout-ncol="2"}
-**Binomial Distribution** $$X \sim \text{Binomial}(n, p)$$ $$P(X = k) = \binom{n}{k} p^k (1-p)^{n-k}$$
+**Binomial Distribution** $$X \sim \textsf{Binomial}(n, p)$$ $$P(X = k) = \binom{n}{k} p^k (1-p)^{n-k}$$
 
 Used for: Allele counts, genotype frequencies
 
@@ -283,26 +302,22 @@ Used for: Allele counts, genotype frequencies
 Used for: Quantitative traits, effect sizes
 :::
 
-## Probability Refresher
+## Conditional Probability and Independence
 
-### Expected Value and Variance
-
-::: incremental
--   **Expected Value**: $E[X] = \sum x \cdot P(X = x)$ (discrete) or $E[X] = \int x f(x) dx$ (continuous)
--   **Variance**: $\text{Var}(X) = E[(X - E[X])^2] = E[X^2] - (E[X])^2$
--   **Standard Error**: $\text{SE} = \frac{\sigma}{\sqrt{n}}$ (uncertainty in sample estimates)
--   **Central Limit Theorem**: Sample means approach normality as $n \to \infty$
-:::
-
-## Probability Refresher
-
-### Conditional Probability and Independence
-
-::: incremental
 -   **Conditional Probability**: $P(A|B) = \frac{P(A \cap B)}{P(B)}$
 -   **Bayes' Theorem**: $P(A|B) = \frac{P(B|A)P(A)}{P(B)}$
--   **Independence**: $P(A \cap B) = P(A) \cdot P(B)$ iff $A$ and $B$ are independent
+-   **Independence**: $P(A \cap B) = P(A) \cdot P(B)$ $\iff$ $A$ and $B$ are independent
+
+Conditional probability and Bayes' Theorem are crucial for understanding rare disease genetics! For example, consider a rare disease with a prevalence of 1 in 10,000. If a genetic test has a sensitivity of 99% and a specificity of 99%, we can use Bayes' Theorem to calculate the probability that an individual has the disease given a positive test result.
+
+::: {.fragment}
+\begin{align*}
+P(Disease|Positive) &= \frac{P(Positive|Disease)P(Disease)}{P(Positive)} \\
+&= \frac{(0.99)(0.0001)}{(0.99)(0.0001) + (0.01)(0.9999)} \\
+&\approx 0.0098
+\end{align*}
 :::
+
 
 ## Parameter Estimation
 
@@ -380,7 +395,7 @@ ggplot(demo_data_2, aes(x = estimate, fill = estimator)) +
 ```
 :::
 
-## Importance of statistical theory
+## Genetic Models
 
 -   Understanding random variables, sampling distributions, and bias/variance of estimators helps motivate biological questions, and understand how they can be answered
 -   Let y be the expression of a trait, G be the additive contribution of genetic variables, and an environmental value E;
@@ -406,13 +421,24 @@ y &= \beta_0 + \beta_1 G + \beta_2 E + \beta_3 \left(G \times E\right) + \epsilo
 ## Modeling
 
 -   Imagine that we have a sample size of $n$ unrelated haploid individuals from some population
--   We want to estimate allele frequencies for a biallelic SNP, sy A/a
+-   We want to estimate allele frequencies for a biallelic SNP, say A/a
 -   In our sample, we observe $x$ individuals with allele A and $n - x$ individuals with allele a
 -   Let $p$ be the frequency of allele A and $q = 1 - p$ be the frequency of allele a
 
 $$Pr(X = x| n, p) = \binom{n}{x} p^x q^{n - x}$$
 
 -   Lets say we observe $n = 27$ and $x = 11$. How do we estimate $p$?
+
+## Likelihood Functions
+
+-  The **likelihood function** is a function of the parameters of a statistical model, given specific observed data.
+-  It represents the plausibility of different parameter values based on the observed data.
+-  For a given set of data, the likelihood function is defined as:
+$$L(\theta | data) = P(data | \theta)$$
+-  In our case, the likelihood function for $p$ is:
+$$L(p | x = 11, n = 27) = P(X = 11 | n = 27, p) = \binom{27}{11} p^{11} (1 - p)^{16}$$
+
+- We are asking, "how likely is it that we would observe this data for different values of $p$?"
 
 ## Maximum Likelihood Estimator
 
@@ -458,8 +484,15 @@ plot
 
 ## Modeling, but make it bayesian
 
+- In Bayesian statistics, we treat parameters as random variables and use probability distributions to represent our uncertainty about them.
+- We start with a **prior distribution** that reflects our beliefs about the parameter before seeing the data.
+- We then use the observed data to update our beliefs and obtain a **posterior distribution**.
+- The posterior distribution combines the information from the prior and the likelihood of the observed data using Bayes' theorem:
+$$P(p | data) = \frac{P(data | p) P(p)}{P(data)}$$
 -   Let's say we have run a previous experiment and observed $n = 20$ individuals with allele A and $x = 3$ individuals with allele A
 -   We can use this information to inform our prior distribution for $p$
+
+## Modeling, but make it bayesian
 
 ::::::::: r-stack
 ::: {.fragment .fade-in-then-out}
@@ -570,6 +603,11 @@ At different loci, alleles are transmitted independently (when loci are unlinked
 :::
 :::::
 
+::: {.notes}
+- Mendel's First Law, the Law of Segregation, states that during the formation of gametes (sperm and egg cells), the two alleles for a given gene separate, so that each gamete receives only one allele. This means that each parent contributes one allele to their offspring, and the combination of these alleles determines the offspring's genotype.
+- Mendel's Second Law, the Law of Independent Assortment, states that alleles for different genes are transmitted independently of one another, provided the genes are located on different chromosomes or are far apart on the same chromosome. This means that the inheritance of one trait does not influence the inheritance of another trait, allowing for a variety of genetic combinations in the offspring.
+:::
+
 ## Worked Example: Segregation (3:1 Ratio)
 
 ### Cross: Aa × Aa
@@ -611,11 +649,6 @@ chisq_test <- chisq.test(observed_testcross, p = c(0.5, 0.5))
 chisq_test
 ```
 
-## Biology underlying Mendelian inheritance
-
-![@laird2011](images/paste-2.png)
-
-# Population Genetics Foundations
 
 ## Estimation of Allele Frequencies
 

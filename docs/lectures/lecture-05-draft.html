@@ -10,7 +10,7 @@
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.7.33">
 
-  <title>Statistical Genetics – Lecture 02: Heritability, segregation, and the gene-mapping toolkit</title>
+  <title>Statistical Genetics – Lecture 05: Generalized Linear Models and Regression in Genetics</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -30,6 +30,22 @@
     }
   </style>
   <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-04b320997c39aaccd35fd12182209112.css">
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -129,175 +145,135 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Lecture 02: Heritability, segregation, and the gene-mapping toolkit</h1>
+  <h1 class="title">Lecture 05: Generalized Linear Models and Regression in Genetics</h1>
   <p class="subtitle">PUBH 8878, Statistical Genetics</p>
 
 <div class="quarto-title-authors">
 </div>
 
 </section>
-<section id="aggregation-heritability-and-segregation-analyses" class="slide level2">
-<h2>Aggregation, heritability, and segregation analyses</h2>
-<div class="columns">
-<div class="column" style="width:35%;">
-<ul>
-<li><strong>Aggregation/heritability analyses</strong>: Investigating patterns of phenotypic correlation between relatives</li>
-<li><strong>Segregation analysis</strong>: Finding support for a specific genetic model underlying inheritance patterns</li>
-</ul>
-<div class="fragment">
-<div class="callout callout-note callout-titled callout-style-default">
+<section id="generalized-linear-models" class="slide level2">
+<h2>Generalized Linear Models</h2>
+<div title="Simple Linear Model">
+<div class="callout callout-none no-icon callout-titled callout-style-simple">
 <div class="callout-body">
 <div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Note</strong></p>
+<p><strong>Simple Linear Model</strong></p>
 </div>
 <div class="callout-content">
-<p>These analysis <strong>do not</strong> use molecular genetic data… so why should we care?</p>
+<p><span class="math display">
+y_i = \beta_0 + \beta_1 x_i + \epsilon_i
+</span></p>
 </div>
 </div>
 </div>
 </div>
-</div><div class="column" style="width:65%;">
-<p><img data-src="https://www.cell.com/cms/10.1016/j.cell.2018.04.032/asset/c2ada063-7d56-4685-8c66-3dcb8e71217b/main.assets/fx1_lrg.jpg"></p>
-</div></div>
-</section>
-<section id="a-gap-in-estimation" class="slide level2">
-<h2>A gap in estimation</h2>
-<div class="columns">
-<div class="column" style="width:80%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="https://journals.plos.org/plosgenetics/article/figure/image?size=large&amp;id=10.1371/journal.pgen.1008222.g001"></p>
-<figcaption>Young, A. I. (2019), “Solving the missing heritability problem,” PLOS Genetics, Public Library of Science, 15, e1008222. https://doi.org/10.1371/journal.pgen.1008222.</figcaption>
-</figure>
+<div title="Generalized Linear Model">
+<div class="callout callout-none no-icon callout-titled callout-style-simple">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Generalized Linear Model</strong></p>
 </div>
-</div><div class="column" style="width:20%;">
-<ul>
-<li>Aggregation and heritability analyses tend to have <strong>much higher heritability</strong> estimates of traits than genotyping methods</li>
-<li>Understanding these models may help <strong>explain this delta</strong></li>
-</ul>
-</div></div>
-</section>
-<section id="recurrence-risk-ratios" class="slide level2">
-<h2>Recurrence Risk Ratios</h2>
-<ul>
-<li>Estimating strength of genetic aggregation across relatives</li>
-<li>Compares probability of a study subject being affected, given that given that a relative is affected to the general risk in the population.</li>
-<li>Let <span class="math inline">\(K\)</span> be the population prevalence of the disease</li>
-</ul>
-<p><span class="math display">\[\lambda_R = P(Y_2 = 1 | Y_1 = 1) / K\]</span></p>
+<div class="callout-content">
+<p><span class="math display">
+g(y_i) = \beta_0 + \beta_1 x_i + \epsilon_i
+</span></p>
 <p>Where</p>
 <ul>
-<li><span class="math inline">\(Y_1\)</span> is the status of the relative (affected or not affected)</li>
-<li><span class="math inline">\(Y_2\)</span> is the status of the study subject (affected or not affected)</li>
-<li><span class="math inline">\(K = P(Y_1 = 1) = P(Y_2 = 1)\)</span> is the population prevalence of the disease</li>
+<li><span class="math inline">g(\cdot)</span> is a link function that relates the linear predictor to the mean of the response variable</li>
+<li><span class="math inline">V(\cdot)</span> is a variance function that relates the mean of the response variable to its variance</li>
 </ul>
-<p>What assumptions does this model make?</p>
+</div>
+</div>
+</div>
+</div>
 </section>
-<section id="heritability-analysis" class="slide level2">
-<h2>Heritability Analysis</h2>
+<section id="applications-in-statistical-genetics" class="slide level2">
+<h2>Applications in Statistical Genetics</h2>
+<h3 id="binary-traits-disease-status">Binary Traits (Disease Status)</h3>
 <ul>
-<li>Assume that a trait of interest is measured on a quantitative scale</li>
-<li>Heritability analysis measures the overall genetic component of a trait, relative to the total observed phenotypic variation of the trait</li>
-<li>It is not analyzing “how much” a trait is passed down to offspring</li>
-<li>Let <span class="math inline">\(Y\)</span> be the phenotype of interest, <span class="math inline">\(G\)</span> be genetics, and <span class="math inline">\(\epsilon\)</span> be the environment</li>
-<li>Given the model, <span class="math inline">\(Y = G + \epsilon\)</span>, how do we partition out the variance?</li>
+<li><strong>Logistic Regression</strong>: <span class="math inline">\log\left(\frac{p}{1-p}\right) = \beta_0 + \beta_1 G</span></li>
+<li><strong>Probit Regression</strong>: <span class="math inline">\Phi^{-1}(p) = \beta_0 + \beta_1 G</span></li>
+</ul>
+<h3 id="count-data-number-of-mutations">Count Data (Number of Mutations)</h3>
+<ul>
+<li><strong>Poisson Regression</strong>: <span class="math inline">\log(\lambda) = \beta_0 + \beta_1 G</span></li>
+<li><strong>Negative Binomial</strong>: For overdispersed count data</li>
+</ul>
+<h3 id="quantitative-traits">Quantitative Traits</h3>
+<ul>
+<li><strong>Linear Mixed Models</strong>: For related individuals</li>
+<li><strong>Robust Regression</strong>: For outlier-resistant estimation</li>
 </ul>
 </section>
-<section id="calculation-of-parent-offspring-genotype-distribution-for-a-pair-of-siblings" class="slide level2">
-<h2>Calculation of parent-offspring genotype distribution for a pair of siblings</h2>
+<section id="link-functions-in-genetics" class="slide level2">
+<h2>Link Functions in Genetics</h2>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><strong>Common Link Functions</strong></p>
 <table class="caption-top">
-<colgroup>
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-</colgroup>
 <thead>
 <tr class="header">
-<th>Mating Type <span class="math inline">\((MT)\)</span></th>
-<th><span class="math inline">\(P(MT)\)</span></th>
-<th>Offspring Genotypes <span class="math inline">\((OG)\)</span></th>
-<th><span class="math inline">\(P(OG|MT)\)</span></th>
+<th style="text-align: left;"><strong>Response</strong></th>
+<th style="text-align: left;"><strong>Link Function</strong></th>
+<th style="text-align: left;"><strong>Formula</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><span class="math inline">\(DD \times DD\)</span></td>
-<td><span class="math inline">\(p^4\)</span></td>
-<td><span class="math inline">\(\{(DD, DD)\}\)</span></td>
-<td><span class="math inline">\(1\)</span></td>
+<td style="text-align: left;">Binary</td>
+<td style="text-align: left;">Logit</td>
+<td style="text-align: left;"><span class="math inline">\log\left(\frac{p}{1-p}\right)</span></td>
 </tr>
 <tr class="even">
-<td><span class="math inline">\(DD \times Dd\)</span></td>
-<td><span class="math inline">\(4p^3(1-p)\)</span></td>
-<td><span class="math inline">\(\{(DD, DD), (DD, Dd), (Dd, Dd)\}\)</span></td>
-<td><span class="math inline">\(\frac{1}{4}, \frac{1}{2}, \frac{1}{4}\)</span></td>
+<td style="text-align: left;">Binary</td>
+<td style="text-align: left;">Probit</td>
+<td style="text-align: left;"><span class="math inline">\Phi^{-1}(p)</span></td>
 </tr>
 <tr class="odd">
-<td><span class="math inline">\(DD \times dd\)</span></td>
-<td><span class="math inline">\(2p^2(1-p)^2\)</span></td>
-<td><span class="math inline">\(\{(Dd, Dd)\}\)</span></td>
-<td><span class="math inline">\(1\)</span></td>
+<td style="text-align: left;">Count</td>
+<td style="text-align: left;">Log</td>
+<td style="text-align: left;"><span class="math inline">\log(\mu)</span></td>
 </tr>
 <tr class="even">
-<td><span class="math inline">\(Dd \times Dd\)</span></td>
-<td><span class="math inline">\(4p^2(1-p)^2\)</span></td>
-<td><span class="math inline">\(\{(DD, DD), (DD, Dd), (DD, dd),\)</span> <span class="math inline">\((Dd, Dd), (Dd, DD), (dd, dd)\}\)</span></td>
-<td><span class="math inline">\(\frac{1}{16}, \frac{1}{4}, \frac{1}{8}, \frac{1}{4}, \frac{1}{4}, \frac{1}{16}\)</span></td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(Dd \times dd\)</span></td>
-<td><span class="math inline">\(4p(1-p)^3\)</span></td>
-<td><span class="math inline">\(\{(Dd, Dd), (DD, dd), (dd, dd)\}\)</span></td>
-<td><span class="math inline">\(\frac{1}{4}, \frac{1}{2}, \frac{1}{4}\)</span></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(dd \times dd\)</span></td>
-<td><span class="math inline">\((1-p)^4\)</span></td>
-<td><span class="math inline">\(\{(dd, dd)\}\)</span></td>
-<td><span class="math inline">\(1\)</span></td>
+<td style="text-align: left;">Continuous</td>
+<td style="text-align: left;">Identity</td>
+<td style="text-align: left;"><span class="math inline">\mu</span></td>
 </tr>
 </tbody>
 </table>
-</section>
-<section id="heritability-analysis-1" class="slide level2">
-<h2>Heritability Analysis</h2>
-
-<img data-src="https://www.biostat.wisc.edu/~yeshuyun/HERETIBILITY/heregre.jpg" class="r-stretch"></section>
-<section id="heritability-analysis-2" class="slide level2">
-<h2>Heritability Analysis</h2>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<p><strong>Genetic Applications</strong></p>
 <ul>
-<li>Assume trait is measured on a quantitative scale</li>
-<li>Model as a function of multiple QTLs:</li>
+<li><strong>Case-Control Studies</strong>: Logistic regression</li>
+<li><strong>Family Studies</strong>: Mixed models with random effects</li>
+<li><strong>Rare Variants</strong>: Zero-inflated models</li>
+<li><strong>Expression Data</strong>: Log-normal or gamma distributions</li>
 </ul>
-<p><span class="math display">\[
-Y = \mu + \sum_{m=1}^M \{a_m X_m + d_m I [X_m = 1]\} + \epsilon
-\]</span></p>
-<p>Where:</p>
-<ul>
-<li><span class="math inline">\(M\)</span> is the unknown number of QTLs</li>
-<li><span class="math inline">\(X_m\)</span> is the number of disease alleles at the <span class="math inline">\(m\)</span>-th disease locus</li>
-<li><span class="math inline">\(I [X_m = 1]\)</span> is an indicator function that is 1 if <span class="math inline">\(X_m = 1\)</span> and 0 otherwise</li>
-</ul>
+</div>
+</div>
+</div>
 </section>
-<section id="heritability-analysis-3" class="slide level2">
-<h2>Heritability Analysis</h2>
-<p>The following R code simulates the model above to demonstrate how different parameter choices affect the parent-offspring phenotypic relationship. We will vary the number of QTLs (<span class="math inline">\(M\)</span>) and the presence of dominance effects (<span class="math inline">\(d_m\)</span>).</p>
-<div class="cell quarto-layout-panel" data-layout-ncol="1">
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="lecture-02_files/figure-revealjs/unnamed-chunk-1-1.png" width="960"></p>
-<figcaption>Parent-offspring regression under different genetic architectures. Each point is a family. The red line is the regression slope, which estimates narrow-sense heritability (h²).</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</div>
+<section id="from-simple-association-to-complex-models" class="slide level2">
+<h2>From Simple Association to Complex Models</h2>
+<h3 id="single-snp-association">Single SNP Association</h3>
+<p><span class="math display">\text{logit}(P(\text{disease})) = \beta_0 + \beta_1 \cdot \text{SNP}</span></p>
+<h3 id="multiple-snps-covariates">Multiple SNPs + Covariates</h3>
+<p><span class="math display">\text{logit}(P(\text{disease})) = \beta_0 + \sum_{j=1}^p \beta_j \cdot \text{SNP}_j + \sum_{k=1}^q \gamma_k \cdot \text{Covariate}_k</span></p>
+<h3 id="population-structure-correction">Population Structure Correction</h3>
+<p><span class="math display">\text{logit}(P(\text{disease})) = \beta_0 + \beta_1 \cdot \text{SNP} + \sum_{l=1}^L \delta_l \cdot \text{PC}_l</span></p>
+</section>
+<section id="next-steps" class="slide level2">
+<h2>Next Steps</h2>
+<p>In upcoming lectures, we will explore:</p>
+<ul>
+<li><strong>Genome-Wide Association Studies (GWAS)</strong>: Applying GLMs at scale</li>
+<li><strong>Mixed Models</strong>: Accounting for population structure and relatedness</li>
+<li><strong>Polygenic Risk Scores</strong>: Combining effects across many variants</li>
+<li><strong>Bayesian Approaches</strong>: Alternative to frequentist GLM framework</li>
+</ul>
 
 
 </section>
@@ -322,7 +298,6 @@ Y = \mu + \sum_{m=1}^M \{a_m X_m + d_m I [X_m = 1]\} + \epsilon
   <script src="../site_libs/revealjs/plugin/notes/notes.js"></script>
   <script src="../site_libs/revealjs/plugin/search/search.js"></script>
   <script src="../site_libs/revealjs/plugin/zoom/zoom.js"></script>
-  <script src="../site_libs/revealjs/plugin/math/math.js"></script>
   <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
 
   <script>
@@ -491,27 +466,9 @@ Y = \mu + \sum_{m=1}^M \{a_m X_m + d_m I [X_m = 1]\} + \epsilon
         // Factor of the display size that should remain empty around the content
         margin: 0.1,
 
-        math: {
-          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js',
-          config: 'TeX-AMS_HTML-full',
-          tex2jax: {
-            inlineMath: [['\\(','\\)']],
-            displayMath: [['\\[','\\]']],
-            balanceBraces: true,
-            processEscapes: false,
-            processRefs: true,
-            processEnvironments: true,
-            preview: 'TeX',
-            skipTags: ['script','noscript','style','textarea','pre','code'],
-            ignoreClass: 'tex2jax_ignore',
-            processClass: 'tex2jax_process'
-          },
-        },
-
         // reveal.js plugins
         plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
 
-          RevealMath,
           RevealNotes,
           RevealSearch,
           RevealZoom

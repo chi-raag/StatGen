@@ -420,6 +420,23 @@
 </div>
 </div>
 </div>
+<aside class="notes">
+<ul>
+<li>Population genetics is the study of evolutionary processes affecting genetic variation between organisms. A classic example is Darwin’s finches, where beak shape and size vary between islands in the Galapagos, driven by natural selection.</li>
+<li>Genetic Epidemiology is the study of how genetic factors contribute to health and disease in populations. A classic example is the study of genetic variants associated with diseases like diabetes or heart disease.</li>
+<li>Quantitative genetics is the study of continuous traits influenced by multiple genes and environmental factors. A classic example is human height, which is influenced by many genetic variants and environmental factors like nutrition.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="a-statistical-geneticist-may-want-to-know" class="slide level2">
 <h2>A statistical geneticist may want to know</h2>
@@ -590,13 +607,39 @@
 <h2>Probability Refresher</h2>
 <h3 id="random-variables-and-distributions">Random Variables and Distributions</h3>
 <ul>
-<li class="fragment">A <strong>random variable</strong> is a numerical summary of randomness (e.g., the count of (A) alleles in a sample).</li>
-<li class="fragment">We use a <strong>model</strong> (e.g., binomial/multinomial) to describe how data vary from sample to sample.</li>
-<li class="fragment">Key ideas we need (no advanced probability):
+<li class="fragment">A <strong>random variable</strong> is a numerical summary of randomness (e.g., the count of (A) alleles in a sample). We will denote random variables with uppercase letters (e.g., <span class="math inline">X</span>, <span class="math inline">Y</span>).</li>
+<li class="fragment">We use a <strong>model</strong> (e.g., binomial/multinomial) to describe how data vary from sample to sample.
 <ul>
-<li class="fragment"><strong>Expectation (mean)</strong> and <strong>variance</strong>: long‑run average and spread.</li>
-<li class="fragment"><strong>Standard error (SE)</strong>: typical sampling variability of an estimator.</li>
-<li class="fragment"><strong>Central Limit Theorem (CLT)</strong>: averages and proportions are roughly normal for large (n).</li>
+<li class="fragment">This is otherwise known as a probability mass function (pmf) for discrete variables, or a probability density function (pdf) for continuous variables</li>
+</ul></li>
+<li class="fragment">Key ideas:
+<ul>
+<li class="fragment"><strong>Expectation (mean)</strong> and <strong>variance</strong>: long‑run average and spread.
+<ul>
+<li class="fragment"><span class="math inline">E[X] = \sum x \cdot P(X = x)</span> (discrete) or <span class="math inline">E[X] = \int x f(x) dx</span> (continuous)</li>
+<li class="fragment"><span class="math inline">\textsf{Var}(X) = E[(X - E[X])^2] = E[X^2] - (E[X])^2</span></li>
+</ul></li>
+<li class="fragment"><strong>Standard error (SE)</strong>: typical sampling variability of an estimator.
+<ul>
+<li class="fragment"><span class="math inline">\textsf{SE} = \frac{\sigma}{\sqrt{n}}</span> (uncertainty in sample estimates)</li>
+</ul></li>
+<li class="fragment"><strong>Central Limit Theorem (CLT)</strong>: averages and proportions are roughly normal for large (n).
+<ul>
+<li class="fragment"><span class="math inline">\bar{X} \sim N\left(\mu, \frac{\sigma^2}{n}\right)</span> as <span class="math inline">n \to \infty</span></li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="probability-distributions-vs-sampling-distributions" class="slide level2">
+<h2>Probability Distributions vs Sampling Distributions</h2>
+<ul>
+<li>A <strong>probability distribution</strong> describes how a random variable behaves in the population.
+<ul>
+<li>Example: <span class="math inline">X \sim \textsf{Binomial}(n, p)</span></li>
+</ul></li>
+<li>A <strong>sampling distribution</strong> describes how a statistic (e.g., sample mean, sample proportion) behaves across repeated samples from the population.
+<ul>
+<li>Example: <span class="math inline">\bar{X} \sim N\left(np, \frac{(p(1-p))}{n}\right)</span> as <span class="math inline">n \to \infty</span></li>
 </ul></li>
 </ul>
 </section>
@@ -606,7 +649,7 @@
 <div class="quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<p><strong>Binomial Distribution</strong> <span class="math display">X \sim \text{Binomial}(n, p)</span> <span class="math display">P(X = k) = \binom{n}{k} p^k (1-p)^{n-k}</span></p>
+<p><strong>Binomial Distribution</strong> <span class="math display">X \sim \textsf{Binomial}(n, p)</span> <span class="math display">P(X = k) = \binom{n}{k} p^k (1-p)^{n-k}</span></p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <p>Used for: Allele counts, genotype frequencies</p>
@@ -622,24 +665,21 @@
 </div>
 </div>
 </section>
-<section id="probability-refresher-2" class="slide level2">
-<h2>Probability Refresher</h2>
-<h3 id="expected-value-and-variance">Expected Value and Variance</h3>
+<section id="conditional-probability-and-independence" class="slide level2">
+<h2>Conditional Probability and Independence</h2>
 <ul>
-<li class="fragment"><strong>Expected Value</strong>: <span class="math inline">E[X] = \sum x \cdot P(X = x)</span> (discrete) or <span class="math inline">E[X] = \int x f(x) dx</span> (continuous)</li>
-<li class="fragment"><strong>Variance</strong>: <span class="math inline">\text{Var}(X) = E[(X - E[X])^2] = E[X^2] - (E[X])^2</span></li>
-<li class="fragment"><strong>Standard Error</strong>: <span class="math inline">\text{SE} = \frac{\sigma}{\sqrt{n}}</span> (uncertainty in sample estimates)</li>
-<li class="fragment"><strong>Central Limit Theorem</strong>: Sample means approach normality as <span class="math inline">n \to \infty</span></li>
+<li><strong>Conditional Probability</strong>: <span class="math inline">P(A|B) = \frac{P(A \cap B)}{P(B)}</span></li>
+<li><strong>Bayes’ Theorem</strong>: <span class="math inline">P(A|B) = \frac{P(B|A)P(A)}{P(B)}</span></li>
+<li><strong>Independence</strong>: <span class="math inline">P(A \cap B) = P(A) \cdot P(B)</span> <span class="math inline">\iff</span> <span class="math inline">A</span> and <span class="math inline">B</span> are independent</li>
 </ul>
-</section>
-<section id="probability-refresher-3" class="slide level2">
-<h2>Probability Refresher</h2>
-<h3 id="conditional-probability-and-independence">Conditional Probability and Independence</h3>
-<ul>
-<li class="fragment"><strong>Conditional Probability</strong>: <span class="math inline">P(A|B) = \frac{P(A \cap B)}{P(B)}</span></li>
-<li class="fragment"><strong>Bayes’ Theorem</strong>: <span class="math inline">P(A|B) = \frac{P(B|A)P(A)}{P(B)}</span></li>
-<li class="fragment"><strong>Independence</strong>: <span class="math inline">P(A \cap B) = P(A) \cdot P(B)</span> iff <span class="math inline">A</span> and <span class="math inline">B</span> are independent</li>
-</ul>
+<p>Conditional probability and Bayes’ Theorem are crucial for understanding rare disease genetics! For example, consider a rare disease with a prevalence of 1 in 10,000. If a genetic test has a sensitivity of 99% and a specificity of 99%, we can use Bayes’ Theorem to calculate the probability that an individual has the disease given a positive test result.</p>
+<div class="fragment">
+<p><span class="math display">\begin{align*}
+P(Disease|Positive) &amp;= \frac{P(Positive|Disease)P(Disease)}{P(Positive)} \\
+&amp;= \frac{(0.99)(0.0001)}{(0.99)(0.0001) + (0.01)(0.9999)} \\
+&amp;\approx 0.0098
+\end{align*}</span></p>
+</div>
 </section>
 <section id="parameter-estimation" class="slide level2">
 <h2>Parameter Estimation</h2>
@@ -665,8 +705,8 @@
 </div>
 </div>
 </section>
-<section id="importance-of-statistical-theory" class="slide level2">
-<h2>Importance of statistical theory</h2>
+<section id="genetic-models" class="slide level2">
+<h2>Genetic Models</h2>
 <ul>
 <li>Understanding random variables, sampling distributions, and bias/variance of estimators helps motivate biological questions, and understand how they can be answered</li>
 <li>Let y be the expression of a trait, G be the additive contribution of genetic variables, and an environmental value E;</li>
@@ -695,13 +735,23 @@ y &amp;= \beta_0 + \beta_1 G + \beta_2 E + \beta_3 \left(G \times E\right) + \ep
 <h2>Modeling</h2>
 <ul>
 <li>Imagine that we have a sample size of <span class="math inline">n</span> unrelated haploid individuals from some population</li>
-<li>We want to estimate allele frequencies for a biallelic SNP, sy A/a</li>
+<li>We want to estimate allele frequencies for a biallelic SNP, say A/a</li>
 <li>In our sample, we observe <span class="math inline">x</span> individuals with allele A and <span class="math inline">n - x</span> individuals with allele a</li>
 <li>Let <span class="math inline">p</span> be the frequency of allele A and <span class="math inline">q = 1 - p</span> be the frequency of allele a</li>
 </ul>
 <p><span class="math display">Pr(X = x| n, p) = \binom{n}{x} p^x q^{n - x}</span></p>
 <ul>
 <li>Lets say we observe <span class="math inline">n = 27</span> and <span class="math inline">x = 11</span>. How do we estimate <span class="math inline">p</span>?</li>
+</ul>
+</section>
+<section id="likelihood-functions" class="slide level2">
+<h2>Likelihood Functions</h2>
+<ul>
+<li><p>The <strong>likelihood function</strong> is a function of the parameters of a statistical model, given specific observed data.</p></li>
+<li><p>It represents the plausibility of different parameter values based on the observed data.</p></li>
+<li><p>For a given set of data, the likelihood function is defined as: <span class="math display">L(\theta | data) = P(data | \theta)</span></p></li>
+<li><p>In our case, the likelihood function for <span class="math inline">p</span> is: <span class="math display">L(p | x = 11, n = 27) = P(X = 11 | n = 27, p) = \binom{27}{11} p^{11} (1 - p)^{16}</span></p></li>
+<li><p>We are asking, “how likely is it that we would observe this data for different values of <span class="math inline">p</span>?”</p></li>
 </ul>
 </section>
 <section id="maximum-likelihood-estimator" class="slide level2">
@@ -748,9 +798,16 @@ y &amp;= \beta_0 + \beta_1 G + \beta_2 E + \beta_3 \left(G \times E\right) + \ep
 <section id="modeling-but-make-it-bayesian" class="slide level2">
 <h2>Modeling, but make it bayesian</h2>
 <ul>
+<li>In Bayesian statistics, we treat parameters as random variables and use probability distributions to represent our uncertainty about them.</li>
+<li>We start with a <strong>prior distribution</strong> that reflects our beliefs about the parameter before seeing the data.</li>
+<li>We then use the observed data to update our beliefs and obtain a <strong>posterior distribution</strong>.</li>
+<li>The posterior distribution combines the information from the prior and the likelihood of the observed data using Bayes’ theorem: <span class="math display">P(p | data) = \frac{P(data | p) P(p)}{P(data)}</span></li>
 <li>Let’s say we have run a previous experiment and observed <span class="math inline">n = 20</span> individuals with allele A and <span class="math inline">x = 3</span> individuals with allele A</li>
 <li>We can use this information to inform our prior distribution for <span class="math inline">p</span></li>
 </ul>
+</section>
+<section id="modeling-but-make-it-bayesian-1" class="slide level2">
+<h2>Modeling, but make it bayesian</h2>
 <div class="r-stack">
 <div class="fragment fade-in-then-out">
 <div class="cell">
@@ -837,7 +894,7 @@ y &amp;= \beta_0 + \beta_1 G + \beta_2 E + \beta_3 \left(G \times E\right) + \ep
 </div>
 </div>
 </section>
-<section id="modeling-but-make-it-bayesian-1" class="slide level2">
+<section id="modeling-but-make-it-bayesian-2" class="slide level2">
 <h2>Modeling, but make it Bayesian</h2>
 
 <img src="scripts/_output/sequential_bayesian_update.gif" alt="Bayesian updating" class="r-stretch"></section>
@@ -852,6 +909,22 @@ At different loci, alleles are transmitted independently (when loci are unlinked
 </div><div class="column" style="width:50%;">
 <p><img data-src="https://upload.wikimedia.org/wikipedia/commons/8/8e/Intermediate_inheritance_P_-_F1_-_F2.png" style="width:100.0%" alt="Punnett-style diagram illustrating Mendelian segregation and independent assortment"></p>
 </div></div>
+<aside class="notes">
+<ul>
+<li>Mendel’s First Law, the Law of Segregation, states that during the formation of gametes (sperm and egg cells), the two alleles for a given gene separate, so that each gamete receives only one allele. This means that each parent contributes one allele to their offspring, and the combination of these alleles determines the offspring’s genotype.</li>
+<li>Mendel’s Second Law, the Law of Independent Assortment, states that alleles for different genes are transmitted independently of one another, provided the genes are located on different chromosomes or are far apart on the same chromosome. This means that the inheritance of one trait does not influence the inheritance of another trait, allowing for a variety of genetic combinations in the offspring.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="worked-example-segregation-31-ratio" class="slide level2">
 <h2>Worked Example: Segregation (3:1 Ratio)</h2>
@@ -926,15 +999,6 @@ data:  observed_testcross
 X-squared = 1, df = 1, p-value = 0.3173</code></pre>
 </div>
 </div>
-</section>
-<section id="biology-underlying-mendelian-inheritance" class="slide level2">
-<h2>Biology underlying Mendelian inheritance</h2>
-
-<img data-src="images/paste-2.png" class="r-stretch quarto-figure-center"><p class="caption"><span class="citation" data-cites="laird2011">Laird and Lange (<a href="#/sampling-distributions-intuition-via-simulation-1" role="doc-biblioref" onclick="">2011</a>)</span></p></section>
-<section>
-<section id="population-genetics-foundations" class="title-slide slide level1 center">
-<h1>Population Genetics Foundations</h1>
-
 </section>
 <section id="estimation-of-allele-frequencies" class="slide level2">
 <h2>Estimation of Allele Frequencies</h2>
@@ -1039,7 +1103,7 @@ P(AA)=p^2 \quad P(Aa)=2pq \quad P(aa)=q^2
 Laird, Nan M., and Christoph Lange. 2011. <em>The Fundamentals of Modern Statistical Genetics</em>. Statistics for Biology and Health. New York: Springer Science.
 </div>
 </div>
-</section></section>
+</section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">

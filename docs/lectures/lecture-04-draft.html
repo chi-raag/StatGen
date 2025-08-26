@@ -10,7 +10,7 @@
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.7.33">
 
-  <title>Statistical Genetics – Lecture 02: Heritability, segregation, and the gene-mapping toolkit</title>
+  <title>Statistical Genetics – Lecture 04: Bayesian Methods in Statistical Genetics</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -28,8 +28,90 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-04b320997c39aaccd35fd12182209112.css">
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -129,175 +211,163 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Lecture 02: Heritability, segregation, and the gene-mapping toolkit</h1>
+  <h1 class="title">Lecture 04: Bayesian Methods in Statistical Genetics</h1>
   <p class="subtitle">PUBH 8878, Statistical Genetics</p>
 
 <div class="quarto-title-authors">
 </div>
 
 </section>
-<section id="aggregation-heritability-and-segregation-analyses" class="slide level2">
-<h2>Aggregation, heritability, and segregation analyses</h2>
-<div class="columns">
-<div class="column" style="width:35%;">
-<ul>
-<li><strong>Aggregation/heritability analyses</strong>: Investigating patterns of phenotypic correlation between relatives</li>
-<li><strong>Segregation analysis</strong>: Finding support for a specific genetic model underlying inheritance patterns</li>
-</ul>
-<div class="fragment">
-<div class="callout callout-note callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Note</strong></p>
-</div>
-<div class="callout-content">
-<p>These analysis <strong>do not</strong> use molecular genetic data… so why should we care?</p>
-</div>
-</div>
-</div>
-</div>
-</div><div class="column" style="width:65%;">
-<p><img data-src="https://www.cell.com/cms/10.1016/j.cell.2018.04.032/asset/c2ada063-7d56-4685-8c66-3dcb8e71217b/main.assets/fx1_lrg.jpg"></p>
-</div></div>
+<section id="bayesian-fundamentals-review" class="slide level2">
+<h2>Bayesian Fundamentals Review</h2>
+<p>From Lecture 1: - <strong>Bayes’ Theorem</strong>: <span class="math inline">P(A|B) = \frac{P(B|A)P(A)}{P(B)}</span> - <strong>Simple Beta-Binomial example</strong> for allele frequency estimation - <strong>Prior × Likelihood = Posterior</strong></p>
+<p>Today: <strong>Advanced Bayesian modeling and computational methods</strong></p>
 </section>
-<section id="a-gap-in-estimation" class="slide level2">
-<h2>A gap in estimation</h2>
-<div class="columns">
-<div class="column" style="width:80%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="https://journals.plos.org/plosgenetics/article/figure/image?size=large&amp;id=10.1371/journal.pgen.1008222.g001"></p>
-<figcaption>Young, A. I. (2019), “Solving the missing heritability problem,” PLOS Genetics, Public Library of Science, 15, e1008222. https://doi.org/10.1371/journal.pgen.1008222.</figcaption>
-</figure>
-</div>
-</div><div class="column" style="width:20%;">
-<ul>
-<li>Aggregation and heritability analyses tend to have <strong>much higher heritability</strong> estimates of traits than genotyping methods</li>
-<li>Understanding these models may help <strong>explain this delta</strong></li>
-</ul>
-</div></div>
+<section id="sequential-bayesian-updating" class="slide level2">
+<h2>Sequential Bayesian Updating</h2>
+<h3 id="learning-from-multiple-experiments">Learning from Multiple Experiments</h3>
+<p>When data arrives sequentially, the posterior from one analysis becomes the prior for the next:</p>
+<p><strong>Experiment 1</strong>: Prior₁ × Likelihood₁ = Posterior₁<br>
+<strong>Experiment 2</strong>: Prior₂ (= Posterior₁) × Likelihood₂ = Posterior₂<br>
+<strong>Experiment 3</strong>: Prior₃ (= Posterior₂) × Likelihood₃ = Posterior₃</p>
+<p>This demonstrates how <strong>scientific knowledge accumulates</strong> over time.</p>
+<p><em>Building on the sequential updating example from Lecture 1, we now explore more complex scenarios with multiple parameters and model comparison.</em></p>
 </section>
-<section id="recurrence-risk-ratios" class="slide level2">
-<h2>Recurrence Risk Ratios</h2>
-<ul>
-<li>Estimating strength of genetic aggregation across relatives</li>
-<li>Compares probability of a study subject being affected, given that given that a relative is affected to the general risk in the population.</li>
-<li>Let <span class="math inline">\(K\)</span> be the population prevalence of the disease</li>
-</ul>
-<p><span class="math display">\[\lambda_R = P(Y_2 = 1 | Y_1 = 1) / K\]</span></p>
-<p>Where</p>
-<ul>
-<li><span class="math inline">\(Y_1\)</span> is the status of the relative (affected or not affected)</li>
-<li><span class="math inline">\(Y_2\)</span> is the status of the study subject (affected or not affected)</li>
-<li><span class="math inline">\(K = P(Y_1 = 1) = P(Y_2 = 1)\)</span> is the population prevalence of the disease</li>
-</ul>
-<p>What assumptions does this model make?</p>
+<section id="bayesian-model-comparison" class="slide level2">
+<h2>Bayesian Model Comparison</h2>
+<h3 id="comparing-genetic-models">Comparing Genetic Models</h3>
+<p><strong>Model 1</strong>: Simple Mendelian inheritance<br>
+<strong>Model 2</strong>: Reduced penetrance model<br>
+<strong>Model 3</strong>: Epistatic interactions</p>
+<p>Use <strong>Bayes Factors</strong> to compare: <span class="math display">BF_{12} = \frac{P(\text{data}|M_1)}{P(\text{data}|M_2)} = \frac{\int P(\text{data}|\boldsymbol{\theta}_1, M_1) \pi(\boldsymbol{\theta}_1|M_1) d\boldsymbol{\theta}_1}{\int P(\text{data}|\boldsymbol{\theta}_2, M_2) \pi(\boldsymbol{\theta}_2|M_2) d\boldsymbol{\theta}_2}</span></p>
 </section>
-<section id="heritability-analysis" class="slide level2">
-<h2>Heritability Analysis</h2>
-<ul>
-<li>Assume that a trait of interest is measured on a quantitative scale</li>
-<li>Heritability analysis measures the overall genetic component of a trait, relative to the total observed phenotypic variation of the trait</li>
-<li>It is not analyzing “how much” a trait is passed down to offspring</li>
-<li>Let <span class="math inline">\(Y\)</span> be the phenotype of interest, <span class="math inline">\(G\)</span> be genetics, and <span class="math inline">\(\epsilon\)</span> be the environment</li>
-<li>Given the model, <span class="math inline">\(Y = G + \epsilon\)</span>, how do we partition out the variance?</li>
-</ul>
-</section>
-<section id="calculation-of-parent-offspring-genotype-distribution-for-a-pair-of-siblings" class="slide level2">
-<h2>Calculation of parent-offspring genotype distribution for a pair of siblings</h2>
-<table class="caption-top">
-<colgroup>
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Mating Type <span class="math inline">\((MT)\)</span></th>
-<th><span class="math inline">\(P(MT)\)</span></th>
-<th>Offspring Genotypes <span class="math inline">\((OG)\)</span></th>
-<th><span class="math inline">\(P(OG|MT)\)</span></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><span class="math inline">\(DD \times DD\)</span></td>
-<td><span class="math inline">\(p^4\)</span></td>
-<td><span class="math inline">\(\{(DD, DD)\}\)</span></td>
-<td><span class="math inline">\(1\)</span></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(DD \times Dd\)</span></td>
-<td><span class="math inline">\(4p^3(1-p)\)</span></td>
-<td><span class="math inline">\(\{(DD, DD), (DD, Dd), (Dd, Dd)\}\)</span></td>
-<td><span class="math inline">\(\frac{1}{4}, \frac{1}{2}, \frac{1}{4}\)</span></td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(DD \times dd\)</span></td>
-<td><span class="math inline">\(2p^2(1-p)^2\)</span></td>
-<td><span class="math inline">\(\{(Dd, Dd)\}\)</span></td>
-<td><span class="math inline">\(1\)</span></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(Dd \times Dd\)</span></td>
-<td><span class="math inline">\(4p^2(1-p)^2\)</span></td>
-<td><span class="math inline">\(\{(DD, DD), (DD, Dd), (DD, dd),\)</span> <span class="math inline">\((Dd, Dd), (Dd, DD), (dd, dd)\}\)</span></td>
-<td><span class="math inline">\(\frac{1}{16}, \frac{1}{4}, \frac{1}{8}, \frac{1}{4}, \frac{1}{4}, \frac{1}{16}\)</span></td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(Dd \times dd\)</span></td>
-<td><span class="math inline">\(4p(1-p)^3\)</span></td>
-<td><span class="math inline">\(\{(Dd, Dd), (DD, dd), (dd, dd)\}\)</span></td>
-<td><span class="math inline">\(\frac{1}{4}, \frac{1}{2}, \frac{1}{4}\)</span></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(dd \times dd\)</span></td>
-<td><span class="math inline">\((1-p)^4\)</span></td>
-<td><span class="math inline">\(\{(dd, dd)\}\)</span></td>
-<td><span class="math inline">\(1\)</span></td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="heritability-analysis-1" class="slide level2">
-<h2>Heritability Analysis</h2>
-
-<img data-src="https://www.biostat.wisc.edu/~yeshuyun/HERETIBILITY/heregre.jpg" class="r-stretch"></section>
-<section id="heritability-analysis-2" class="slide level2">
-<h2>Heritability Analysis</h2>
-<ul>
-<li>Assume trait is measured on a quantitative scale</li>
-<li>Model as a function of multiple QTLs:</li>
-</ul>
-<p><span class="math display">\[
-Y = \mu + \sum_{m=1}^M \{a_m X_m + d_m I [X_m = 1]\} + \epsilon
-\]</span></p>
-<p>Where:</p>
-<ul>
-<li><span class="math inline">\(M\)</span> is the unknown number of QTLs</li>
-<li><span class="math inline">\(X_m\)</span> is the number of disease alleles at the <span class="math inline">\(m\)</span>-th disease locus</li>
-<li><span class="math inline">\(I [X_m = 1]\)</span> is an indicator function that is 1 if <span class="math inline">\(X_m = 1\)</span> and 0 otherwise</li>
-</ul>
-</section>
-<section id="heritability-analysis-3" class="slide level2">
-<h2>Heritability Analysis</h2>
-<p>The following R code simulates the model above to demonstrate how different parameter choices affect the parent-offspring phenotypic relationship. We will vary the number of QTLs (<span class="math inline">\(M\)</span>) and the presence of dominance effects (<span class="math inline">\(d_m\)</span>).</p>
-<div class="cell quarto-layout-panel" data-layout-ncol="1">
+<section id="prior-specification-in-genetics" class="slide level2">
+<h2>Prior Specification in Genetics</h2>
+<h3 id="informative-vs-non-informative-priors">Informative vs Non-informative Priors</h3>
+<div class="quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="lecture-02_files/figure-revealjs/unnamed-chunk-1-1.png" width="960"></p>
-<figcaption>Parent-offspring regression under different genetic architectures. Each point is a family. The red line is the regression slope, which estimates narrow-sense heritability (h²).</figcaption>
-</figure>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<p><strong>When to use informative priors:</strong> - Population allele frequencies from databases - Effect sizes from previous studies - Biological constraints (e.g., penetrance ≤ 1)</p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<p><strong>Non-informative options:</strong> - Uniform priors - Jeffreys priors - Reference priors - Weakly informative priors</p>
 </div>
 </div>
 </div>
+<h3 id="example-rare-disease-analysis">Example: Rare Disease Analysis</h3>
+<ul>
+<li><strong>Prior</strong>: <span class="math inline">p \sim \text{Beta}(1, 999)</span> for rare allele</li>
+<li><strong>Justification</strong>: Incorporates known rarity</li>
+<li><strong>Sensitivity</strong>: Compare with flat prior results</li>
+</ul>
+</section>
+<section id="computational-methods" class="slide level2">
+<h2>Computational Methods</h2>
+<h3 id="markov-chain-monte-carlo-mcmc">Markov Chain Monte Carlo (MCMC)</h3>
+<p>When posterior distributions are complex:</p>
+<ol type="1">
+<li><strong>Metropolis-Hastings Algorithm</strong></li>
+<li><strong>Gibbs Sampling</strong> (for conjugate priors)</li>
+<li><strong>Hamiltonian Monte Carlo</strong> (for complex geometries)</li>
+<li><strong>Variational Bayes</strong> (deterministic approximation)</li>
+</ol>
+<h3 id="mcmc-diagnostics">MCMC Diagnostics</h3>
+<ul>
+<li><strong>Trace plots</strong>: Visual inspection of chains</li>
+<li><strong>Gelman-Rubin statistic</strong>: <span class="math inline">\hat{R}</span> convergence diagnostic<br>
+</li>
+<li><strong>Effective sample size</strong>: Independent samples</li>
+<li><strong>Autocorrelation</strong>: Chain mixing assessment</li>
+</ul>
+</section>
+<section id="hierarchical-bayesian-models" class="slide level2">
+<h2>Hierarchical Bayesian Models</h2>
+<h3 id="multi-level-genetic-data">Multi-level Genetic Data</h3>
+<p><strong>Level 1</strong>: Individual genotypes within families<br>
+<strong>Level 2</strong>: Families within populations<br>
+<strong>Level 3</strong>: Populations within species</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="co"># Hierarchical model structure</span></span>
+<span id="cb1-2"><a></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_families) {</span>
+<span id="cb1-3"><a></a>  <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>family_size[i]) {</span>
+<span id="cb1-4"><a></a>    genotype[i,j] <span class="sc">~</span> <span class="fu">Binomial</span>(<span class="dv">2</span>, p[i])</span>
+<span id="cb1-5"><a></a>  }</span>
+<span id="cb1-6"><a></a>  p[i] <span class="sc">~</span> <span class="fu">Beta</span>(alpha, beta)  <span class="co"># Family-specific allele freq</span></span>
+<span id="cb1-7"><a></a>}</span>
+<span id="cb1-8"><a></a>alpha <span class="sc">~</span> <span class="fu">Gamma</span>(a_prior, b_prior)</span>
+<span id="cb1-9"><a></a>beta <span class="sc">~</span> <span class="fu">Gamma</span>(a_prior, b_prior)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="bayesian-association-testing" class="slide level2">
+<h2>Bayesian Association Testing</h2>
+<h3 id="bayesian-alternative-to-p-values">Bayesian Alternative to P-values</h3>
+<p>Instead of “reject/fail to reject”: - <strong>Posterior probability</strong> of association - <strong>Credible intervals</strong> for effect sizes - <strong>Model averaging</strong> over uncertainty</p>
+<h3 id="advantage-direct-probability-statements">Advantage: Direct Probability Statements</h3>
+<p>“There is an 87% probability that this SNP increases disease risk by more than 20%”</p>
+<p>vs frequentist: “We reject the null hypothesis (p &lt; 0.05)”</p>
+</section>
+<section id="applications-in-population-genetics" class="slide level2">
+<h2>Applications in Population Genetics</h2>
+<h3 id="bayesian-phylogenetics">Bayesian Phylogenetics</h3>
+<ul>
+<li><strong>Prior</strong>: Tree topology probabilities</li>
+<li><strong>Likelihood</strong>: Sequence evolution models<br>
+</li>
+<li><strong>Posterior</strong>: Distribution over trees</li>
+</ul>
+<h3 id="demographic-history-inference">Demographic History Inference</h3>
+<ul>
+<li><strong>Prior</strong>: Population size trajectories</li>
+<li><strong>Likelihood</strong>: Genetic diversity patterns</li>
+<li><strong>Posterior</strong>: Historical population changes</li>
+</ul>
+</section>
+<section id="advantages-and-challenges" class="slide level2">
+<h2>Advantages and Challenges</h2>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<p><strong><strong>Advantages</strong></strong></p>
+<ul>
+<li>Natural uncertainty quantification</li>
+<li>Incorporates prior knowledge</li>
+<li>Handles complex models naturally</li>
+<li>No multiple testing issues</li>
+<li>Direct interpretation</li>
+</ul>
 </div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<p><strong><strong>Challenges</strong></strong></p>
+<ul>
+<li>Computational intensity</li>
+<li>Prior specification debates</li>
+<li>MCMC convergence issues</li>
+<li>Model complexity choices</li>
+<li>Communication with non-Bayesians</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="practical-implementation" class="slide level2">
+<h2>Practical Implementation</h2>
+<h3 id="software-options">Software Options</h3>
+<ul>
+<li><strong>BUGS/JAGS</strong>: General purpose MCMC</li>
+<li><strong>Stan</strong>: Modern probabilistic programming</li>
+<li><strong>R packages</strong>: MCMCglmm, rstanarm, brms</li>
+<li><strong>Specialized</strong>: BEAST (phylogenetics), STRUCTURE (population genetics)</li>
+</ul>
+<h3 id="workflow">Workflow</h3>
+<ol type="1">
+<li>Specify model and priors</li>
+<li>Implement in software</li>
+<li>Run MCMC chains</li>
+<li>Check diagnostics</li>
+<li>Interpret posterior</li>
+</ol>
+</section>
+<section id="coming-up" class="slide level2">
+<h2>Coming Up</h2>
+<p><strong>Next Lecture</strong>: Generalized Linear Models - Connecting Bayesian and frequentist approaches - Logistic regression for case-control studies - Mixed models for family data - Model selection criteria</p>
 
 
 </section>
@@ -322,7 +392,6 @@ Y = \mu + \sum_{m=1}^M \{a_m X_m + d_m I [X_m = 1]\} + \epsilon
   <script src="../site_libs/revealjs/plugin/notes/notes.js"></script>
   <script src="../site_libs/revealjs/plugin/search/search.js"></script>
   <script src="../site_libs/revealjs/plugin/zoom/zoom.js"></script>
-  <script src="../site_libs/revealjs/plugin/math/math.js"></script>
   <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
 
   <script>
@@ -491,27 +560,9 @@ Y = \mu + \sum_{m=1}^M \{a_m X_m + d_m I [X_m = 1]\} + \epsilon
         // Factor of the display size that should remain empty around the content
         margin: 0.1,
 
-        math: {
-          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js',
-          config: 'TeX-AMS_HTML-full',
-          tex2jax: {
-            inlineMath: [['\\(','\\)']],
-            displayMath: [['\\[','\\]']],
-            balanceBraces: true,
-            processEscapes: false,
-            processRefs: true,
-            processEnvironments: true,
-            preview: 'TeX',
-            skipTags: ['script','noscript','style','textarea','pre','code'],
-            ignoreClass: 'tex2jax_ignore',
-            processClass: 'tex2jax_process'
-          },
-        },
-
         // reveal.js plugins
         plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
 
-          RevealMath,
           RevealNotes,
           RevealSearch,
           RevealZoom

@@ -10,7 +10,7 @@
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.7.33">
 
-  <title>Statistical Genetics – Lecture 02: Heritability, segregation, and the gene-mapping toolkit</title>
+  <title>Statistical Genetics – Lecture 03: Advanced Likelihood Methods and Inference</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -30,6 +30,22 @@
     }
   </style>
   <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-04b320997c39aaccd35fd12182209112.css">
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -129,175 +145,104 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Lecture 02: Heritability, segregation, and the gene-mapping toolkit</h1>
+  <h1 class="title">Lecture 03: Advanced Likelihood Methods and Inference</h1>
   <p class="subtitle">PUBH 8878, Statistical Genetics</p>
 
 <div class="quarto-title-authors">
 </div>
 
 </section>
-<section id="aggregation-heritability-and-segregation-analyses" class="slide level2">
-<h2>Aggregation, heritability, and segregation analyses</h2>
-<div class="columns">
-<div class="column" style="width:35%;">
-<ul>
-<li><strong>Aggregation/heritability analyses</strong>: Investigating patterns of phenotypic correlation between relatives</li>
-<li><strong>Segregation analysis</strong>: Finding support for a specific genetic model underlying inheritance patterns</li>
-</ul>
-<div class="fragment">
-<div class="callout callout-note callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Note</strong></p>
-</div>
-<div class="callout-content">
-<p>These analysis <strong>do not</strong> use molecular genetic data… so why should we care?</p>
-</div>
-</div>
-</div>
-</div>
-</div><div class="column" style="width:65%;">
-<p><img data-src="https://www.cell.com/cms/10.1016/j.cell.2018.04.032/asset/c2ada063-7d56-4685-8c66-3dcb8e71217b/main.assets/fx1_lrg.jpg"></p>
-</div></div>
+<section id="review-likelihood-function-basics" class="slide level2">
+<h2>Review: Likelihood Function Basics</h2>
+<p>From Lecture 1, we learned: - Likelihood function: <span class="math inline">L(\boldsymbol{\theta} | \text{data}) = P(\text{data} | \boldsymbol{\theta})</span> - Maximum Likelihood Estimation (MLE) - Simple one-parameter examples</p>
+<p>Today: <strong>Multi-parameter likelihood surfaces and complex genetic models</strong></p>
 </section>
-<section id="a-gap-in-estimation" class="slide level2">
-<h2>A gap in estimation</h2>
-<div class="columns">
-<div class="column" style="width:80%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="https://journals.plos.org/plosgenetics/article/figure/image?size=large&amp;id=10.1371/journal.pgen.1008222.g001"></p>
-<figcaption>Young, A. I. (2019), “Solving the missing heritability problem,” PLOS Genetics, Public Library of Science, 15, e1008222. https://doi.org/10.1371/journal.pgen.1008222.</figcaption>
-</figure>
+<section id="multi-parameter-likelihood-surfaces" class="slide level2">
+<h2>Multi-Parameter Likelihood Surfaces</h2>
+<h3 id="penetrance-model-with-two-parameters">Penetrance Model with Two Parameters</h3>
+<p>Consider a dominant disease model with: - Allele frequency: <span class="math inline">p</span> - Penetrance for heterozygotes: <span class="math inline">f_1</span> - Fixed: <span class="math inline">f_0 = 0</span> (unaffected homozygotes), <span class="math inline">f_2 = 1</span> (affected homozygotes)</p>
+<p>Population disease risk: <span class="math inline">K = p^2 \cdot 1 + 2p(1-p) \cdot f_1 + (1-p)^2 \cdot 0</span></p>
+</section>
+<section id="likelihood-surface-visualization" class="slide level2">
+<h2>Likelihood Surface Visualization</h2>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: The following aesthetics were dropped during statistical transformation: fill.
+ℹ This can happen when ggplot fails to infer the correct grouping structure in
+  the data.
+ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
+  variable into a factor?</code></pre>
 </div>
-</div><div class="column" style="width:20%;">
-<ul>
-<li>Aggregation and heritability analyses tend to have <strong>much higher heritability</strong> estimates of traits than genotyping methods</li>
-<li>Understanding these models may help <strong>explain this delta</strong></li>
-</ul>
-</div></div>
-</section>
-<section id="recurrence-risk-ratios" class="slide level2">
-<h2>Recurrence Risk Ratios</h2>
-<ul>
-<li>Estimating strength of genetic aggregation across relatives</li>
-<li>Compares probability of a study subject being affected, given that given that a relative is affected to the general risk in the population.</li>
-<li>Let <span class="math inline">\(K\)</span> be the population prevalence of the disease</li>
-</ul>
-<p><span class="math display">\[\lambda_R = P(Y_2 = 1 | Y_1 = 1) / K\]</span></p>
-<p>Where</p>
-<ul>
-<li><span class="math inline">\(Y_1\)</span> is the status of the relative (affected or not affected)</li>
-<li><span class="math inline">\(Y_2\)</span> is the status of the study subject (affected or not affected)</li>
-<li><span class="math inline">\(K = P(Y_1 = 1) = P(Y_2 = 1)\)</span> is the population prevalence of the disease</li>
-</ul>
-<p>What assumptions does this model make?</p>
-</section>
-<section id="heritability-analysis" class="slide level2">
-<h2>Heritability Analysis</h2>
-<ul>
-<li>Assume that a trait of interest is measured on a quantitative scale</li>
-<li>Heritability analysis measures the overall genetic component of a trait, relative to the total observed phenotypic variation of the trait</li>
-<li>It is not analyzing “how much” a trait is passed down to offspring</li>
-<li>Let <span class="math inline">\(Y\)</span> be the phenotype of interest, <span class="math inline">\(G\)</span> be genetics, and <span class="math inline">\(\epsilon\)</span> be the environment</li>
-<li>Given the model, <span class="math inline">\(Y = G + \epsilon\)</span>, how do we partition out the variance?</li>
-</ul>
-</section>
-<section id="calculation-of-parent-offspring-genotype-distribution-for-a-pair-of-siblings" class="slide level2">
-<h2>Calculation of parent-offspring genotype distribution for a pair of siblings</h2>
-<table class="caption-top">
-<colgroup>
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Mating Type <span class="math inline">\((MT)\)</span></th>
-<th><span class="math inline">\(P(MT)\)</span></th>
-<th>Offspring Genotypes <span class="math inline">\((OG)\)</span></th>
-<th><span class="math inline">\(P(OG|MT)\)</span></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><span class="math inline">\(DD \times DD\)</span></td>
-<td><span class="math inline">\(p^4\)</span></td>
-<td><span class="math inline">\(\{(DD, DD)\}\)</span></td>
-<td><span class="math inline">\(1\)</span></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(DD \times Dd\)</span></td>
-<td><span class="math inline">\(4p^3(1-p)\)</span></td>
-<td><span class="math inline">\(\{(DD, DD), (DD, Dd), (Dd, Dd)\}\)</span></td>
-<td><span class="math inline">\(\frac{1}{4}, \frac{1}{2}, \frac{1}{4}\)</span></td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(DD \times dd\)</span></td>
-<td><span class="math inline">\(2p^2(1-p)^2\)</span></td>
-<td><span class="math inline">\(\{(Dd, Dd)\}\)</span></td>
-<td><span class="math inline">\(1\)</span></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(Dd \times Dd\)</span></td>
-<td><span class="math inline">\(4p^2(1-p)^2\)</span></td>
-<td><span class="math inline">\(\{(DD, DD), (DD, Dd), (DD, dd),\)</span> <span class="math inline">\((Dd, Dd), (Dd, DD), (dd, dd)\}\)</span></td>
-<td><span class="math inline">\(\frac{1}{16}, \frac{1}{4}, \frac{1}{8}, \frac{1}{4}, \frac{1}{4}, \frac{1}{16}\)</span></td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(Dd \times dd\)</span></td>
-<td><span class="math inline">\(4p(1-p)^3\)</span></td>
-<td><span class="math inline">\(\{(Dd, Dd), (DD, dd), (dd, dd)\}\)</span></td>
-<td><span class="math inline">\(\frac{1}{4}, \frac{1}{2}, \frac{1}{4}\)</span></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(dd \times dd\)</span></td>
-<td><span class="math inline">\((1-p)^4\)</span></td>
-<td><span class="math inline">\(\{(dd, dd)\}\)</span></td>
-<td><span class="math inline">\(1\)</span></td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="heritability-analysis-1" class="slide level2">
-<h2>Heritability Analysis</h2>
 
-<img data-src="https://www.biostat.wisc.edu/~yeshuyun/HERETIBILITY/heregre.jpg" class="r-stretch"></section>
-<section id="heritability-analysis-2" class="slide level2">
-<h2>Heritability Analysis</h2>
+</div>
+<img data-src="lecture-03-draft_files/figure-revealjs/unnamed-chunk-2-1.png" width="960" class="r-stretch"></section>
+<section id="interpreting-likelihood-surfaces" class="slide level2">
+<h2>Interpreting Likelihood Surfaces</h2>
 <ul>
-<li>Assume trait is measured on a quantitative scale</li>
-<li>Model as a function of multiple QTLs:</li>
-</ul>
-<p><span class="math display">\[
-Y = \mu + \sum_{m=1}^M \{a_m X_m + d_m I [X_m = 1]\} + \epsilon
-\]</span></p>
-<p>Where:</p>
-<ul>
-<li><span class="math inline">\(M\)</span> is the unknown number of QTLs</li>
-<li><span class="math inline">\(X_m\)</span> is the number of disease alleles at the <span class="math inline">\(m\)</span>-th disease locus</li>
-<li><span class="math inline">\(I [X_m = 1]\)</span> is an indicator function that is 1 if <span class="math inline">\(X_m = 1\)</span> and 0 otherwise</li>
+<li class="fragment"><strong>Peak</strong>: Maximum likelihood estimates (MLE)</li>
+<li class="fragment"><strong>Contours</strong>: Lines of equal likelihood</li>
+<li class="fragment"><strong>Confidence Regions</strong>: Areas within likelihood ratio thresholds</li>
+<li class="fragment"><strong>Ridge vs Peak</strong>: Identifiability issues</li>
+<li class="fragment"><strong>Flatness</strong>: Parameter uncertainty</li>
 </ul>
 </section>
-<section id="heritability-analysis-3" class="slide level2">
-<h2>Heritability Analysis</h2>
-<p>The following R code simulates the model above to demonstrate how different parameter choices affect the parent-offspring phenotypic relationship. We will vary the number of QTLs (<span class="math inline">\(M\)</span>) and the presence of dominance effects (<span class="math inline">\(d_m\)</span>).</p>
-<div class="cell quarto-layout-panel" data-layout-ncol="1">
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="lecture-02_files/figure-revealjs/unnamed-chunk-1-1.png" width="960"></p>
-<figcaption>Parent-offspring regression under different genetic architectures. Each point is a family. The red line is the regression slope, which estimates narrow-sense heritability (h²).</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</div>
+<section id="likelihood-ratio-tests" class="slide level2">
+<h2>Likelihood Ratio Tests</h2>
+<h3 id="testing-nested-hypotheses">Testing Nested Hypotheses</h3>
+<p><strong>Full Model</strong>: <span class="math inline">H_1: \text{both } p \text{ and } f_1 \text{ free}</span> <strong>Reduced Model</strong>: <span class="math inline">H_0: f_1 = 1 \text{ (complete penetrance)}</span></p>
+<p>Test statistic: <span class="math inline">\Lambda = 2[\ell(\hat{\boldsymbol{\theta}}_1) - \ell(\hat{\boldsymbol{\theta}}_0)]</span></p>
+<p>Under <span class="math inline">H_0</span>: <span class="math inline">\Lambda \sim \chi^2_{df}</span> where $df = $ difference in parameters</p>
+</section>
+<section id="profile-likelihood" class="slide level2">
+<h2>Profile Likelihood</h2>
+<p>When interested in one parameter but others are nuisance:</p>
+<p><span class="math display">L_{\text{profile}}(p) = \max_{f_1} L(p, f_1)</span></p>
+
+<img data-src="lecture-03-draft_files/figure-revealjs/unnamed-chunk-3-1.png" width="960" class="r-stretch"></section>
+<section id="information-and-standard-errors" class="slide level2">
+<h2>Information and Standard Errors</h2>
+<h3 id="fisher-information-matrix">Fisher Information Matrix</h3>
+<p>For parameters <span class="math inline">\boldsymbol{\theta} = (\theta_1, \theta_2)</span>:</p>
+<p><span class="math display">I_{ij}(\boldsymbol{\theta}) = -E\left[\frac{\partial^2 \ell}{\partial \theta_i \partial \theta_j}\right]</span></p>
+<p><strong>Asymptotic standard errors</strong>: <span class="math inline">SE(\hat{\theta}_i) \approx \sqrt{[I^{-1}]_{ii}}</span></p>
+<p><strong>Confidence intervals</strong>: <span class="math inline">\hat{\theta}_i \pm 1.96 \cdot SE(\hat{\theta}_i)</span></p>
+</section>
+<section id="practical-considerations" class="slide level2">
+<h2>Practical Considerations</h2>
+<ol type="1">
+<li class="fragment"><strong>Computational Methods</strong>: Newton-Raphson, EM algorithm, numerical optimization</li>
+<li class="fragment"><strong>Starting Values</strong>: Multiple random starts to avoid local maxima<br>
+</li>
+<li class="fragment"><strong>Convergence</strong>: Check gradient, Hessian, parameter stability</li>
+<li class="fragment"><strong>Model Comparison</strong>: AIC, BIC for non-nested models</li>
+<li class="fragment"><strong>Diagnostics</strong>: Residuals, goodness-of-fit tests</li>
+</ol>
+</section>
+<section id="applications-in-genetics" class="slide level2">
+<h2>Applications in Genetics</h2>
+<h3 id="complex-segregation-analysis">Complex Segregation Analysis</h3>
+<ul>
+<li>Mode of inheritance parameters</li>
+<li>Penetrance functions</li>
+<li>Gene frequency estimation</li>
+</ul>
+<h3 id="linkage-analysis">Linkage Analysis</h3>
+<ul>
+<li>Recombination fraction estimation</li>
+<li>Multi-point linkage</li>
+<li>Disease gene localization</li>
+</ul>
+<h3 id="association-studies">Association Studies</h3>
+<ul>
+<li>Allelic vs genotypic tests</li>
+<li>Hardy-Weinberg equilibrium</li>
+<li>Population stratification</li>
+</ul>
+</section>
+<section id="coming-up" class="slide level2">
+<h2>Coming Up</h2>
+<p><strong>Next Lecture</strong>: Bayesian inference methods - Prior specification - Posterior computation<br>
+- MCMC algorithms - Comparison with likelihood approaches</p>
 
 
 </section>
@@ -322,7 +267,6 @@ Y = \mu + \sum_{m=1}^M \{a_m X_m + d_m I [X_m = 1]\} + \epsilon
   <script src="../site_libs/revealjs/plugin/notes/notes.js"></script>
   <script src="../site_libs/revealjs/plugin/search/search.js"></script>
   <script src="../site_libs/revealjs/plugin/zoom/zoom.js"></script>
-  <script src="../site_libs/revealjs/plugin/math/math.js"></script>
   <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
 
   <script>
@@ -491,27 +435,9 @@ Y = \mu + \sum_{m=1}^M \{a_m X_m + d_m I [X_m = 1]\} + \epsilon
         // Factor of the display size that should remain empty around the content
         margin: 0.1,
 
-        math: {
-          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js',
-          config: 'TeX-AMS_HTML-full',
-          tex2jax: {
-            inlineMath: [['\\(','\\)']],
-            displayMath: [['\\[','\\]']],
-            balanceBraces: true,
-            processEscapes: false,
-            processRefs: true,
-            processEnvironments: true,
-            preview: 'TeX',
-            skipTags: ['script','noscript','style','textarea','pre','code'],
-            ignoreClass: 'tex2jax_ignore',
-            processClass: 'tex2jax_process'
-          },
-        },
-
         // reveal.js plugins
         plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
 
-          RevealMath,
           RevealNotes,
           RevealSearch,
           RevealZoom

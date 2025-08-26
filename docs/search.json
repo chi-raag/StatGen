@@ -28,11 +28,53 @@
     "text": "Zotero"
   },
   {
+    "objectID": "lectures/lecture-01.html#course-logistics-and-expectations",
+    "href": "lectures/lecture-01.html#course-logistics-and-expectations",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "Course Logistics and Expectations",
+    "text": "Course Logistics and Expectations\nGrading Breakdown\n\n\n\nAssignment Type\n% of Grade\n\n\n\n\nProblem Sets\n60%\n\n\nClass Participation\n20%\n\n\nResearch Project\n20%\n\n\n\nTotal Workload: 112.5 hours (5+ hrs/week independent + 6 hrs/week class/async)"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#problem-sets-60-of-grade",
+    "href": "lectures/lecture-01.html#problem-sets-60-of-grade",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "Problem Sets (60% of grade)",
+    "text": "Problem Sets (60% of grade)\n\nWeekly assignments blending mathematical derivations with coding\nCollaborative time provided in class\nIndividual work required – substantial time outside class\nLate penalty: 1% per hour (first 5 hours), then 5% per day\nFormat: Mix of theory problems and R/Bioconductor analysis"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#class-participation-20-of-grade",
+    "href": "lectures/lecture-01.html#class-participation-20-of-grade",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "Class Participation (20% of grade)",
+    "text": "Class Participation (20% of grade)\nMore than just showing up!\n\nCome prepared with questions from async materials\nEngage thoughtfully in discussions and problem-solving\nDemonstrate mastery through insightful contributions\nCollaborate respectfully - help others understand concepts\n\nQuantitative + Qualitative Assessment: Async responses + live session engagement"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#research-project-20-of-grade",
+    "href": "lectures/lecture-01.html#research-project-20-of-grade",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "Research Project (20% of grade)",
+    "text": "Research Project (20% of grade)\nFinal third of semester - Choose your own adventure!\n\n\n\nProject Types\n\n\n\nComputational methods\nApplied analysis\n\nMethodological development\nAll based on primary literature\n\n\n\n\n\nDeliverables\n\n\n\nScientific paper (Genetics journal format)\nConference-style presentation\nGroups of up to 3 encouraged\nIndividual contributions must be clear"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#course-structure-overview",
+    "href": "lectures/lecture-01.html#course-structure-overview",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "Course Structure Overview",
+    "text": "Course Structure Overview\nFoundation → Scale → Specialization (10 weeks)\n\nWeeks 1-4: Foundations (Mendelian genetics, heritability, likelihood algorithms, population structure & Bayesian methods)\nWeek 5: GWAS at scale (design, linear mixed models, meta-analysis)\nWeeks 6-7: Prediction models & multiple testing control\nWeeks 8-9: Binary traits & causal inference (Mendelian randomization)\nWeek 10: Advanced AI topics in statistical genetics\n\nLab Component: Hands-on R/Bioconductor workflows parallel to lectures"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#technology-setup-requirements",
+    "href": "lectures/lecture-01.html#technology-setup-requirements",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "Technology Setup Requirements",
+    "text": "Technology Setup Requirements\n\nR (4.5+) and IDE installation\nGit setup and basic commands\nZotero for reference management\nZoom\nOptional: HPC access"
+  },
+  {
     "objectID": "lectures/lecture-01.html#what-is-statistical-genetics",
     "href": "lectures/lecture-01.html#what-is-statistical-genetics",
     "title": "Lecture 01: Introduction and Foundations",
     "section": "What is statistical genetics?",
-    "text": "What is statistical genetics?\n\n\n\n\n\n\nPopulation Genetics\n\n\n\n\n\n\n\nGenetic Epidemiology\n\n\n\n\n\n\n\nQuantitative Genetics"
+    "text": "What is statistical genetics?\n\n\n\n\n\n\nPopulation Genetics\n\n\n\n\n\n\n\nGenetic Epidemiology\n\n\n\n\n\n\n\nQuantitative Genetics\n\n\n\n\n\n\n\nPopulation genetics is the study of evolutionary processes affecting genetic variation between organisms. A classic example is Darwin’s finches, where beak shape and size vary between islands in the Galapagos, driven by natural selection.\nGenetic Epidemiology is the study of how genetic factors contribute to health and disease in populations. A classic example is the study of genetic variants associated with diseases like diabetes or heart disease.\nQuantitative genetics is the study of continuous traits influenced by multiple genes and environmental factors. A classic example is human height, which is influenced by many genetic variants and environmental factors like nutrition."
   },
   {
     "objectID": "lectures/lecture-01.html#a-statistical-geneticist-may-want-to-know",
@@ -91,48 +133,6 @@
     "text": "Core abstractions for quantitative biology\n\nInterpretation & Validation\n\nIntegrate functional annotations, eQTL, and single-cell data to refine biological mechanisms.\nPerform replication, cross-cohort meta-analysis, and sensitivity analyses to population assumptions.\nCommunicate findings with clear visualisations and reproducible workflows (R/Bioconductor, Git, notebooks)."
   },
   {
-    "objectID": "lectures/lecture-01.html#some-vocabulary",
-    "href": "lectures/lecture-01.html#some-vocabulary",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Some vocabulary",
-    "text": "Some vocabulary\n\nTrait/Phenotype: A measurable characteristic of an organism, such as height, weight, or disease status.\nGenotype: The genetic constitution of an individual, often represented by specific alleles at particular loci.\nAllele: A variant form of a gene that can exist at a specific locus on a chromosome.\nLocus: A specific, fixed position on a chromosome where a particular gene or genetic marker is located.\nPolymorphism: The occurrence of two or more genetically determined forms in a population, such as single nucleotide polymorphisms (SNPs) or copy number variations (CNVs).\nGenetic Marker: A specific DNA sequence with a known location on a chromosome that can be used to identify individuals or species, often used in genetic mapping or association studies.\nLinkage Disequilibrium (LD): The non-random association of alleles at different loci, indicating that certain allele combinations occur together more frequently than expected by chance.\nHeritability: The proportion of phenotypic variance in a trait that can be attributed to genetic variance, often estimated through twin or family studies."
-  },
-  {
-    "objectID": "lectures/lecture-01.html#some-vocabulary-1",
-    "href": "lectures/lecture-01.html#some-vocabulary-1",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Some vocabulary",
-    "text": "Some vocabulary\n\nGenome-Wide Association Study (GWAS): A study that looks for associations between genetic variants across the genome and specific traits or diseases in a large population.\nPolygenic Score (PGS): A score that aggregates the effects of multiple genetic variants to predict an individual’s genetic predisposition to a trait or disease.\nQuantitative Trait Locus (QTL): A region of the genome that is associated with a quantitative trait, often identified through linkage or association mapping.\nEpistasis: The interaction between genes where the effect of one gene is modified by one or more other genes, influencing the expression of a trait.\nEpigenetics: The study of heritable changes in gene expression that do not involve changes to the underlying DNA sequence, often influenced by environmental factors.\nFunctional Annotation: The process of identifying the functional elements in the genome, such as genes, regulatory regions, and non-coding RNAs, and understanding their roles in biological processes."
-  },
-  {
-    "objectID": "lectures/lecture-01.html#probability-refresher",
-    "href": "lectures/lecture-01.html#probability-refresher",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Probability Refresher",
-    "text": "Probability Refresher\nRandom Variables and Distributions\n\nA random variable is a numerical summary of randomness (e.g., the count of (A) alleles in a sample).\nWe use a model (e.g., binomial/multinomial) to describe how data vary from sample to sample.\nKey ideas we need (no advanced probability):\n\nExpectation (mean) and variance: long‑run average and spread.\nStandard error (SE): typical sampling variability of an estimator.\nCentral Limit Theorem (CLT): averages and proportions are roughly normal for large (n)."
-  },
-  {
-    "objectID": "lectures/lecture-01.html#probability-refresher-1",
-    "href": "lectures/lecture-01.html#probability-refresher-1",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Probability Refresher",
-    "text": "Probability Refresher\nKey Distributions in Statistical Genetics\n\n\n\nBinomial Distribution X \\sim \\text{Binomial}(n, p) P(X = k) = \\binom{n}{k} p^k (1-p)^{n-k}\n\n\nUsed for: Allele counts, genotype frequencies\n\n\n\n\nNormal Distribution X \\sim N(\\mu, \\sigma^2) f(x) = \\frac{1}{\\sqrt{2\\pi\\sigma^2}} e^{-\\frac{(x-\\mu)^2}{2\\sigma^2}}\n\n\nUsed for: Quantitative traits, effect sizes"
-  },
-  {
-    "objectID": "lectures/lecture-01.html#probability-refresher-2",
-    "href": "lectures/lecture-01.html#probability-refresher-2",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Probability Refresher",
-    "text": "Probability Refresher\nExpected Value and Variance\n\nExpected Value: E[X] = \\sum x \\cdot P(X = x) (discrete) or E[X] = \\int x f(x) dx (continuous)\nVariance: \\text{Var}(X) = E[(X - E[X])^2] = E[X^2] - (E[X])^2\nStandard Error: \\text{SE} = \\frac{\\sigma}{\\sqrt{n}} (uncertainty in sample estimates)\nCentral Limit Theorem: Sample means approach normality as n \\to \\infty"
-  },
-  {
-    "objectID": "lectures/lecture-01.html#probability-refresher-3",
-    "href": "lectures/lecture-01.html#probability-refresher-3",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Probability Refresher",
-    "text": "Probability Refresher\nConditional Probability and Independence\n\nConditional Probability: P(A|B) = \\frac{P(A \\cap B)}{P(B)}\nBayes’ Theorem: P(A|B) = \\frac{P(B|A)P(A)}{P(B)}\nIndependence: P(A \\cap B) = P(A) \\cdot P(B) iff A and B are independent"
-  },
-  {
     "objectID": "lectures/lecture-01.html#early-work-in-the-field",
     "href": "lectures/lecture-01.html#early-work-in-the-field",
     "title": "Lecture 01: Introduction and Foundations",
@@ -154,6 +154,55 @@
     "text": "The ethics of genetics and genomics is/(was) of great importance!"
   },
   {
+    "objectID": "lectures/lecture-01.html#some-vocabulary",
+    "href": "lectures/lecture-01.html#some-vocabulary",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "Some vocabulary",
+    "text": "Some vocabulary\n\nTrait/Phenotype: A measurable characteristic of an organism, such as height, weight, or disease status.\nGenotype: The genetic constitution of an individual, often represented by specific alleles at particular loci.\nAllele: A variant form of a gene that can exist at a specific locus on a chromosome.\nLocus: A specific, fixed position on a chromosome where a particular gene or genetic marker is located.\nPolymorphism: The occurrence of two or more genetically determined forms in a population, such as single nucleotide polymorphisms (SNPs) or copy number variations (CNVs).\nGenetic Marker: A specific DNA sequence with a known location on a chromosome that can be used to identify individuals or species, often used in genetic mapping or association studies.\nLinkage Disequilibrium (LD): The non-random association of alleles at different loci, indicating that certain allele combinations occur together more frequently than expected by chance.\nHeritability: The proportion of phenotypic variance in a trait that can be attributed to genetic variance, often estimated through twin or family studies."
+  },
+  {
+    "objectID": "lectures/lecture-01.html#some-vocabulary-1",
+    "href": "lectures/lecture-01.html#some-vocabulary-1",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "Some vocabulary",
+    "text": "Some vocabulary\n\nGenome-Wide Association Study (GWAS): A study that looks for associations between genetic variants across the genome and specific traits or diseases in a large population.\nPolygenic Score (PGS): A score that aggregates the effects of multiple genetic variants to predict an individual’s genetic predisposition to a trait or disease.\nQuantitative Trait Locus (QTL): A region of the genome that is associated with a quantitative trait, often identified through linkage or association mapping.\nEpistasis: The interaction between genes where the effect of one gene is modified by one or more other genes, influencing the expression of a trait.\nEpigenetics: The study of heritable changes in gene expression that do not involve changes to the underlying DNA sequence, often influenced by environmental factors.\nFunctional Annotation: The process of identifying the functional elements in the genome, such as genes, regulatory regions, and non-coding RNAs, and understanding their roles in biological processes."
+  },
+  {
+    "objectID": "lectures/lecture-01.html#genetic-variant-example",
+    "href": "lectures/lecture-01.html#genetic-variant-example",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "Genetic Variant Example",
+    "text": "Genetic Variant Example\n\nLaird and Lange (2011)"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#probability-refresher",
+    "href": "lectures/lecture-01.html#probability-refresher",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "Probability Refresher",
+    "text": "Probability Refresher\nRandom Variables and Distributions\n\nA random variable is a numerical summary of randomness (e.g., the count of (A) alleles in a sample). We will denote random variables with uppercase letters (e.g., X, Y).\nWe use a model (e.g., binomial/multinomial) to describe how data vary from sample to sample.\n\nThis is otherwise known as a probability mass function (pmf) for discrete variables, or a probability density function (pdf) for continuous variables\n\nKey ideas:\n\nExpectation (mean) and variance: long‑run average and spread.\n\nE[X] = \\sum x \\cdot P(X = x) (discrete) or E[X] = \\int x f(x) dx (continuous)\n\\textsf{Var}(X) = E[(X - E[X])^2] = E[X^2] - (E[X])^2\n\nStandard error (SE): typical sampling variability of an estimator.\n\n\\textsf{SE} = \\frac{\\sigma}{\\sqrt{n}} (uncertainty in sample estimates)\n\nCentral Limit Theorem (CLT): averages and proportions are roughly normal for large (n).\n\n\\bar{X} \\sim N\\left(\\mu, \\frac{\\sigma^2}{n}\\right) as n \\to \\infty"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#probability-distributions-vs-sampling-distributions",
+    "href": "lectures/lecture-01.html#probability-distributions-vs-sampling-distributions",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "Probability Distributions vs Sampling Distributions",
+    "text": "Probability Distributions vs Sampling Distributions\n\nA probability distribution describes how a random variable behaves in the population.\n\nExample: X \\sim \\textsf{Binomial}(n, p)\n\nA sampling distribution describes how a statistic (e.g., sample mean, sample proportion) behaves across repeated samples from the population.\n\nExample: \\bar{X} \\sim N\\left(np, \\frac{(p(1-p))}{n}\\right) as n \\to \\infty"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#probability-refresher-1",
+    "href": "lectures/lecture-01.html#probability-refresher-1",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "Probability Refresher",
+    "text": "Probability Refresher\nKey Distributions in Statistical Genetics\n\n\n\nBinomial Distribution X \\sim \\textsf{Binomial}(n, p) P(X = k) = \\binom{n}{k} p^k (1-p)^{n-k}\n\n\nUsed for: Allele counts, genotype frequencies\n\n\n\n\nNormal Distribution X \\sim N(\\mu, \\sigma^2) f(x) = \\frac{1}{\\sqrt{2\\pi\\sigma^2}} e^{-\\frac{(x-\\mu)^2}{2\\sigma^2}}\n\n\nUsed for: Quantitative traits, effect sizes"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#conditional-probability-and-independence",
+    "href": "lectures/lecture-01.html#conditional-probability-and-independence",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "Conditional Probability and Independence",
+    "text": "Conditional Probability and Independence\n\nConditional Probability: P(A|B) = \\frac{P(A \\cap B)}{P(B)}\nBayes’ Theorem: P(A|B) = \\frac{P(B|A)P(A)}{P(B)}\nIndependence: P(A \\cap B) = P(A) \\cdot P(B) \\iff A and B are independent\n\nConditional probability and Bayes’ Theorem are crucial for understanding rare disease genetics! For example, consider a rare disease with a prevalence of 1 in 10,000. If a genetic test has a sensitivity of 99% and a specificity of 99%, we can use Bayes’ Theorem to calculate the probability that an individual has the disease given a positive test result.\n\n\\begin{align*}\nP(Disease|Positive) &= \\frac{P(Positive|Disease)P(Disease)}{P(Positive)} \\\\\n&= \\frac{(0.99)(0.0001)}{(0.99)(0.0001) + (0.01)(0.9999)} \\\\\n&\\approx 0.0098\n\\end{align*}"
+  },
+  {
     "objectID": "lectures/lecture-01.html#parameter-estimation",
     "href": "lectures/lecture-01.html#parameter-estimation",
     "title": "Lecture 01: Introduction and Foundations",
@@ -161,60 +210,25 @@
     "text": "Parameter Estimation\n\nImagine a geneticist is studying allele ages (i.e., how many generations ago an allele arose via mutation) under a simplified model where new mutations arise randomly and uniformly over a fixed window — say, the last \\theta generations.\nWe could model X \\sim \\textsf{Uniform}(0, \\theta).\nWe have our observed sample \\{x_1,x_2, \\ldots, x_n\\}, ages in generations of n observed alleles.\n\nFor concreteness, let our sample be \\{0, 1, 8, 4, 3, 1, 1, 5\\}.\n\nHow should we estimate \\theta ?"
   },
   {
-    "objectID": "lectures/lecture-01.html#sampling-distributions-in-genetics",
-    "href": "lectures/lecture-01.html#sampling-distributions-in-genetics",
+    "objectID": "lectures/lecture-01.html#genetic-models",
+    "href": "lectures/lecture-01.html#genetic-models",
     "title": "Lecture 01: Introduction and Foundations",
-    "section": "Sampling Distributions in Genetics",
-    "text": "Sampling Distributions in Genetics\nFrom Population to Sample: Allele Frequency Estimation\nTrue population parameter: p = 0.3 (allele frequency)\nSample estimates: \\hat{p} = \\frac{\\text{\\# A alleles observed}}{\\text{total alleles sampled}}\nSampling Distribution Properties"
-  },
-  {
-    "objectID": "lectures/lecture-01.html#population-vs-sample-key-insights",
-    "href": "lectures/lecture-01.html#population-vs-sample-key-insights",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Population vs Sample: Key Insights",
-    "text": "Population vs Sample: Key Insights\n\nUnbiased Estimator: E[\\hat{p}] = p (sample mean equals population parameter)\nStandard Error: SE(\\hat{p}) = \\sqrt{\\frac{p(1-p)}{2n}} decreases with sample size\nNormal Approximation: For large n, \\hat{p} \\sim N\\left(p, \\frac{p(1-p)}{2n}\\right)\nConfidence Intervals: \\hat{p} \\pm 1.96 \\times SE(\\hat{p}) covers true p ~95% of time\nPower: Larger samples = better ability to detect true differences between populations"
-  },
-  {
-    "objectID": "lectures/lecture-01.html#sampling-distribution-hardy-weinberg-testing",
-    "href": "lectures/lecture-01.html#sampling-distribution-hardy-weinberg-testing",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Sampling Distribution: Hardy-Weinberg Testing",
-    "text": "Sampling Distribution: Hardy-Weinberg Testing\nPopulation: HWE with p = 0.6, genotype frequencies: p^2 = 0.36, 2pq = 0.48, q^2 = 0.16\n\n# Simulate HWE sampling and testing\nsimulate_hwe_test &lt;- function(n, p_true) {\n  # Expected HWE frequencies\n  exp_AA &lt;- n * p_true^2\n  exp_Aa &lt;- n * 2 * p_true * (1 - p_true)  \n  exp_aa &lt;- n * (1 - p_true)^2\n  \n  # Sample genotypes under HWE\n  genotypes &lt;- rmultinom(1, n, c(p_true^2, 2*p_true*(1-p_true), (1-p_true)^2))\n  \n  # Estimate allele frequency from sample\n  p_hat &lt;- (2*genotypes[1] + genotypes[2]) / (2*n)\n  \n  # Recalculate expected frequencies with estimated p\n  exp_AA_hat &lt;- n * p_hat^2\n  exp_Aa_hat &lt;- n * 2 * p_hat * (1 - p_hat)\n  exp_aa_hat &lt;- n * (1 - p_hat)^2\n  \n  # Chi-square test statistic\n  chi_sq &lt;- sum((genotypes - c(exp_AA_hat, exp_Aa_hat, exp_aa_hat))^2 / \n                c(exp_AA_hat, exp_Aa_hat, exp_aa_hat))\n  \n  p_value &lt;- pchisq(chi_sq, df = 1, lower.tail = FALSE)\n  \n  return(list(p_hat = p_hat, chi_sq = chi_sq, p_value = p_value))\n}\n\n# Run simulation\nset.seed(456)\nn_sample &lt;- 200\nhwe_results &lt;- replicate(1000, simulate_hwe_test(n_sample, 0.6), simplify = FALSE)\n\nSampling Distribution of HWE Tests\n\np_values &lt;- map_dbl(hwe_results, ~.$p_value)\np_hats &lt;- map_dbl(hwe_results, ~.$p_hat)\n\ncat(\"Proportion of tests rejecting HWE (α = 0.05):\", mean(p_values &lt; 0.05))\n\nProportion of tests rejecting HWE (α = 0.05): 0.053\n\ncat(\"\\nMean estimated allele frequency:\", round(mean(p_hats), 3))\n\n\nMean estimated allele frequency: 0.599\n\ncat(\"\\nSD of estimated allele frequency:\", round(sd(p_hats), 3))\n\n\nSD of estimated allele frequency: 0.025\n\ncat(\"\\nTheoretical SE:\", round(sqrt(0.6 * 0.4 / (2 * n_sample)), 3))\n\n\nTheoretical SE: 0.024"
-  },
-  {
-    "objectID": "lectures/lecture-01.html#importance-of-statistical-theory",
-    "href": "lectures/lecture-01.html#importance-of-statistical-theory",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Importance of statistical theory",
-    "text": "Importance of statistical theory\n\nUnderstanding random variables, sampling distributions, and bias/variance of estimators helps motivate biological questions, and understand how they can be answered\nLet y be the expression of a trait, G be the additive contribution of genetic variables, and an environmental value E;\nWhat assumptions do we make via the following models?\n\n\n\n\n\\begin{align}\n\ny &= G + E \\\\\ny &= \\beta_0 + \\beta_1 G + \\beta_2 E + \\epsilon \\\\\ny &= \\beta_0 + \\beta_1 G + \\beta_2 E + \\epsilon, \\quad \\epsilon \\sim N(0, \\sigma^2) \\\\\ny &= \\beta_0 + \\beta_1 G + \\beta_2 E + \\beta_3 \\left(G \\times E\\right) + \\epsilon, \\quad \\epsilon \\sim N(0, \\sigma^2)\n\n\\end{align}"
-  },
-  {
-    "objectID": "lectures/lecture-01.html#molecular-genetics",
-    "href": "lectures/lecture-01.html#molecular-genetics",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Molecular Genetics",
-    "text": "Molecular Genetics"
-  },
-  {
-    "objectID": "lectures/lecture-01.html#genetic-variants",
-    "href": "lectures/lecture-01.html#genetic-variants",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Genetic Variants",
-    "text": "Genetic Variants"
-  },
-  {
-    "objectID": "lectures/lecture-01.html#the-sampling-distribution-of-a-random-variable",
-    "href": "lectures/lecture-01.html#the-sampling-distribution-of-a-random-variable",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "The sampling distribution of a random variable",
-    "text": "The sampling distribution of a random variable\n\nA random variable is a function that assigns a numerical value to each outcome in a sample space.\nA probability distribution describes how the probabilities are distributed over the values of the random variable.\nThe likelihood function is a function of the parameters of a statistical model given specific observed data."
+    "section": "Genetic Models",
+    "text": "Genetic Models\n\nUnderstanding random variables, sampling distributions, and bias/variance of estimators helps motivate biological questions, and understand how they can be answered\nLet y be the expression of a trait, G be the additive contribution of genetic variables, and an environmental value E;\nWhat assumptions do we make via the following models?\n\n\n\n\n\\begin{align}\n\ny &= G + E \\\\\ny &= \\beta_0 + \\beta_1 G + \\beta_2 E + \\epsilon \\\\\ny &= \\beta_0 + \\beta_1 G + \\beta_2 E + \\epsilon, \\quad \\epsilon \\sim N(0, \\sigma^2) \\\\\ny &= \\beta_0 + \\beta_1 G + \\beta_2 E + \\beta_3 \\left(G \\times E\\right) + \\epsilon, \\quad \\epsilon \\sim N(0, \\sigma^2)\n\n\\end{align}"
   },
   {
     "objectID": "lectures/lecture-01.html#modeling",
     "href": "lectures/lecture-01.html#modeling",
     "title": "Lecture 01: Introduction and Foundations",
     "section": "Modeling",
-    "text": "Modeling\n\nImagine that we have a sample size of n unrelated haploid individuals from some population\nWe want to estimate allele frequencies for a biallelic SNP, sy A/a\nIn our sample, we observe x individuals with allele A and n - x individuals with allele a\nLet p be the frequency of allele A and q = 1 - p be the frequency of allele a\n\nPr(X = x| n, p) = \\binom{n}{x} p^x q^{n - x}\n\nLets say we observe n = 27 and x = 11. How do we estimate p?"
+    "text": "Modeling\n\nImagine that we have a sample size of n unrelated haploid individuals from some population\nWe want to estimate allele frequencies for a biallelic SNP, say A/a\nIn our sample, we observe x individuals with allele A and n - x individuals with allele a\nLet p be the frequency of allele A and q = 1 - p be the frequency of allele a\n\nPr(X = x| n, p) = \\binom{n}{x} p^x q^{n - x}\n\nLets say we observe n = 27 and x = 11. How do we estimate p?"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#likelihood-functions",
+    "href": "lectures/lecture-01.html#likelihood-functions",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "Likelihood Functions",
+    "text": "Likelihood Functions\n\nThe likelihood function is a function of the parameters of a statistical model, given specific observed data.\nIt represents the plausibility of different parameter values based on the observed data.\nFor a given set of data, the likelihood function is defined as: L(\\theta | data) = P(data | \\theta)\nIn our case, the likelihood function for p is: L(p | x = 11, n = 27) = P(X = 11 | n = 27, p) = \\binom{27}{11} p^{11} (1 - p)^{16}\nWe are asking, “how likely is it that we would observe this data for different values of p?”"
   },
   {
     "objectID": "lectures/lecture-01.html#maximum-likelihood-estimator",
@@ -224,57 +238,22 @@
     "text": "Maximum Likelihood Estimator\nOur likelihood function for p is\nL(P|x = 11, n = 27) = {27 \\choose 11} p^{11} q^{27-11}\n\n\n\nn &lt;- 27\nx &lt;- 11\np_seq &lt;- seq(0, 1, length.out = 200)\nlikelihood &lt;- dbinom(x, n, p_seq)\nplot &lt;- ggplot(\n    data.frame(p = p_seq, likelihood = likelihood),\n    aes(x = p, y = likelihood)\n) +\n    geom_line(linewidth = 1) +\n    labs(\n        x = \"Probability of Success (p)\",\n        y = \"Likelihood\",\n        title = \"Binomial Likelihood Function\"\n    ) +\n    geom_vline(\n        xintercept = x / n,\n        color = \"red\",\n        linetype = \"dashed\"\n    ) +\n    theme_light(base_size = 18) +\n    theme(panel.grid = element_blank())"
   },
   {
-    "objectID": "lectures/lecture-01.html#building-one-locus-likelihood-functions",
-    "href": "lectures/lecture-01.html#building-one-locus-likelihood-functions",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Building One-Locus Likelihood Functions",
-    "text": "Building One-Locus Likelihood Functions\nThe General Framework\n\nGenetic Data: Observed phenotypes/genotypes from individuals or families\nGenetic Model: Hypotheses about mode of inheritance, penetrance, allele frequencies\nLikelihood Function: L(\\boldsymbol{\\theta} | \\text{data}) = P(\\text{data} | \\boldsymbol{\\theta})\nParameters \\boldsymbol{\\theta}: May include allele frequencies, penetrance values, recombination rates"
-  },
-  {
-    "objectID": "lectures/lecture-01.html#building-one-locus-likelihood-functions-1",
-    "href": "lectures/lecture-01.html#building-one-locus-likelihood-functions-1",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Building One-Locus Likelihood Functions",
-    "text": "Building One-Locus Likelihood Functions\nExample 1: Dominant Disease Model\nConsider a rare dominant disease in a family pedigree:\n\n\n\nFamily Data\n\nParents: Affected father, unaffected mother\n4 offspring: 2 affected, 2 unaffected\nDisease allele frequency: p (rare, so p \\approx 0)\n\n\n\nLikelihood Construction\n\nParental genotypes: Dd \\times dd\nExpected offspring ratio: 1:1 (affected:unaffected)\nObserved data: 2 affected, 2 unaffected\nLikelihood: L(p) = \\binom{4}{2} \\left(\\frac{1}{2}\\right)^2 \\left(\\frac{1}{2}\\right)^2 = \\frac{6}{16}"
-  },
-  {
-    "objectID": "lectures/lecture-01.html#building-one-locus-likelihood-functions-2",
-    "href": "lectures/lecture-01.html#building-one-locus-likelihood-functions-2",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Building One-Locus Likelihood Functions",
-    "text": "Building One-Locus Likelihood Functions\nExample 2: Penetrance Model\nDisease with reduced penetrance:\n\nGenotype-specific risks: P(\\text{disease} | DD) = f_2, P(\\text{disease} | Dd) = f_1, P(\\text{disease} | dd) = f_0\nObserved data: n individuals, k affected\nGenotype frequencies: Hardy-Weinberg proportions p^2, 2pq, q^2\nPopulation disease risk: K = p^2 f_2 + 2pq f_1 + q^2 f_0\n\nL(p, f_0, f_1, f_2) = \\binom{n}{k} K^k (1-K)^{n-k}"
-  },
-  {
-    "objectID": "lectures/lecture-01.html#building-one-locus-likelihood-functions-3",
-    "href": "lectures/lecture-01.html#building-one-locus-likelihood-functions-3",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Building One-Locus Likelihood Functions",
-    "text": "Building One-Locus Likelihood Functions\nExample 3: Family-Based Likelihood\nNuclear family with 2 parents, 3 offspring:\n\n\n\n# Genotype probabilities for parents\nparent_probs &lt;- function(p, genotype) {\n  case_when(\n    genotype == \"AA\" ~ p^2,\n    genotype == \"Aa\" ~ 2*p*(1-p),\n    genotype == \"aa\" ~ (1-p)^2\n  )\n}\n\n# Offspring probability given parents\noffspring_prob &lt;- function(p1_geno, p2_geno, \n                          offspring_geno) {\n  # Mendelian transmission probabilities\n  # Implementation depends on parental genotypes\n}\n\n\nLikelihood Components - L_{\\text{parents}} = P(G_1, G_2 | p) - L_{\\text{offspring}} = \\prod_{i=1}^3 P(G_i | G_1, G_2) - Total: L(p) = L_{\\text{parents}} \\times L_{\\text{offspring}}\nInterpretation: Peak likelihood value gives MLE for allele frequency"
-  },
-  {
-    "objectID": "lectures/lecture-01.html#building-one-locus-likelihood-functions-4",
-    "href": "lectures/lecture-01.html#building-one-locus-likelihood-functions-4",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Building One-Locus Likelihood Functions",
-    "text": "Building One-Locus Likelihood Functions\nAdvanced likelihood surface visualization and multi-parameter estimation will be covered in our dedicated likelihood methods lecture."
-  },
-  {
-    "objectID": "lectures/lecture-01.html#building-one-locus-likelihood-functions-5",
-    "href": "lectures/lecture-01.html#building-one-locus-likelihood-functions-5",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Building One-Locus Likelihood Functions",
-    "text": "Building One-Locus Likelihood Functions\nKey Principles for Likelihood Construction\n\nStart with the data: What did you observe?\nSpecify the model: Mode of inheritance, penetrance assumptions\nWrite conditional probabilities: P(\\text{data} | \\text{parameters})\nAccount for ascertainment: How were families/individuals selected?\nMaximize or explore: Find MLE or examine likelihood surface\nInterpret biologically: What do parameter estimates tell us about the genetics?"
-  },
-  {
     "objectID": "lectures/lecture-01.html#modeling-but-make-it-bayesian",
     "href": "lectures/lecture-01.html#modeling-but-make-it-bayesian",
     "title": "Lecture 01: Introduction and Foundations",
     "section": "Modeling, but make it bayesian",
-    "text": "Modeling, but make it bayesian\n\nLet’s say we have run a previous experiment and observed n = 20 individuals with allele A and x = 3 individuals with allele A\nWe can use this information to inform our prior distribution for p\n\n\n\n\np &lt;- seq(0, 1, length.out = 1000)\n# Prior (Beta distribution from previous experiment)\nprior &lt;- dbeta(p, 3 + 1, 17 + 1)\n# Likelihood (Beta distribution from current data)\nlikelihood &lt;- dbeta(p, 11 + 1, 16 + 1)\n# Posterior (Beta distribution combining both)\nposterior &lt;- dbeta(p, 14 + 1, 33 + 1)\n# Combine into a data frame\nplot_data &lt;- data.frame(\n    p = rep(p, 3),\n    density = c(prior, likelihood, posterior),\n    type = rep(c(\"Prior\", \"Likelihood\", \"Posterior\"), each = length(p))\n)\n# Add flat prior distribution\nflat_prior &lt;- dbeta(p, 1, 1)\nflat_posterior &lt;- dbeta(p, 12, 17)\nplot_data &lt;- rbind(\n    plot_data,\n    data.frame(\n        p = rep(p, 3),\n        density = c(flat_prior, likelihood, flat_posterior),\n        type = rep(c(\"Prior\", \"Likelihood\", \"Posterior\"), each = length(p))\n    )\n)\n# Add a column to distinguish between informative and flat scenarios\nplot_data$scenario &lt;- c(rep(\"Informative\", 3000), rep(\"Flat\", 3000))\n\n\n\n\n\n\np1 &lt;- ggplot(\n    plot_data %&gt;% filter(scenario == \"Informative\"),\n    aes(x = p, y = density, color = type)\n) +\n    geom_line(linewidth = 2) +\n    geom_vline(xintercept = 11 / 27, linetype = \"dashed\", color = \"red\") +\n    labs(\n        x = \"Allele Frequency (p)\",\n        y = \"Density\",\n        title = \"Bayesian Update with Informative Prior\"\n    ) +\n    scale_color_viridis_d() +\n    theme_minimal(base_size = 15)\n\n\n\np2 &lt;- ggplot(\n  plot_data %&gt;% filter(scenario == \"Flat\"),\n  aes(x = p, y = density, color = type, linetype = type)\n) +\n  geom_line(linewidth = 2) +\n  scale_linetype_manual(values = c(\"Prior\" = \"dotted\", \"Likelihood\" = \"solid\", \"Posterior\" = \"dashed\")) +\n  geom_vline(xintercept = 11 / 27, linetype = \"dotdash\", color = \"red\") +\n  labs(\n    x = \"Allele Frequency (p)\",\n    y = \"Density\",\n    title = \"Bayesian Update with Flat Prior\"\n  ) +\n  theme_minimal(base_size = 15) +\n  scale_color_viridis_d() +\n  annotate(\"text\",\n    x = 0.7, y = max(flat_posterior) * 0.8,\n    label = \"Likelihood ≈ Posterior\", color = \"gray30\"\n  )"
+    "text": "Modeling, but make it bayesian\n\nIn Bayesian statistics, we treat parameters as random variables and use probability distributions to represent our uncertainty about them.\nWe start with a prior distribution that reflects our beliefs about the parameter before seeing the data.\nWe then use the observed data to update our beliefs and obtain a posterior distribution.\nThe posterior distribution combines the information from the prior and the likelihood of the observed data using Bayes’ theorem: P(p | data) = \\frac{P(data | p) P(p)}{P(data)}\nLet’s say we have run a previous experiment and observed n = 20 individuals with allele A and x = 3 individuals with allele A\nWe can use this information to inform our prior distribution for p"
   },
   {
     "objectID": "lectures/lecture-01.html#modeling-but-make-it-bayesian-1",
     "href": "lectures/lecture-01.html#modeling-but-make-it-bayesian-1",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "Modeling, but make it bayesian",
+    "text": "Modeling, but make it bayesian\n\n\n\np &lt;- seq(0, 1, length.out = 1000)\n# Prior (Beta distribution from previous experiment)\nprior &lt;- dbeta(p, 3 + 1, 17 + 1)\n# Likelihood (Beta distribution from current data)\nlikelihood &lt;- dbeta(p, 11 + 1, 16 + 1)\n# Posterior (Beta distribution combining both)\nposterior &lt;- dbeta(p, 14 + 1, 33 + 1)\n# Combine into a data frame\nplot_data &lt;- data.frame(\n    p = rep(p, 3),\n    density = c(prior, likelihood, posterior),\n    type = rep(c(\"Prior\", \"Likelihood\", \"Posterior\"), each = length(p))\n)\n# Add flat prior distribution\nflat_prior &lt;- dbeta(p, 1, 1)\nflat_posterior &lt;- dbeta(p, 12, 17)\nplot_data &lt;- rbind(\n    plot_data,\n    data.frame(\n        p = rep(p, 3),\n        density = c(flat_prior, likelihood, flat_posterior),\n        type = rep(c(\"Prior\", \"Likelihood\", \"Posterior\"), each = length(p))\n    )\n)\n# Add a column to distinguish between informative and flat scenarios\nplot_data$scenario &lt;- c(rep(\"Informative\", 3000), rep(\"Flat\", 3000))\n\n\n\n\n\n\np1 &lt;- ggplot(\n    plot_data %&gt;% filter(scenario == \"Informative\"),\n    aes(x = p, y = density, color = type)\n) +\n    geom_line(linewidth = 2) +\n    geom_vline(xintercept = 11 / 27, linetype = \"dashed\", color = \"red\") +\n    labs(\n        x = \"Allele Frequency (p)\",\n        y = \"Density\",\n        title = \"Bayesian Update with Informative Prior\"\n    ) +\n    scale_color_viridis_d() +\n    theme_minimal(base_size = 15)\n\n\n\np2 &lt;- ggplot(\n  plot_data %&gt;% filter(scenario == \"Flat\"),\n  aes(x = p, y = density, color = type, linetype = type)\n) +\n  geom_line(linewidth = 2) +\n  scale_linetype_manual(values = c(\"Prior\" = \"dotted\", \"Likelihood\" = \"solid\", \"Posterior\" = \"dashed\")) +\n  geom_vline(xintercept = 11 / 27, linetype = \"dotdash\", color = \"red\") +\n  labs(\n    x = \"Allele Frequency (p)\",\n    y = \"Density\",\n    title = \"Bayesian Update with Flat Prior\"\n  ) +\n  theme_minimal(base_size = 15) +\n  scale_color_viridis_d() +\n  annotate(\"text\",\n    x = 0.7, y = max(flat_posterior) * 0.8,\n    label = \"Likelihood ≈ Posterior\", color = \"gray30\"\n  )"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#modeling-but-make-it-bayesian-2",
+    "href": "lectures/lecture-01.html#modeling-but-make-it-bayesian-2",
     "title": "Lecture 01: Introduction and Foundations",
     "section": "Modeling, but make it Bayesian",
     "text": "Modeling, but make it Bayesian"
@@ -284,7 +263,7 @@
     "href": "lectures/lecture-01.html#mendels-laws",
     "title": "Lecture 01: Introduction and Foundations",
     "section": "Mendel’s Laws",
-    "text": "Mendel’s Laws\n\n\nMendel’s First Law (Segregation)\nOne allele of each parent is randomly transmitted, with probability 1/2, to the offspring; the alleles unite randomly to form the offspring’s genotype.\nMendel’s Second Law (Independent Assortment)\nAt different loci, alleles are transmitted independently (when loci are unlinked)."
+    "text": "Mendel’s Laws\n\n\nMendel’s First Law (Segregation)\nOne allele of each parent is randomly transmitted, with probability 1/2, to the offspring; the alleles unite randomly to form the offspring’s genotype.\nMendel’s Second Law (Independent Assortment)\nAt different loci, alleles are transmitted independently (when loci are unlinked).\n\n\n\n\n\nMendel’s First Law, the Law of Segregation, states that during the formation of gametes (sperm and egg cells), the two alleles for a given gene separate, so that each gamete receives only one allele. This means that each parent contributes one allele to their offspring, and the combination of these alleles determines the offspring’s genotype.\nMendel’s Second Law, the Law of Independent Assortment, states that alleles for different genes are transmitted independently of one another, provided the genes are located on different chromosomes or are far apart on the same chromosome. This means that the inheritance of one trait does not influence the inheritance of another trait, allowing for a variety of genetic combinations in the offspring."
   },
   {
     "objectID": "lectures/lecture-01.html#worked-example-segregation-31-ratio",
@@ -294,13 +273,6 @@
     "text": "Worked Example: Segregation (3:1 Ratio)\nCross: Aa × Aa\n\n\n\nPunnett Square\n\n\n\n\n\n\nA\na\n\n\n\n\nA\nAA\nAa\n\n\na\nAa\naa\n\n\n\n\n\n\n\nExpected Ratios\n\n\n\nGenotypic: 1 AA : 2 Aa : 1 aa\nPhenotypic: 3 dominant : 1 recessive\nProbabilities: P(AA)=\\frac14, P(Aa)=\\frac12, P(aa)=\\frac14"
   },
   {
-    "objectID": "lectures/lecture-01.html#testing-segregation-ratios",
-    "href": "lectures/lecture-01.html#testing-segregation-ratios",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Testing Segregation Ratios",
-    "text": "Testing Segregation Ratios\nObserved offspring from Aa × Aa cross: 240 total - 180 dominant phenotype, 60 recessive phenotype - Expected under 3:1 ratio: 180 dominant, 60 recessive\n\n# Test for 3:1 segregation ratio\nobserved &lt;- c(180, 60)\nexpected &lt;- c(180, 60)  # 3:1 ratio from 240 total\nchi_sq &lt;- sum((observed - expected)^2 / expected)\np_value &lt;- pchisq(chi_sq, df = 1, lower.tail = FALSE)\ncat(\"χ² =\", chi_sq, \", p-value =\", p_value)\n\nχ² = 0 , p-value = 1\n\n\nConclusion: Perfect fit to Mendelian expectations (p = 1.0)"
-  },
-  {
     "objectID": "lectures/lecture-01.html#test-cross-example",
     "href": "lectures/lecture-01.html#test-cross-example",
     "title": "Lecture 01: Introduction and Foundations",
@@ -308,74 +280,25 @@
     "text": "Test Cross Example\nProving law of segregation with a test cross\nExample data:\n\nCross: Aa × aa\nObserved: 21 dominant, 28 recessive\nNull hypothesis: Probability of transmission is 1:1.\nAlternative hypothesis: Probability of transmission is not 1:1.\nHow to test this?\n\nOur question is related to observation of proportions –&gt; use a chi-squared goodness-of-fit test or a binomial test."
   },
   {
-    "objectID": "lectures/lecture-01.html#dihybrid-cross-independent-assortment",
-    "href": "lectures/lecture-01.html#dihybrid-cross-independent-assortment",
+    "objectID": "lectures/lecture-01.html#test-cross-example-1",
+    "href": "lectures/lecture-01.html#test-cross-example-1",
     "title": "Lecture 01: Introduction and Foundations",
-    "section": "Dihybrid Cross: Independent Assortment",
-    "text": "Dihybrid Cross: Independent Assortment\nAaBb × AaBb (9:3:3:1 Expected)\nTwo traits: Seed shape (A/a) and color (B/b)\n\n# Calculate expected probabilities\nprob_AB &lt;- (3/4) * (3/4)  # 9/16 Round Yellow\nprob_Ab &lt;- (3/4) * (1/4)  # 3/16 Round Green\nprob_aB &lt;- (1/4) * (3/4)  # 3/16 Wrinkled Yellow  \nprob_ab &lt;- (1/4) * (1/4)  # 1/16 Wrinkled Green\n\ncat(\"Expected ratios:\")\n\nExpected ratios:\n\ncat(\"\\nRound Yellow:\", 9, \"(\", prob_AB, \")\")\n\n\nRound Yellow: 9 ( 0.5625 )\n\ncat(\"\\nRound Green:\", 3, \"(\", prob_Ab, \")\")\n\n\nRound Green: 3 ( 0.1875 )\n\ncat(\"\\nWrinkled Yellow:\", 3, \"(\", prob_aB, \")\")\n\n\nWrinkled Yellow: 3 ( 0.1875 )\n\ncat(\"\\nWrinkled Green:\", 1, \"(\", prob_ab, \")\")\n\n\nWrinkled Green: 1 ( 0.0625 )"
+    "section": "Test Cross Example",
+    "text": "Test Cross Example\n\nobserved_testcross &lt;- c(21, 28)     # Dominant, Recessive\nchisq_test &lt;- chisq.test(observed_testcross, p = c(0.5, 0.5))\nchisq_test\n\n\n    Chi-squared test for given probabilities\n\ndata:  observed_testcross\nX-squared = 1, df = 1, p-value = 0.3173"
   },
   {
-    "objectID": "lectures/lecture-01.html#testing-independent-assortment",
-    "href": "lectures/lecture-01.html#testing-independent-assortment",
+    "objectID": "lectures/lecture-01.html#estimation-of-allele-frequencies",
+    "href": "lectures/lecture-01.html#estimation-of-allele-frequencies",
     "title": "Lecture 01: Introduction and Foundations",
-    "section": "Testing Independent Assortment",
-    "text": "Testing Independent Assortment\nMendel’s observed data: 556 F₂ offspring - Round Yellow: 315, Round Green: 108\n- Wrinkled Yellow: 101, Wrinkled Green: 32\n\ntotal_f2 &lt;- 556\nobserved_dihybrid &lt;- c(315, 108, 101, 32)\nexpected_dihybrid &lt;- c(\n  total_f2 * 9/16,  # Round Yellow: 312.75\n  total_f2 * 3/16,  # Round Green: 104.25\n  total_f2 * 3/16,  # Wrinkled Yellow: 104.25\n  total_f2 * 1/16   # Wrinkled Green: 34.75\n)\n\nchi_sq_dihybrid &lt;- sum((observed_dihybrid - expected_dihybrid)^2 / expected_dihybrid)\np_val_dihybrid &lt;- pchisq(chi_sq_dihybrid, df = 3, lower.tail = FALSE)\n\ncat(\"Expected:\", round(expected_dihybrid, 1))\n\nExpected: 312.8 104.2 104.2 34.8\n\ncat(\"\\nObserved:\", observed_dihybrid)\n\n\nObserved: 315 108 101 32\n\ncat(\"\\nχ² =\", round(chi_sq_dihybrid, 3), \", p-value =\", round(p_val_dihybrid, 3))\n\n\nχ² = 0.47 , p-value = 0.925\n\n\nConclusion: Excellent fit supports independent assortment"
+    "section": "Estimation of Allele Frequencies",
+    "text": "Estimation of Allele Frequencies\nn_{AA} = Number of individuals with genotype AA n_{Aa} = Number of individuals with genotype Aa n_{aa} = Number of individuals with genotype aa\nwhere, n = n_{AA} + n_{Aa} + n_{aa} = N.\nThe sample proportions of allele A is:\n\n\\hat{p} = \\frac{2n_{AA} + n_{Aa}}{2n}\n\nThe usual standard error for a proportion is \\sqrt{\\hat{p}(1 - \\hat{p})/2n}, but this assumes independence of the 2n sampled chromosomes."
   },
   {
-    "objectID": "lectures/lecture-01.html#genetic-models",
-    "href": "lectures/lecture-01.html#genetic-models",
+    "objectID": "lectures/lecture-01.html#hardyweinberg-equilibrium-hwe-assumptions",
+    "href": "lectures/lecture-01.html#hardyweinberg-equilibrium-hwe-assumptions",
     "title": "Lecture 01: Introduction and Foundations",
-    "section": "Genetic Models",
-    "text": "Genetic Models\nMendelian\n\n\n\n\nDominant\n\n\nP(Y = 1 | DD) = P(Y = 1 | Dd) = 1 P(Y = 1 | dd) = 0\n\n\n\n\n\n\n\n\nRecessive\n\n\nP(Y = 1 | DD) = 1 P(Y = 1 | Dd) = P(Y = 1 | dd) = 0\n\n\n\n\nThese models are not reasonable for non rare/mendelian diseases"
-  },
-  {
-    "objectID": "lectures/lecture-01.html#penetrance",
-    "href": "lectures/lecture-01.html#penetrance",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Penetrance",
-    "text": "Penetrance\nA genetic model is of reduced penetrance if the probability of disease is less than 1 for individuals with a disease genotype\n\nRecessive: P(Y = 1 | DD) &lt; 1\nDominant: P(Y = 1 | DD) &lt; 1, P(Y = 1 | Dd) &lt; 1"
-  },
-  {
-    "objectID": "lectures/lecture-01.html#continuous-penetrance-functions",
-    "href": "lectures/lecture-01.html#continuous-penetrance-functions",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Continuous penetrance functions",
-    "text": "Continuous penetrance functions\nWhat is the difference in what these two plots are showing?\n\n\n\n\n\n\n\n\n\n\nFrom Goodrich, J. K et al. (2021), “Determinants of penetrance and variable expressivity in monogenic metabolic conditions across 77,184 exomes,” Nature Communications, Nature Publishing Group, 12, 3505."
-  },
-  {
-    "objectID": "lectures/lecture-01.html#mode-of-inheritance",
-    "href": "lectures/lecture-01.html#mode-of-inheritance",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Mode of Inheritance",
-    "text": "Mode of Inheritance\nFor quantitative traits, there exist four modes of inheritance:\n\nDominant, when only one copy of the allele is required to induce an effect on the disease phenotype\nRecessive, when two copies of the allele are required to induce an effect on the disease phenotype\nAdditive, when the effect of the allele is proportional to the number of copies present\nCodominant, when the effect of the allele is equal to the sum of the effects of each copy"
-  },
-  {
-    "objectID": "lectures/lecture-01.html#generalized-linear-models",
-    "href": "lectures/lecture-01.html#generalized-linear-models",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Generalized Linear Models",
-    "text": "Generalized Linear Models\n\n\n\n\n\n\nSimple Linear Model\n\n\n\n\\[\ny_i = \\beta_0 + \\beta_1 x_i + \\epsilon_i\n\\]\n\n\n\n\n\n\n\n\nGeneralized Linear Model\n\n\n\n\\[\ng(y_i) = \\beta_0 + \\beta_1 x_i + \\epsilon_i\n\\]\nWhere\n\n\\(g(\\cdot)\\) is a link function that relates the linear predictor to the mean of the response variable\n\\(V(\\cdot)\\) is a variance function that relates the mean of the response variable to its variance"
-  },
-  {
-    "objectID": "lectures/lecture-01.html#estimating-allele-frequencies",
-    "href": "lectures/lecture-01.html#estimating-allele-frequencies",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Estimating Allele Frequencies",
-    "text": "Estimating Allele Frequencies\nConsider a sample of n individuals, and let\n\nn_{AA} be the number of individuals with genotype AA\nn_{Aa} be the number of individuals with genotype Aa\nn_{aa} be the number of individuals with genotype aa\n\n\nWhat is n_{AA} + n_{Aa} + n_{aa}?\nWhat is the frequency of allele A in the population?\nHow many alleles are there in total?\nWhat is the frequency of allele a in the population?\nWhat is the standard error of the allele frequency estimate?"
-  },
-  {
-    "objectID": "lectures/lecture-01.html#population-substructure",
-    "href": "lectures/lecture-01.html#population-substructure",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Population Substructure",
-    "text": "Population Substructure\n\nShriner, D., Adeyemo, A., Ramos, E., Chen, G., and Rotimi, C. N. (2011), “Mapping of disease-associated variants in admixed populations,” Genome Biology, BioMed Central, 12, 1–8."
-  },
-  {
-    "objectID": "lectures/lecture-01.html#hardy-weinberg-equilibrium",
-    "href": "lectures/lecture-01.html#hardy-weinberg-equilibrium",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Hardy-Weinberg Equilibrium",
-    "text": "Hardy-Weinberg Equilibrium\n\nKhan Academy"
+    "section": "Hardy–Weinberg Equilibrium (HWE): Assumptions",
+    "text": "Hardy–Weinberg Equilibrium (HWE): Assumptions\nLet’s reframe the problem in terms of genotype frequencies. First, some assumptions:\n\nRandom mating\nLarge population (no strong drift in one generation)\nNo selection, no migration, no mutation (in the generation under study)\nAccurate genotypes (no systematic genotyping error)\n\nIf these hold, and the allele frequency of A is p (so q = 1-p), we say that the population is in Hardy-Weinberg Equilibrium (HWE). The population genotype probabilities are:\n\nP(AA)=p^2 \\quad P(Aa)=2pq \\quad P(aa)=q^2\n\nAs a consequence, the genotype frequencies in a random sample of n individuals are approximately multinomially distributed with cell probabilities (p^2, 2pq, q^2). Thus, the sampling error of \\hat{p} is approximately \\sqrt{p(1-p)/2n}.\nThis confidence interval is known as a Wald confidence interval."
   },
   {
     "objectID": "lectures/lecture-01.html#testing-for-hwe",
@@ -385,32 +308,69 @@
     "text": "Testing for HWE\n\nWith large samples, we can test for HWE using a chi-squared goodness-of-fit test.\n\n\nLaird and Lange (2011)"
   },
   {
-    "objectID": "lectures/lecture-01.html#testing-for-hwe-1",
-    "href": "lectures/lecture-01.html#testing-for-hwe-1",
+    "objectID": "lectures/lecture-01.html#hwe-worked-example",
+    "href": "lectures/lecture-01.html#hwe-worked-example",
     "title": "Lecture 01: Introduction and Foundations",
-    "section": "Testing for HWE",
-    "text": "Testing for HWE\n\nEstimate allele frequencies from the sample\nEstimate \\hat{p}, the frequency of allele A\nCalculate expected genotype frequencies under HWE\nCompare observed and expected genotype frequencies using a statistical test (e.g., Pearson goodness-of-fit test)\n\n\nn &lt;- 212\nn_AA &lt;- 175\nn_Aa &lt;- 33\nn_aa &lt;- 4"
+    "section": "HWE: Worked Example",
+    "text": "HWE: Worked Example\n\nn &lt;- 212\nn_AA &lt;- 175\nn_Aa &lt;- 33\nn_aa &lt;- 4\n\n# Estimate allele frequency\np_hat &lt;- (2*n_AA + n_Aa) / (2*n)\nq_hat &lt;- 1 - p_hat\np_hat\n\n[1] 0.9033019\n\n# Expected counts\nexpected &lt;- c(n * p_hat^2, 2*n * p_hat*q_hat, n * q_hat^2)\nobserved &lt;- c(n_AA, n_Aa, n_aa)\nexpected\n\n[1] 172.982311  37.035377   1.982311\n\n# Pearson chi-squared\nchisq_val &lt;- sum((observed - expected)^2 / expected)\ndf &lt;- 3 - 1 - 1\np_val &lt;- pchisq(chisq_val, df = df, lower.tail = FALSE)\np_val\n\n[1] 0.1126299"
   },
   {
-    "objectID": "lectures/lecture-01.html#testing-for-hwe-2",
-    "href": "lectures/lecture-01.html#testing-for-hwe-2",
+    "objectID": "lectures/lecture-01.html#sampling-distributions-intuition-via-simulation",
+    "href": "lectures/lecture-01.html#sampling-distributions-intuition-via-simulation",
     "title": "Lecture 01: Introduction and Foundations",
-    "section": "Testing for HWE",
-    "text": "Testing for HWE\n\nEstimate allele frequencies from the sample\nEstimate \\hat{p}, the frequency of allele A\nCalculate expected genotype frequencies under HWE\nCompare observed and expected genotype frequencies using a statistical test (e.g., Pearson goodness-of-fit test)\n\n\nn &lt;- 212\nn_AA &lt;- 175\nn_Aa &lt;- 33\nn_aa &lt;- 4\n\np_hat &lt;- (2* n_AA + n_Aa) / (2*n)\np_hat\n\n[1] 0.9033019"
+    "section": "Sampling distributions: intuition via simulation",
+    "text": "Sampling distributions: intuition via simulation\n\nset.seed(123)\ntrue_p &lt;- 0.3\nsample_sizes &lt;- c(5, 10, 100, 500)\nn_sims &lt;- 1000\n\nsampling_results &lt;- map_dfr(sample_sizes, function(n) {\n  p_hats &lt;- replicate(n_sims, {\n    # Sample n individuals (2n alleles total)\n    alleles &lt;- rbinom(n, 2, true_p)  # each individual contributes 0,1,2 A alleles\n    sum(alleles) / (2 * n)           # sample allele frequency\n  })\n  tibble(sample_size = n, p_hat = p_hats,\n         theoretical_se = sqrt(true_p * (1 - true_p) / (2 * n)))\n})"
   },
   {
-    "objectID": "lectures/lecture-01.html#testing-for-hwe-3",
-    "href": "lectures/lecture-01.html#testing-for-hwe-3",
+    "objectID": "lectures/lecture-01.html#sampling-distributions-intuition-via-simulation-1",
+    "href": "lectures/lecture-01.html#sampling-distributions-intuition-via-simulation-1",
     "title": "Lecture 01: Introduction and Foundations",
-    "section": "Testing for HWE",
-    "text": "Testing for HWE\n\nEstimate allele frequencies from the sample\nEstimate \\hat{p}, the frequency of allele A\nCalculate expected genotype frequencies under HWE\nCompare observed and expected genotype frequencies using a statistical test (e.g., Pearson goodness-of-fit test)\n\n\nn &lt;- 212\nn_AA &lt;- 175\nn_Aa &lt;- 33\nn_aa &lt;- 4\n\np_hat &lt;- (2* n_AA + n_Aa) / (2*n)\np_hat\n\n[1] 0.9033019\n\ne_AA &lt;- round(n * p_hat^2)\ne_Aa &lt;- round(2 * n * p_hat * (1 - p_hat))\ne_aa &lt;- round(n * (1 - p_hat)^2)\nc(e_AA, e_Aa, e_aa)\n\n[1] 173  37   2"
+    "section": "Sampling distributions: intuition via simulation",
+    "text": "Sampling distributions: intuition via simulation\n\n# Plot sampling distributions\nggplot(sampling_results, aes(x = p_hat)) +\n  geom_histogram(aes(y = after_stat(density)), bins = 30, alpha = 0.7) +\n  geom_vline(xintercept = true_p, color = \"red\", linetype = \"dashed\", linewidth = 1) +\n  facet_wrap(~sample_size_name, scales = \"free_y\") +\n  labs(title = \"Sampling Distribution of p̂\", x = \"Sample Allele Frequency (p̂)\", y = \"Density\") +\n  theme_minimal()\n\n\n\n\n\n\nLaird, Nan M., and Christoph Lange. 2011. The Fundamentals of Modern Statistical Genetics. Statistics for Biology and Health. New York: Springer Science."
   },
   {
-    "objectID": "lectures/lecture-01.html#testing-for-hwe-4",
-    "href": "lectures/lecture-01.html#testing-for-hwe-4",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Testing for HWE",
-    "text": "Testing for HWE\n\nEstimate allele frequencies from the sample\nEstimate \\hat{p}, the frequency of allele A\nCalculate expected genotype frequencies under HWE\nCompare observed and expected genotype frequencies using a statistical test (e.g., Pearson goodness-of-fit test)"
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Schedule",
+    "section": "",
+    "text": "Article links direct to files hosted on the Zotero group library\n\n\n\nWeek\nLecture\nReadings\nAssignment\n\n\n\n\n1\nFoundations: Mendelian genetics & statistical basics\nMendel’s laws, Hardy–Weinberg equilibrium, \\(\\chi^2\\)goodness‑of‑fit. Sampling distributions; linking population parameters to sample estimates. One‑locus likelihood: building and interpreting likelihood functions.\n\nSorensen Chapter 1\nEdwards, A. W. F. (2008), “G. H. Hardy (1908) and Hardy–Weinberg Equilibrium,” Genetics.\nIntroduction to Probability Theory\n\nProblem Set 01\n\n\n2\nHeritability, segregation, and the gene-mapping toolkit\nNarrow and broad sense heritability; variance-component interpretation. Segregation analysis and modelling genetic inheritance without marker data. Conceptual framework for linkage versus association studies and marker maps\n\nSorensen Chapter 2.1-2.2, 2.4, 2.8\nVisscher, P. M., et al., (2008), “Heritability in the genomics era — concepts and misconceptions,” Nature Reviews Genetics.\n\nProblem Set 02\n\n\n3\nLikelihood algorithms & practical gene mapping\nNewton-Raphson, EM, and stochastic gradient algorithms for complex likelihoods. Pedigree linkage analysis, LOD-score calculation, and missing-data EM steps. Single-marker and haplotype association tests with basic quality control\n\nSorensen, Chapter 3\nLander, E. S., and Green, P. (1987), “Construction of multilocus genetic linkage maps in humans.,” Proceedings of the National Academy of Sciences of the United States of America.\n\nProblem Set 03\n\n\n4\nPopulation structure & Bayesian fundamentals\nDetecting and correcting for population stratification and admixture confounding. Priors, posteriors, and the Bayes-frequentist debate in genetic inference. Bayesian admixture/STRUCTURE-style modelling implemented in Stan.\n\nSorensen 4.1-4.5, 4.7-4.8, 5.1\nPorras-Hurtado, L. et al., (2013), “An overview of STRUCTURE: applications, parameter settings, and supporting software,” Frontiers in Genetics.\nLawson, D. J. et al., (2018), “A tutorial on how not to over-interpret STRUCTURE and ADMIXTURE bar plots,” Nature Communications.\n\nProblem Set 04\n\n\n5\nGWAS at Scale – design, LMMs, and meta-analysis\nEnd to end GWAS workflow: sample QC, variant QC, power, pitfalls. Linear mixed models (BOLT LMM/REML concepts) and SAIGE for imbalance/relatedness. Fixed/random effects meta-analysis; genomic inflation and calibration.\n\nLoh, P.-R. et al., (2015), “Efficient Bayesian mixed model analysis increases association power in large cohorts,” Nature Genetics.\n\nProblem Set 05\n\n\n6\nPrediction models in genetics\n\nSorensen Chapters 6, 7.1-7.2, 10.1, 10.5, 11.3-11.5\nWu, T. T., Chen, Y. F., Hastie, T., Sobel, E., and Lange, K. (2009), “Genome-wide association analysis by lasso penalized logistic regression,” Bioinformatics, 25, 714–721. https://doi.org/10.1093/bioinformatics/btp041.\n\n\n\n\n7\nMultiple testing & false-discovery control\n\nSorensen Chapter 8\nOtani, T., Noma, H., Nishino, J., and Matsui, S. (2018), “Re-assessment of multiple testing strategies for more efficient genome-wide association studies,” European Journal of Human Genetics, Nature Publishing Group, 26, 1038–1048. https://doi.org/10.1038/s41431-018-0125-3.\n\n\n\n\n8\nBinary traits and family-based association tests\n\nSorensen Chapter 9\nZhou, W., Bi, W., Zhao, Z., Dey, K. K., Jagadeesh, K. A., Karczewski, K. J., Daly, M. J., Neale, B. M., and Lee, S. (2022), “SAIGE-GENE+ improves the efficiency and accuracy of set-based rare variant association tests,” Nature Genetics, Nature Publishing Group, 54, 1466–1469. https://doi.org/10.1038/s41588-022-01178-w.\n\n\n\n\n9\nCausal inference & functional integration (Mendelian randomization)\n\nSanderson, E., Glymour, M. M., Holmes, M. V., Kang, H., Morrison, J., Munafò, M. R., Palmer, T., Schooling, C. M., Wallace, C., Zhao, Q., and Davey Smith, G. (2022), “Mendelian randomization,” Nature Reviews Methods Primers, 2, 1–21. https://doi.org/10.1038/s43586-021-00092-5.\n\n\n\n\n10\nAdvanced AI Topics in Statistical Genetics: Language Models for Genomics\nRecommended:\n\nJi et al., 2021\nAvsec et al., 2021\nCheng et al., 2023\nBaghbanzadeh et al., 2025\nMollerus et al., 2025",
+    "crumbs": [
+      "Schedule"
+    ]
+  },
+  {
+    "objectID": "assignments/assignment-02.html",
+    "href": "assignments/assignment-02.html",
+    "title": "Assignment 02",
+    "section": "",
+    "text": "Laird, Section 4.5, Exercise 2\nLaird, Section 4.5, Exercise 7\nLaird, Section 4.5, Exercise 11\nLaird, Section 4.5, Exercise 14\nLaird, Section 2.4, Exercise 4\nLaird, Section 2.4, Exercise 7\nConsider a sample size of \\(n\\) of unrelated haploid individuals is obtained from some population with the objective of estimating allele frequency at a biallelic locus. The sample contains \\(x\\) copies of \\(A\\), and \\(n-x\\) copies of \\(a\\).\n\nPlot the probability distribution of \\(X\\) given \\(n = 30\\), and \\(\\theta = .1\\). Plot the probability distribution of \\(X\\) given \\(n = 1000\\), and \\(\\theta = .1\\).\nLets say we observed \\(30\\) samples, with \\(10\\) copies of allele \\(A\\). Plot the likelihood function for \\(\\theta\\)\nWhat is the MLE of \\(\\theta\\)?\nLet’s say \\(n = 1000\\), and \\(x = 100\\). What is the sampling variance of \\(\\hat{\\theta}\\)?\nLet’s say \\(n = 100\\), and \\(x = 10\\). What is the sampling variance of \\(\\hat{\\theta}\\)? Why is this different than the result above?"
+  },
+  {
+    "objectID": "assignments/assignment-01.html",
+    "href": "assignments/assignment-01.html",
+    "title": "Assignment 01",
+    "section": "",
+    "text": "Make a Zotero account using the guide here. Make sure you use your GW email address, as this will provide unlimited cloud storage for PDFs. Once you have created your account, email chiraaggohel@gwu.edu your username.\n(Laird, 2.4) How many genotypes are possible with a 3-allele marker? With K alleles?\n(Laird, 2.6) Consider a recessive Mendelian disease, where in the population, \\(P(\\text{an individual has 2 disease variants}) = 0.000001\\).\n\nWhat is the probability that a randomly selected person is affected? Suppose that the randomly selected person is affected. What does that imply about the probability that their sibling is also affected (you can assume that having either one or two parents with two variants is so rare that you can ignore them)?\nNow answer both of these questions assuming the penetrance is only 12, i.e., \\(P(\\text{disease} | 2 \\text{ variants}) = 12\\), but the phenocopy rate is still zero.\n\nConsider a sample size of \\(n\\) of unrelated haploid individuals is obtained from some population with the objective of estimating allele frequency at a biallelic locus. The sample contains \\(x\\) copies of \\(A\\), and \\(n-x\\) copies of \\(a\\).\n\nPlot the probability distribution of \\(X\\) given \\(n = 30\\), and \\(\\theta = .1\\). Plot the probability distribution of \\(X\\) given \\(n = 1000\\), and \\(\\theta = .1\\).\nLets say we observed \\(30\\) samples, with \\(10\\) copies of allele \\(A\\). Plot the likelihood function for \\(\\theta\\)\nWhat is the MLE of \\(\\theta\\)?\nLet’s say \\(n = 1000\\), and \\(x = 100\\). What is the sampling variance of \\(\\hat{\\theta}\\)?\nLet’s say \\(n = 100\\), and \\(x = 10\\). What is the sampling variance of \\(\\hat{\\theta}\\)? Why is this different than the result above?\n\nRefer to equations (1.3) and (1.5) in Sorensen. Say you observe \\(8\\) individuals, and \\(1\\) copies of genotype \\(A\\). Assume that \\(A\\) is binomially distributed with parameter \\(\\theta\\).\n\n\nCompute \\(\\hat{\\theta}\\)\nCompute \\(\\hat{\\text{Var}}(\\hat{\\theta})\\)\nProvide a 95% Wald confidence interval for \\(\\theta\\)\nWrite an interpretation of this confidence interval. What problem does this reveal about the Wald confidence interval?"
+  },
+  {
+    "objectID": "faq.html",
+    "href": "faq.html",
+    "title": "Frequently Asked Questions",
+    "section": "",
+    "text": "Via our shared Zotero library. If you don’t have access, please email chiraaggohel@gwu.edu to be added.",
+    "crumbs": [
+      "FAQ"
+    ]
+  },
+  {
+    "objectID": "faq.html#the-required-paper-is-not-open-source-how-do-i-access-it",
+    "href": "faq.html#the-required-paper-is-not-open-source-how-do-i-access-it",
+    "title": "Frequently Asked Questions",
+    "section": "",
+    "text": "Via our shared Zotero library. If you don’t have access, please email chiraaggohel@gwu.edu to be added.",
+    "crumbs": [
+      "FAQ"
+    ]
   },
   {
     "objectID": "syllabus.html",
@@ -477,53 +437,9 @@
     "href": "syllabus.html#assignments-and-descriptions",
     "title": "Syllabus",
     "section": "Assignments and Descriptions",
-    "text": "Assignments and Descriptions\n\nProblem Sets\nProblem sets are key to exploring the concepts introduced both in class and in the textbook. These are meant to provide an opportunity to more deeply understand concepts and put them into practice and provide an opportunity for data manipulation. This is part of the ‘lab’ component of the course and you will be given time in class to work on assignments and collaborate. However, these problem sets will take substantial time outside of class to complete, so please plan accordingly.\n\n\nResearch Project\nStudents will choose a unique project to work on for the final third of the semester. At the end of the semester, students will submit a written project report in the form of a scientific research paper. Students are strongly encouraged to work in groups of up to three on their projects, however such groups will be expected to make proportionally more substantial contributions with clearly delineated responsibilities for each member’s contributions. Projects should be based on a research topic related to statistical genetics, but can be computational, methodological, or applied in nature. The Lab write-ups will follow the standard form of a scientific paper to gain experience in writing. Specifically, we will follow the format of the journal Genetics, the leading journal in the field. The paper MUST BE BASED ON THE PRIMARY LITERATURE IN THE APPROPRIATE REFEREED SCIENTIFIC JOURNALS, and it should adhere to the following format:\n\nBegin the paper with an original title, followed by your name, the course, and the date. All papers should be typed, single-spaced, and in 12 pt. font.\nThe paper should have the following sections:\n\nIntroduction – here you state the general problem or issue you are addressing.\nMaterials and Methods – describe the methods used to obtain data, analyze data, and test hypotheses associated with the data.\nResults – describe the results of the data analysis and hypothesis testing.\nDiscussion – here you draw conclusions about the problem you studied; this section should include a synthesis of ideas.\nLiterature Cited – List the relevant literature you have read and used to support your arguments/analyze your data. The literature cited should be in the format of the journal Genetics.\n\n\nAspects of the project will be required throughout the course with a final research project submitted in the form of a research paper during finals. See course outline for due dates for each part of project.",
+    "text": "Assignments and Descriptions\n\n\n\nAssignment Type\n% of total grade\n\n\n\n\nProblem Sets\n60\n\n\nClass participation (defined below)\n20\n\n\nResearch Project (Final Exam)\n20\n\n\n\n\nStandard SPH Graduate Grading Scale\n\nA: 94-100%\nA-: 90-93%\nB+: 87-89%\nB: 84-86%\nB-: 80-83%\nC+: 77-79%\nC: 73-76%\nC-: 70-72%\nF: Below 70%\n\n\n\nProblem Sets\nProblem sets are key to exploring the concepts introduced both in class and in the textbook. These are meant to provide an opportunity to more deeply understand concepts and put them into practice and provide an opportunity for data manipulation. This is part of the ‘lab’ component of the course and you will be given time in class to work on assignments and collaborate. However, these problem sets will take substantial time outside of class to complete, so please plan accordingly.\n\n\nResearch Project\nStudents will choose a unique project to work on for the final third of the semester. At the end of the semester, students will submit a written project report in the form of a scientific research paper. Students are strongly encouraged to work in groups of up to three on their projects, however such groups will be expected to make proportionally more substantial contributions with clearly delineated responsibilities for each member’s contributions. Projects should be based on a research topic related to statistical genetics, but can be computational, methodological, or applied in nature. The Lab write-ups will follow the standard form of a scientific paper to gain experience in writing. Specifically, we will follow the format of the journal Genetics, the leading journal in the field. The paper MUST BE BASED ON THE PRIMARY LITERATURE IN THE APPROPRIATE REFEREED SCIENTIFIC JOURNALS, and it should adhere to the following format:\n\nBegin the paper with an original title, followed by your name, the course, and the date. All papers should be typed, single-spaced, and in 12 pt. font.\nThe paper should have the following sections:\n\nIntroduction – here you state the general problem or issue you are addressing.\nMaterials and Methods – describe the methods used to obtain data, analyze data, and test hypotheses associated with the data.\nResults – describe the results of the data analysis and hypothesis testing.\nDiscussion – here you draw conclusions about the problem you studied; this section should include a synthesis of ideas.\nLiterature Cited – List the relevant literature you have read and used to support your arguments/analyze your data. The literature cited should be in the format of the journal Genetics.\n\n\nAspects of the project will be required throughout the course with a final research project submitted in the form of a research paper during finals. See course outline for due dates for each part of project.\n\n\nWorkload\nIn this course, you will be expected to spend 5 or more hours per week in independent learning which can include reviewing assigned material, preparing for class discussions, working on assignments, and group work. In addition, 1.5 hours per week will be spent in class computational lab and 4.5 hours working on asynchronous materials provided online. The total workload for this course will be at least 112.5 hours.\n\n\nClass Policy: Statistical Genetics is Interdisciplinary and Quantitative\nThis course is highly interdisciplinary, quantitative, and technical. We will discuss algorithms, concepts, and methods from biology, computer science, and statistics. You will be asked to learn about and apply technical concepts in areas that you may have limited familiarity with. In our experience, to succeed in this class, you will have to commit to repeatedly engaging with concepts to build understanding and refine your understanding through class discussions, outside reading, and homework assignments. Willingness to think quantitatively/probabilistically is required to succeed in this course. There are a diversity of talent sets in this class and you each bring something unique to the table. Collaborate and find someone with the skills they might share if you are lacking in a particular area. Building effective teams with broad skillsets is a hallmark of effective statistical genetics.\n\n\nClass Policy: Participation and Discussion\nTeaching and learning require a team effort. We expect you to show up to synchronous sessions (on time) and be prepared for discussions. This means, you have gone through the asynchronous material and started on the homework assignment (problem sets) and come to the synchronous session with questions. You are strongly encouraged to ask questions during synchronous session to help complete your homework assignments and share thoughts and progress on a research project. Statistical genetics is an exciting and broad area with no shortage of ethical and societal implications. We welcome your points of view and respectful discussion. We also strongly encourage cooperation among students to help in each other’s understanding of the material, but homework assignments must be your own work. We would greatly appreciate any feedback on any aspects of this course, both positive and negative!\n20% of your grade is ‘Participation’. This is both a quantitative assessment of your responses to asynchronous materials as well as participation in the live synchronous sessions. Statistical Genetics is a demanding discipline that requires students to think critically and utilize high-level analytical skills regarding complex issues. The discipline requires such mastery not only in well-articulated written work, but also in thoughtful discussions between and among students and instructors. Receiving full points for participation is not simply a matter of showing up and turning work in on time. Outstanding participation grades require truly thoughtful, insightful, and well-argued contributions and leadership in class and in asynchronous prompts that demonstrate a high level of mastery of the course material.\n\n\nClass Policy: Late Work\nLate work will be accepted but with a 1% deduction per hour for the first 5 hours up to 5% deduction per day for unexcused late homework submission. All homework will be due at 11:59 pm on the designated due date unless otherwise specified. Homework assignments (Problem Sets) will typically be distributed via blackboard with a week to complete each assignment.\n\n\nClass Policy: Make-up Work/Make-up Exams\nAny student who experiences significant family or personal illness or emergency after the final withdrawal date and is unable to complete course work should ask the instructor for an incomplete for the course. Each case will be managed on an individual basis. The Incomplete Policy must be followed as outlined in the GWSPH Student Handbook.\n\n\nClass Policy: Generative Artificial Intelligence (GAI)\nStudents are permitted to use GAI tools to generate outlines of scripts and papers to help get started, but we expect heavy editing (and commenting in code) subsequently done by the student to verify functionality and understanding of code and implications of research results. Students are permitted to use GAI for coding assignments to get started but must further comment, edit, and validate their code. Any use of GAI must be acknowledged in each assignment with details on the distinction between the GAI material and the student contribution for any given assignment along with details of the prompts supplied to the GAI tool, acknowledgement of the GAI tool including tool name and version. Note also the GW University Policy on GAI.",
     "crumbs": [
       "Syllabus"
-    ]
-  },
-  {
-    "objectID": "faq.html",
-    "href": "faq.html",
-    "title": "Frequently Asked Questions",
-    "section": "",
-    "text": "Via our shared Zotero library. If you don’t have access, please email chiraaggohel@gwu.edu to be added.",
-    "crumbs": [
-      "FAQ"
-    ]
-  },
-  {
-    "objectID": "faq.html#the-required-paper-is-not-open-source-how-do-i-access-it",
-    "href": "faq.html#the-required-paper-is-not-open-source-how-do-i-access-it",
-    "title": "Frequently Asked Questions",
-    "section": "",
-    "text": "Via our shared Zotero library. If you don’t have access, please email chiraaggohel@gwu.edu to be added.",
-    "crumbs": [
-      "FAQ"
-    ]
-  },
-  {
-    "objectID": "assignments/assignment-01.html",
-    "href": "assignments/assignment-01.html",
-    "title": "Assignment 01",
-    "section": "",
-    "text": "Make a Zotero account using the guide here. Make sure you use your GW email address, as this will provide unlimited cloud storage for PDFs. Once you have created your account, email chiraaggohel@gwu.edu your username.\n(Laird, 2.4) How many genotypes are possible with a 3-allele marker? With K alleles?\n(Laird, 2.6) Consider a recessive Mendelian disease, where in the population, \\(P(\\text{an individual has 2 disease variants}) = 0.000001\\).\n\nWhat is the probability that a randomly selected person is affected? Suppose that the randomly selected person is affected. What does that imply about the probability that their sibling is also affected (you can assume that having either one or two parents with two variants is so rare that you can ignore them)?\nNow answer both of these questions assuming the penetrance is only 12, i.e., \\(P(\\text{disease} | 2 \\text{ variants}) = 12\\), but the phenocopy rate is still zero.\n\nConsider a sample size of \\(n\\) of unrelated haploid individuals is obtained from some population with the objective of estimating allele frequency at a biallelic locus. The sample contains \\(x\\) copies of \\(A\\), and \\(n-x\\) copies of \\(a\\).\n\nPlot the probability distribution of \\(X\\) given \\(n = 30\\), and \\(\\theta = .1\\). Plot the probability distribution of \\(X\\) given \\(n = 1000\\), and \\(\\theta = .1\\).\nLets say we observed \\(30\\) samples, with \\(10\\) copies of allele \\(A\\). Plot the likelihood function for \\(\\theta\\)\nWhat is the MLE of \\(\\theta\\)?\nLet’s say \\(n = 1000\\), and \\(x = 100\\). What is the sampling variance of \\(\\hat{\\theta}\\)?\nLet’s say \\(n = 100\\), and \\(x = 10\\). What is the sampling variance of \\(\\hat{\\theta}\\)? Why is this different than the result above?"
-  },
-  {
-    "objectID": "assignments/assignment-02.html",
-    "href": "assignments/assignment-02.html",
-    "title": "Assignment 02",
-    "section": "",
-    "text": "Laird, Section 4.5, Exercise 2\nLaird, Section 4.5, Exercise 7\nLaird, Section 4.5, Exercise 11\nLaird, Section 4.5, Exercise 14\nLaird, Section 2.4, Exercise 4\nLaird, Section 2.4, Exercise 7\nConsider a sample size of \\(n\\) of unrelated haploid individuals is obtained from some population with the objective of estimating allele frequency at a biallelic locus. The sample contains \\(x\\) copies of \\(A\\), and \\(n-x\\) copies of \\(a\\).\n\nPlot the probability distribution of \\(X\\) given \\(n = 30\\), and \\(\\theta = .1\\). Plot the probability distribution of \\(X\\) given \\(n = 1000\\), and \\(\\theta = .1\\).\nLets say we observed \\(30\\) samples, with \\(10\\) copies of allele \\(A\\). Plot the likelihood function for \\(\\theta\\)\nWhat is the MLE of \\(\\theta\\)?\nLet’s say \\(n = 1000\\), and \\(x = 100\\). What is the sampling variance of \\(\\hat{\\theta}\\)?\nLet’s say \\(n = 100\\), and \\(x = 10\\). What is the sampling variance of \\(\\hat{\\theta}\\)? Why is this different than the result above?"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Schedule",
-    "section": "",
-    "text": "Article links direct to files hosted on the Zotero group library\n\n\n\nWeek\nLecture\nReadings\nAssignment\n\n\n\n\n1\nFoundations: Mendelian genetics & statistical basics\nMendel’s laws, Hardy–Weinberg equilibrium, \\(\\chi^2\\)goodness‑of‑fit. Sampling distributions; linking population parameters to sample estimates. One‑locus likelihood: building and interpreting likelihood functions.\n\nSorensen Chapter 1\nEdwards, A. W. F. (2008), “G. H. Hardy (1908) and Hardy–Weinberg Equilibrium,” Genetics.\nIntroduction to Probability Theory\n\nProblem Set 01\n\n\n2\nHeritability, segregation, and the gene-mapping toolkit\nNarrow and broad sense heritability; variance-component interpretation. Segregation analysis and modelling genetic inheritance without marker data. Conceptual framework for linkage versus association studies and marker maps\n\nSorensen Chapter 2.1-2.2, 2.4, 2.8\nVisscher, P. M., et al., (2008), “Heritability in the genomics era — concepts and misconceptions,” Nature Reviews Genetics.\n\nProblem Set 02\n\n\n3\nLikelihood algorithms & practical gene mapping\nNewton-Raphson, EM, and stochastic gradient algorithms for complex likelihoods. Pedigree linkage analysis, LOD-score calculation, and missing-data EM steps. Single-marker and haplotype association tests with basic quality control\n\nSorensen, Chapter 3\nLander, E. S., and Green, P. (1987), “Construction of multilocus genetic linkage maps in humans.,” Proceedings of the National Academy of Sciences of the United States of America.\n\nProblem Set 03\n\n\n4\nPopulation structure & Bayesian fundamentals\nDetecting and correcting for population stratification and admixture confounding. Priors, posteriors, and the Bayes-frequentist debate in genetic inference. Bayesian admixture/STRUCTURE-style modelling implemented in Stan.\n\nSorensen 4.1-4.5, 4.7-4.8, 5.1\nPorras-Hurtado, L. et al., (2013), “An overview of STRUCTURE: applications, parameter settings, and supporting software,” Frontiers in Genetics.\nLawson, D. J. et al., (2018), “A tutorial on how not to over-interpret STRUCTURE and ADMIXTURE bar plots,” Nature Communications.\n\nProblem Set 04\n\n\n5\nGWAS at Scale – design, LMMs, and meta-analysis\nEnd to end GWAS workflow: sample QC, variant QC, power, pitfalls. Linear mixed models (BOLT LMM/REML concepts) and SAIGE for imbalance/relatedness. Fixed/random effects meta-analysis; genomic inflation and calibration.\n\nLoh, P.-R. et al., (2015), “Efficient Bayesian mixed model analysis increases association power in large cohorts,” Nature Genetics.\n\nProblem Set 05\n\n\n6\nPrediction models in genetics\n\nSorensen Chapters 6, 7.1-7.2, 10.1, 10.5, 11.3-11.5\nWu, T. T., Chen, Y. F., Hastie, T., Sobel, E., and Lange, K. (2009), “Genome-wide association analysis by lasso penalized logistic regression,” Bioinformatics, 25, 714–721. https://doi.org/10.1093/bioinformatics/btp041.\n\n\n\n\n7\nMultiple testing & false-discovery control\n\nSorensen Chapter 8\nOtani, T., Noma, H., Nishino, J., and Matsui, S. (2018), “Re-assessment of multiple testing strategies for more efficient genome-wide association studies,” European Journal of Human Genetics, Nature Publishing Group, 26, 1038–1048. https://doi.org/10.1038/s41431-018-0125-3.\n\n\n\n\n8\nBinary traits and family-based association tests\n\nSorensen Chapter 9\nZhou, W., Bi, W., Zhao, Z., Dey, K. K., Jagadeesh, K. A., Karczewski, K. J., Daly, M. J., Neale, B. M., and Lee, S. (2022), “SAIGE-GENE+ improves the efficiency and accuracy of set-based rare variant association tests,” Nature Genetics, Nature Publishing Group, 54, 1466–1469. https://doi.org/10.1038/s41588-022-01178-w.\n\n\n\n\n9\nCausal inference & functional integration (Mendelian randomization)\n\nSanderson, E., Glymour, M. M., Holmes, M. V., Kang, H., Morrison, J., Munafò, M. R., Palmer, T., Schooling, C. M., Wallace, C., Zhao, Q., and Davey Smith, G. (2022), “Mendelian randomization,” Nature Reviews Methods Primers, 2, 1–21. https://doi.org/10.1038/s43586-021-00092-5.\n\n\n\n\n10\nAdvanced AI Topics in Statistical Genetics: Language Models for Genomics\nRecommended:\n\nJi et al., 2021\nAvsec et al., 2021\nCheng et al., 2023\nBaghbanzadeh et al., 2025\nMollerus et al., 2025",
-    "crumbs": [
-      "Schedule"
     ]
   },
   {
@@ -581,225 +497,5 @@
     "title": "Lecture 02: Heritability, segregation, and the gene-mapping toolkit",
     "section": "Heritability Analysis",
     "text": "Heritability Analysis\nThe following R code simulates the model above to demonstrate how different parameter choices affect the parent-offspring phenotypic relationship. We will vary the number of QTLs (\\(M\\)) and the presence of dominance effects (\\(d_m\\)).\n\n\n\n\n\n\nParent-offspring regression under different genetic architectures. Each point is a family. The red line is the regression slope, which estimates narrow-sense heritability (h²)."
-  },
-  {
-    "objectID": "index.html#week-1",
-    "href": "index.html#week-1",
-    "title": "Schedule",
-    "section": "Week 1",
-    "text": "Week 1\n\nLecture: Foundations: Mendelian genetics & statistical basics\n\nMendel’s laws, Hardy–Weinberg equilibrium, \\(\\chi^2\\)goodness‑of‑fit.\nSampling distributions; linking population parameters to sample estimates.\nOne‑locus likelihood: building and interpreting likelihood functions.\n\nReadings\n\nSorensen Chapter 1\nEdwards, A. W. F. (2008), “G. H. Hardy (1908) and Hardy–Weinberg Equilibrium,” Genetics.\nIntroduction to Probability Theory\n\nAssignment: Problem Set 01\n\n\n\n\nWeek\nLecture\nReadings\nAssignment\n\n\n\n\n1\nFoundations: Mendelian genetics & statistical basics\nMendel’s laws, Hardy–Weinberg equilibrium, \\(\\chi^2\\)goodness‑of‑fit. Sampling distributions; linking population parameters to sample estimates. One‑locus likelihood: building and interpreting likelihood functions.\n\nSorensen Chapter 1\nEdwards, A. W. F. (2008), “G. H. Hardy (1908) and Hardy–Weinberg Equilibrium,” Genetics.\nIntroduction to Probability Theory\n\nProblem Set 01\n\n\n2\nHeritability, segregation, and the gene-mapping toolkit\nNarrow and broad sense heritability; variance-component interpretation. Segregation analysis and modelling genetic inheritance without marker data. Conceptual framework for linkage versus association studies and marker maps\n\nSorensen Chapter 2.1-2.2, 2.4, 2.8\nVisscher, P. M., et al., (2008), “Heritability in the genomics era — concepts and misconceptions,” Nature Reviews Genetics.\n\nProblem Set 02\n\n\n3\nLikelihood algorithms & practical gene mapping\nNewton-Raphson, EM, and stochastic gradient algorithms for complex likelihoods. Pedigree linkage analysis, LOD-score calculation, and missing-data EM steps. Single-marker and haplotype association tests with basic quality control\n\nSorensen, Chapter 3\nLander, E. S., and Green, P. (1987), “Construction of multilocus genetic linkage maps in humans.,” Proceedings of the National Academy of Sciences of the United States of America.\n\nProblem Set 03\n\n\n4\nPopulation structure & Bayesian fundamentals\nDetecting and correcting for population stratification and admixture confounding. Priors, posteriors, and the Bayes-frequentist debate in genetic inference. Bayesian admixture/STRUCTURE-style modelling implemented in Stan.\n\nSorensen 4.1-4.5, 4.7-4.8, 5.1\nPorras-Hurtado, L. et al., (2013), “An overview of STRUCTURE: applications, parameter settings, and supporting software,” Frontiers in Genetics.\nLawson, D. J. et al., (2018), “A tutorial on how not to over-interpret STRUCTURE and ADMIXTURE bar plots,” Nature Communications.\n\nProblem Set 04\n\n\n5\nGWAS at Scale – design, LMMs, and meta-analysis\nEnd to end GWAS workflow: sample QC, variant QC, power, pitfalls. Linear mixed models (BOLT LMM/REML concepts) and SAIGE for imbalance/relatedness. Fixed/random effects meta-analysis; genomic inflation and calibration.\n\nLoh, P.-R. et al., (2015), “Efficient Bayesian mixed model analysis increases association power in large cohorts,” Nature Genetics.\n\nProblem Set 05\n\n\n6\nPrediction models in genetics\n\nSorensen Chapters 6, 7.1-7.2, 10.1, 10.5, 11.3-11.5\nWu, T. T., Chen, Y. F., Hastie, T., Sobel, E., and Lange, K. (2009), “Genome-wide association analysis by lasso penalized logistic regression,” Bioinformatics, 25, 714–721. https://doi.org/10.1093/bioinformatics/btp041.\n\n\n\n\n7\nMultiple testing & false-discovery control\n\nSorensen Chapter 8\nOtani, T., Noma, H., Nishino, J., and Matsui, S. (2018), “Re-assessment of multiple testing strategies for more efficient genome-wide association studies,” European Journal of Human Genetics, Nature Publishing Group, 26, 1038–1048. https://doi.org/10.1038/s41431-018-0125-3.\n\n\n\n\n8\nBinary traits and family-based association tests\n\nSorensen Chapter 9\nZhou, W., Bi, W., Zhao, Z., Dey, K. K., Jagadeesh, K. A., Karczewski, K. J., Daly, M. J., Neale, B. M., and Lee, S. (2022), “SAIGE-GENE+ improves the efficiency and accuracy of set-based rare variant association tests,” Nature Genetics, Nature Publishing Group, 54, 1466–1469. https://doi.org/10.1038/s41588-022-01178-w.\n\n\n\n\n9\nCausal inference & functional integration (Mendelian randomization)\n\nSanderson, E., Glymour, M. M., Holmes, M. V., Kang, H., Morrison, J., Munafò, M. R., Palmer, T., Schooling, C. M., Wallace, C., Zhao, Q., and Davey Smith, G. (2022), “Mendelian randomization,” Nature Reviews Methods Primers, 2, 1–21. https://doi.org/10.1038/s43586-021-00092-5.\n\n\n\n\n10\nAdvanced AI Topics in Statistical Genetics: Language Models for Genomics\nRecommended:\n\nJi et al., 2021\nAvsec et al., 2021\nCheng et al., 2023\nBaghbanzadeh et al., 2025\nMollerus et al., 2025",
-    "crumbs": [
-      "Schedule"
-    ]
-  },
-  {
-    "objectID": "lectures/lecture-01.html",
-    "href": "lectures/lecture-01.html",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "",
-    "text": "Dr. Keith Crandall\n\n\n\n\n\n\n\nDr. Ali Rahnavard\n\n\n\n\n\n\n\nChiraag Gohel"
-  },
-  {
-    "objectID": "lectures/lecture-01.html#course-logistics-and-expectations",
-    "href": "lectures/lecture-01.html#course-logistics-and-expectations",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Course Logistics and Expectations",
-    "text": "Course Logistics and Expectations\nGrading Breakdown\n\n\n\nAssignment Type\n% of Grade\n\n\n\n\nProblem Sets\n60%\n\n\nClass Participation\n20%\n\n\nResearch Project\n20%\n\n\n\nTotal Workload: 112.5 hours (5+ hrs/week independent + 6 hrs/week class/async)"
-  },
-  {
-    "objectID": "lectures/lecture-01.html#problem-sets-60-of-grade",
-    "href": "lectures/lecture-01.html#problem-sets-60-of-grade",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Problem Sets (60% of grade)",
-    "text": "Problem Sets (60% of grade)\n\nWeekly assignments blending mathematical derivations with coding\nCollaborative time provided in class\nIndividual work required – substantial time outside class\nLate penalty: 1% per hour (first 5 hours), then 5% per day\nFormat: Mix of theory problems and R/Bioconductor analysis"
-  },
-  {
-    "objectID": "lectures/lecture-01.html#class-participation-20-of-grade",
-    "href": "lectures/lecture-01.html#class-participation-20-of-grade",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Class Participation (20% of grade)",
-    "text": "Class Participation (20% of grade)\nMore than just showing up!\n\nCome prepared with questions from async materials\nEngage thoughtfully in discussions and problem-solving\nDemonstrate mastery through insightful contributions\nCollaborate respectfully - help others understand concepts\n\nQuantitative + Qualitative Assessment: Async responses + live session engagement"
-  },
-  {
-    "objectID": "lectures/lecture-01.html#research-project-20-of-grade",
-    "href": "lectures/lecture-01.html#research-project-20-of-grade",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Research Project (20% of grade)",
-    "text": "Research Project (20% of grade)\nFinal third of semester - Choose your own adventure!\n\n\n\nProject Types\n\n\n\nComputational methods\nApplied analysis\n\nMethodological development\nAll based on primary literature\n\n\n\n\n\nDeliverables\n\n\n\nScientific paper (Genetics journal format)\nConference-style presentation\nGroups of up to 3 encouraged\nIndividual contributions must be clear"
-  },
-  {
-    "objectID": "lectures/lecture-01.html#course-structure-overview",
-    "href": "lectures/lecture-01.html#course-structure-overview",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Course Structure Overview",
-    "text": "Course Structure Overview\nFoundation → Scale → Specialization (10 weeks)\n\nWeeks 1-4: Foundations (Mendelian genetics, heritability, likelihood algorithms, population structure & Bayesian methods)\nWeek 5: GWAS at scale (design, linear mixed models, meta-analysis)\nWeeks 6-7: Prediction models & multiple testing control\nWeeks 8-9: Binary traits & causal inference (Mendelian randomization)\nWeek 10: Advanced AI topics in statistical genetics\n\nLab Component: Hands-on R/Bioconductor workflows parallel to lectures"
-  },
-  {
-    "objectID": "lectures/lecture-01.html#technology-setup-requirements",
-    "href": "lectures/lecture-01.html#technology-setup-requirements",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Technology Setup Requirements",
-    "text": "Technology Setup Requirements\n\nR (4.5+) and IDE installation\nGit setup and basic commands\nZotero for reference management\nZoom\nOptional: HPC access"
-  },
-  {
-    "objectID": "lectures/lecture-01.html#learning-objectives",
-    "href": "lectures/lecture-01.html#learning-objectives",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Learning Objectives",
-    "text": "Learning Objectives\nBy the end of this lecture, you should be able to:\n\nDistinguish between population genetics, quantitative genetics, and genetic epidemiology approaches\nConstruct and interpret simple likelihood functions for genetic data\n\nApply Hardy-Weinberg equilibrium principles to real datasets\nExplain the connection between Mendelian inheritance and population-level patterns\nBuild one-locus likelihood functions for genetic models\n\nThese skills form the foundation for genome-wide association studies and genomic prediction methods we’ll explore later."
-  },
-  {
-    "objectID": "lectures/lecture-01.html#technology-setup-reproducibility",
-    "href": "lectures/lecture-01.html#technology-setup-reproducibility",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Technology Setup & Reproducibility",
-    "text": "Technology Setup & Reproducibility\n\nR ≥ 4.3 and an IDE (RStudio/VS Code)\nGit/GitHub (create a private course repo)\nZotero for reference management\nZoom for synchronous sessions\nOptional: HPC access\nReproducibility scaffold: use renv or pak to lock package versions; set seeds in code; version data & scripts.\n\n\n# In the course repo\ninstall.packages(\"renv\")\nrenv::init() # snapshot for reproducible builds\n# OR\ninstall.packages(\"pak\")\npak::pak(\"tidyverse/ggplot2\", \"tidyverse/tidyr\")\nset.seed(42) # set seeds for all simulations in this lecture"
-  },
-  {
-    "objectID": "lectures/lecture-01.html#learning-objectives-lecture-1",
-    "href": "lectures/lecture-01.html#learning-objectives-lecture-1",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Learning Objectives (Lecture 1)",
-    "text": "Learning Objectives (Lecture 1)\nBy the end of this lecture you should be able to:\n\nState Mendel’s laws and connect family‑level reasoning to population‑level models.\nDefine and apply Hardy–Weinberg Equilibrium (HWE) and its assumptions.\nExplain why the χ² goodness‑of‑fit test is appropriate for HWE under specific assumptions.\nDescribe sampling distributions and link population parameters to sample estimates, including SE and CIs without needing advanced probability theory.\nBuild and interpret a one‑locus likelihood at a conceptual level.\nRecognize when to use exact tests and where HWE fits into QC (briefly)."
-  },
-  {
-    "objectID": "lectures/lecture-01.html#test-cross-example-small-samples-exact-tests",
-    "href": "lectures/lecture-01.html#test-cross-example-small-samples-exact-tests",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Test Cross Example (small samples → exact tests)",
-    "text": "Test Cross Example (small samples → exact tests)\nCross: Aa × aa (1:1 Expected)\n\nObserved: 23 dominant, 27 recessive (n = 50). For small/imbalanced counts, use an exact binomial test.\n\n\nobserved_testcross &lt;- c(23, 27)     # Dominant, Recessive\nn &lt;- sum(observed_testcross)\n# Test if Pr(dominant)=0.5\nbt &lt;- binom.test(x = observed_testcross[1], n = n, p = 0.5)\nbt$p.value\n\n[1] 0.671811"
-  },
-  {
-    "objectID": "lectures/lecture-01.html#hardyweinberg-equilibrium-hwe-assumptions",
-    "href": "lectures/lecture-01.html#hardyweinberg-equilibrium-hwe-assumptions",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Hardy–Weinberg Equilibrium (HWE): Assumptions",
-    "text": "Hardy–Weinberg Equilibrium (HWE): Assumptions\nLet’s reframe the problem in terms of genotype frequencies. First, some assumptions:\n\nRandom mating\nLarge population (no strong drift in one generation)\nNo selection, no migration, no mutation (in the generation under study)\nAccurate genotypes (no systematic genotyping error)\n\nIf these hold, and the allele frequency of A is p (so q = 1-p), we say that the population is in Hardy-Weinberg Equilibrium (HWE). The population genotype probabilities are:\n\nP(AA)=p^2 \\quad P(Aa)=2pq \\quad P(aa)=q^2\n\nAs a consequence, the genotype frequencies in a random sample of n individuals are approximately multinomially distributed with cell probabilities (p^2, 2pq, q^2). Thus, the sampling error of \\hat{p} is approximately \\sqrt{p(1-p)/2n}.\nThis confidence interval is known as a Wald confidence interval."
-  },
-  {
-    "objectID": "lectures/lecture-01.html#why-χ²-for-hwe-connecting-assumptions-model-test",
-    "href": "lectures/lecture-01.html#why-χ²-for-hwe-connecting-assumptions-model-test",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Why χ² for HWE? Connecting assumptions → model → test",
-    "text": "Why χ² for HWE? Connecting assumptions → model → test\n\nData model: In a sample of (n) unrelated diploid individuals drawn randomly from the population, genotype counts [ (X_{AA}, X_{Aa}, X_{aa}) ] are approximately multinomial with cell probabilities ( (p^2, 2pq, q^2) ) if HWE assumptions hold.\nEstimation: We estimate (p) by (p = ).\nGoodness‑of‑fit: Compare observed counts to expected counts under HWE with (p): [ E_{AA}=np2,E_{Aa}=2np(1-p),E_{aa}=n(1-p)2. ]\nPearson statistic: [ ^2 = _{g } . ]\nWhy χ²? For large (n), multinomial sampling + the Central Limit Theorem implies (^2) is approximately χ²‑distributed with [ = {n} - = 1. ]\nWhen not to use χ²: If any expected count (E_g &lt; 5) or assumptions are doubtful (e.g., rare variants, small (n), genotyping error), use an exact HWE test (see Lab 01)."
-  },
-  {
-    "objectID": "lectures/lecture-01.html#hwe-worked-example-no-rounding-of-expectations",
-    "href": "lectures/lecture-01.html#hwe-worked-example-no-rounding-of-expectations",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "HWE: Worked Example (no rounding of expectations)",
-    "text": "HWE: Worked Example (no rounding of expectations)\n\nn &lt;- 212\nn_AA &lt;- 175\nn_Aa &lt;- 33\nn_aa &lt;- 4\n\n# Estimate allele frequency\np_hat &lt;- (2*n_AA + n_Aa) / (2*n)\nq_hat &lt;- 1 - p_hat\np_hat\n\n[1] 0.9033019\n\n# Expected counts (do NOT round)\nexpected &lt;- c(n * p_hat^2, 2*n * p_hat*q_hat, n * q_hat^2)\nobserved &lt;- c(n_AA, n_Aa, n_aa)\n\n# Pearson chi-squared\nchisq_val &lt;- sum((observed - expected)^2 / expected)\ndf &lt;- 3 - 1 - 1\np_val &lt;- pchisq(chisq_val, df = df, lower.tail = FALSE)\n\nlist(p_hat = p_hat, expected = expected, chisq = chisq_val, df = df, p_value = p_val)\n\n$p_hat\n[1] 0.9033019\n\n$expected\n[1] 172.982311  37.035377   1.982311\n\n$chisq\n[1] 2.516927\n\n$df\n[1] 1\n\n$p_value\n[1] 0.1126299\n\n\n\n# Guard: advise exact test if any expected counts &lt; 5 (we'll do this in the lab)\nany(expected &lt; 5)\n\n[1] TRUE\n\n\n\nReality check (Week 5 preview): In practice, HWE is a QC diagnostic; we often stratify by ancestry and handle X‑chromosome separately. Details in Week 5."
-  },
-  {
-    "objectID": "lectures/lecture-01.html#random-variables-light-refresher",
-    "href": "lectures/lecture-01.html#random-variables-light-refresher",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Random variables (light refresher)",
-    "text": "Random variables (light refresher)"
-  },
-  {
-    "objectID": "lectures/lecture-01.html#estimating-an-allele-frequency-and-its-uncertainty",
-    "href": "lectures/lecture-01.html#estimating-an-allele-frequency-and-its-uncertainty",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Estimating an allele frequency and its uncertainty",
-    "text": "Estimating an allele frequency and its uncertainty\nWith (n) unrelated diploid individuals and genotype counts ((X_{AA}, X_{Aa}, X_{aa})), the sample allele frequency is [ p = . ] An approximate standard error is [ (p) . ]\nConfidence intervals (CIs)\nWald can fail for small (n) or extreme (p). Prefer Wilson or Clopper–Pearson (exact):\n\nn &lt;- 100; x_A &lt;- 30  # total A alleles out of 2n\nphat &lt;- x_A/(2*n)\n\n# Wald (simple, but fragile)\nwald_CI &lt;- phat + c(-1,1) * 1.96 * sqrt(phat*(1-phat)/(2*n))\n\n# Wilson (better behaved)\nz &lt;- 1.96\nden &lt;- 1 + z^2/(2*n)\ncenter &lt;- (phat + z^2/(4*n))/den\nhalf &lt;- z * sqrt(phat*(1-phat)/(2*n) + z^2/(16*n^2)) / den\nwilson_CI &lt;- c(center - half, center + half)\n\n# Clopper-Pearson exact using beta quantiles on counts of A alleles (2n trials)\nalpha &lt;- 0.05\nlower &lt;- qbeta(alpha/2, x_A, 2*n - x_A + 1)\nupper &lt;- qbeta(1 - alpha/2, x_A + 1, 2*n - x_A)\ncp_CI &lt;- c(lower, upper)\n\nlist(p_hat = phat, Wald = wald_CI, Wilson = wilson_CI, Clopper_Pearson = cp_CI)\n\n$p_hat\n[1] 0.15\n\n$Wald\n[1] 0.1005124 0.1994876\n\n$Wilson\n[1] 0.1071353 0.2060569\n\n$Clopper_Pearson\n[1] 0.1035495 0.2071587"
-  },
-  {
-    "objectID": "lectures/lecture-01.html#sampling-distributions-intuition-via-simulation",
-    "href": "lectures/lecture-01.html#sampling-distributions-intuition-via-simulation",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Sampling distributions: intuition via simulation",
-    "text": "Sampling distributions: intuition via simulation\n\nset.seed(123)\ntrue_p &lt;- 0.3\nsample_sizes &lt;- c(5, 10, 100, 500)\nn_sims &lt;- 1000\n\nsampling_results &lt;- map_dfr(sample_sizes, function(n) {\n  p_hats &lt;- replicate(n_sims, {\n    # Sample n individuals (2n alleles total)\n    alleles &lt;- rbinom(n, 2, true_p)  # each individual contributes 0,1,2 A alleles\n    sum(alleles) / (2 * n)           # sample allele frequency\n  })\n  tibble(sample_size = n, p_hat = p_hats,\n         theoretical_se = sqrt(true_p * (1 - true_p) / (2 * n)))\n})"
-  },
-  {
-    "objectID": "lectures/lecture-01.html#uniform0-θ-correct-model-statement",
-    "href": "lectures/lecture-01.html#uniform0-θ-correct-model-statement",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Uniform(0, θ): correct model statement",
-    "text": "Uniform(0, θ): correct model statement\n\nData model: observations (X_1,,X_n (0,)) with unknown ().\nMOM (method of moments): (_{} = 2X).\nMLE: (_{} = X_i) (biased downward for finite (n)).\nBias‑corrected MLE: (= X_i).\n\n\nmom_estimator &lt;- function(sample) 2 * mean(sample)\nmle_estimator &lt;- function(sample) max(sample)\nmle_unbiased &lt;- function(sample) (length(sample) + 1)/length(sample) * max(sample)\n\nsimulate_estimators &lt;- function(theta = 1, n = 10, n_sim = 4000) {\n  mom &lt;- mle &lt;- mle_u &lt;- numeric(n_sim)\n  for (i in 1:n_sim) {\n    x &lt;- runif(n, 0, theta)\n    mom[i] &lt;- mom_estimator(x)\n    mle[i] &lt;- mle_estimator(x)\n    mle_u[i] &lt;- mle_unbiased(x)\n  }\n  tibble(MOM = mom, MLE = mle, MLE_unbiased = mle_u)\n}\n\ntheta_true &lt;- 10\nres10 &lt;- simulate_estimators(theta_true, n = 10)\nres1000 &lt;- simulate_estimators(theta_true, n = 1000)\n\nsummarize_perf &lt;- function(res) {\n  tibble(estimator = names(res)) %&gt;%\n    mutate(bias = map_dbl(estimator, ~ mean(res[[.x]] - theta_true)),\n           rmse = map_dbl(estimator, ~ sqrt(mean((res[[.x]] - theta_true)^2))),\n           mean = map_dbl(estimator, ~ mean(res[[.x]])))\n}\n\nperf10 &lt;- summarize_perf(as.list(res10))\nperf1000 &lt;- summarize_perf(as.list(res1000))\nlist(n10 = perf10, n1000 = perf1000)\n\n$n10\n# A tibble: 3 × 4\n  estimator        bias  rmse  mean\n  &lt;chr&gt;           &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;\n1 MOM          -0.0146  1.83   9.99\n2 MLE          -0.916   1.25   9.08\n3 MLE_unbiased -0.00773 0.929  9.99\n\n$n1000\n# A tibble: 3 × 4\n  estimator         bias    rmse  mean\n  &lt;chr&gt;            &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;\n1 MOM          -0.000137 0.182   10.00\n2 MLE          -0.00980  0.0137   9.99\n3 MLE_unbiased  0.000186 0.00958 10.0 \n\n\n\n# Visual for n = 10\ndemo_data_1 &lt;- res10 %&gt;% pivot_longer(everything(), names_to = \"estimator\", values_to = \"estimate\")\nggplot(demo_data_1, aes(x = estimate, fill = estimator)) +\n  geom_histogram(alpha = 0.7, position = \"identity\", bins = 50) +\n  geom_vline(xintercept = theta_true, linetype = \"dashed\", color = \"red\", linewidth = 1) +\n  labs(title = \"Uniform(0,θ): Distribution of Estimates (n = 10)\", x = \"Estimate\", y = \"Frequency\") +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\n# Visual for n = 1000\ndemo_data_2 &lt;- res1000 %&gt;% pivot_longer(everything(), names_to = \"estimator\", values_to = \"estimate\")\nggplot(demo_data_2, aes(x = estimate, fill = estimator)) +\n  geom_histogram(alpha = 0.7, position = \"identity\", bins = 50) +\n  geom_vline(xintercept = theta_true, linetype = \"dashed\", color = \"red\", linewidth = 1) +\n  labs(title = \"Uniform(0,θ): Distribution of Estimates (n = 1000)\", x = \"Estimate\", y = \"Frequency\") +\n  theme_minimal()\n\n\n\n\n\n\n\n\nKey takeaways (no heavy probability required): - Bias vs variance: MOM can have higher variance at small (n); MLE has lower variance but is biased downward; the bias‑corrected MLE is nearly unbiased. - Consistency: all three converge to the true () as (n)."
-  },
-  {
-    "objectID": "lectures/lecture-01.html#likelihood-basics-plain-language",
-    "href": "lectures/lecture-01.html#likelihood-basics-plain-language",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Likelihood basics (plain language)",
-    "text": "Likelihood basics (plain language)\n\nA likelihood tells us how plausible parameter values are given the data and a model.\nRecipe:\n\nStart with data (what did we observe?).\n\nSpecify a model (e.g., genotype frequencies, penetrance).\n\nWrite probabilities for the observed data given parameters.\n\nMaximize or summarize the likelihood; interpret biologically.\n\nAccount for ascertainment (how were samples collected?)."
-  },
-  {
-    "objectID": "lectures/lecture-01.html#binomial-likelihood-example-allele-frequency",
-    "href": "lectures/lecture-01.html#binomial-likelihood-example-allele-frequency",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Binomial likelihood example (allele frequency)",
-    "text": "Binomial likelihood example (allele frequency)\n\nSuppose in (n=27) diploid individuals we count (x=11) (A) alleles among (2n) alleles (toy haploidized example). The likelihood for (p) is proportional to (p{11}(1-p){(2n-11)}).\n\n\nn &lt;- 27\nx &lt;- 11  # number of A alleles (toy example)\np_seq &lt;- seq(0, 1, length.out = 200)\nlikelihood &lt;- dbinom(x, size = 2*n, prob = p_seq)\nggplot(data.frame(p = p_seq, likelihood = likelihood),\n       aes(x = p, y = likelihood)) +\n  geom_line(linewidth = 1) +\n  geom_vline(xintercept = x/(2*n), color = \"red\", linetype = \"dashed\") +\n  labs(x = \"Allele frequency p\", y = \"Likelihood (up to a constant)\",\n       title = \"Binomial likelihood in p\") +\n  theme_light(base_size = 18) +\n  theme(panel.grid = element_blank())\n\n\n\nPreview (Week 4): Prior × Likelihood → Posterior (Bayesian update). We defer the math and coding to the Bayesian lecture.\n\n\nPreview (Week 3/5): Likelihoods generalize to logistic regression for case‑control traits and to LMMs for GWAS at scale."
-  },
-  {
-    "objectID": "lectures/lecture-01.html#history-ethics-learning-goal",
-    "href": "lectures/lecture-01.html#history-ethics-learning-goal",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "History & ethics (learning goal)",
-    "text": "History & ethics (learning goal)\nBy the end of this section, you can summarize the historical misuse of genetics (eugenics) and name the core ethical principles guiding modern practice: beneficence, justice, respect for persons. Use precise, respectful terminology for populations and ancestry."
-  },
-  {
-    "objectID": "lectures/lecture-01.html#summary-why-χ²-for-hwe-the-30second-version",
-    "href": "lectures/lecture-01.html#summary-why-χ²-for-hwe-the-30second-version",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Summary: why χ² for HWE (the 30‑second version)",
-    "text": "Summary: why χ² for HWE (the 30‑second version)\n\nHWE gives expected genotype probabilities in terms of (p).\n\nRandom sampling () multinomial counts with those probabilities.\n\nEstimate (p) by (p) and compute expected counts.\n\nPearson’s (^2) compares observed vs expected; for large (n) it follows **χ²(_{1})**.\n\nIf expected counts are small or assumptions suspect → exact tests (see Lab 01)."
-  },
-  {
-    "objectID": "lectures/lecture-01.html#session-info-for-reproducibility",
-    "href": "lectures/lecture-01.html#session-info-for-reproducibility",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Session info (for reproducibility)",
-    "text": "Session info (for reproducibility)\n\nsessionInfo()\n\nR version 4.5.1 (2025-06-13)\nPlatform: aarch64-apple-darwin20\nRunning under: macOS Sequoia 15.6.1\n\nMatrix products: default\nBLAS:   /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRblas.0.dylib \nLAPACK: /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1\n\nlocale:\n[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8\n\ntime zone: America/New_York\ntzcode source: internal\n\nattached base packages:\n[1] stats     graphics  grDevices utils     datasets  methods   base     \n\nother attached packages:\n [1] htmltools_0.5.8.1 viridis_0.6.5     viridisLite_0.4.2 lubridate_1.9.4  \n [5] forcats_1.0.0     stringr_1.5.1     dplyr_1.1.4       purrr_1.0.4      \n [9] readr_2.1.5       tidyr_1.3.1       tibble_3.3.0      ggplot2_3.5.2    \n[13] tidyverse_2.0.0  \n\nloaded via a namespace (and not attached):\n [1] gtable_0.3.6       jsonlite_2.0.0     compiler_4.5.1     tidyselect_1.2.1  \n [5] gridExtra_2.3      scales_1.4.0       yaml_2.3.10        fastmap_1.2.0     \n [9] R6_2.6.1           labeling_0.4.3     generics_0.1.4     knitr_1.50        \n[13] pillar_1.11.0      RColorBrewer_1.1-3 tzdb_0.5.0         rlang_1.1.6       \n[17] stringi_1.8.7      xfun_0.52          timechange_0.3.0   cli_3.6.5         \n[21] withr_3.0.2        magrittr_2.0.3     digest_0.6.37      grid_4.5.1        \n[25] hms_1.1.3          lifecycle_1.0.4    vctrs_0.6.5        evaluate_1.0.3    \n[29] glue_1.8.0         farver_2.1.2       rmarkdown_2.29     tools_4.5.1       \n[33] pkgconfig_2.0.3   \n\n\n\n\n\n\nLaird, Nan M., and Christoph Lange. 2011. The Fundamentals of Modern Statistical Genetics. Statistics for Biology and Health. New York: Springer Science."
-  },
-  {
-    "objectID": "lectures/lecture-01.html#biology-underlying-mendelian-inheritance",
-    "href": "lectures/lecture-01.html#biology-underlying-mendelian-inheritance",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Biology underlying Mendelian inheritance",
-    "text": "Biology underlying Mendelian inheritance\n\nLaird and Lange (2011)"
-  },
-  {
-    "objectID": "lectures/lecture-01.html#genetic-variant-example",
-    "href": "lectures/lecture-01.html#genetic-variant-example",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Genetic Variant Example",
-    "text": "Genetic Variant Example\n\nLaird and Lange (2011)"
-  },
-  {
-    "objectID": "lectures/lecture-01.html#test-cross-example-1",
-    "href": "lectures/lecture-01.html#test-cross-example-1",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Test Cross Example",
-    "text": "Test Cross Example\n\nobserved_testcross &lt;- c(21, 28)     # Dominant, Recessive\nchisq_test &lt;- chisq.test(observed_testcross, p = c(0.5, 0.5))\nchisq_test\n\n\n    Chi-squared test for given probabilities\n\ndata:  observed_testcross\nX-squared = 1, df = 1, p-value = 0.3173"
-  },
-  {
-    "objectID": "lectures/lecture-01.html#estimation-of-allele-frequencies",
-    "href": "lectures/lecture-01.html#estimation-of-allele-frequencies",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Estimation of Allele Frequencies",
-    "text": "Estimation of Allele Frequencies\nn_{AA} = Number of individuals with genotype AA n_{Aa} = Number of individuals with genotype Aa n_{aa} = Number of individuals with genotype aa\nwhere, n = n_{AA} + n_{Aa} + n_{aa} = N.\nThe sample proportions of allele A is:\n\n\\hat{p} = \\frac{2n_{AA} + n_{Aa}}{2n}\n\nThe usual standard error for a proportion is \\sqrt{\\hat{p}(1 - \\hat{p})/2n}, but this assumes independence of the 2n sampled chromosomes."
-  },
-  {
-    "objectID": "lectures/lecture-01.html#why-chi2-for-hwe",
-    "href": "lectures/lecture-01.html#why-chi2-for-hwe",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Why \\chi^2 for HWE?",
-    "text": "Why \\chi^2 for HWE?\n\nData model: In a sample of (n) unrelated diploid individuals drawn randomly from the population, genotype counts [ (X_{AA}, X_{Aa}, X_{aa}) ] are approximately multinomial with cell probabilities ( (p^2, 2pq, q^2) ) if HWE assumptions hold.\nEstimation: We estimate (p) by (p = ).\nGoodness‑of‑fit: Compare observed counts to expected counts under HWE with (p): [ E_{AA}=np2,E_{Aa}=2np(1-p),E_{aa}=n(1-p)2. ]\nPearson statistic: [ ^2 = _{g } . ]\nWhy χ²? For large (n), multinomial sampling + the Central Limit Theorem implies (^2) is approximately χ²‑distributed with [ = {n} - = 1. ]\nWhen not to use χ²: If any expected count (E_g &lt; 5) or assumptions are doubtful (e.g., rare variants, small (n), genotyping error), use an exact HWE test (see Lab 01)."
-  },
-  {
-    "objectID": "lectures/lecture-01.html#hwe-worked-example",
-    "href": "lectures/lecture-01.html#hwe-worked-example",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "HWE: Worked Example",
-    "text": "HWE: Worked Example\n\nn &lt;- 212\nn_AA &lt;- 175\nn_Aa &lt;- 33\nn_aa &lt;- 4\n\n# Estimate allele frequency\np_hat &lt;- (2*n_AA + n_Aa) / (2*n)\nq_hat &lt;- 1 - p_hat\np_hat\n\n[1] 0.9033019\n\n# Expected counts\nexpected &lt;- c(n * p_hat^2, 2*n * p_hat*q_hat, n * q_hat^2)\nobserved &lt;- c(n_AA, n_Aa, n_aa)\nexpected\n\n[1] 172.982311  37.035377   1.982311\n\n# Pearson chi-squared\nchisq_val &lt;- sum((observed - expected)^2 / expected)\ndf &lt;- 3 - 1 - 1\np_val &lt;- pchisq(chisq_val, df = df, lower.tail = FALSE)\np_val\n\n[1] 0.1126299"
-  },
-  {
-    "objectID": "lectures/lecture-01.html#sampling-distributions-intuition-via-simulation-1",
-    "href": "lectures/lecture-01.html#sampling-distributions-intuition-via-simulation-1",
-    "title": "Lecture 01: Introduction and Foundations",
-    "section": "Sampling distributions: intuition via simulation",
-    "text": "Sampling distributions: intuition via simulation\n\n# Plot sampling distributions\nggplot(sampling_results, aes(x = p_hat)) +\n  geom_histogram(aes(y = after_stat(density)), bins = 30, alpha = 0.7) +\n  geom_vline(xintercept = true_p, color = \"red\", linetype = \"dashed\", linewidth = 1) +\n  facet_wrap(~sample_size_name, scales = \"free_y\") +\n  labs(title = \"Sampling Distribution of p̂\", x = \"Sample Allele Frequency (p̂)\", y = \"Density\") +\n  theme_minimal()\n\n\n\n\n\n\nLaird, Nan M., and Christoph Lange. 2011. The Fundamentals of Modern Statistical Genetics. Statistics for Biology and Health. New York: Springer Science."
   }
 ]
