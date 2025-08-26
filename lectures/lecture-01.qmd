@@ -16,6 +16,7 @@ knitr:
   opts_chunk: 
     R.options:
       width: 80
+bibliography: references.bib
 ---
 
 ```{r, message=FALSE, warning=FALSE, include=FALSE}
@@ -37,17 +38,94 @@ library(htmltools)
 
 ## Introductions
 
-
+1.  Name, Degree, any other ways you like to define yourself (favorite hot dog brand, etc.)
+2.  Current research focus or research interests.
+3.  What you hope to get out of this course.
 
 ## Course Site
 
-[https://gwcbi.github.io/StatGen/](https://gwcbi.github.io/StatGen/)
+<https://gwcbi.github.io/StatGen/>
 
-<iframe src="https://gwcbi.github.io/StatGen/" width="100%" height="600px"></iframe>
+<iframe src="https://gwcbi.github.io/StatGen/" width="100%" height="600px">
+
+</iframe>
 
 ## Zotero
 
 ![](images/paste-1.png)
+
+## Course Logistics and Expectations
+
+### Grading Breakdown
+
+| Assignment Type     | \% of Grade |
+|---------------------|-------------|
+| Problem Sets        | 60%         |
+| Class Participation | 20%         |
+| Research Project    | 20%         |
+
+**Total Workload**: 112.5 hours (5+ hrs/week independent + 6 hrs/week class/async)
+
+## Problem Sets (60% of grade)
+
+-   **Weekly assignments** blending mathematical derivations with coding
+-   **Collaborative time** provided in class
+-   **Individual work** required -- substantial time outside class
+-   **Late penalty**: 1% per hour (first 5 hours), then 5% per day
+-   **Format**: Mix of theory problems and R/Bioconductor analysis
+
+## Class Participation (20% of grade)
+
+**More than just showing up!**
+
+-   Come **prepared** with questions from async materials
+-   **Engage thoughtfully** in discussions and problem-solving
+-   **Demonstrate mastery** through insightful contributions
+-   **Collaborate respectfully** - help others understand concepts
+
+**Quantitative + Qualitative Assessment**: Async responses + live session engagement
+
+## Research Project (20% of grade)
+
+**Final third of semester** - Choose your own adventure!
+
+::: {layout-ncol="2"}
+**Project Types**
+
+-   Computational methods
+-   Applied analysis\
+-   Methodological development
+-   All based on primary literature
+
+**Deliverables**
+
+-   Scientific paper (Genetics journal format)
+-   Conference-style presentation
+-   Groups of up to 3 encouraged
+-   Individual contributions must be clear
+:::
+
+## Course Structure Overview
+
+**Foundation → Scale → Specialization** (10 weeks)
+
+-   **Weeks 1-4**: Foundations (Mendelian genetics, heritability, likelihood algorithms, population structure & Bayesian methods)
+-   **Week 5**: GWAS at scale (design, linear mixed models, meta-analysis)
+-   **Weeks 6-7**: Prediction models & multiple testing control
+-   **Weeks 8-9**: Binary traits & causal inference (Mendelian randomization)
+-   **Week 10**: Advanced AI topics in statistical genetics
+
+**Lab Component**: Hands-on R/Bioconductor workflows parallel to lectures
+
+## Technology Setup Requirements
+
+::: incremental
+-   R (4.5+) and IDE installation
+-   Git setup and basic commands
+-   Zotero for reference management
+-   Zoom
+-   Optional: HPC access
+:::
 
 ## What is statistical genetics?
 
@@ -134,81 +212,6 @@ library(htmltools)
 ![](https://www.bioconductor.org/images/logo/png/bioconductor_logo_rgb.png)
 :::
 
-## Some vocabulary
-
--   **Trait/Phenotype**: A measurable characteristic of an organism, such as height, weight, or disease status.
--   **Genotype**: The genetic constitution of an individual, often represented by specific alleles at particular loci.
--   **Allele**: A variant form of a gene that can exist at a specific locus on a chromosome.
--   **Locus**: A specific, fixed position on a chromosome where a particular gene or genetic marker is located.
--   **Polymorphism**: The occurrence of two or more genetically determined forms in a population, such as single nucleotide polymorphisms (SNPs) or copy number variations (CNVs).
--   **Genetic Marker**: A specific DNA sequence with a known location on a chromosome that can be used to identify individuals or species, often used in genetic mapping or association studies.
--   **Linkage Disequilibrium (LD)**: The non-random association of alleles at different loci, indicating that certain allele combinations occur together more frequently than expected by chance.
--   **Heritability**: The proportion of phenotypic variance in a trait that can be attributed to genetic variance, often estimated through twin or family studies.
-
-## Some vocabulary
-
--   **Genome-Wide Association Study (GWAS)**: A study that looks for associations between genetic variants across the genome and specific traits or diseases in a large population.
--   **Polygenic Score (PGS)**: A score that aggregates the effects of multiple genetic variants to predict an individual's genetic predisposition to a trait or disease.
--   **Quantitative Trait Locus (QTL)**: A region of the genome that is associated with a quantitative trait, often identified through linkage or association mapping.
--   **Epistasis**: The interaction between genes where the effect of one gene is modified by one or more other genes, influencing the expression of a trait.\
--   **Epigenetics**: The study of heritable changes in gene expression that do not involve changes to the underlying DNA sequence, often influenced by environmental factors.
--   **Functional Annotation**: The process of identifying the functional elements in the genome, such as genes, regulatory regions, and non-coding RNAs, and understanding their roles in biological processes.
-
-## Probability Refresher
-
-### Random Variables and Distributions
-
-::: incremental
-- **Random Variable**: $X: \Omega \to \mathbb{R}$ -- A function mapping sample space $\Omega$ to real numbers
-- **Discrete RV**: $X \in \{x_1, x_2, \ldots\}$ (e.g., genotype counts, number of mutations)
-  - **Probability Mass Function (PMF)**: $p_X(x) = P(X = x)$
-  - **Cumulative Distribution Function (CDF)**: $F_X(x) = P(X \leq x) = \sum_{x_i \leq x} p_X(x_i)$
-- **Continuous RV**: $X \in \mathbb{R}$ or interval (e.g., gene expression, quantitative traits)  
-  - **Probability Density Function (PDF)**: $f_X(x)$ where $P(a < X < b) = \int_a^b f_X(x) dx$
-  - **Cumulative Distribution Function (CDF)**: $F_X(x) = P(X \leq x) = \int_{-\infty}^x f_X(t) dt$
-- **Key Properties**: $F_X(-\infty) = 0$, $F_X(\infty) = 1$, $f_X(x) = \frac{d}{dx}F_X(x)$
-:::
-
-## Probability Refresher
-
-### Key Distributions in Statistical Genetics
-
-::: {layout-ncol="2"}
-
-**Binomial Distribution**
-$$X \sim \text{Binomial}(n, p)$$
-$$P(X = k) = \binom{n}{k} p^k (1-p)^{n-k}$$
-
-Used for: Allele counts, genotype frequencies
-
-**Normal Distribution**
-$$X \sim N(\mu, \sigma^2)$$
-$$f(x) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(x-\mu)^2}{2\sigma^2}}$$
-
-Used for: Quantitative traits, effect sizes
-:::
-
-## Probability Refresher
-
-### Expected Value and Variance
-
-::: incremental
-- **Expected Value**: $E[X] = \sum x \cdot P(X = x)$ (discrete) or $E[X] = \int x f(x) dx$ (continuous)
-- **Variance**: $\text{Var}(X) = E[(X - E[X])^2] = E[X^2] - (E[X])^2$
-- **Standard Error**: $\text{SE} = \frac{\sigma}{\sqrt{n}}$ (uncertainty in sample estimates)
-- **Central Limit Theorem**: Sample means approach normality as $n \to \infty$
-:::
-
-## Probability Refresher
-
-### Conditional Probability and Independence
-
-::: incremental
-- **Conditional Probability**: $P(A|B) = \frac{P(A \cap B)}{P(B)}$
-- **Bayes' Theorem**: $P(A|B) = \frac{P(B|A)P(A)}{P(B)}$
-- **Independence**: $P(A \cap B) = P(A) \cdot P(B)$ iff $A$ and $B$ are independent
-:::
-
 ## Early work in the field
 
 ::: {layout="[70, 30]"}
@@ -229,10 +232,82 @@ Used for: Quantitative traits, effect sizes
 
 ![](images/nhgri_ethics.png)
 
+## Some vocabulary
+
+-   **Trait/Phenotype**: A measurable characteristic of an organism, such as height, weight, or disease status.
+-   **Genotype**: The genetic constitution of an individual, often represented by specific alleles at particular loci.
+-   **Allele**: A variant form of a gene that can exist at a specific locus on a chromosome.
+-   **Locus**: A specific, fixed position on a chromosome where a particular gene or genetic marker is located.
+-   **Polymorphism**: The occurrence of two or more genetically determined forms in a population, such as single nucleotide polymorphisms (SNPs) or copy number variations (CNVs).
+-   **Genetic Marker**: A specific DNA sequence with a known location on a chromosome that can be used to identify individuals or species, often used in genetic mapping or association studies.
+-   **Linkage Disequilibrium (LD)**: The non-random association of alleles at different loci, indicating that certain allele combinations occur together more frequently than expected by chance.
+-   **Heritability**: The proportion of phenotypic variance in a trait that can be attributed to genetic variance, often estimated through twin or family studies.
+
+## Some vocabulary
+
+-   **Genome-Wide Association Study (GWAS)**: A study that looks for associations between genetic variants across the genome and specific traits or diseases in a large population.
+-   **Polygenic Score (PGS)**: A score that aggregates the effects of multiple genetic variants to predict an individual's genetic predisposition to a trait or disease.
+-   **Quantitative Trait Locus (QTL)**: A region of the genome that is associated with a quantitative trait, often identified through linkage or association mapping.
+-   **Epistasis**: The interaction between genes where the effect of one gene is modified by one or more other genes, influencing the expression of a trait.
+-   **Epigenetics**: The study of heritable changes in gene expression that do not involve changes to the underlying DNA sequence, often influenced by environmental factors.
+-   **Functional Annotation**: The process of identifying the functional elements in the genome, such as genes, regulatory regions, and non-coding RNAs, and understanding their roles in biological processes.
+
+## Genetic Variant Example
+
+![@laird2011](images/paste-3.png)
+
+## Probability Refresher
+
+### Random Variables and Distributions
+
+::: incremental
+-   A **random variable** is a numerical summary of randomness (e.g., the count of (A) alleles in a sample).
+-   We use a **model** (e.g., binomial/multinomial) to describe how data vary from sample to sample.
+-   Key ideas we need (no advanced probability):
+    -   **Expectation (mean)** and **variance**: long‑run average and spread.
+    -   **Standard error (SE)**: typical sampling variability of an estimator.
+    -   **Central Limit Theorem (CLT)**: averages and proportions are roughly normal for large (n).
+:::
+
+## Probability Refresher
+
+### Key Distributions in Statistical Genetics
+
+::: {layout-ncol="2"}
+**Binomial Distribution** $$X \sim \text{Binomial}(n, p)$$ $$P(X = k) = \binom{n}{k} p^k (1-p)^{n-k}$$
+
+Used for: Allele counts, genotype frequencies
+
+**Normal Distribution** $$X \sim N(\mu, \sigma^2)$$ $$f(x) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(x-\mu)^2}{2\sigma^2}}$$
+
+Used for: Quantitative traits, effect sizes
+:::
+
+## Probability Refresher
+
+### Expected Value and Variance
+
+::: incremental
+-   **Expected Value**: $E[X] = \sum x \cdot P(X = x)$ (discrete) or $E[X] = \int x f(x) dx$ (continuous)
+-   **Variance**: $\text{Var}(X) = E[(X - E[X])^2] = E[X^2] - (E[X])^2$
+-   **Standard Error**: $\text{SE} = \frac{\sigma}{\sqrt{n}}$ (uncertainty in sample estimates)
+-   **Central Limit Theorem**: Sample means approach normality as $n \to \infty$
+:::
+
+## Probability Refresher
+
+### Conditional Probability and Independence
+
+::: incremental
+-   **Conditional Probability**: $P(A|B) = \frac{P(A \cap B)}{P(B)}$
+-   **Bayes' Theorem**: $P(A|B) = \frac{P(B|A)P(A)}{P(B)}$
+-   **Independence**: $P(A \cap B) = P(A) \cdot P(B)$ iff $A$ and $B$ are independent
+:::
+
 ## Parameter Estimation
 
 -   Imagine a geneticist is studying **allele ages** (i.e., how many generations ago an allele arose via mutation) under a simplified model where new mutations arise randomly and uniformly over a fixed window — say, the last $\theta$ generations.
--   We could model $\theta \sim \textsf{Uniform}(0, \theta)$.
+-   We could model $X \sim \textsf{Uniform}(0, \theta)$.
 -   We have our observed sample $\{x_1,x_2, \ldots, x_n\}$, ages in generations of $n$ observed alleles.
     -   For concreteness, let our sample be $\{0, 1, 8, 4, 3, 1, 1, 5\}$.
 -   How should we estimate $\theta$ ?
@@ -305,128 +380,6 @@ ggplot(demo_data_2, aes(x = estimate, fill = estimator)) +
 ```
 :::
 
-## Sampling Distributions in Genetics
-
-### From Population to Sample: Allele Frequency Estimation
-
-**True population parameter**: $p = 0.3$ (allele frequency)
-**Sample estimates**: $\hat{p} = \frac{\text{# A alleles observed}}{\text{total alleles sampled}}$
-
-```{r}
-# Simulate sampling from population with p = 0.3
-set.seed(123)
-true_p <- 0.3
-sample_sizes <- c(20, 100, 500)
-n_sims <- 1000
-
-sampling_results <- map_dfr(sample_sizes, function(n) {
-  p_hats <- replicate(n_sims, {
-    # Sample n individuals (2n alleles total)
-    alleles <- rbinom(n, 2, true_p)  # Each individual contributes 2 alleles
-    sum(alleles) / (2 * n)  # Sample allele frequency
-  })
-  
-  data.frame(
-    sample_size = n,
-    p_hat = p_hats,
-    theoretical_se = sqrt(true_p * (1 - true_p) / (2 * n))
-  )
-})
-```
-
-### Sampling Distribution Properties
-
-```{r}
-#| layout-ncol: 2
-
-# Plot sampling distributions
-ggplot(sampling_results, aes(x = p_hat)) +
-  geom_histogram(aes(y = ..density..), bins = 30, alpha = 0.7) +
-  geom_vline(xintercept = true_p, color = "red", linetype = "dashed", size = 1) +
-  facet_wrap(~paste("n =", sample_size), scales = "free_y") +
-  labs(title = "Sampling Distribution of p̂", 
-       x = "Sample Allele Frequency (p̂)", y = "Density") +
-  theme_minimal()
-
-# Compare theoretical vs empirical standard errors
-se_comparison <- sampling_results %>%
-  group_by(sample_size) %>%
-  summarise(
-    empirical_se = sd(p_hat),
-    theoretical_se = first(theoretical_se),
-    empirical_mean = mean(p_hat)
-  )
-
-ggplot(se_comparison, aes(x = sample_size)) +
-  geom_point(aes(y = empirical_se, color = "Empirical"), size = 3) +
-  geom_point(aes(y = theoretical_se, color = "Theoretical"), size = 3) +
-  geom_line(aes(y = theoretical_se, color = "Theoretical")) +
-  labs(title = "Standard Error: Theory vs Practice",
-       x = "Sample Size", y = "Standard Error of p̂") +
-  scale_color_manual(values = c("Empirical" = "blue", "Theoretical" = "red")) +
-  theme_minimal()
-```
-
-## Population vs Sample: Key Insights
-
-::: incremental
-- **Unbiased Estimator**: $E[\hat{p}] = p$ (sample mean equals population parameter)
-- **Standard Error**: $SE(\hat{p}) = \sqrt{\frac{p(1-p)}{2n}}$ decreases with sample size
-- **Normal Approximation**: For large $n$, $\hat{p} \sim N\left(p, \frac{p(1-p)}{2n}\right)$
-- **Confidence Intervals**: $\hat{p} \pm 1.96 \times SE(\hat{p})$ covers true $p$ ~95% of time
-- **Power**: Larger samples = better ability to detect true differences between populations
-:::
-
-## Sampling Distribution: Hardy-Weinberg Testing
-
-**Population**: HWE with $p = 0.6$, genotype frequencies: $p^2 = 0.36$, $2pq = 0.48$, $q^2 = 0.16$
-
-```{r}
-# Simulate HWE sampling and testing
-simulate_hwe_test <- function(n, p_true) {
-  # Expected HWE frequencies
-  exp_AA <- n * p_true^2
-  exp_Aa <- n * 2 * p_true * (1 - p_true)  
-  exp_aa <- n * (1 - p_true)^2
-  
-  # Sample genotypes under HWE
-  genotypes <- rmultinom(1, n, c(p_true^2, 2*p_true*(1-p_true), (1-p_true)^2))
-  
-  # Estimate allele frequency from sample
-  p_hat <- (2*genotypes[1] + genotypes[2]) / (2*n)
-  
-  # Recalculate expected frequencies with estimated p
-  exp_AA_hat <- n * p_hat^2
-  exp_Aa_hat <- n * 2 * p_hat * (1 - p_hat)
-  exp_aa_hat <- n * (1 - p_hat)^2
-  
-  # Chi-square test statistic
-  chi_sq <- sum((genotypes - c(exp_AA_hat, exp_Aa_hat, exp_aa_hat))^2 / 
-                c(exp_AA_hat, exp_Aa_hat, exp_aa_hat))
-  
-  p_value <- pchisq(chi_sq, df = 1, lower.tail = FALSE)
-  
-  return(list(p_hat = p_hat, chi_sq = chi_sq, p_value = p_value))
-}
-
-# Run simulation
-set.seed(456)
-n_sample <- 200
-hwe_results <- replicate(1000, simulate_hwe_test(n_sample, 0.6), simplify = FALSE)
-```
-
-### Sampling Distribution of HWE Tests
-
-```{r}
-p_values <- map_dbl(hwe_results, ~.$p_value)
-p_hats <- map_dbl(hwe_results, ~.$p_hat)
-
-cat("Proportion of tests rejecting HWE (α = 0.05):", mean(p_values < 0.05))
-cat("\nMean estimated allele frequency:", round(mean(p_hats), 3))
-cat("\nSD of estimated allele frequency:", round(sd(p_hats), 3))
-cat("\nTheoretical SE:", round(sqrt(0.6 * 0.4 / (2 * n_sample)), 3))
-```
-
 ## Importance of statistical theory
 
 -   Understanding random variables, sampling distributions, and bias/variance of estimators helps motivate biological questions, and understand how they can be answered
@@ -450,20 +403,6 @@ y &= \beta_0 + \beta_1 G + \beta_2 E + \beta_3 \left(G \times E\right) + \epsilo
 :::
 :::::
 
-## Molecular Genetics
-
-![](https://s3.amazonaws.com/libapps/accounts/14039/images/karyotype-human-female.jpg)
-
-## Genetic Variants
-
-![](https://upload.wikimedia.org/wikipedia/commons/3/37/Single_nucleotide_polymorphism_substitution_mutation_diagram_-_cytosine_to_thymine.png)
-
-## The sampling distribution of a random variable
-
--   A random variable is a function that assigns a numerical value to each outcome in a sample space.
--   A probability distribution describes how the probabilities are distributed over the values of the random variable.
--   The likelihood function is a function of the parameters of a statistical model given specific observed data.
-
 ## Modeling
 
 -   Imagine that we have a sample size of $n$ unrelated haploid individuals from some population
@@ -478,9 +417,8 @@ $$Pr(X = x| n, p) = \binom{n}{x} p^x q^{n - x}$$
 ## Maximum Likelihood Estimator
 
 Our likelihood function for $p$ is 
-$$
-L(P|x = 11, n = 27) = {27 \choose 11} p^{11} q^{27-11}
-$$
+
+$$L(P|x = 11, n = 27) = {27 \choose 11} p^{11} q^{27-11}$$
 
 ::: columns
 ::: {.column width = "50%"}
@@ -517,138 +455,6 @@ plot
 :::
 
 ::::
-
-## Building One-Locus Likelihood Functions
-
-### The General Framework
-
-::: incremental
-- **Genetic Data**: Observed phenotypes/genotypes from individuals or families
-- **Genetic Model**: Hypotheses about mode of inheritance, penetrance, allele frequencies
-- **Likelihood Function**: $L(\boldsymbol{\theta} | \text{data}) = P(\text{data} | \boldsymbol{\theta})$
-- **Parameters** $\boldsymbol{\theta}$: May include allele frequencies, penetrance values, recombination rates
-:::
-
-## Building One-Locus Likelihood Functions
-
-### Example 1: Dominant Disease Model
-
-Consider a rare dominant disease in a family pedigree:
-
-::: {layout-ncol="2"}
-
-**Family Data**
-- Parents: Affected father, unaffected mother
-- 4 offspring: 2 affected, 2 unaffected
-- Disease allele frequency: $p$ (rare, so $p \approx 0$)
-
-**Likelihood Construction**
-1. **Parental genotypes**: $Dd \times dd$ 
-2. **Expected offspring ratio**: 1:1 (affected:unaffected)
-3. **Observed data**: 2 affected, 2 unaffected
-4. **Likelihood**: $L(p) = \binom{4}{2} \left(\frac{1}{2}\right)^2 \left(\frac{1}{2}\right)^2 = \frac{6}{16}$
-
-:::
-
-## Building One-Locus Likelihood Functions
-
-### Example 2: Penetrance Model
-
-Disease with reduced penetrance:
-
-::: incremental
-- **Genotype-specific risks**: $P(\text{disease} | DD) = f_2$, $P(\text{disease} | Dd) = f_1$, $P(\text{disease} | dd) = f_0$
-- **Observed data**: $n$ individuals, $k$ affected
-- **Genotype frequencies**: Hardy-Weinberg proportions $p^2, 2pq, q^2$
-- **Population disease risk**: $K = p^2 f_2 + 2pq f_1 + q^2 f_0$
-:::
-
-$$L(p, f_0, f_1, f_2) = \binom{n}{k} K^k (1-K)^{n-k}$$
-
-## Building One-Locus Likelihood Functions
-
-### Example 3: Family-Based Likelihood
-
-Nuclear family with 2 parents, 3 offspring:
-
-::: columns
-::: {.column width="50%"}
-
-```{r, echo = TRUE, eval = FALSE}
-# Genotype probabilities for parents
-parent_probs <- function(p, genotype) {
-  case_when(
-    genotype == "AA" ~ p^2,
-    genotype == "Aa" ~ 2*p*(1-p),
-    genotype == "aa" ~ (1-p)^2
-  )
-}
-
-# Offspring probability given parents
-offspring_prob <- function(p1_geno, p2_geno, 
-                          offspring_geno) {
-  # Mendelian transmission probabilities
-  # Implementation depends on parental genotypes
-}
-```
-
-:::
-
-::: {.column width="50%"}
-
-**Likelihood Components**
-- $L_{\text{parents}} = P(G_1, G_2 | p)$
-- $L_{\text{offspring}} = \prod_{i=1}^3 P(G_i | G_1, G_2)$
-- **Total**: $L(p) = L_{\text{parents}} \times L_{\text{offspring}}$
-
-**Interpretation**: Peak likelihood value gives MLE for allele frequency
-
-:::
-::::
-
-## Building One-Locus Likelihood Functions
-
-### Likelihood Surfaces and Interpretation
-
-```{r, echo = FALSE}
-# Generate likelihood surface for penetrance model
-p_vals <- seq(0.01, 0.5, length.out = 50)
-f1_vals <- seq(0.1, 1.0, length.out = 50)
-
-# Example data: 100 individuals, 15 affected, assuming f0=0, f2=1
-n <- 100
-k <- 15
-
-likelihood_surface <- expand.grid(p = p_vals, f1 = f1_vals) %>%
-  mutate(
-    K = p^2 * 1 + 2 * p * (1-p) * f1 + (1-p)^2 * 0,
-    log_likelihood = dbinom(k, n, K, log = TRUE)
-  )
-
-ggplot(likelihood_surface, aes(x = p, y = f1, fill = log_likelihood)) +
-  geom_tile() +
-  geom_contour(aes(z = log_likelihood), color = "white", alpha = 0.7) +
-  scale_fill_viridis_c(name = "Log\nLikelihood") +
-  labs(
-    x = "Allele Frequency (p)",
-    y = "Penetrance (f₁)",
-    title = "Likelihood Surface: Dominant Model with Reduced Penetrance"
-  ) +
-  theme_minimal(base_size = 14)
-```
-
-## Building One-Locus Likelihood Functions
-
-### Key Principles for Likelihood Construction
-
-::: incremental
-1. **Start with the data**: What did you observe?
-2. **Specify the model**: Mode of inheritance, penetrance assumptions
-3. **Write conditional probabilities**: $P(\text{data} | \text{parameters})$
-4. **Account for ascertainment**: How were families/individuals selected?
-5. **Maximize or explore**: Find MLE or examine likelihood surface
-6. **Interpret biologically**: What do parameter estimates tell us about the genetics?
-:::
 
 ## Modeling, but make it bayesian
 
@@ -748,17 +554,19 @@ p2
 img(src = knitr::include_graphics("scripts/_output/sequential_bayesian_update.gif"), alt = 'Bayesian updating')
 ```
 
-## Mendel's Laws
+## Mendel’s Laws
 
 ::::: columns
 ::: {.column width="50%"}
-**Mendel’s First Law (Segregation)**: One allele of each parent is randomly and independently selected, with probability 1/2 for transmission to the offspring; the alleles unite randomly to form the offspring’s genotype.
+**Mendel’s First Law (Segregation)**\
+One allele of each parent is randomly transmitted, with probability 1/2, to the offspring; the alleles unite randomly to form the offspring’s genotype.
 
-**Mendel’s Second Law (Independent Assortment)**: The alleles underlying two or more different traits are transmitted to offspring independently of each other; the transmission of each trait separately follows the first law of segregation.
+**Mendel’s Second Law (Independent Assortment)**\
+At different loci, alleles are transmitted independently (when loci are unlinked).
 :::
 
 ::: {.column width="50%"}
-![](https://upload.wikimedia.org/wikipedia/commons/8/8e/Intermediate_inheritance_P_-_F1_-_F2.png){width="100%"}
+![](https://upload.wikimedia.org/wikipedia/commons/8/8e/Intermediate_inheritance_P_-_F1_-_F2.png){width="100%" alt="Punnett-style diagram illustrating Mendelian segregation and independent assortment"}
 :::
 :::::
 
@@ -767,226 +575,88 @@ img(src = knitr::include_graphics("scripts/_output/sequential_bayesian_update.gi
 ### Cross: Aa × Aa
 
 ::: {layout-ncol="2"}
-
 **Punnett Square**
 
-|     | **A** | **a** |
-|-----|-------|-------|
+|       | **A** | **a** |
+|-------|-------|-------|
 | **A** | AA    | Aa    |
 | **a** | Aa    | aa    |
 
 **Expected Ratios**
-- **Genotypic**: 1 AA : 2 Aa : 1 aa
-- **Phenotypic**: 3 dominant : 1 recessive
-- **Probabilities**: $P(AA) = \frac{1}{4}$, $P(Aa) = \frac{1}{2}$, $P(aa) = \frac{1}{4}$
 
+-   **Genotypic**: 1 AA : 2 Aa : 1 aa
+-   **Phenotypic**: 3 dominant : 1 recessive
+-   **Probabilities**: $P(AA)=\frac14, P(Aa)=\frac12, P(aa)=\frac14$
 :::
-
-## Testing Segregation Ratios
-
-Observed offspring from Aa × Aa cross: 240 total
-- 180 dominant phenotype, 60 recessive phenotype
-- **Expected under 3:1 ratio**: 180 dominant, 60 recessive
-
-```{r}
-# Test for 3:1 segregation ratio
-observed <- c(180, 60)
-expected <- c(180, 60)  # 3:1 ratio from 240 total
-chi_sq <- sum((observed - expected)^2 / expected)
-p_value <- pchisq(chi_sq, df = 1, lower.tail = FALSE)
-cat("χ² =", chi_sq, ", p-value =", p_value)
-```
-
-**Conclusion**: Perfect fit to Mendelian expectations (p = 1.0)
 
 ## Test Cross Example
 
-### Cross: Aa × aa (1:1 Expected)
+Proving law of segregation with a test cross
 
-::: {layout-ncol="2"}
+Example data:
 
-**Punnett Square**
+-   Cross: Aa × aa
+-   Observed: 21 dominant, 28 recessive
+-   Null hypothesis: Probability of transmission is 1:1.
+-   Alternative hypothesis: Probability of transmission is not 1:1.
+-   How to test this?
 
-|     | **A** | **a** |
-|-----|-------|-------|
-| **a** | Aa    | aa    |
-| **a** | Aa    | aa    |
+Our question is related to observation of **proportions** --\> use a chi-squared goodness-of-fit test or a binomial test.
 
-**Purpose & Results**
-- **Use**: Test if unknown dominant is AA or Aa
-- **Expected**: 1:1 ratio (50% each phenotype)
-- **Observed**: 23 dominant, 27 recessive (n=50)
-
-:::
+## Test Cross Example
 
 ```{r}
-observed_testcross <- c(23, 27)
-expected_testcross <- c(25, 25)  # 1:1 ratio
-chi_sq_test <- sum((observed_testcross - expected_testcross)^2 / expected_testcross)
-p_val_test <- pchisq(chi_sq_test, df = 1, lower.tail = FALSE)
-cat("χ² =", chi_sq_test, ", p-value =", p_val_test)
+observed_testcross <- c(21, 28)     # Dominant, Recessive
+chisq_test <- chisq.test(observed_testcross, p = c(0.5, 0.5))
+chisq_test
 ```
 
-## Dihybrid Cross: Independent Assortment
+## Biology underlying Mendelian inheritance
 
-### AaBb × AaBb (9:3:3:1 Expected)
+![@laird2011](images/paste-2.png)
 
-**Two traits**: Seed shape (A/a) and color (B/b)
+# Population Genetics Foundations
 
-```{r}
-# Calculate expected probabilities
-prob_AB <- (3/4) * (3/4)  # 9/16 Round Yellow
-prob_Ab <- (3/4) * (1/4)  # 3/16 Round Green
-prob_aB <- (1/4) * (3/4)  # 3/16 Wrinkled Yellow  
-prob_ab <- (1/4) * (1/4)  # 1/16 Wrinkled Green
+## Estimation of Allele Frequencies
 
-cat("Expected ratios:")
-cat("\nRound Yellow:", 9, "(", prob_AB, ")")
-cat("\nRound Green:", 3, "(", prob_Ab, ")")
-cat("\nWrinkled Yellow:", 3, "(", prob_aB, ")")
-cat("\nWrinkled Green:", 1, "(", prob_ab, ")")
-```
+$n_{AA}$ = Number of individuals with genotype AA $n_{Aa}$ = Number of individuals with genotype Aa $n_{aa}$ = Number of individuals with genotype aa
 
-## Testing Independent Assortment
+where, $n = n_{AA} + n_{Aa} + n_{aa} = N$.
 
-**Mendel's observed data**: 556 F₂ offspring
-- Round Yellow: 315, Round Green: 108  
-- Wrinkled Yellow: 101, Wrinkled Green: 32
+The sample proportions of allele $A$ is:
 
-```{r}
-total_f2 <- 556
-observed_dihybrid <- c(315, 108, 101, 32)
-expected_dihybrid <- c(
-  total_f2 * 9/16,  # Round Yellow: 312.75
-  total_f2 * 3/16,  # Round Green: 104.25
-  total_f2 * 3/16,  # Wrinkled Yellow: 104.25
-  total_f2 * 1/16   # Wrinkled Green: 34.75
-)
-
-chi_sq_dihybrid <- sum((observed_dihybrid - expected_dihybrid)^2 / expected_dihybrid)
-p_val_dihybrid <- pchisq(chi_sq_dihybrid, df = 3, lower.tail = FALSE)
-
-cat("Expected:", round(expected_dihybrid, 1))
-cat("\nObserved:", observed_dihybrid)
-cat("\nχ² =", round(chi_sq_dihybrid, 3), ", p-value =", round(p_val_dihybrid, 3))
-```
-
-**Conclusion**: Excellent fit supports independent assortment
-
-## Genetic Models
-
-### Mendelian
-
-::: {.callout title="Dominant"}
-$$P(Y = 1 | DD) = P(Y = 1 | Dd) = 1$$ $$P(Y = 1 | dd) = 0$$
-:::
-
-::: {.callout title="Recessive"}
-$$P(Y = 1 | DD) = 1$$ $$P(Y = 1 | Dd) = P(Y = 1 | dd) = 0$$
-:::
-
-These models are not reasonable for non rare/mendelian diseases
-
-## Penetrance
-
-A genetic model is of **reduced penetrance** if the probability of disease is less than 1 for individuals with a disease genotype
-
--   Recessive: $P(Y = 1 | DD) < 1$
--   Dominant: $P(Y = 1 | DD) < 1, P(Y = 1 | Dd) < 1$
-
-## Continuous penetrance functions
-
-What is the difference in what these two plots are showing?
-
-::: {layout-ncol="2"}
-![](images/penetrance-01.png)
-
-![](images/penetrance-02.jpg)
-:::
-
-[From Goodrich, J. K et al. (2021), “Determinants of penetrance and variable expressivity in monogenic metabolic conditions across 77,184 exomes,” Nature Communications, Nature Publishing Group, 12, 3505.]{.aside style="font-size:.6em;"}
-
-## Mode of Inheritance
-
-For quantitative traits, there exist four modes of inheritance:
-
-1.  Dominant, when only one copy of the allele is required to induce an effect on the disease phenotype
-2.  Recessive, when two copies of the allele are required to induce an effect on the disease phenotype
-3.  Additive, when the effect of the allele is proportional to the number of copies present
-4.  Codominant, when the effect of the allele is equal to the sum of the effects of each copy
-
-# DETOUR
-
-## Generalized Linear Models
-
-::: {.callout title="Simple Linear Model"}
 $$
-y_i = \beta_0 + \beta_1 x_i + \epsilon_i
-$$
-:::
-
-::: {.callout title="Generalized Linear Model"}
-$$
-g(y_i) = \beta_0 + \beta_1 x_i + \epsilon_i
+\hat{p} = \frac{2n_{AA} + n_{Aa}}{2n}
 $$
 
-Where
+The usual standard error for a proportion is $\sqrt{\hat{p}(1 - \hat{p})/2n}$, but this assumes independence of the $2n$ sampled chromosomes.
 
--   $g(\cdot)$ is a link function that relates the linear predictor to the mean of the response variable
--   $V(\cdot)$ is a variance function that relates the mean of the response variable to its variance
-:::
+## Hardy–Weinberg Equilibrium (HWE): Assumptions
 
-# Population Genetics
+Let's reframe the problem in terms of **genotype frequencies**. First, some assumptions:
 
-## Estimating Allele Frequencies
+-   **Random mating**
+-   **Large population** (no strong drift in one generation)
+-   **No selection**, **no migration**, **no mutation** (in the generation under study)
+-   **Accurate genotypes** (no systematic genotyping error)
 
-Consider a sample of $n$ individuals, and let
+**If these hold**, and the allele frequency of $A$ is $p$ (so $q = 1-p$), we say that the population is in **Hardy-Weinberg Equilibrium (HWE)**. The **population genotype probabilities** are:
 
--   $n_{AA}$ be the number of individuals with genotype $AA$
--   $n_{Aa}$ be the number of individuals with genotype $Aa$
--   $n_{aa}$ be the number of individuals with genotype $aa$
+$$
+P(AA)=p^2 \quad P(Aa)=2pq \quad P(aa)=q^2
+$$
 
-1.  What is $n_{AA} + n_{Aa} + n_{aa}$?
-2.  What is the frequency of allele $A$ in the population?
-3.  How many alleles are there in total?
-4.  What is the frequency of allele $a$ in the population?
-5.  What is the standard error of the allele frequency estimate?
+As a consequence, the **genotype frequencies** in a random sample of $n$ individuals are approximately multinomially distributed with cell probabilities $(p^2, 2pq, q^2)$. Thus, the sampling error of $\hat{p}$ is approximately $\sqrt{p(1-p)/2n}$.
 
-## Population Substructure
+This confidence interval is known as a **Wald confidence interval**.
 
-![Shriner, D., Adeyemo, A., Ramos, E., Chen, G., and Rotimi, C. N. (2011), [“Mapping of disease-associated variants in admixed populations,”](https://doi.org/10.1186/gb-2011-12-5-223) Genome Biology, BioMed Central, 12, 1–8.](https://media.springernature.com/full/springer-static/image/art%3A10.1186%2Fgb-2011-12-5-223/MediaObjects/13059_2011_Article_2523_Fig1_HTML.jpg)
+## Testing for HWE
 
-## Hardy-Weinberg Equilibrium
+-   With large samples, we can test for HWE using a **chi-squared goodness-of-fit test**.
 
-![Khan Academy](https://cdn.kastatic.org/ka-perseus-images/010efe45f63d8da65c92d7af25c503c0bc91f105.png)
+![@laird2011](images/paste-4.png)
 
-## Testing for HWE {auto-animate="true"}
-
-1.  Estimate allele frequencies from the sample
-2.  Estimate $\hat{p}$, the frequency of allele A
-3.  Calculate expected genotype frequencies under HWE
-4.  Compare observed and expected genotype frequencies using a statistical test (e.g., Pearson goodness-of-fit test)
-
-## Testing for HWE {auto-animate="true"}
-
-1.  **Estimate allele frequencies from the sample**
-2.  Estimate $\hat{p}$, the frequency of allele A
-3.  Calculate expected genotype frequencies under HWE
-4.  Compare observed and expected genotype frequencies using a statistical test (e.g., Pearson goodness-of-fit test)
-
-```{r}
-n <- 212
-n_AA <- 175
-n_Aa <- 33
-n_aa <- 4
-```
-
-## Testing for HWE {auto-animate="true"}
-
-1.  Estimate allele frequencies from the sample
-2.  **Estimate** $\hat{p}$, the frequency of allele A
-3.  Calculate expected genotype frequencies under HWE
-4.  Compare observed and expected genotype frequencies using a statistical test (e.g., Pearson goodness-of-fit test)
+## HWE: Worked Example
 
 ```{r}
 n <- 212
@@ -994,55 +664,57 @@ n_AA <- 175
 n_Aa <- 33
 n_aa <- 4
 
-p_hat <- (2* n_AA + n_Aa) / (2*n)
-p_hat
-```
-
-## Testing for HWE {auto-animate="true"}
-
-1.  Estimate allele frequencies from the sample
-2.  Estimate $\hat{p}$, the frequency of allele A
-3.  **Calculate expected genotype frequencies under HWE**
-4.  Compare observed and expected genotype frequencies using a statistical test (e.g., Pearson goodness-of-fit test)
-
-```{r}
-n <- 212
-n_AA <- 175
-n_Aa <- 33
-n_aa <- 4
-
-p_hat <- (2* n_AA + n_Aa) / (2*n)
+# Estimate allele frequency
+p_hat <- (2*n_AA + n_Aa) / (2*n)
+q_hat <- 1 - p_hat
 p_hat
 
-e_AA <- round(n * p_hat^2)
-e_Aa <- round(2 * n * p_hat * (1 - p_hat))
-e_aa <- round(n * (1 - p_hat)^2)
-c(e_AA, e_Aa, e_aa)
-```
-
-## Testing for HWE {auto-animate="true"}
-
-1.  Estimate allele frequencies from the sample
-2.  Estimate $\hat{p}$, the frequency of allele A
-3.  Calculate expected genotype frequencies under HWE
-4.  **Compare observed and expected genotype frequencies using a statistical test (e.g., Pearson goodness-of-fit test)**
-
-```{r}
-n <- 212
-n_AA <- 175
-n_Aa <- 33
-n_aa <- 4
-
-p_hat <- (2* n_AA + n_Aa) / (2*n)
-p_hat
-
-e_AA <- round(n * p_hat^2)
-e_Aa <- round(2 * n * p_hat * (1 - p_hat))
-e_aa <- round(n * (1 - p_hat)^2)
-c(e_AA, e_Aa, e_aa)
-
+# Expected counts
+expected <- c(n * p_hat^2, 2*n * p_hat*q_hat, n * q_hat^2)
 observed <- c(n_AA, n_Aa, n_aa)
-expected <- c(e_AA, e_Aa, e_aa)
-test_stat <- sum((observed - expected)^2 / expected)
-pchisq(test_stat, df = 1, lower.tail = FALSE)
+expected
+
+# Pearson chi-squared
+chisq_val <- sum((observed - expected)^2 / expected)
+df <- 3 - 1 - 1
+p_val <- pchisq(chisq_val, df = df, lower.tail = FALSE)
+p_val
+```
+
+
+## Sampling distributions: intuition via simulation
+
+```{r}
+set.seed(123)
+true_p <- 0.3
+sample_sizes <- c(5, 10, 100, 500)
+n_sims <- 1000
+
+sampling_results <- map_dfr(sample_sizes, function(n) {
+  p_hats <- replicate(n_sims, {
+    # Sample n individuals (2n alleles total)
+    alleles <- rbinom(n, 2, true_p)  # each individual contributes 0,1,2 A alleles
+    sum(alleles) / (2 * n)           # sample allele frequency
+  })
+  tibble(sample_size = n, p_hat = p_hats,
+         theoretical_se = sqrt(true_p * (1 - true_p) / (2 * n)))
+})
+```
+
+```{r, echo = F}
+sampling_results <- sampling_results %>%
+  mutate(sample_size_name = paste("n =", sample_size)) |>
+  mutate(sample_size_name = factor(sample_size_name, levels = c("n = 5", "n = 10", "n = 100", "n = 500")))
+```
+
+## Sampling distributions: intuition via simulation
+
+```{r}
+# Plot sampling distributions
+ggplot(sampling_results, aes(x = p_hat)) +
+  geom_histogram(aes(y = after_stat(density)), bins = 30, alpha = 0.7) +
+  geom_vline(xintercept = true_p, color = "red", linetype = "dashed", linewidth = 1) +
+  facet_wrap(~sample_size_name, scales = "free_y") +
+  labs(title = "Sampling Distribution of p̂", x = "Sample Allele Frequency (p̂)", y = "Density") +
+  theme_minimal()
 ```

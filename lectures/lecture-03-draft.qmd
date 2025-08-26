@@ -1,0 +1,169 @@
+---
+title: "Lecture 03: Advanced Likelihood Methods and Inference"
+subtitle: PUBH 8878, Statistical Genetics
+format: 
+    revealjs:
+        theme: [default, "custom.scss"]
+        slide-number: true
+        chalkboard: true
+        html-math-method: katex
+execute:
+  freeze: auto
+  echo: true
+  warning: true
+engine: knitr
+knitr:
+  opts_chunk: 
+    R.options:
+      width: 80
+draft: true
+---
+
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+library(tidyverse)
+library(ggplot2)
+library(viridis)
+library(htmltools)
+```
+
+## Review: Likelihood Function Basics
+
+From Lecture 1, we learned:
+- Likelihood function: $L(\boldsymbol{\theta} | \text{data}) = P(\text{data} | \boldsymbol{\theta})$
+- Maximum Likelihood Estimation (MLE)
+- Simple one-parameter examples
+
+Today: **Multi-parameter likelihood surfaces and complex genetic models**
+
+## Multi-Parameter Likelihood Surfaces
+
+### Penetrance Model with Two Parameters
+
+Consider a dominant disease model with:
+- Allele frequency: $p$
+- Penetrance for heterozygotes: $f_1$
+- Fixed: $f_0 = 0$ (unaffected homozygotes), $f_2 = 1$ (affected homozygotes)
+
+Population disease risk: $K = p^2 \cdot 1 + 2p(1-p) \cdot f_1 + (1-p)^2 \cdot 0$
+
+## Likelihood Surface Visualization
+
+```{r, echo = FALSE}
+# Generate likelihood surface for penetrance model
+p_vals <- seq(0.01, 0.5, length.out = 50)
+f1_vals <- seq(0.1, 1.0, length.out = 50)
+
+# Example data: 100 individuals, 15 affected, assuming f0=0, f2=1
+n <- 100
+k <- 15
+
+likelihood_surface <- expand.grid(p = p_vals, f1 = f1_vals) %>%
+  mutate(
+    K = p^2 * 1 + 2 * p * (1-p) * f1 + (1-p)^2 * 0,
+    log_likelihood = dbinom(k, n, K, log = TRUE)
+  )
+
+ggplot(likelihood_surface, aes(x = p, y = f1, fill = log_likelihood)) +
+  geom_tile() +
+  geom_contour(aes(z = log_likelihood), color = "white", alpha = 0.7) +
+  scale_fill_viridis_c(name = "Log\nLikelihood") +
+  labs(
+    x = "Allele Frequency (p)",
+    y = "Penetrance (f₁)",
+    title = "Likelihood Surface: Dominant Model with Reduced Penetrance"
+  ) +
+  theme_minimal(base_size = 14)
+```
+
+## Interpreting Likelihood Surfaces
+
+::: incremental
+- **Peak**: Maximum likelihood estimates (MLE)
+- **Contours**: Lines of equal likelihood
+- **Confidence Regions**: Areas within likelihood ratio thresholds
+- **Ridge vs Peak**: Identifiability issues
+- **Flatness**: Parameter uncertainty
+:::
+
+## Likelihood Ratio Tests
+
+### Testing Nested Hypotheses
+
+**Full Model**: $H_1: \text{both } p \text{ and } f_1 \text{ free}$
+**Reduced Model**: $H_0: f_1 = 1 \text{ (complete penetrance)}$
+
+Test statistic: $\Lambda = 2[\ell(\hat{\boldsymbol{\theta}}_1) - \ell(\hat{\boldsymbol{\theta}}_0)]$
+
+Under $H_0$: $\Lambda \sim \chi^2_{df}$ where $df = $ difference in parameters
+
+## Profile Likelihood
+
+When interested in one parameter but others are nuisance:
+
+$$L_{\text{profile}}(p) = \max_{f_1} L(p, f_1)$$
+
+```{r, echo=FALSE}
+# Calculate profile likelihood for p
+profile_p <- likelihood_surface %>%
+  group_by(p) %>%
+  summarise(
+    max_log_likelihood = max(log_likelihood),
+    best_f1 = f1[which.max(log_likelihood)]
+  )
+
+ggplot(profile_p, aes(x = p, y = max_log_likelihood)) +
+  geom_line(linewidth = 1.2, color = "blue") +
+  labs(
+    x = "Allele Frequency (p)",
+    y = "Profile Log-Likelihood",
+    title = "Profile Likelihood for Allele Frequency"
+  ) +
+  theme_minimal(base_size = 14)
+```
+
+## Information and Standard Errors
+
+### Fisher Information Matrix
+
+For parameters $\boldsymbol{\theta} = (\theta_1, \theta_2)$:
+
+$$I_{ij}(\boldsymbol{\theta}) = -E\left[\frac{\partial^2 \ell}{\partial \theta_i \partial \theta_j}\right]$$
+
+**Asymptotic standard errors**: $SE(\hat{\theta}_i) \approx \sqrt{[I^{-1}]_{ii}}$
+
+**Confidence intervals**: $\hat{\theta}_i \pm 1.96 \cdot SE(\hat{\theta}_i)$
+
+## Practical Considerations
+
+::: incremental
+1. **Computational Methods**: Newton-Raphson, EM algorithm, numerical optimization
+2. **Starting Values**: Multiple random starts to avoid local maxima  
+3. **Convergence**: Check gradient, Hessian, parameter stability
+4. **Model Comparison**: AIC, BIC for non-nested models
+5. **Diagnostics**: Residuals, goodness-of-fit tests
+:::
+
+## Applications in Genetics
+
+### Complex Segregation Analysis
+- Mode of inheritance parameters
+- Penetrance functions
+- Gene frequency estimation
+
+### Linkage Analysis  
+- Recombination fraction estimation
+- Multi-point linkage
+- Disease gene localization
+
+### Association Studies
+- Allelic vs genotypic tests
+- Hardy-Weinberg equilibrium
+- Population stratification
+
+## Coming Up
+
+**Next Lecture**: Bayesian inference methods
+- Prior specification
+- Posterior computation  
+- MCMC algorithms
+- Comparison with likelihood approaches

@@ -6,28 +6,28 @@ title: "Syllabus"
 
 This graduate-level course builds a cohesive toolkit for analyzing complex genetic data, weaving together Mendelian and population-genetic principles, likelihood theory, and Bayesian inference with MCMC. Lectures progress from pedigree linkage and genome-wide association study (GWAS) design to population-structure correction, multiple-testing control, and genomic prediction using BLUP, penalized regressions, and non-parametric learners such as random forests and neural networks. Binary-trait modelling introduces logistic mixed models, AUC evaluation, and family-based tests, while hands-on R/Bioconductor labs guide students from Hardy–Weinberg simulations to full GWAS and polygenic-score pipelines. Weekly problem sets blend mathematical derivations with coding; a capstone project requires analyzing public whole-genome or single-cell data and presenting findings in a conference-style talk. By course end, participants can translate biological questions into formal statistical models, implement inference algorithms on high-dimensional data, control error rates in large-scale studies, and critically evaluate predictive models and their uncertainties.
 
-## Course Prerequisites 
+## Course Prerequisites
 
-* PUBH 6860: Principles of Bioinformatics
+-   PUBH 6860: Principles of Bioinformatics
 
 ## Course Learning Objectives
 
-- Analyze Mendelian, population-genetic, and demographic models to quantify inheritance patterns, linkage, association, and population structure in diverse organisms. 
-- Apply likelihood, Bayesian, and Markov-chain Monte Carlo techniques to estimate parameters and test hypotheses in genome-scale datasets.
-- Evaluate genome-wide association studies and genomic-prediction pipelines, controlling false-discovery rates and assessing prediction bias, variance, and uncertainty.
-- Synthesize multi-source genomic, phenotypic, and environmental data into reproducible R/Bioconductor workflows that meet FAIR and open-science standards.
-- Design and implement statistical learning models-shrinkage regressions, mixed models, and non-parametric methods-to predict complex traits and interpret model performance in a biological context.
+-   Analyze Mendelian, population-genetic, and demographic models to quantify inheritance patterns, linkage, association, and population structure in diverse organisms.
+-   Apply likelihood, Bayesian, and Markov-chain Monte Carlo techniques to estimate parameters and test hypotheses in genome-scale datasets.
+-   Evaluate genome-wide association studies and genomic-prediction pipelines, controlling false-discovery rates and assessing prediction bias, variance, and uncertainty.
+-   Synthesize multi-source genomic, phenotypic, and environmental data into reproducible R/Bioconductor workflows that meet FAIR and open-science standards.
+-   Design and implement statistical learning models-shrinkage regressions, mixed models, and non-parametric methods-to predict complex traits and interpret model performance in a biological context.
 
 ## Textbooks
 
 ### Required
 
-- Statistical Learning in Genetics: An Introduction Using R, Daniel Sorensen, 2nd Edition (Available via the [GWU Library](https://wrlc-gwu.primo.exlibrisgroup.com/discovery/fulldisplay?docid=alma99186479493504107&context=L&vid=01WRLC_GWA:live&lang=en&search_scope=DN_and_CI&adaptor=Local%20Search%20Engine&tab=Everything&query=any,contains,Statistical%20Learning%20in%20Genetics%20:%20An%20Introduction%20Using%20R))
+-   Statistical Learning in Genetics: An Introduction Using R, Daniel Sorensen, 2nd Edition (Available via the [GWU Library](https://wrlc-gwu.primo.exlibrisgroup.com/discovery/fulldisplay?docid=alma99186479493504107&context=L&vid=01WRLC_GWA:live&lang=en&search_scope=DN_and_CI&adaptor=Local%20Search%20Engine&tab=Everything&query=any,contains,Statistical%20Learning%20in%20Genetics%20:%20An%20Introduction%20Using%20R))
 
 ### Recommended
 
-- Handbook of Statistical Genomics, David J. Balding, Ida Moltke, John Marioni, 4th Edition (Available via the [GWU Library](https://wrlc-gwu.primo.exlibrisgroup.com/discovery/fulldisplay?docid=alma99186542370004107&context=L&vid=01WRLC_GWA:live&lang=en&search_scope=DN_and_CI&adaptor=Local%20Search%20Engine&tab=Everything&query=any,contains,Handbook%20of%20Statistical%20Genomics&offset=0))
-- The Fundamentals of Modern Statistical Genetics, Nan M. Laird and Christoph Lange, 1st Edition (Available via the [GWU Library](https://wrlc-gwu.primo.exlibrisgroup.com/permalink/01WRLC_GWA/1j51gk4/alma9987533363604107))
+-   Handbook of Statistical Genomics, David J. Balding, Ida Moltke, John Marioni, 4th Edition (Available via the [GWU Library](https://wrlc-gwu.primo.exlibrisgroup.com/discovery/fulldisplay?docid=alma99186542370004107&context=L&vid=01WRLC_GWA:live&lang=en&search_scope=DN_and_CI&adaptor=Local%20Search%20Engine&tab=Everything&query=any,contains,Handbook%20of%20Statistical%20Genomics&offset=0))
+-   The Fundamentals of Modern Statistical Genetics, Nan M. Laird and Christoph Lange, 1st Edition (Available via the [GWU Library](https://wrlc-gwu.primo.exlibrisgroup.com/permalink/01WRLC_GWA/1j51gk4/alma9987533363604107))
 
 ## Technology Requirements
 
@@ -35,22 +35,65 @@ Students should have a desktop or laptop (Windows, macOS, or Linux) with at leas
 
 ## Assignments and Descriptions
 
-### Problem Sets 
+| Assignment Type                     | \% of total grade |
+|-------------------------------------|-------------------|
+| Problem Sets                        | 60                |
+| Class participation (defined below) | 20                |
+| Research Project (Final Exam)       | 20                |
 
-Problem sets are key to exploring the concepts introduced both in class and in the textbook.  These are meant to provide an opportunity to more deeply understand concepts and put them into practice and provide an opportunity for data manipulation.  This is part of the ‘lab’ component of the course and you will be given time in class to work on assignments and collaborate.  However, these problem sets will take substantial time outside of class to complete, so please plan accordingly.
+### Standard SPH Graduate Grading Scale
+
+-   A: 94-100%
+-   A-: 90-93%
+-   B+: 87-89%
+-   B: 84-86%
+-   B-: 80-83%
+-   C+: 77-79%
+-   C: 73-76%
+-   C-: 70-72%
+-   F: Below 70%
+
+### Problem Sets
+
+Problem sets are key to exploring the concepts introduced both in class and in the textbook. These are meant to provide an opportunity to more deeply understand concepts and put them into practice and provide an opportunity for data manipulation. This is part of the ‘lab’ component of the course and you will be given time in class to work on assignments and collaborate. However, these problem sets will take substantial time outside of class to complete, so please plan accordingly.
 
 ### Research Project
 
-Students will choose a unique project to work on for the final third of the semester. At the end of the semester, students will submit a written project report in the form of a scientific research paper. Students are strongly encouraged to work in groups of up to three on their projects, however such groups will be expected to make proportionally more substantial contributions with clearly delineated responsibilities for each member’s contributions. Projects should be based on a research topic related to statistical genetics, but can be computational, methodological, or applied in nature. The Lab write-ups will follow the standard form of a scientific paper to gain experience in writing.  Specifically, we will follow the format of the journal Genetics, the leading journal in the field.  The paper MUST BE BASED ON THE PRIMARY LITERATURE IN THE APPROPRIATE REFEREED SCIENTIFIC JOURNALS, and it should adhere to the following format:
+Students will choose a unique project to work on for the final third of the semester. At the end of the semester, students will submit a written project report in the form of a scientific research paper. Students are strongly encouraged to work in groups of up to three on their projects, however such groups will be expected to make proportionally more substantial contributions with clearly delineated responsibilities for each member’s contributions. Projects should be based on a research topic related to statistical genetics, but can be computational, methodological, or applied in nature. The Lab write-ups will follow the standard form of a scientific paper to gain experience in writing. Specifically, we will follow the format of the journal Genetics, the leading journal in the field. The paper MUST BE BASED ON THE PRIMARY LITERATURE IN THE APPROPRIATE REFEREED SCIENTIFIC JOURNALS, and it should adhere to the following format:
 
-- Begin the paper with an original title, followed by your name, the course, and the date.  All papers should be typed, single-spaced, and in 12 pt. font.
-- The paper should have the following sections:
-    - Introduction – here you state the general problem or issue you are addressing.
-    - Materials and Methods – describe the methods used to obtain data, analyze data, and test hypotheses associated with the data.
-    - Results – describe the results of the data analysis and hypothesis testing. 
-    - Discussion – here you draw conclusions about the problem you studied; this section should include a synthesis of ideas.
-    - Literature Cited – List the relevant literature you have read and used to support your arguments/analyze your data.  The literature cited should be in the format of the journal Genetics.
-    
+-   Begin the paper with an original title, followed by your name, the course, and the date. All papers should be typed, single-spaced, and in 12 pt. font.
+-   The paper should have the following sections:
+    -   Introduction – here you state the general problem or issue you are addressing.
+    -   Materials and Methods – describe the methods used to obtain data, analyze data, and test hypotheses associated with the data.
+    -   Results – describe the results of the data analysis and hypothesis testing.
+    -   Discussion – here you draw conclusions about the problem you studied; this section should include a synthesis of ideas.
+    -   Literature Cited – List the relevant literature you have read and used to support your arguments/analyze your data. The literature cited should be in the format of the journal Genetics.
+
 Aspects of the project will be required throughout the course with a final research project submitted in the form of a research paper during finals. See course outline for due dates for each part of project.
 
+### Workload
 
+In this course, you will be expected to spend 5 or more hours per week in independent learning which can include reviewing assigned material, preparing for class discussions, working on assignments, and group work. In addition, 1.5 hours per week will be spent in class computational lab and 4.5 hours working on asynchronous materials provided online. **The total workload for this course will be at least 112.5 hours.**
+
+
+### Class Policy: Statistical Genetics is Interdisciplinary and Quantitative
+
+This course is highly interdisciplinary, quantitative, and technical. We will discuss algorithms, concepts, and methods from biology, computer science, and statistics. You will be asked to learn about and apply technical concepts in areas that you may have limited familiarity with. In our experience, to succeed in this class, you will have to commit to repeatedly engaging with concepts to build understanding and refine your understanding through class discussions, outside reading, and homework assignments. Willingness to think quantitatively/probabilistically is required to succeed in this course.  There are a diversity of talent sets in this class and you each bring something unique to the table.  Collaborate and find someone with the skills they might share if you are lacking in a particular area.  Building effective teams with broad skillsets is a hallmark of effective statistical genetics.
+
+### Class Policy: Participation and Discussion 
+
+Teaching and learning require a team effort.  We expect you to show up to synchronous sessions (on time) and be prepared for discussions. This means, you have gone through the asynchronous material and started on the homework assignment (problem sets) and come to the synchronous session with questions.  You are strongly encouraged to ask questions during synchronous session to help complete your homework assignments and share thoughts and progress on a research project.  Statistical genetics is an exciting and broad area with no shortage of ethical and societal implications. We welcome your points of view and respectful discussion.  We also strongly encourage cooperation among students to help in each other’s understanding of the material, but homework assignments must be your own work.  We would greatly appreciate any feedback on any aspects of this course, both positive and negative!
+
+20% of your grade is ‘Participation’. This is both a quantitative assessment of your responses to asynchronous materials as well as participation in the live synchronous sessions. Statistical Genetics is a demanding discipline that requires students to think critically and utilize high-level analytical skills regarding complex issues. The discipline requires such mastery not only in well-articulated written work, but also in thoughtful discussions between and among students and instructors. Receiving full points for participation is not simply a matter of showing up and turning work in on time. Outstanding participation grades require truly thoughtful, insightful, and well-argued contributions and leadership in class and in asynchronous prompts that demonstrate a high level of mastery of the course material.
+ 
+### Class Policy: Late Work 
+
+Late work will be accepted but with a 1% deduction per hour for the first 5 hours up to 5% deduction per day for unexcused late homework submission.  All homework will be due at 11:59 pm on the designated due date unless otherwise specified. Homework assignments (Problem Sets) will typically be distributed via blackboard with a week to complete each assignment.
+
+### Class Policy: Make-up Work/Make-up Exams
+
+Any student who experiences significant family or personal illness or emergency after the final withdrawal date and is unable to complete course work should ask the instructor for an incomplete for the course. Each case will be managed on an individual basis. The Incomplete Policy must be followed as outlined in the GWSPH Student Handbook.
+
+### Class Policy: Generative Artificial Intelligence (GAI)
+
+Students are permitted to use GAI tools to generate outlines of scripts and papers to help get started, but we expect heavy editing (and commenting in code) subsequently done by the student to verify functionality and understanding of code and implications of research results. Students are permitted to use GAI for coding assignments to get started but must further comment, edit, and validate their code. Any use of GAI must be acknowledged in each assignment with details on the distinction between the GAI material and the student contribution for any given assignment along with details of the prompts supplied to the GAI tool, acknowledgement of the GAI tool including tool name and version. Note also the GW University Policy on GAI.

@@ -1,0 +1,192 @@
+---
+title: "Lecture 04: Bayesian Methods in Statistical Genetics"
+subtitle: PUBH 8878, Statistical Genetics
+format: 
+    revealjs:
+        theme: [default, "custom.scss"]
+        slide-number: true
+        chalkboard: true
+        html-math-method: katex
+execute:
+  freeze: auto
+  echo: true
+  warning: true
+engine: knitr
+knitr:
+  opts_chunk: 
+    R.options:
+      width: 80
+draft: true
+---
+
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+library(tidyverse)
+library(ggplot2)
+library(viridis)
+library(htmltools)
+```
+
+## Bayesian Fundamentals Review
+
+From Lecture 1:
+- **Bayes' Theorem**: $P(A|B) = \frac{P(B|A)P(A)}{P(B)}$
+- **Simple Beta-Binomial example** for allele frequency estimation
+- **Prior × Likelihood = Posterior**
+
+Today: **Advanced Bayesian modeling and computational methods**
+
+## Sequential Bayesian Updating
+
+### Learning from Multiple Experiments
+
+When data arrives sequentially, the posterior from one analysis becomes the prior for the next:
+
+**Experiment 1**: Prior₁ × Likelihood₁ = Posterior₁  
+**Experiment 2**: Prior₂ (= Posterior₁) × Likelihood₂ = Posterior₂  
+**Experiment 3**: Prior₃ (= Posterior₂) × Likelihood₃ = Posterior₃
+
+This demonstrates how **scientific knowledge accumulates** over time.
+
+*Building on the sequential updating example from Lecture 1, we now explore more complex scenarios with multiple parameters and model comparison.*
+
+## Bayesian Model Comparison
+
+### Comparing Genetic Models
+
+**Model 1**: Simple Mendelian inheritance  
+**Model 2**: Reduced penetrance model  
+**Model 3**: Epistatic interactions
+
+Use **Bayes Factors** to compare:
+$$BF_{12} = \frac{P(\text{data}|M_1)}{P(\text{data}|M_2)} = \frac{\int P(\text{data}|\boldsymbol{\theta}_1, M_1) \pi(\boldsymbol{\theta}_1|M_1) d\boldsymbol{\theta}_1}{\int P(\text{data}|\boldsymbol{\theta}_2, M_2) \pi(\boldsymbol{\theta}_2|M_2) d\boldsymbol{\theta}_2}$$
+
+## Prior Specification in Genetics
+
+### Informative vs Non-informative Priors
+
+::: {layout-ncol="2"}
+
+**When to use informative priors:**
+- Population allele frequencies from databases
+- Effect sizes from previous studies
+- Biological constraints (e.g., penetrance ≤ 1)
+
+**Non-informative options:**
+- Uniform priors
+- Jeffreys priors
+- Reference priors
+- Weakly informative priors
+
+:::
+
+### Example: Rare Disease Analysis
+- **Prior**: $p \sim \text{Beta}(1, 999)$ for rare allele
+- **Justification**: Incorporates known rarity
+- **Sensitivity**: Compare with flat prior results
+
+## Computational Methods
+
+### Markov Chain Monte Carlo (MCMC)
+
+When posterior distributions are complex:
+
+1. **Metropolis-Hastings Algorithm**
+2. **Gibbs Sampling** (for conjugate priors)
+3. **Hamiltonian Monte Carlo** (for complex geometries)
+4. **Variational Bayes** (deterministic approximation)
+
+### MCMC Diagnostics
+
+- **Trace plots**: Visual inspection of chains
+- **Gelman-Rubin statistic**: $\hat{R}$ convergence diagnostic  
+- **Effective sample size**: Independent samples
+- **Autocorrelation**: Chain mixing assessment
+
+## Hierarchical Bayesian Models
+
+### Multi-level Genetic Data
+
+**Level 1**: Individual genotypes within families  
+**Level 2**: Families within populations  
+**Level 3**: Populations within species
+
+```r
+# Hierarchical model structure
+for(i in 1:n_families) {
+  for(j in 1:family_size[i]) {
+    genotype[i,j] ~ Binomial(2, p[i])
+  }
+  p[i] ~ Beta(alpha, beta)  # Family-specific allele freq
+}
+alpha ~ Gamma(a_prior, b_prior)
+beta ~ Gamma(a_prior, b_prior)
+```
+
+## Bayesian Association Testing
+
+### Bayesian Alternative to P-values
+
+Instead of "reject/fail to reject":
+- **Posterior probability** of association
+- **Credible intervals** for effect sizes
+- **Model averaging** over uncertainty
+
+### Advantage: Direct Probability Statements
+"There is an 87% probability that this SNP increases disease risk by more than 20%"
+
+vs frequentist: "We reject the null hypothesis (p < 0.05)"
+
+## Applications in Population Genetics
+
+### Bayesian Phylogenetics
+- **Prior**: Tree topology probabilities
+- **Likelihood**: Sequence evolution models  
+- **Posterior**: Distribution over trees
+
+### Demographic History Inference
+- **Prior**: Population size trajectories
+- **Likelihood**: Genetic diversity patterns
+- **Posterior**: Historical population changes
+
+## Advantages and Challenges
+
+::: {layout-ncol="2"}
+
+### **Advantages**
+- Natural uncertainty quantification
+- Incorporates prior knowledge
+- Handles complex models naturally
+- No multiple testing issues
+- Direct interpretation
+
+### **Challenges**  
+- Computational intensity
+- Prior specification debates
+- MCMC convergence issues
+- Model complexity choices
+- Communication with non-Bayesians
+
+:::
+
+## Practical Implementation
+
+### Software Options
+- **BUGS/JAGS**: General purpose MCMC
+- **Stan**: Modern probabilistic programming
+- **R packages**: MCMCglmm, rstanarm, brms
+- **Specialized**: BEAST (phylogenetics), STRUCTURE (population genetics)
+
+### Workflow
+1. Specify model and priors
+2. Implement in software
+3. Run MCMC chains
+4. Check diagnostics
+5. Interpret posterior
+
+## Coming Up
+
+**Next Lecture**: Generalized Linear Models
+- Connecting Bayesian and frequentist approaches
+- Logistic regression for case-control studies
+- Mixed models for family data
+- Model selection criteria
