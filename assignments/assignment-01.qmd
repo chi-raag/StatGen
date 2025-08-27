@@ -16,7 +16,7 @@ format-links: [pdf, docx]
 
     a.  What is the probability that a randomly selected person is affected? Suppose that the randomly selected person is affected. What does that imply about the probability that their sibling is also affected (you can assume that having either one or two parents with two variants is so rare that you can ignore them)?
 
-    b.  Now answer both of these questions assuming the penetrance is only 12, i.e., $P(\text{disease} | 2 \text{ variants}) = 12$, but the phenocopy rate is still zero.
+    b.  Now answer both of these questions assuming the penetrance is only $\frac{1}{2}$, i.e., $P(\text{disease} | 2 \text{ variants}) = \frac{1}{2}$, but the phenocopy rate is still zero.
 
 3.  Consider a sample size of $n$ of unrelated haploid individuals is obtained from some population with the objective of estimating allele frequency at a biallelic locus. The sample contains $x$ copies of $A$, and $n-x$ copies of $a$.
 
@@ -31,3 +31,5 @@ format-links: [pdf, docx]
   a. Compute $\hat{\text{Var}}(\hat{\theta})$
   a. Provide a 95% Wald confidence interval for $\theta$
   a. Write an interpretation of this confidence interval. What problem does this reveal about the Wald confidence interval?
+
+5. Refer to slides 13 and 14 in [lecture 1](../lectures/lecture-01.qmd). Write a one to two sentence answer for how a researcher would try to answer each question.

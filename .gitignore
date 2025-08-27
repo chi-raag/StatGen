@@ -3,7 +3,10 @@ _freeze/
 
 # History files
 .Rhistory
-.Rapp.history
+.Rapp.historyi
+.Rprofile 
+
+.vscode
 
 # Session Data files
 .RData

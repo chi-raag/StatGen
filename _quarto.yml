@@ -1,4 +1,5 @@
 project:
+  title: "Statistical Genetics"
   type: website
   output-dir: docs
 

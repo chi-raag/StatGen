@@ -17,6 +17,7 @@ knitr:
     R.options:
       width: 80
 bibliography: references.bib
+csl: https://www.zotero.org/styles/bioinformatics
 ---
 
 ```{r, message=FALSE, warning=FALSE, include=FALSE}
@@ -93,7 +94,7 @@ library(htmltools)
 **Project Types**
 
 -   Computational methods
--   Applied analysis\
+-   Applied analysis
 -   Methodological development
 -   All based on primary literature
 
@@ -127,6 +128,10 @@ library(htmltools)
 -   Optional: HPC access
 :::
 
+## Course Textbook
+
+![@sorensenStatisticalLearningGenetics2025](images/paste-6.png)
+
 ## What is statistical genetics?
 
 ::: {layout-ncol="3"}
@@ -137,32 +142,28 @@ library(htmltools)
 ![Quantitative Genetics](https://brightspotcdn.byu.edu/dims4/default/6658c6f/2147483647/strip/true/crop/1602x2400+0+0/resize/534x800!/quality/90/?url=https%3A%2F%2Fbrigham-young-brightspot-us-east-2.s3.us-east-2.amazonaws.com%2F9b%2Faf%2F9f5a135aaaf234b6420456b7312c%2Fbradley-measure.jpg)
 :::
 
-::: {.notes}
-- Population genetics is the study of evolutionary processes affecting genetic variation between organisms. A classic example is Darwin's finches, where beak shape and size vary between islands in the Galapagos, driven by natural selection.
-- Genetic Epidemiology is the study of how genetic factors contribute to health and disease in populations. A classic example is the study of genetic variants associated with diseases like diabetes or heart disease.
-- Quantitative genetics is the study of continuous traits influenced by multiple genes and environmental factors. A classic example is human height, which is influenced by many genetic variants and environmental factors like nutrition.
+::: notes
+-   Population genetics is the study of evolutionary processes affecting genetic variation between organisms. A classic example is Darwin's finches, where beak shape and size vary between islands in the Galapagos, driven by natural selection.
+-   Genetic Epidemiology is the study of how genetic factors contribute to health and disease in populations. A classic example is the study of genetic variants associated with diseases like diabetes or heart disease.
+-   Quantitative genetics is the study of continuous traits influenced by multiple genes and environmental factors. A classic example is human height, which is influenced by many genetic variants and environmental factors like nutrition. Shawn Bradley was a basketball player who as 7'6 tall, The study found Bradley had 198 more height-associated genetic variants than the average person in the sample
 :::
 
 ## A statistical geneticist may want to know
 
-::: incremental
 1.  Is there a genetic component contributing to the total variance of these traits?
 2.  Is the genetic component of the traits driven by a few genes located on a particular chromosome, or are there many genes scattered across many chromosomes? How many genes are involved and is this a scientifically sensible question?
 3.  Are the genes detected protein-coding genes, or are there also noncoding genes involved in gene regulation?
 4.  How is the strength of the signals captured in a statistical analysis related to the two types of genes? What fraction of the total genetic variation is allocated to both types of genes?
 5.  What are the frequencies of the genes in the sample? Are the frequencies associated with the magnitude of their effects on the traits?
 6.  What is the mode of action of the genes?
-:::
 
 ## A statistical geneticist may want to know
 
-::: incremental
 7.  What proportion of the genetic variance estimated in 1 can be explained by the discovered genes?
 8.  Given the information on the set of genes carried by an individual, will a genetic score constructed before observing the trait help with early diagnosis and prevention?
 9.  How should the predictive ability of the score be measured?
 10. Are there other non-genetic factors that affect the traits, such as smoking behavior, alcohol consumption, blood pressure measurements, body mass index and level of physical exercise?
 11. Could the predictive ability of the genetic score be improved by incorporation of these non-genetic sources of information, either additively or considering interactions? What is the relative contribution from the different sources of information?
-:::
 
 ## What does the data look like?
 
@@ -170,11 +171,21 @@ library(htmltools)
 
 ![Family/Pedigree Studies](https://www.genome.gov/sites/default/files/media/images/tg/Pedigree.jpg)
 
+::: notes
+-   Family studies are used to understand the inheritance patterns of traits and diseases within families. They can help identify genetic factors contributing to diseases by analyzing the occurrence of traits in related individuals.
+-   Pedigree charts visually represent family relationships and the transmission of genetic traits across generations. They are useful for tracking the inheritance of specific traits or diseases within a family.
+:::
+
 ## What does the data look like?
 
 **Genome-Wide Association Studies (GWAS)**
 
 ![Genome-Wide Association Studies](https://upload.wikimedia.org/wikipedia/commons/4/4f/Manhattan_plot_from_a_GWAS_of_kidney_stone_disease.png){width="60%"}
+
+::: notes
+-   GWAS are studies that look for associations between genetic variants across the genome and specific traits or diseases in a large population. They can help identify genetic factors contributing to complex diseases by analyzing the frequency of genetic variants in affected and unaffected individuals.
+-   Manhattan plots are visual representations of GWAS results, where each point represents a genetic variant and its association with the trait of interest. The x-axis represents the genomic position, while the y-axis represents the significance of the association (usually -log10(p-value)). Peaks in the plot indicate regions of the genome that may be associated with the trait.
+:::
 
 ## Core abstractions for quantitative biology
 
@@ -226,12 +237,24 @@ library(htmltools)
 ![](https://cdn.kastatic.org/ka-perseus-images/97ef4b490d977c359786b040ead67b9cdaeac1aa.png)
 :::
 
+::: notes
+-   Gregor Mendel (1822-1884) was an Austrian monk and scientist who is considered the father of modern genetics. He conducted experiments on pea plants and discovered the fundamental laws of inheritance, including the concepts of dominant and recessive traits, segregation, and independent assortment.
+-   Mendel's work laid the foundation for the field of genetics, but it was largely ignored during his lifetime. It wasn't until the early 20th century that his findings were rediscovered and integrated into the broader understanding of biology.
+-   It is hypothesized that Charles Darwin would have begun his work on evolution much earlier if he had access to Mendel's work on inheritance.
+:::
+
 ## Genetics, statistics, and eugenics, have always been closely linked
 
 ::: {layout="[35, 65]"}
 ![Standard eugenics scheme of descent](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/PSM_V60_D232_Standard_eugenics_scheme_of_descent.png/960px-PSM_V60_D232_Standard_eugenics_scheme_of_descent.png)
 
 ![Francis Galton and his work, "Inquires into Human Faculty and its Development"](images/galton.png)
+:::
+
+::: notes
+-   Francis Galton (1822-1911) was an English polymath who made significant contributions to various fields, including statistics, psychology, and anthropology. He is best known for his work on eugenics, a now-discredited movement that aimed to improve the genetic quality of the human population through selective breeding.
+-   Galton was a cousin of Charles Darwin and was influenced by Darwin's theory of evolution. He believed that intelligence and other traits were hereditary and could be measured and quantified. He developed statistical methods, such as correlation and regression, to study the inheritance of traits.
+-   Galton's work on eugenics has been widely criticized for its ethical implications and its association with discriminatory practices, such as forced sterilizations and racial segregation
 :::
 
 ## The ethics of genetics and genomics is/(was) of great importance!
@@ -269,7 +292,7 @@ library(htmltools)
 ::: incremental
 -   A **random variable** is a numerical summary of randomness (e.g., the count of (A) alleles in a sample). We will denote random variables with uppercase letters (e.g., $X$, $Y$).
 -   We use a **model** (e.g., binomial/multinomial) to describe how data vary from sample to sample.
-    - This is otherwise known as a probability mass function (pmf) for discrete variables, or a probability density function (pdf) for continuous variables
+    -   This is otherwise known as a probability mass function (pmf) for discrete variables, or a probability density function (pdf) for continuous variables
 -   Key ideas:
     -   **Expectation (mean)** and **variance**: long‑run average and spread.
         -   $E[X] = \sum x \cdot P(X = x)$ (discrete) or $E[X] = \int x f(x) dx$ (continuous)
@@ -277,16 +300,15 @@ library(htmltools)
     -   **Standard error (SE)**: typical sampling variability of an estimator.
         -   $\textsf{SE} = \frac{\sigma}{\sqrt{n}}$ (uncertainty in sample estimates)
     -   **Central Limit Theorem (CLT)**: averages and proportions are roughly normal for large (n).
-        -   $\bar{X} \sim N\left(\mu, \frac{\sigma^2}{n}\right)$ as $n \to \infty$ 
+        -   $\bar{X} \sim N\left(\mu, \frac{\sigma^2}{n}\right)$ as $n \to \infty$
 :::
 
 ## Probability Distributions vs Sampling Distributions
 
--  A **probability distribution** describes how a random variable behaves in the population.
+-   A **probability distribution** describes how a random variable behaves in the population.
     -   Example: $X \sim \textsf{Binomial}(n, p)$
-
--  A **sampling distribution** describes how a statistic (e.g., sample mean, sample proportion) behaves across repeated samples from the population.
-    -   Example: $\bar{X} \sim N\left(np, \frac{(p(1-p))}{n}\right)$ as $n \to \infty$
+-   A **sampling distribution** describes how a statistic (e.g., sample mean, sample proportion) behaves across repeated samples from the population.
+    -   Example: $\hat{p} \sim N\left(p, \frac{(p(1-p))}{n}\right)$ as $n \to \infty$
 
 ## Probability Refresher
 
@@ -295,7 +317,7 @@ library(htmltools)
 ::: {layout-ncol="2"}
 **Binomial Distribution** $$X \sim \textsf{Binomial}(n, p)$$ $$P(X = k) = \binom{n}{k} p^k (1-p)^{n-k}$$
 
-Used for: Allele counts, genotype frequencies
+Used for: Allele counts
 
 **Normal Distribution** $$X \sim N(\mu, \sigma^2)$$ $$f(x) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(x-\mu)^2}{2\sigma^2}}$$
 
@@ -310,7 +332,7 @@ Used for: Quantitative traits, effect sizes
 
 Conditional probability and Bayes' Theorem are crucial for understanding rare disease genetics! For example, consider a rare disease with a prevalence of 1 in 10,000. If a genetic test has a sensitivity of 99% and a specificity of 99%, we can use Bayes' Theorem to calculate the probability that an individual has the disease given a positive test result.
 
-::: {.fragment}
+::: fragment
 \begin{align*}
 P(Disease|Positive) &= \frac{P(Positive|Disease)P(Disease)}{P(Positive)} \\
 &= \frac{(0.99)(0.0001)}{(0.99)(0.0001) + (0.01)(0.9999)} \\
@@ -318,13 +340,12 @@ P(Disease|Positive) &= \frac{P(Positive|Disease)P(Disease)}{P(Positive)} \\
 \end{align*}
 :::
 
-
 ## Parameter Estimation
 
 -   Imagine a geneticist is studying **allele ages** (i.e., how many generations ago an allele arose via mutation) under a simplified model where new mutations arise randomly and uniformly over a fixed window — say, the last $\theta$ generations.
 -   We could model $X \sim \textsf{Uniform}(0, \theta)$.
 -   We have our observed sample $\{x_1,x_2, \ldots, x_n\}$, ages in generations of $n$ observed alleles.
-    -   For concreteness, let our sample be $\{0, 1, 8, 4, 3, 1, 1, 5\}$.
+    -   For concreteness, let our sample be $\{0, 1, 8, 4, 3, 7, 7, 6\}$.
 -   How should we estimate $\theta$ ?
 
 ::: fragment
@@ -431,18 +452,19 @@ $$Pr(X = x| n, p) = \binom{n}{x} p^x q^{n - x}$$
 
 ## Likelihood Functions
 
--  The **likelihood function** is a function of the parameters of a statistical model, given specific observed data.
--  It represents the plausibility of different parameter values based on the observed data.
--  For a given set of data, the likelihood function is defined as:
-$$L(\theta | data) = P(data | \theta)$$
--  In our case, the likelihood function for $p$ is:
-$$L(p | x = 11, n = 27) = P(X = 11 | n = 27, p) = \binom{27}{11} p^{11} (1 - p)^{16}$$
+-   The **likelihood function** is a function of the parameters of a statistical model, given specific observed data.
 
-- We are asking, "how likely is it that we would observe this data for different values of $p$?"
+-   It represents the plausibility of different parameter values based on the observed data.
+
+-   For a given set of data, the likelihood function is defined as: $$L(\theta | data) = P(data | \theta)$$
+
+-   In our case, the likelihood function for $p$ is: $$L(p | x = 11, n = 27) = P(X = 11 | n = 27, p) = \binom{27}{11} p^{11} (1 - p)^{16}$$
+
+-   We are asking, "how likely is it that we would observe this data for different values of $p$?"
 
 ## Maximum Likelihood Estimator
 
-Our likelihood function for $p$ is 
+Our likelihood function for $p$ is
 
 $$L(P|x = 11, n = 27) = {27 \choose 11} p^{11} q^{27-11}$$
 
@@ -484,12 +506,11 @@ plot
 
 ## Modeling, but make it bayesian
 
-- In Bayesian statistics, we treat parameters as random variables and use probability distributions to represent our uncertainty about them.
-- We start with a **prior distribution** that reflects our beliefs about the parameter before seeing the data.
-- We then use the observed data to update our beliefs and obtain a **posterior distribution**.
-- The posterior distribution combines the information from the prior and the likelihood of the observed data using Bayes' theorem:
-$$P(p | data) = \frac{P(data | p) P(p)}{P(data)}$$
--   Let's say we have run a previous experiment and observed $n = 20$ individuals with allele A and $x = 3$ individuals with allele A
+-   In Bayesian statistics, we treat parameters as random variables and use probability distributions to represent our uncertainty about them.
+-   We start with a **prior distribution** that reflects our beliefs about the parameter before seeing the data.
+-   We then use the observed data to update our beliefs and obtain a **posterior distribution**.
+-   The posterior distribution combines the information from the prior and the likelihood of the observed data using Bayes' theorem: $$P(p | data) = \frac{P(data | p) P(p)}{P(data)}$$
+-   Let's say we have run a previous experiment and observed $n = 20$ individuals and $x = 3$ individuals with allele A (again, bilelic SNP).
 -   We can use this information to inform our prior distribution for $p$
 
 ## Modeling, but make it bayesian
@@ -603,9 +624,9 @@ At different loci, alleles are transmitted independently (when loci are unlinked
 :::
 :::::
 
-::: {.notes}
-- Mendel's First Law, the Law of Segregation, states that during the formation of gametes (sperm and egg cells), the two alleles for a given gene separate, so that each gamete receives only one allele. This means that each parent contributes one allele to their offspring, and the combination of these alleles determines the offspring's genotype.
-- Mendel's Second Law, the Law of Independent Assortment, states that alleles for different genes are transmitted independently of one another, provided the genes are located on different chromosomes or are far apart on the same chromosome. This means that the inheritance of one trait does not influence the inheritance of another trait, allowing for a variety of genetic combinations in the offspring.
+::: notes
+-   Mendel's First Law, the Law of Segregation, states that during the formation of gametes (sperm and egg cells), the two alleles for a given gene separate, so that each gamete receives only one allele. This means that each parent contributes one allele to their offspring, and the combination of these alleles determines the offspring's genotype.
+-   Mendel's Second Law, the Law of Independent Assortment, states that alleles for different genes are transmitted independently of one another, provided the genes are located on different chromosomes or are far apart on the same chromosome. This means that the inheritance of one trait does not influence the inheritance of another trait, allowing for a variety of genetic combinations in the offspring.
 :::
 
 ## Worked Example: Segregation (3:1 Ratio)
@@ -649,6 +670,24 @@ chisq_test <- chisq.test(observed_testcross, p = c(0.5, 0.5))
 chisq_test
 ```
 
+## Testing via Simulation
+
+We could also simulate our idea of the null hypothesis to get a sense of how extreme our observed data is.
+
+```{r}
+set.seed(123)
+n_sim <- 10000
+N <- 49
+simulated <- rbinom(n_sim, N, 0.5)
+p_value_sim <- mean(simulated <= 21 | simulated >= 28)
+p_value_sim
+hist(simulated, breaks = 30, main = "Simulated Test Cross Outcomes", xlab = "Number of Dominant Offspring")
+abline(v = c(21, 28), col = "red", lty = 2, lwd = 2)
+```
+
+## On Simulations
+
+![@downey2016](images/paste-5.png)
 
 ## Estimation of Allele Frequencies
 
@@ -714,6 +753,10 @@ p_val <- pchisq(chisq_val, df = df, lower.tail = FALSE)
 p_val
 ```
 
+## HWE in Practice
+
+-   HWE is a useful null model for quality control of genotype data.
+-   Deviations from HWE can indicate genotyping errors, population stratification, or selection
 
 ## Sampling distributions: intuition via simulation
 
@@ -751,3 +794,5 @@ ggplot(sampling_results, aes(x = p_hat)) +
   labs(title = "Sampling Distribution of p̂", x = "Sample Allele Frequency (p̂)", y = "Density") +
   theme_minimal()
 ```
+
+## References

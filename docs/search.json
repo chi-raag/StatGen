@@ -53,7 +53,7 @@
     "href": "lectures/lecture-01.html#research-project-20-of-grade",
     "title": "Lecture 01: Introduction and Foundations",
     "section": "Research Project (20% of grade)",
-    "text": "Research Project (20% of grade)\nFinal third of semester - Choose your own adventure!\n\n\n\nProject Types\n\n\n\nComputational methods\nApplied analysis\n\nMethodological development\nAll based on primary literature\n\n\n\n\n\nDeliverables\n\n\n\nScientific paper (Genetics journal format)\nConference-style presentation\nGroups of up to 3 encouraged\nIndividual contributions must be clear"
+    "text": "Research Project (20% of grade)\nFinal third of semester - Choose your own adventure!\n\n\n\nProject Types\n\n\n\nComputational methods\nApplied analysis\nMethodological development\nAll based on primary literature\n\n\n\n\n\nDeliverables\n\n\n\nScientific paper (Genetics journal format)\nConference-style presentation\nGroups of up to 3 encouraged\nIndividual contributions must be clear"
   },
   {
     "objectID": "lectures/lecture-01.html#course-structure-overview",
@@ -70,11 +70,18 @@
     "text": "Technology Setup Requirements\n\nR (4.5+) and IDE installation\nGit setup and basic commands\nZotero for reference management\nZoom\nOptional: HPC access"
   },
   {
+    "objectID": "lectures/lecture-01.html#course-textbook",
+    "href": "lectures/lecture-01.html#course-textbook",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "Course Textbook",
+    "text": "Course Textbook\n\nSörensen (2025)"
+  },
+  {
     "objectID": "lectures/lecture-01.html#what-is-statistical-genetics",
     "href": "lectures/lecture-01.html#what-is-statistical-genetics",
     "title": "Lecture 01: Introduction and Foundations",
     "section": "What is statistical genetics?",
-    "text": "What is statistical genetics?\n\n\n\n\n\n\nPopulation Genetics\n\n\n\n\n\n\n\nGenetic Epidemiology\n\n\n\n\n\n\n\nQuantitative Genetics\n\n\n\n\n\n\n\nPopulation genetics is the study of evolutionary processes affecting genetic variation between organisms. A classic example is Darwin’s finches, where beak shape and size vary between islands in the Galapagos, driven by natural selection.\nGenetic Epidemiology is the study of how genetic factors contribute to health and disease in populations. A classic example is the study of genetic variants associated with diseases like diabetes or heart disease.\nQuantitative genetics is the study of continuous traits influenced by multiple genes and environmental factors. A classic example is human height, which is influenced by many genetic variants and environmental factors like nutrition."
+    "text": "What is statistical genetics?\n\n\n\n\n\n\nPopulation Genetics\n\n\n\n\n\n\n\nGenetic Epidemiology\n\n\n\n\n\n\n\nQuantitative Genetics\n\n\n\n\n\n\n\nPopulation genetics is the study of evolutionary processes affecting genetic variation between organisms. A classic example is Darwin’s finches, where beak shape and size vary between islands in the Galapagos, driven by natural selection.\nGenetic Epidemiology is the study of how genetic factors contribute to health and disease in populations. A classic example is the study of genetic variants associated with diseases like diabetes or heart disease.\nQuantitative genetics is the study of continuous traits influenced by multiple genes and environmental factors. A classic example is human height, which is influenced by many genetic variants and environmental factors like nutrition. Shawn Bradley was a basketball player who as 7’6 tall, The study found Bradley had 198 more height-associated genetic variants than the average person in the sample"
   },
   {
     "objectID": "lectures/lecture-01.html#a-statistical-geneticist-may-want-to-know",
@@ -95,14 +102,14 @@
     "href": "lectures/lecture-01.html#what-does-the-data-look-like",
     "title": "Lecture 01: Introduction and Foundations",
     "section": "What does the data look like?",
-    "text": "What does the data look like?\nFamily/Pedigree Studies\n\nFamily/Pedigree Studies"
+    "text": "What does the data look like?\nFamily/Pedigree Studies\n\nFamily/Pedigree Studies\n\nFamily studies are used to understand the inheritance patterns of traits and diseases within families. They can help identify genetic factors contributing to diseases by analyzing the occurrence of traits in related individuals.\nPedigree charts visually represent family relationships and the transmission of genetic traits across generations. They are useful for tracking the inheritance of specific traits or diseases within a family."
   },
   {
     "objectID": "lectures/lecture-01.html#what-does-the-data-look-like-1",
     "href": "lectures/lecture-01.html#what-does-the-data-look-like-1",
     "title": "Lecture 01: Introduction and Foundations",
     "section": "What does the data look like?",
-    "text": "What does the data look like?\nGenome-Wide Association Studies (GWAS)\n\nGenome-Wide Association Studies"
+    "text": "What does the data look like?\nGenome-Wide Association Studies (GWAS)\n\nGenome-Wide Association Studies\n\nGWAS are studies that look for associations between genetic variants across the genome and specific traits or diseases in a large population. They can help identify genetic factors contributing to complex diseases by analyzing the frequency of genetic variants in affected and unaffected individuals.\nManhattan plots are visual representations of GWAS results, where each point represents a genetic variant and its association with the trait of interest. The x-axis represents the genomic position, while the y-axis represents the significance of the association (usually -log10(p-value)). Peaks in the plot indicate regions of the genome that may be associated with the trait."
   },
   {
     "objectID": "lectures/lecture-01.html#core-abstractions-for-quantitative-biology",
@@ -137,14 +144,14 @@
     "href": "lectures/lecture-01.html#early-work-in-the-field",
     "title": "Lecture 01: Introduction and Foundations",
     "section": "Early work in the field",
-    "text": "Early work in the field"
+    "text": "Early work in the field\n\n\n\n\n\n\n\n\n\n\n\n\nGregor Mendel (1822-1884) was an Austrian monk and scientist who is considered the father of modern genetics. He conducted experiments on pea plants and discovered the fundamental laws of inheritance, including the concepts of dominant and recessive traits, segregation, and independent assortment.\nMendel’s work laid the foundation for the field of genetics, but it was largely ignored during his lifetime. It wasn’t until the early 20th century that his findings were rediscovered and integrated into the broader understanding of biology.\nIt is hypothesized that Charles Darwin would have begun his work on evolution much earlier if he had access to Mendel’s work on inheritance."
   },
   {
     "objectID": "lectures/lecture-01.html#genetics-statistics-and-eugenics-have-always-been-closely-linked",
     "href": "lectures/lecture-01.html#genetics-statistics-and-eugenics-have-always-been-closely-linked",
     "title": "Lecture 01: Introduction and Foundations",
     "section": "Genetics, statistics, and eugenics, have always been closely linked",
-    "text": "Genetics, statistics, and eugenics, have always been closely linked\n\n\n\n\n\n\nStandard eugenics scheme of descent\n\n\n\n\n\n\n\nFrancis Galton and his work, “Inquires into Human Faculty and its Development”"
+    "text": "Genetics, statistics, and eugenics, have always been closely linked\n\n\n\n\n\n\nStandard eugenics scheme of descent\n\n\n\n\n\n\n\nFrancis Galton and his work, “Inquires into Human Faculty and its Development”\n\n\n\n\n\n\n\nFrancis Galton (1822-1911) was an English polymath who made significant contributions to various fields, including statistics, psychology, and anthropology. He is best known for his work on eugenics, a now-discredited movement that aimed to improve the genetic quality of the human population through selective breeding.\nGalton was a cousin of Charles Darwin and was influenced by Darwin’s theory of evolution. He believed that intelligence and other traits were hereditary and could be measured and quantified. He developed statistical methods, such as correlation and regression, to study the inheritance of traits.\nGalton’s work on eugenics has been widely criticized for its ethical implications and its association with discriminatory practices, such as forced sterilizations and racial segregation"
   },
   {
     "objectID": "lectures/lecture-01.html#the-ethics-of-genetics-and-genomics-iswas-of-great-importance",
@@ -186,14 +193,14 @@
     "href": "lectures/lecture-01.html#probability-distributions-vs-sampling-distributions",
     "title": "Lecture 01: Introduction and Foundations",
     "section": "Probability Distributions vs Sampling Distributions",
-    "text": "Probability Distributions vs Sampling Distributions\n\nA probability distribution describes how a random variable behaves in the population.\n\nExample: X \\sim \\textsf{Binomial}(n, p)\n\nA sampling distribution describes how a statistic (e.g., sample mean, sample proportion) behaves across repeated samples from the population.\n\nExample: \\bar{X} \\sim N\\left(np, \\frac{(p(1-p))}{n}\\right) as n \\to \\infty"
+    "text": "Probability Distributions vs Sampling Distributions\n\nA probability distribution describes how a random variable behaves in the population.\n\nExample: X \\sim \\textsf{Binomial}(n, p)\n\nA sampling distribution describes how a statistic (e.g., sample mean, sample proportion) behaves across repeated samples from the population.\n\nExample: \\hat{p} \\sim N\\left(p, \\frac{(p(1-p))}{n}\\right) as n \\to \\infty"
   },
   {
     "objectID": "lectures/lecture-01.html#probability-refresher-1",
     "href": "lectures/lecture-01.html#probability-refresher-1",
     "title": "Lecture 01: Introduction and Foundations",
     "section": "Probability Refresher",
-    "text": "Probability Refresher\nKey Distributions in Statistical Genetics\n\n\n\nBinomial Distribution X \\sim \\textsf{Binomial}(n, p) P(X = k) = \\binom{n}{k} p^k (1-p)^{n-k}\n\n\nUsed for: Allele counts, genotype frequencies\n\n\n\n\nNormal Distribution X \\sim N(\\mu, \\sigma^2) f(x) = \\frac{1}{\\sqrt{2\\pi\\sigma^2}} e^{-\\frac{(x-\\mu)^2}{2\\sigma^2}}\n\n\nUsed for: Quantitative traits, effect sizes"
+    "text": "Probability Refresher\nKey Distributions in Statistical Genetics\n\n\n\nBinomial Distribution X \\sim \\textsf{Binomial}(n, p) P(X = k) = \\binom{n}{k} p^k (1-p)^{n-k}\n\n\nUsed for: Allele counts\n\n\n\n\nNormal Distribution X \\sim N(\\mu, \\sigma^2) f(x) = \\frac{1}{\\sqrt{2\\pi\\sigma^2}} e^{-\\frac{(x-\\mu)^2}{2\\sigma^2}}\n\n\nUsed for: Quantitative traits, effect sizes"
   },
   {
     "objectID": "lectures/lecture-01.html#conditional-probability-and-independence",
@@ -207,7 +214,7 @@
     "href": "lectures/lecture-01.html#parameter-estimation",
     "title": "Lecture 01: Introduction and Foundations",
     "section": "Parameter Estimation",
-    "text": "Parameter Estimation\n\nImagine a geneticist is studying allele ages (i.e., how many generations ago an allele arose via mutation) under a simplified model where new mutations arise randomly and uniformly over a fixed window — say, the last \\theta generations.\nWe could model X \\sim \\textsf{Uniform}(0, \\theta).\nWe have our observed sample \\{x_1,x_2, \\ldots, x_n\\}, ages in generations of n observed alleles.\n\nFor concreteness, let our sample be \\{0, 1, 8, 4, 3, 1, 1, 5\\}.\n\nHow should we estimate \\theta ?"
+    "text": "Parameter Estimation\n\nImagine a geneticist is studying allele ages (i.e., how many generations ago an allele arose via mutation) under a simplified model where new mutations arise randomly and uniformly over a fixed window — say, the last \\theta generations.\nWe could model X \\sim \\textsf{Uniform}(0, \\theta).\nWe have our observed sample \\{x_1,x_2, \\ldots, x_n\\}, ages in generations of n observed alleles.\n\nFor concreteness, let our sample be \\{0, 1, 8, 4, 3, 7, 7, 6\\}.\n\nHow should we estimate \\theta ?"
   },
   {
     "objectID": "lectures/lecture-01.html#genetic-models",
@@ -242,7 +249,7 @@
     "href": "lectures/lecture-01.html#modeling-but-make-it-bayesian",
     "title": "Lecture 01: Introduction and Foundations",
     "section": "Modeling, but make it bayesian",
-    "text": "Modeling, but make it bayesian\n\nIn Bayesian statistics, we treat parameters as random variables and use probability distributions to represent our uncertainty about them.\nWe start with a prior distribution that reflects our beliefs about the parameter before seeing the data.\nWe then use the observed data to update our beliefs and obtain a posterior distribution.\nThe posterior distribution combines the information from the prior and the likelihood of the observed data using Bayes’ theorem: P(p | data) = \\frac{P(data | p) P(p)}{P(data)}\nLet’s say we have run a previous experiment and observed n = 20 individuals with allele A and x = 3 individuals with allele A\nWe can use this information to inform our prior distribution for p"
+    "text": "Modeling, but make it bayesian\n\nIn Bayesian statistics, we treat parameters as random variables and use probability distributions to represent our uncertainty about them.\nWe start with a prior distribution that reflects our beliefs about the parameter before seeing the data.\nWe then use the observed data to update our beliefs and obtain a posterior distribution.\nThe posterior distribution combines the information from the prior and the likelihood of the observed data using Bayes’ theorem: P(p | data) = \\frac{P(data | p) P(p)}{P(data)}\nLet’s say we have run a previous experiment and observed n = 20 individuals and x = 3 individuals with allele A (again, bilelic SNP).\nWe can use this information to inform our prior distribution for p"
   },
   {
     "objectID": "lectures/lecture-01.html#modeling-but-make-it-bayesian-1",
@@ -287,6 +294,20 @@
     "text": "Test Cross Example\n\nobserved_testcross &lt;- c(21, 28)     # Dominant, Recessive\nchisq_test &lt;- chisq.test(observed_testcross, p = c(0.5, 0.5))\nchisq_test\n\n\n    Chi-squared test for given probabilities\n\ndata:  observed_testcross\nX-squared = 1, df = 1, p-value = 0.3173"
   },
   {
+    "objectID": "lectures/lecture-01.html#testing-via-simulation",
+    "href": "lectures/lecture-01.html#testing-via-simulation",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "Testing via Simulation",
+    "text": "Testing via Simulation\nWe could also simulate our idea of the null hypothesis to get a sense of how extreme our observed data is.\n\nset.seed(123)\nn_sim &lt;- 10000\nN &lt;- 49\nsimulated &lt;- rbinom(n_sim, N, 0.5)\np_value_sim &lt;- mean(simulated &lt;= 21 | simulated &gt;= 28)\np_value_sim\n\n[1] 0.3868\n\nhist(simulated, breaks = 30, main = \"Simulated Test Cross Outcomes\", xlab = \"Number of Dominant Offspring\")\nabline(v = c(21, 28), col = \"red\", lty = 2, lwd = 2)"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#on-simulations",
+    "href": "lectures/lecture-01.html#on-simulations",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "On Simulations",
+    "text": "On Simulations\n\nDowney (2016)"
+  },
+  {
     "objectID": "lectures/lecture-01.html#estimation-of-allele-frequencies",
     "href": "lectures/lecture-01.html#estimation-of-allele-frequencies",
     "title": "Lecture 01: Introduction and Foundations",
@@ -315,6 +336,13 @@
     "text": "HWE: Worked Example\n\nn &lt;- 212\nn_AA &lt;- 175\nn_Aa &lt;- 33\nn_aa &lt;- 4\n\n# Estimate allele frequency\np_hat &lt;- (2*n_AA + n_Aa) / (2*n)\nq_hat &lt;- 1 - p_hat\np_hat\n\n[1] 0.9033019\n\n# Expected counts\nexpected &lt;- c(n * p_hat^2, 2*n * p_hat*q_hat, n * q_hat^2)\nobserved &lt;- c(n_AA, n_Aa, n_aa)\nexpected\n\n[1] 172.982311  37.035377   1.982311\n\n# Pearson chi-squared\nchisq_val &lt;- sum((observed - expected)^2 / expected)\ndf &lt;- 3 - 1 - 1\np_val &lt;- pchisq(chisq_val, df = df, lower.tail = FALSE)\np_val\n\n[1] 0.1126299"
   },
   {
+    "objectID": "lectures/lecture-01.html#hwe-in-practice",
+    "href": "lectures/lecture-01.html#hwe-in-practice",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "HWE in Practice",
+    "text": "HWE in Practice\n\nHWE is a useful null model for quality control of genotype data.\nDeviations from HWE can indicate genotyping errors, population stratification, or selection"
+  },
+  {
     "objectID": "lectures/lecture-01.html#sampling-distributions-intuition-via-simulation",
     "href": "lectures/lecture-01.html#sampling-distributions-intuition-via-simulation",
     "title": "Lecture 01: Introduction and Foundations",
@@ -326,7 +354,14 @@
     "href": "lectures/lecture-01.html#sampling-distributions-intuition-via-simulation-1",
     "title": "Lecture 01: Introduction and Foundations",
     "section": "Sampling distributions: intuition via simulation",
-    "text": "Sampling distributions: intuition via simulation\n\n# Plot sampling distributions\nggplot(sampling_results, aes(x = p_hat)) +\n  geom_histogram(aes(y = after_stat(density)), bins = 30, alpha = 0.7) +\n  geom_vline(xintercept = true_p, color = \"red\", linetype = \"dashed\", linewidth = 1) +\n  facet_wrap(~sample_size_name, scales = \"free_y\") +\n  labs(title = \"Sampling Distribution of p̂\", x = \"Sample Allele Frequency (p̂)\", y = \"Density\") +\n  theme_minimal()\n\n\n\n\n\n\nLaird, Nan M., and Christoph Lange. 2011. The Fundamentals of Modern Statistical Genetics. Statistics for Biology and Health. New York: Springer Science."
+    "text": "Sampling distributions: intuition via simulation\n\n# Plot sampling distributions\nggplot(sampling_results, aes(x = p_hat)) +\n  geom_histogram(aes(y = after_stat(density)), bins = 30, alpha = 0.7) +\n  geom_vline(xintercept = true_p, color = \"red\", linetype = \"dashed\", linewidth = 1) +\n  facet_wrap(~sample_size_name, scales = \"free_y\") +\n  labs(title = \"Sampling Distribution of p̂\", x = \"Sample Allele Frequency (p̂)\", y = \"Density\") +\n  theme_minimal()"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#references",
+    "href": "lectures/lecture-01.html#references",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "References",
+    "text": "References\n\n\n\n\nDowney,A. (2016) Probably overthinking it: There is still only one test.\n\n\nLaird,N.M. and Lange,C. (2011) The fundamentals of modern statistical genetics Springer Science, New York.\n\n\nSörensen,D. (2025) Statistical Learning in Genetics: An Introduction Using R 2nd ed. 2025. Springer Nature Switzerland, Cham."
   },
   {
     "objectID": "index.html",
@@ -350,7 +385,7 @@
     "href": "assignments/assignment-01.html",
     "title": "Assignment 01",
     "section": "",
-    "text": "Make a Zotero account using the guide here. Make sure you use your GW email address, as this will provide unlimited cloud storage for PDFs. Once you have created your account, email chiraaggohel@gwu.edu your username.\n(Laird, 2.4) How many genotypes are possible with a 3-allele marker? With K alleles?\n(Laird, 2.6) Consider a recessive Mendelian disease, where in the population, \\(P(\\text{an individual has 2 disease variants}) = 0.000001\\).\n\nWhat is the probability that a randomly selected person is affected? Suppose that the randomly selected person is affected. What does that imply about the probability that their sibling is also affected (you can assume that having either one or two parents with two variants is so rare that you can ignore them)?\nNow answer both of these questions assuming the penetrance is only 12, i.e., \\(P(\\text{disease} | 2 \\text{ variants}) = 12\\), but the phenocopy rate is still zero.\n\nConsider a sample size of \\(n\\) of unrelated haploid individuals is obtained from some population with the objective of estimating allele frequency at a biallelic locus. The sample contains \\(x\\) copies of \\(A\\), and \\(n-x\\) copies of \\(a\\).\n\nPlot the probability distribution of \\(X\\) given \\(n = 30\\), and \\(\\theta = .1\\). Plot the probability distribution of \\(X\\) given \\(n = 1000\\), and \\(\\theta = .1\\).\nLets say we observed \\(30\\) samples, with \\(10\\) copies of allele \\(A\\). Plot the likelihood function for \\(\\theta\\)\nWhat is the MLE of \\(\\theta\\)?\nLet’s say \\(n = 1000\\), and \\(x = 100\\). What is the sampling variance of \\(\\hat{\\theta}\\)?\nLet’s say \\(n = 100\\), and \\(x = 10\\). What is the sampling variance of \\(\\hat{\\theta}\\)? Why is this different than the result above?\n\nRefer to equations (1.3) and (1.5) in Sorensen. Say you observe \\(8\\) individuals, and \\(1\\) copies of genotype \\(A\\). Assume that \\(A\\) is binomially distributed with parameter \\(\\theta\\).\n\n\nCompute \\(\\hat{\\theta}\\)\nCompute \\(\\hat{\\text{Var}}(\\hat{\\theta})\\)\nProvide a 95% Wald confidence interval for \\(\\theta\\)\nWrite an interpretation of this confidence interval. What problem does this reveal about the Wald confidence interval?"
+    "text": "Make a Zotero account using the guide here. Make sure you use your GW email address, as this will provide unlimited cloud storage for PDFs. Once you have created your account, email chiraaggohel@gwu.edu your username.\n(Laird, 2.4) How many genotypes are possible with a 3-allele marker? With K alleles?\n(Laird, 2.6) Consider a recessive Mendelian disease, where in the population, \\(P(\\text{an individual has 2 disease variants}) = 0.000001\\).\n\nWhat is the probability that a randomly selected person is affected? Suppose that the randomly selected person is affected. What does that imply about the probability that their sibling is also affected (you can assume that having either one or two parents with two variants is so rare that you can ignore them)?\nNow answer both of these questions assuming the penetrance is only \\(\\frac{1}{2}\\), i.e., \\(P(\\text{disease} | 2 \\text{ variants}) = \\frac{1}{2}\\), but the phenocopy rate is still zero.\n\nConsider a sample size of \\(n\\) of unrelated haploid individuals is obtained from some population with the objective of estimating allele frequency at a biallelic locus. The sample contains \\(x\\) copies of \\(A\\), and \\(n-x\\) copies of \\(a\\).\n\nPlot the probability distribution of \\(X\\) given \\(n = 30\\), and \\(\\theta = .1\\). Plot the probability distribution of \\(X\\) given \\(n = 1000\\), and \\(\\theta = .1\\).\nLets say we observed \\(30\\) samples, with \\(10\\) copies of allele \\(A\\). Plot the likelihood function for \\(\\theta\\)\nWhat is the MLE of \\(\\theta\\)?\nLet’s say \\(n = 1000\\), and \\(x = 100\\). What is the sampling variance of \\(\\hat{\\theta}\\)?\nLet’s say \\(n = 100\\), and \\(x = 10\\). What is the sampling variance of \\(\\hat{\\theta}\\)? Why is this different than the result above?\n\nRefer to equations (1.3) and (1.5) in Sorensen. Say you observe \\(8\\) individuals, and \\(1\\) copies of genotype \\(A\\). Assume that \\(A\\) is binomially distributed with parameter \\(\\theta\\).\n\n\nCompute \\(\\hat{\\theta}\\)\nCompute \\(\\hat{\\text{Var}}(\\hat{\\theta})\\)\nProvide a 95% Wald confidence interval for \\(\\theta\\)\nWrite an interpretation of this confidence interval. What problem does this reveal about the Wald confidence interval?\n\n\nRefer to slides 13 and 14 in lecture 1. Write a one to two sentence answer for how a researcher would try to answer each question."
   },
   {
     "objectID": "faq.html",

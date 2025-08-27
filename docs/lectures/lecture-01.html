@@ -346,8 +346,7 @@
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <ul>
 <li>Computational methods</li>
-<li>Applied analysis<br>
-</li>
+<li>Applied analysis</li>
 <li>Methodological development</li>
 <li>All based on primary literature</li>
 </ul>
@@ -390,6 +389,10 @@
 <li class="fragment">Optional: HPC access</li>
 </ul>
 </section>
+<section id="course-textbook" class="slide level2">
+<h2>Course Textbook</h2>
+
+<img data-src="images/paste-6.png" class="r-stretch quarto-figure-center"><p class="caption"><span class="citation" data-cites="sorensenStatisticalLearningGenetics2025">Sörensen (<a href="#/references" role="doc-biblioref" onclick="">2025</a>)</span></p></section>
 <section id="what-is-statistical-genetics" class="slide level2">
 <h2>What is statistical genetics?</h2>
 <div class="quarto-layout-panel" data-layout-ncol="3">
@@ -424,7 +427,7 @@
 <ul>
 <li>Population genetics is the study of evolutionary processes affecting genetic variation between organisms. A classic example is Darwin’s finches, where beak shape and size vary between islands in the Galapagos, driven by natural selection.</li>
 <li>Genetic Epidemiology is the study of how genetic factors contribute to health and disease in populations. A classic example is the study of genetic variants associated with diseases like diabetes or heart disease.</li>
-<li>Quantitative genetics is the study of continuous traits influenced by multiple genes and environmental factors. A classic example is human height, which is influenced by many genetic variants and environmental factors like nutrition.</li>
+<li>Quantitative genetics is the study of continuous traits influenced by multiple genes and environmental factors. A classic example is human height, which is influenced by many genetic variants and environmental factors like nutrition. Shawn Bradley was a basketball player who as 7’6 tall, The study found Bradley had 198 more height-associated genetic variants than the average person in the sample</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -441,34 +444,66 @@
 <section id="a-statistical-geneticist-may-want-to-know" class="slide level2">
 <h2>A statistical geneticist may want to know</h2>
 <ol type="1">
-<li class="fragment">Is there a genetic component contributing to the total variance of these traits?</li>
-<li class="fragment">Is the genetic component of the traits driven by a few genes located on a particular chromosome, or are there many genes scattered across many chromosomes? How many genes are involved and is this a scientifically sensible question?</li>
-<li class="fragment">Are the genes detected protein-coding genes, or are there also noncoding genes involved in gene regulation?</li>
-<li class="fragment">How is the strength of the signals captured in a statistical analysis related to the two types of genes? What fraction of the total genetic variation is allocated to both types of genes?</li>
-<li class="fragment">What are the frequencies of the genes in the sample? Are the frequencies associated with the magnitude of their effects on the traits?</li>
-<li class="fragment">What is the mode of action of the genes?</li>
+<li>Is there a genetic component contributing to the total variance of these traits?</li>
+<li>Is the genetic component of the traits driven by a few genes located on a particular chromosome, or are there many genes scattered across many chromosomes? How many genes are involved and is this a scientifically sensible question?</li>
+<li>Are the genes detected protein-coding genes, or are there also noncoding genes involved in gene regulation?</li>
+<li>How is the strength of the signals captured in a statistical analysis related to the two types of genes? What fraction of the total genetic variation is allocated to both types of genes?</li>
+<li>What are the frequencies of the genes in the sample? Are the frequencies associated with the magnitude of their effects on the traits?</li>
+<li>What is the mode of action of the genes?</li>
 </ol>
 </section>
 <section id="a-statistical-geneticist-may-want-to-know-1" class="slide level2">
 <h2>A statistical geneticist may want to know</h2>
 <ol start="7" type="1">
-<li class="fragment">What proportion of the genetic variance estimated in 1 can be explained by the discovered genes?</li>
-<li class="fragment">Given the information on the set of genes carried by an individual, will a genetic score constructed before observing the trait help with early diagnosis and prevention?</li>
-<li class="fragment">How should the predictive ability of the score be measured?</li>
-<li class="fragment">Are there other non-genetic factors that affect the traits, such as smoking behavior, alcohol consumption, blood pressure measurements, body mass index and level of physical exercise?</li>
-<li class="fragment">Could the predictive ability of the genetic score be improved by incorporation of these non-genetic sources of information, either additively or considering interactions? What is the relative contribution from the different sources of information?</li>
+<li>What proportion of the genetic variance estimated in 1 can be explained by the discovered genes?</li>
+<li>Given the information on the set of genes carried by an individual, will a genetic score constructed before observing the trait help with early diagnosis and prevention?</li>
+<li>How should the predictive ability of the score be measured?</li>
+<li>Are there other non-genetic factors that affect the traits, such as smoking behavior, alcohol consumption, blood pressure measurements, body mass index and level of physical exercise?</li>
+<li>Could the predictive ability of the genetic score be improved by incorporation of these non-genetic sources of information, either additively or considering interactions? What is the relative contribution from the different sources of information?</li>
 </ol>
 </section>
 <section id="what-does-the-data-look-like" class="slide level2">
 <h2>What does the data look like?</h2>
 <p><strong>Family/Pedigree Studies</strong></p>
 
-<img data-src="https://www.genome.gov/sites/default/files/media/images/tg/Pedigree.jpg" class="r-stretch quarto-figure-center"><p class="caption">Family/Pedigree Studies</p></section>
+<img data-src="https://www.genome.gov/sites/default/files/media/images/tg/Pedigree.jpg" class="r-stretch quarto-figure-center"><p class="caption">Family/Pedigree Studies</p><aside class="notes">
+<ul>
+<li>Family studies are used to understand the inheritance patterns of traits and diseases within families. They can help identify genetic factors contributing to diseases by analyzing the occurrence of traits in related individuals.</li>
+<li>Pedigree charts visually represent family relationships and the transmission of genetic traits across generations. They are useful for tracking the inheritance of specific traits or diseases within a family.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
 <section id="what-does-the-data-look-like-1" class="slide level2">
 <h2>What does the data look like?</h2>
 <p><strong>Genome-Wide Association Studies (GWAS)</strong></p>
 
-<img data-src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Manhattan_plot_from_a_GWAS_of_kidney_stone_disease.png" style="width:60.0%" class="r-stretch quarto-figure-center"><p class="caption">Genome-Wide Association Studies</p></section>
+<img data-src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Manhattan_plot_from_a_GWAS_of_kidney_stone_disease.png" style="width:60.0%" class="r-stretch quarto-figure-center"><p class="caption">Genome-Wide Association Studies</p><aside class="notes">
+<ul>
+<li>GWAS are studies that look for associations between genetic variants across the genome and specific traits or diseases in a large population. They can help identify genetic factors contributing to complex diseases by analyzing the frequency of genetic variants in affected and unaffected individuals.</li>
+<li>Manhattan plots are visual representations of GWAS results, where each point represents a genetic variant and its association with the trait of interest. The x-axis represents the genomic position, while the y-axis represents the significance of the association (usually -log10(p-value)). Peaks in the plot indicate regions of the genome that may be associated with the trait.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
 <section id="core-abstractions-for-quantitative-biology" class="slide level2">
 <h2>Core abstractions for quantitative biology</h2>
 <ol type="1">
@@ -547,6 +582,23 @@
 </div>
 </div>
 </div>
+<aside class="notes">
+<ul>
+<li>Gregor Mendel (1822-1884) was an Austrian monk and scientist who is considered the father of modern genetics. He conducted experiments on pea plants and discovered the fundamental laws of inheritance, including the concepts of dominant and recessive traits, segregation, and independent assortment.</li>
+<li>Mendel’s work laid the foundation for the field of genetics, but it was largely ignored during his lifetime. It wasn’t until the early 20th century that his findings were rediscovered and integrated into the broader understanding of biology.</li>
+<li>It is hypothesized that Charles Darwin would have begun his work on evolution much earlier if he had access to Mendel’s work on inheritance.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="genetics-statistics-and-eugenics-have-always-been-closely-linked" class="slide level2">
 <h2>Genetics, statistics, and eugenics, have always been closely linked</h2>
@@ -570,6 +622,23 @@
 </div>
 </div>
 </div>
+<aside class="notes">
+<ul>
+<li>Francis Galton (1822-1911) was an English polymath who made significant contributions to various fields, including statistics, psychology, and anthropology. He is best known for his work on eugenics, a now-discredited movement that aimed to improve the genetic quality of the human population through selective breeding.</li>
+<li>Galton was a cousin of Charles Darwin and was influenced by Darwin’s theory of evolution. He believed that intelligence and other traits were hereditary and could be measured and quantified. He developed statistical methods, such as correlation and regression, to study the inheritance of traits.</li>
+<li>Galton’s work on eugenics has been widely criticized for its ethical implications and its association with discriminatory practices, such as forced sterilizations and racial segregation</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="the-ethics-of-genetics-and-genomics-iswas-of-great-importance" class="slide level2">
 <h2>The ethics of genetics and genomics is/(was) of great importance!</h2>
@@ -602,7 +671,7 @@
 <section id="genetic-variant-example" class="slide level2">
 <h2>Genetic Variant Example</h2>
 
-<img data-src="images/paste-3.png" class="r-stretch quarto-figure-center"><p class="caption"><span class="citation" data-cites="laird2011">Laird and Lange (<a href="#/sampling-distributions-intuition-via-simulation-1" role="doc-biblioref" onclick="">2011</a>)</span></p></section>
+<img data-src="images/paste-3.png" class="r-stretch quarto-figure-center"><p class="caption"><span class="citation" data-cites="laird2011">Laird and Lange (<a href="#/references" role="doc-biblioref" onclick="">2011</a>)</span></p></section>
 <section id="probability-refresher" class="slide level2">
 <h2>Probability Refresher</h2>
 <h3 id="random-variables-and-distributions">Random Variables and Distributions</h3>
@@ -639,7 +708,7 @@
 </ul></li>
 <li>A <strong>sampling distribution</strong> describes how a statistic (e.g., sample mean, sample proportion) behaves across repeated samples from the population.
 <ul>
-<li>Example: <span class="math inline">\bar{X} \sim N\left(np, \frac{(p(1-p))}{n}\right)</span> as <span class="math inline">n \to \infty</span></li>
+<li>Example: <span class="math inline">\hat{p} \sim N\left(p, \frac{(p(1-p))}{n}\right)</span> as <span class="math inline">n \to \infty</span></li>
 </ul></li>
 </ul>
 </section>
@@ -652,7 +721,7 @@
 <p><strong>Binomial Distribution</strong> <span class="math display">X \sim \textsf{Binomial}(n, p)</span> <span class="math display">P(X = k) = \binom{n}{k} p^k (1-p)^{n-k}</span></p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<p>Used for: Allele counts, genotype frequencies</p>
+<p>Used for: Allele counts</p>
 </div>
 </div>
 <div class="quarto-layout-row">
@@ -688,7 +757,7 @@ P(Disease|Positive) &amp;= \frac{P(Positive|Disease)P(Disease)}{P(Positive)} \\
 <li>We could model <span class="math inline">X \sim \textsf{Uniform}(0, \theta)</span>.</li>
 <li>We have our observed sample <span class="math inline">\{x_1,x_2, \ldots, x_n\}</span>, ages in generations of <span class="math inline">n</span> observed alleles.
 <ul>
-<li>For concreteness, let our sample be <span class="math inline">\{0, 1, 8, 4, 3, 1, 1, 5\}</span>.</li>
+<li>For concreteness, let our sample be <span class="math inline">\{0, 1, 8, 4, 3, 7, 7, 6\}</span>.</li>
 </ul></li>
 <li>How should we estimate <span class="math inline">\theta</span> ?</li>
 </ul>
@@ -802,7 +871,7 @@ y &amp;= \beta_0 + \beta_1 G + \beta_2 E + \beta_3 \left(G \times E\right) + \ep
 <li>We start with a <strong>prior distribution</strong> that reflects our beliefs about the parameter before seeing the data.</li>
 <li>We then use the observed data to update our beliefs and obtain a <strong>posterior distribution</strong>.</li>
 <li>The posterior distribution combines the information from the prior and the likelihood of the observed data using Bayes’ theorem: <span class="math display">P(p | data) = \frac{P(data | p) P(p)}{P(data)}</span></li>
-<li>Let’s say we have run a previous experiment and observed <span class="math inline">n = 20</span> individuals with allele A and <span class="math inline">x = 3</span> individuals with allele A</li>
+<li>Let’s say we have run a previous experiment and observed <span class="math inline">n = 20</span> individuals and <span class="math inline">x = 3</span> individuals with allele A (again, bilelic SNP).</li>
 <li>We can use this information to inform our prior distribution for <span class="math inline">p</span></li>
 </ul>
 </section>
@@ -1000,6 +1069,28 @@ X-squared = 1, df = 1, p-value = 0.3173</code></pre>
 </div>
 </div>
 </section>
+<section id="testing-via-simulation" class="slide level2">
+<h2>Testing via Simulation</h2>
+<p>We could also simulate our idea of the null hypothesis to get a sense of how extreme our observed data is.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb7-2"><a></a>n_sim <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb7-3"><a></a>N <span class="ot">&lt;-</span> <span class="dv">49</span></span>
+<span id="cb7-4"><a></a>simulated <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n_sim, N, <span class="fl">0.5</span>)</span>
+<span id="cb7-5"><a></a>p_value_sim <span class="ot">&lt;-</span> <span class="fu">mean</span>(simulated <span class="sc">&lt;=</span> <span class="dv">21</span> <span class="sc">|</span> simulated <span class="sc">&gt;=</span> <span class="dv">28</span>)</span>
+<span id="cb7-6"><a></a>p_value_sim</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.3868</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a><span class="fu">hist</span>(simulated, <span class="at">breaks =</span> <span class="dv">30</span>, <span class="at">main =</span> <span class="st">"Simulated Test Cross Outcomes"</span>, <span class="at">xlab =</span> <span class="st">"Number of Dominant Offspring"</span>)</span>
+<span id="cb9-2"><a></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">c</span>(<span class="dv">21</span>, <span class="dv">28</span>), <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="lecture-01_files/figure-revealjs/unnamed-chunk-10-1.png" width="960" class="r-stretch"></section>
+<section id="on-simulations" class="slide level2">
+<h2>On Simulations</h2>
+
+<img data-src="images/paste-5.png" class="r-stretch quarto-figure-center"><p class="caption"><span class="citation" data-cites="downey2016">Downey (<a href="#/references" role="doc-biblioref" onclick="">2016</a>)</span></p></section>
 <section id="estimation-of-allele-frequencies" class="slide level2">
 <h2>Estimation of Allele Frequencies</h2>
 <p><span class="math inline">n_{AA}</span> = Number of individuals with genotype AA <span class="math inline">n_{Aa}</span> = Number of individuals with genotype Aa <span class="math inline">n_{aa}</span> = Number of individuals with genotype aa</p>
@@ -1032,75 +1123,91 @@ P(AA)=p^2 \quad P(Aa)=2pq \quad P(aa)=q^2
 <li>With large samples, we can test for HWE using a <strong>chi-squared goodness-of-fit test</strong>.</li>
 </ul>
 
-<img data-src="images/paste-4.png" class="r-stretch quarto-figure-center"><p class="caption"><span class="citation" data-cites="laird2011">Laird and Lange (<a href="#/sampling-distributions-intuition-via-simulation-1" role="doc-biblioref" onclick="">2011</a>)</span></p></section>
+<img data-src="images/paste-4.png" class="r-stretch quarto-figure-center"><p class="caption"><span class="citation" data-cites="laird2011">Laird and Lange (<a href="#/references" role="doc-biblioref" onclick="">2011</a>)</span></p></section>
 <section id="hwe-worked-example" class="slide level2">
 <h2>HWE: Worked Example</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a></a>n <span class="ot">&lt;-</span> <span class="dv">212</span></span>
-<span id="cb7-2"><a></a>n_AA <span class="ot">&lt;-</span> <span class="dv">175</span></span>
-<span id="cb7-3"><a></a>n_Aa <span class="ot">&lt;-</span> <span class="dv">33</span></span>
-<span id="cb7-4"><a></a>n_aa <span class="ot">&lt;-</span> <span class="dv">4</span></span>
-<span id="cb7-5"><a></a></span>
-<span id="cb7-6"><a></a><span class="co"># Estimate allele frequency</span></span>
-<span id="cb7-7"><a></a>p_hat <span class="ot">&lt;-</span> (<span class="dv">2</span><span class="sc">*</span>n_AA <span class="sc">+</span> n_Aa) <span class="sc">/</span> (<span class="dv">2</span><span class="sc">*</span>n)</span>
-<span id="cb7-8"><a></a>q_hat <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> p_hat</span>
-<span id="cb7-9"><a></a>p_hat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a></a>n <span class="ot">&lt;-</span> <span class="dv">212</span></span>
+<span id="cb10-2"><a></a>n_AA <span class="ot">&lt;-</span> <span class="dv">175</span></span>
+<span id="cb10-3"><a></a>n_Aa <span class="ot">&lt;-</span> <span class="dv">33</span></span>
+<span id="cb10-4"><a></a>n_aa <span class="ot">&lt;-</span> <span class="dv">4</span></span>
+<span id="cb10-5"><a></a></span>
+<span id="cb10-6"><a></a><span class="co"># Estimate allele frequency</span></span>
+<span id="cb10-7"><a></a>p_hat <span class="ot">&lt;-</span> (<span class="dv">2</span><span class="sc">*</span>n_AA <span class="sc">+</span> n_Aa) <span class="sc">/</span> (<span class="dv">2</span><span class="sc">*</span>n)</span>
+<span id="cb10-8"><a></a>q_hat <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> p_hat</span>
+<span id="cb10-9"><a></a>p_hat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.9033019</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a><span class="co"># Expected counts</span></span>
-<span id="cb9-2"><a></a>expected <span class="ot">&lt;-</span> <span class="fu">c</span>(n <span class="sc">*</span> p_hat<span class="sc">^</span><span class="dv">2</span>, <span class="dv">2</span><span class="sc">*</span>n <span class="sc">*</span> p_hat<span class="sc">*</span>q_hat, n <span class="sc">*</span> q_hat<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb9-3"><a></a>observed <span class="ot">&lt;-</span> <span class="fu">c</span>(n_AA, n_Aa, n_aa)</span>
-<span id="cb9-4"><a></a>expected</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a></a><span class="co"># Expected counts</span></span>
+<span id="cb12-2"><a></a>expected <span class="ot">&lt;-</span> <span class="fu">c</span>(n <span class="sc">*</span> p_hat<span class="sc">^</span><span class="dv">2</span>, <span class="dv">2</span><span class="sc">*</span>n <span class="sc">*</span> p_hat<span class="sc">*</span>q_hat, n <span class="sc">*</span> q_hat<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb12-3"><a></a>observed <span class="ot">&lt;-</span> <span class="fu">c</span>(n_AA, n_Aa, n_aa)</span>
+<span id="cb12-4"><a></a>expected</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 172.982311  37.035377   1.982311</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a></a><span class="co"># Pearson chi-squared</span></span>
-<span id="cb11-2"><a></a>chisq_val <span class="ot">&lt;-</span> <span class="fu">sum</span>((observed <span class="sc">-</span> expected)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> expected)</span>
-<span id="cb11-3"><a></a>df <span class="ot">&lt;-</span> <span class="dv">3</span> <span class="sc">-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb11-4"><a></a>p_val <span class="ot">&lt;-</span> <span class="fu">pchisq</span>(chisq_val, <span class="at">df =</span> df, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb11-5"><a></a>p_val</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a></a><span class="co"># Pearson chi-squared</span></span>
+<span id="cb14-2"><a></a>chisq_val <span class="ot">&lt;-</span> <span class="fu">sum</span>((observed <span class="sc">-</span> expected)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> expected)</span>
+<span id="cb14-3"><a></a>df <span class="ot">&lt;-</span> <span class="dv">3</span> <span class="sc">-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb14-4"><a></a>p_val <span class="ot">&lt;-</span> <span class="fu">pchisq</span>(chisq_val, <span class="at">df =</span> df, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb14-5"><a></a>p_val</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.1126299</code></pre>
 </div>
 </div>
 </section>
+<section id="hwe-in-practice" class="slide level2">
+<h2>HWE in Practice</h2>
+<ul>
+<li>HWE is a useful null model for quality control of genotype data.</li>
+<li>Deviations from HWE can indicate genotyping errors, population stratification, or selection</li>
+</ul>
+</section>
 <section id="sampling-distributions-intuition-via-simulation" class="slide level2">
 <h2>Sampling distributions: intuition via simulation</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb13-2"><a></a>true_p <span class="ot">&lt;-</span> <span class="fl">0.3</span></span>
-<span id="cb13-3"><a></a>sample_sizes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">100</span>, <span class="dv">500</span>)</span>
-<span id="cb13-4"><a></a>n_sims <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
-<span id="cb13-5"><a></a></span>
-<span id="cb13-6"><a></a>sampling_results <span class="ot">&lt;-</span> <span class="fu">map_dfr</span>(sample_sizes, <span class="cf">function</span>(n) {</span>
-<span id="cb13-7"><a></a>  p_hats <span class="ot">&lt;-</span> <span class="fu">replicate</span>(n_sims, {</span>
-<span id="cb13-8"><a></a>    <span class="co"># Sample n individuals (2n alleles total)</span></span>
-<span id="cb13-9"><a></a>    alleles <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">2</span>, true_p)  <span class="co"># each individual contributes 0,1,2 A alleles</span></span>
-<span id="cb13-10"><a></a>    <span class="fu">sum</span>(alleles) <span class="sc">/</span> (<span class="dv">2</span> <span class="sc">*</span> n)           <span class="co"># sample allele frequency</span></span>
-<span id="cb13-11"><a></a>  })</span>
-<span id="cb13-12"><a></a>  <span class="fu">tibble</span>(<span class="at">sample_size =</span> n, <span class="at">p_hat =</span> p_hats,</span>
-<span id="cb13-13"><a></a>         <span class="at">theoretical_se =</span> <span class="fu">sqrt</span>(true_p <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> true_p) <span class="sc">/</span> (<span class="dv">2</span> <span class="sc">*</span> n)))</span>
-<span id="cb13-14"><a></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb16-2"><a></a>true_p <span class="ot">&lt;-</span> <span class="fl">0.3</span></span>
+<span id="cb16-3"><a></a>sample_sizes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">100</span>, <span class="dv">500</span>)</span>
+<span id="cb16-4"><a></a>n_sims <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb16-5"><a></a></span>
+<span id="cb16-6"><a></a>sampling_results <span class="ot">&lt;-</span> <span class="fu">map_dfr</span>(sample_sizes, <span class="cf">function</span>(n) {</span>
+<span id="cb16-7"><a></a>  p_hats <span class="ot">&lt;-</span> <span class="fu">replicate</span>(n_sims, {</span>
+<span id="cb16-8"><a></a>    <span class="co"># Sample n individuals (2n alleles total)</span></span>
+<span id="cb16-9"><a></a>    alleles <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">2</span>, true_p)  <span class="co"># each individual contributes 0,1,2 A alleles</span></span>
+<span id="cb16-10"><a></a>    <span class="fu">sum</span>(alleles) <span class="sc">/</span> (<span class="dv">2</span> <span class="sc">*</span> n)           <span class="co"># sample allele frequency</span></span>
+<span id="cb16-11"><a></a>  })</span>
+<span id="cb16-12"><a></a>  <span class="fu">tibble</span>(<span class="at">sample_size =</span> n, <span class="at">p_hat =</span> p_hats,</span>
+<span id="cb16-13"><a></a>         <span class="at">theoretical_se =</span> <span class="fu">sqrt</span>(true_p <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> true_p) <span class="sc">/</span> (<span class="dv">2</span> <span class="sc">*</span> n)))</span>
+<span id="cb16-14"><a></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="sampling-distributions-intuition-via-simulation-1" class="slide level2 smaller scrollable">
+<section id="sampling-distributions-intuition-via-simulation-1" class="slide level2">
 <h2>Sampling distributions: intuition via simulation</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a></a><span class="co"># Plot sampling distributions</span></span>
-<span id="cb14-2"><a></a><span class="fu">ggplot</span>(sampling_results, <span class="fu">aes</span>(<span class="at">x =</span> p_hat)) <span class="sc">+</span></span>
-<span id="cb14-3"><a></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(density)), <span class="at">bins =</span> <span class="dv">30</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb14-4"><a></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> true_p, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb14-5"><a></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>sample_size_name, <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
-<span id="cb14-6"><a></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Sampling Distribution of p̂"</span>, <span class="at">x =</span> <span class="st">"Sample Allele Frequency (p̂)"</span>, <span class="at">y =</span> <span class="st">"Density"</span>) <span class="sc">+</span></span>
-<span id="cb14-7"><a></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a></a><span class="co"># Plot sampling distributions</span></span>
+<span id="cb17-2"><a></a><span class="fu">ggplot</span>(sampling_results, <span class="fu">aes</span>(<span class="at">x =</span> p_hat)) <span class="sc">+</span></span>
+<span id="cb17-3"><a></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(density)), <span class="at">bins =</span> <span class="dv">30</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb17-4"><a></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> true_p, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb17-5"><a></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>sample_size_name, <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
+<span id="cb17-6"><a></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Sampling Distribution of p̂"</span>, <span class="at">x =</span> <span class="st">"Sample Allele Frequency (p̂)"</span>, <span class="at">y =</span> <span class="st">"Density"</span>) <span class="sc">+</span></span>
+<span id="cb17-7"><a></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
+<img data-src="lecture-01_files/figure-revealjs/unnamed-chunk-14-1.png" width="960" class="r-stretch"></section>
+<section id="references" class="slide level2 smaller scrollable">
+<h2>References</h2>
 
 
-<img data-src="lecture-01_files/figure-revealjs/unnamed-chunk-13-1.png" width="960" class="r-stretch"><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-downey2016" class="csl-entry" role="listitem">
+Downey,A. (2016) <a href="https://allendowney.blogspot.com/2016/06/there-is-still-only-one-test.html">Probably overthinking it: There is still only one test</a>.
+</div>
 <div id="ref-laird2011" class="csl-entry" role="listitem">
-Laird, Nan M., and Christoph Lange. 2011. <em>The Fundamentals of Modern Statistical Genetics</em>. Statistics for Biology and Health. New York: Springer Science.
+Laird,N.M. and Lange,C. (2011) The fundamentals of modern statistical genetics Springer Science, New York.
+</div>
+<div id="ref-sorensenStatisticalLearningGenetics2025" class="csl-entry" role="listitem">
+Sörensen,D. (2025) <a href="https://doi.org/10.1007/978-3-031-86274-8">Statistical <span>Learning</span> in <span>Genetics</span>: <span>An Introduction Using R</span></a> 2nd ed. 2025. Springer Nature Switzerland, Cham.
 </div>
 </div>
 </section>
