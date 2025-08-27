@@ -1,0 +1,10 @@
+---
+title: "Helpful Links"
+---
+
+## Mathematical Resources
+
+- [Linear Algebra Primer](https://atmos.washington.edu/~hakim/591/LA_primer-v1.1.pdf)
+- [Probability Primer](http://users.stat.umn.edu/~helwig/notes/ProbabilityTheory.pdf)
+- [Statistical Inference Primer](https://www.math.utah.edu/~davar/math6070/2014/Statistics.pdf)
+- [Statistics Cheatsheet](https://stanford.edu/~shervine/teaching/cme-106/cheatsheet-statistics)

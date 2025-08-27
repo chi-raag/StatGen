@@ -2,6 +2,14 @@
 title: "Frequently Asked Questions"
 ---
 
+## Office Hours
+
+Office hours are held on Friday's from 10am-12pm. You can book a 30 minute slot using [this link](https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ0fJ7onWj1MHoX9hka0my9S9w9YgyUnvPWuioGgtauR7s8Tax-wE7AGOr8OzEC8CqEe5yCkM7Ic). If you need to meet outside of these hours, please email me at [chiraaggohel@gwu.edu](mailto:chiraaggohel@gwu.edu).
+
+## Course Location
+
+Milken SPH, 300C. The zoom link is available on Blackboard, and the Google Calendar invite.
+
 ## The required paper is not open source, how do I access it?
 
 Via our shared [Zotero library](https://www.zotero.org/groups/6113424/pubh-/library). If you don't have access, please email [chiraaggohel@gwu.edu](mailto:chiraaggohel@gwu.edu) to be added.

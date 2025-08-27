@@ -68,8 +68,22 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -150,6 +164,13 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../links.html" class="sidebar-item-text sidebar-link"><i class="bi bi-link" role="img">
+</i> 
+ <span class="menu-text">Useful Links</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="https://github.com/gwcbi/StatGen" class="sidebar-item-text sidebar-link" target="_blank"><i class="bi bi-github" role="img">
 </i> 
  <span class="menu-text">GitHub</span></a>
@@ -196,29 +217,31 @@ window.Quarto = {
 <ol type="1">
 <li><p>Make a Zotero account using the guide <a href="https://libguides.gwu.edu/c.php?g=258781&amp;p=1728369">here</a>. Make sure you use your GW email address, as this will provide unlimited cloud storage for PDFs. Once you have created your account, email <a href="mailto:chiraaggohel@gwu.edu">chiraaggohel@gwu.edu</a> your username.</p></li>
 <li><p>(Laird, 2.4) How many genotypes are possible with a 3-allele marker? With K alleles?</p></li>
-<li><p>(Laird, 2.6) Consider a recessive Mendelian disease, where in the population, <span class="math inline">\(P(\text{an individual has 2 disease variants}) = 0.000001\)</span>.</p>
+<li><p>(Laird, 2.6) Consider a recessive Mendelian disease, where in the population, <span class="math inline">P(\text{an individual has 2 disease variants}) = 0.000001</span>.</p>
 <ol type="a">
 <li><p>What is the probability that a randomly selected person is affected? Suppose that the randomly selected person is affected. What does that imply about the probability that their sibling is also affected (you can assume that having either one or two parents with two variants is so rare that you can ignore them)?</p></li>
-<li><p>Now answer both of these questions assuming the penetrance is only <span class="math inline">\(\frac{1}{2}\)</span>, i.e., <span class="math inline">\(P(\text{disease} | 2 \text{ variants}) = \frac{1}{2}\)</span>, but the phenocopy rate is still zero.</p></li>
+<li><p>Now answer both of these questions assuming the penetrance is only <span class="math inline">\frac{1}{2}</span>, i.e., <span class="math inline">P(\text{disease} | 2 \text{ variants}) = \frac{1}{2}</span>, but the phenocopy rate is still zero.</p></li>
 </ol></li>
-<li><p>Consider a sample size of <span class="math inline">\(n\)</span> of unrelated haploid individuals is obtained from some population with the objective of estimating allele frequency at a biallelic locus. The sample contains <span class="math inline">\(x\)</span> copies of <span class="math inline">\(A\)</span>, and <span class="math inline">\(n-x\)</span> copies of <span class="math inline">\(a\)</span>.</p>
+<li><p>Consider a sample size of <span class="math inline">n</span> of unrelated haploid individuals is obtained from some population with the objective of estimating allele frequency at a biallelic locus. The sample contains <span class="math inline">x</span> copies of <span class="math inline">A</span>, and <span class="math inline">n-x</span> copies of <span class="math inline">a</span>.</p>
 <ol type="a">
-<li>Plot the probability distribution of <span class="math inline">\(X\)</span> given <span class="math inline">\(n = 30\)</span>, and <span class="math inline">\(\theta = .1\)</span>. Plot the probability distribution of <span class="math inline">\(X\)</span> given <span class="math inline">\(n = 1000\)</span>, and <span class="math inline">\(\theta = .1\)</span>.</li>
-<li>Lets say we observed <span class="math inline">\(30\)</span> samples, with <span class="math inline">\(10\)</span> copies of allele <span class="math inline">\(A\)</span>. Plot the likelihood function for <span class="math inline">\(\theta\)</span></li>
-<li>What is the MLE of <span class="math inline">\(\theta\)</span>?</li>
-<li>Let’s say <span class="math inline">\(n = 1000\)</span>, and <span class="math inline">\(x = 100\)</span>. What is the sampling variance of <span class="math inline">\(\hat{\theta}\)</span>?</li>
-<li>Let’s say <span class="math inline">\(n = 100\)</span>, and <span class="math inline">\(x = 10\)</span>. What is the sampling variance of <span class="math inline">\(\hat{\theta}\)</span>? Why is this different than the result above?</li>
+<li>Plot the probability distribution of <span class="math inline">X</span> given <span class="math inline">n = 30</span>, and <span class="math inline">\theta = .1</span>. Plot the probability distribution of <span class="math inline">X</span> given <span class="math inline">n = 1000</span>, and <span class="math inline">\theta = .1</span>.</li>
+<li>Lets say we observed <span class="math inline">30</span> samples, with <span class="math inline">10</span> copies of allele <span class="math inline">A</span>. Plot the likelihood function for <span class="math inline">\theta</span></li>
+<li>What is the MLE of <span class="math inline">\theta</span>?</li>
+<li>Let’s say <span class="math inline">n = 1000</span>, and <span class="math inline">x = 100</span>. What is the sampling variance of <span class="math inline">\hat{\theta}</span>?</li>
+<li>Let’s say <span class="math inline">n = 100</span>, and <span class="math inline">x = 10</span>. What is the sampling variance of <span class="math inline">\hat{\theta}</span>? Why is this different than the result above?</li>
 </ol></li>
-<li><p>Refer to equations (1.3) and (1.5) in Sorensen. Say you observe <span class="math inline">\(8\)</span> individuals, and <span class="math inline">\(1\)</span> copies of genotype <span class="math inline">\(A\)</span>. Assume that <span class="math inline">\(A\)</span> is binomially distributed with parameter <span class="math inline">\(\theta\)</span>.</p></li>
+<li><p>Refer to equations (1.3) and (1.5) in Sorensen. Say you observe <span class="math inline">8</span> individuals, and <span class="math inline">1</span> copies of genotype <span class="math inline">X</span>. Assume that <span class="math inline">X \sim \textsf{Binom}(n, \theta)</span>.</p></li>
 </ol>
 <ol type="a">
-<li>Compute <span class="math inline">\(\hat{\theta}\)</span></li>
-<li>Compute <span class="math inline">\(\hat{\text{Var}}(\hat{\theta})\)</span></li>
-<li>Provide a 95% Wald confidence interval for <span class="math inline">\(\theta\)</span></li>
+<li>Compute <span class="math inline">\hat{\theta}</span></li>
+<li>Compute <span class="math inline">\hat{\text{Var}}(\hat{\theta})</span></li>
+<li>Provide a 95% Wald confidence interval for <span class="math inline">\theta</span></li>
 <li>Write an interpretation of this confidence interval. What problem does this reveal about the Wald confidence interval?</li>
+<li>Compute a 95% Wilson confidence interval for <span class="math inline">\theta</span>. Documentation for this can be found <a href="https://rpruim.github.io/fastR2/reference/wilson.ci.html">here</a>. <em>Hint: you will need the <code>fastR2</code> package.</em></li>
 </ol>
-<ol start="5" type="1">
-<li>Refer to slides 13 and 14 in <a href="../lectures/lecture-01.html">lecture 1</a>. Write a one to two sentence answer for how a researcher would try to answer each question.</li>
+<ol start="6" type="1">
+<li><p>Refer to slides 13 and 14 in <a href="../lectures/lecture-01.html">lecture 1</a>. Write a one to two sentence answer for how a researcher would try to answer each question.</p></li>
+<li><p>What is your math background? What is your programming background?</p></li>
 </ol>
 
 

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Assignment 01</title>
+<title>Helpful Links – Statistical Genetics</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,75 +23,143 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="assignment-01_files/libs/clipboard/clipboard.min.js"></script>
-<script src="assignment-01_files/libs/quarto-html/quarto.js" type="module"></script>
-<script src="assignment-01_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="assignment-01_files/libs/quarto-html/popper.min.js"></script>
-<script src="assignment-01_files/libs/quarto-html/tippy.umd.min.js"></script>
-<script src="assignment-01_files/libs/quarto-html/anchor.min.js"></script>
-<link href="assignment-01_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="assignment-01_files/libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="assignment-01_files/libs/bootstrap/bootstrap.min.js"></script>
-<link href="assignment-01_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="assignment-01_files/libs/bootstrap/bootstrap-81267100e462c21b3d6c0d5bf76a3417.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
-
-  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
-  <script>document.addEventListener("DOMContentLoaded", function () {
- var mathElements = document.getElementsByClassName("math");
- var macros = [];
- for (var i = 0; i < mathElements.length; i++) {
-  var texText = mathElements[i].firstChild;
-  if (mathElements[i].tagName == "SPAN") {
-   katex.render(texText.data, mathElements[i], {
-    displayMode: mathElements[i].classList.contains('display'),
-    throwOnError: false,
-    macros: macros,
-    fleqn: false
-   });
-}}});
-  </script>
-  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./course_logo.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-8254307cecacaad36278cf7af93dae10.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
+}</script>
 
+
+<link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="quarto-light">
+<body class="nav-sidebar docked quarto-light">
 
-<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="assignment-01.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li><li><a href="assignment-01.docx"><i class="bi bi-file-word"></i>MS Word</a></li></ul></div></div>
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./links.html">Useful Links</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="./index.html" class="sidebar-logo-link">
+      <img src="./course_logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      </a>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><i class="bi bi-calendar" role="img">
+</i> 
+ <span class="menu-text">Schedule</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./syllabus.html" class="sidebar-item-text sidebar-link"><i class="bi bi-book" role="img">
+</i> 
+ <span class="menu-text">Syllabus</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./faq.html" class="sidebar-item-text sidebar-link"><i class="bi bi-question" role="img">
+</i> 
+ <span class="menu-text">FAQ</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./links.html" class="sidebar-item-text sidebar-link active"><i class="bi bi-link" role="img">
+</i> 
+ <span class="menu-text">Useful Links</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://github.com/gwcbi/StatGen" class="sidebar-item-text sidebar-link" target="_blank"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text">GitHub</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://www.zotero.org/groups/6113424/pubh-8878/library" class="sidebar-item-text sidebar-link" target="_blank"><i class="bi bi-book" role="img">
+</i> 
+ <span class="menu-text">Zotero Library</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#mathematical-resources" id="toc-mathematical-resources" class="nav-link active" data-scroll-target="#mathematical-resources">Mathematical Resources</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Assignment 01</h1>
-<p class="subtitle lead">PUBH 8878</p>
+<h1 class="title">Helpful Links</h1>
 </div>
 
 
@@ -108,38 +176,19 @@ window.Quarto = {
 </header>
 
 
-<ol type="1">
-<li><p>Make a Zotero account using the guide <a href="https://libguides.gwu.edu/c.php?g=258781&amp;p=1728369">here</a>. Make sure you use your GW email address, as this will provide unlimited cloud storage for PDFs. Once you have created your account, email <a href="mailto:chiraaggohel@gwu.edu">chiraaggohel@gwu.edu</a> your username.</p></li>
-<li><p>(Laird, 2.4) How many genotypes are possible with a 3-allele marker? With K alleles?</p></li>
-<li><p>(Laird, 2.6) Consider a recessive Mendelian disease, where in the population, <span class="math inline">P(\text{an individual has 2 disease variants}) = 0.000001</span>.</p>
-<ol type="a">
-<li><p>What is the probability that a randomly selected person is affected? Suppose that the randomly selected person is affected. What does that imply about the probability that their sibling is also affected (you can assume that having either one or two parents with two variants is so rare that you can ignore them)?</p></li>
-<li><p>Now answer both of these questions assuming the penetrance is only <span class="math inline">\frac{1}{2}</span>, i.e., <span class="math inline">P(\text{disease} | 2 \text{ variants}) = \frac{1}{2}</span>, but the phenocopy rate is still zero.</p></li>
-</ol></li>
-<li><p>Consider a sample size of <span class="math inline">n</span> of unrelated haploid individuals is obtained from some population with the objective of estimating allele frequency at a biallelic locus. The sample contains <span class="math inline">x</span> copies of <span class="math inline">A</span>, and <span class="math inline">n-x</span> copies of <span class="math inline">a</span>.</p>
-<ol type="a">
-<li>Plot the probability distribution of <span class="math inline">X</span> given <span class="math inline">n = 30</span>, and <span class="math inline">\theta = .1</span>. Plot the probability distribution of <span class="math inline">X</span> given <span class="math inline">n = 1000</span>, and <span class="math inline">\theta = .1</span>.</li>
-<li>Lets say we observed <span class="math inline">30</span> samples, with <span class="math inline">10</span> copies of allele <span class="math inline">A</span>. Plot the likelihood function for <span class="math inline">\theta</span></li>
-<li>What is the MLE of <span class="math inline">\theta</span>?</li>
-<li>Let’s say <span class="math inline">n = 1000</span>, and <span class="math inline">x = 100</span>. What is the sampling variance of <span class="math inline">\hat{\theta}</span>?</li>
-<li>Let’s say <span class="math inline">n = 100</span>, and <span class="math inline">x = 10</span>. What is the sampling variance of <span class="math inline">\hat{\theta}</span>? Why is this different than the result above?</li>
-</ol></li>
-<li><p>Refer to equations (1.3) and (1.5) in Sorensen. Say you observe <span class="math inline">8</span> individuals, and <span class="math inline">1</span> copies of genotype <span class="math inline">X</span>. Assume that <span class="math inline">X \sim \textsf{Binom}(n, \theta)</span>.</p></li>
-</ol>
-<ol type="a">
-<li>Compute <span class="math inline">\hat{\theta}</span></li>
-<li>Compute <span class="math inline">\hat{\text{Var}}(\hat{\theta})</span></li>
-<li>Provide a 95% Wald confidence interval for <span class="math inline">\theta</span></li>
-<li>Write an interpretation of this confidence interval. What problem does this reveal about the Wald confidence interval?</li>
-<li>Compute a 95% Wilson confidence interval for <span class="math inline">\theta</span>. Documentation for this can be found <a href="https://rpruim.github.io/fastR2/reference/wilson.ci.html">here</a>. <em>Hint: you will need the <code>fastR2</code> package.</em></li>
-</ol>
-<ol start="6" type="1">
-<li><p>Refer to slides 13 and 14 in <a href="../lectures/lecture-01.qmd">lecture 1</a>. Write a one to two sentence answer for how a researcher would try to answer each question.</p></li>
-<li><p>What is your math background? What is your programming background?</p></li>
-</ol>
+<section id="mathematical-resources" class="level2">
+<h2 class="anchored" data-anchor-id="mathematical-resources">Mathematical Resources</h2>
+<ul>
+<li><a href="https://atmos.washington.edu/~hakim/591/LA_primer-v1.1.pdf">Linear Algebra Primer</a></li>
+<li><a href="http://users.stat.umn.edu/~helwig/notes/ProbabilityTheory.pdf">Probability Primer</a></li>
+<li><a href="https://www.math.utah.edu/~davar/math6070/2014/Statistics.pdf">Statistical Inference Primer</a></li>
+<li><a href="https://stanford.edu/~shervine/teaching/cme-106/cheatsheet-statistics">Statistics Cheatsheet</a></li>
+</ul>
 
-</main>
-<!-- /main column -->
+
+</section>
+
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

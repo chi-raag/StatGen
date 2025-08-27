@@ -2,7 +2,8 @@
 title: "Assignment 01"
 subtitle: "PUBH 8878"
 format: 
-  html: default
+  html:
+    html-math-method: katex
   pdf: default
   docx: default
 format-links: [pdf, docx]
@@ -18,18 +19,20 @@ format-links: [pdf, docx]
 
     b.  Now answer both of these questions assuming the penetrance is only $\frac{1}{2}$, i.e., $P(\text{disease} | 2 \text{ variants}) = \frac{1}{2}$, but the phenocopy rate is still zero.
 
-3.  Consider a sample size of $n$ of unrelated haploid individuals is obtained from some population with the objective of estimating allele frequency at a biallelic locus. The sample contains $x$ copies of $A$, and $n-x$ copies of $a$.
+4.  Consider a sample size of $n$ of unrelated haploid individuals is obtained from some population with the objective of estimating allele frequency at a biallelic locus. The sample contains $x$ copies of $A$, and $n-x$ copies of $a$.
 
     a.  Plot the probability distribution of $X$ given $n = 30$, and $\theta = .1$. Plot the probability distribution of $X$ given $n = 1000$, and $\theta = .1$.
     b.  Lets say we observed $30$ samples, with $10$ copies of allele $A$. Plot the likelihood function for $\theta$
     c.  What is the MLE of $\theta$?
     d.  Let's say $n = 1000$, and $x = 100$. What is the sampling variance of $\hat{\theta}$?
     e.  Let's say $n = 100$, and $x = 10$. What is the sampling variance of $\hat{\theta}$? Why is this different than the result above?
-
-4. Refer to equations (1.3) and (1.5) in Sorensen. Say you observe $8$ individuals, and $1$ copies of genotype $A$. Assume that $A$ is binomially distributed with parameter $\theta$. 
+5. Refer to equations (1.3) and (1.5) in Sorensen. Say you observe $8$ individuals, and $1$ copies of genotype $X$. Assume that $X \sim \textsf{Binom}(n, \theta)$. 
   a. Compute $\hat{\theta}$
   a. Compute $\hat{\text{Var}}(\hat{\theta})$
   a. Provide a 95% Wald confidence interval for $\theta$
   a. Write an interpretation of this confidence interval. What problem does this reveal about the Wald confidence interval?
+  a. Compute a 95% Wilson confidence interval for $\theta$. Documentation for this can be found [here](https://rpruim.github.io/fastR2/reference/wilson.ci.html). *Hint: you will need the `fastR2` package.*
 
-5. Refer to slides 13 and 14 in [lecture 1](../lectures/lecture-01.qmd). Write a one to two sentence answer for how a researcher would try to answer each question.
+6. Refer to slides 13 and 14 in [lecture 1](../lectures/lecture-01.qmd). Write a one to two sentence answer for how a researcher would try to answer each question.
+
+7. What is your math background? What is your programming background?

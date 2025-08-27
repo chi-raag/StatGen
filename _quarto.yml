@@ -25,6 +25,9 @@ website:
       - href: faq.qmd
         text: "FAQ"
         icon: question
+      - href: links.qmd
+        text: "Useful Links"
+        icon: link
       - href: https://github.com/gwcbi/StatGen
         text: "GitHub"
         icon: github
