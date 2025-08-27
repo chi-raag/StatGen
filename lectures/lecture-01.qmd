@@ -264,22 +264,25 @@ library(htmltools)
 ## Some vocabulary
 
 -   **Trait/Phenotype**: A measurable characteristic of an organism, such as height, weight, or disease status.
+- **Gene**: Unit of inheritance
 -   **Genotype**: The genetic constitution of an individual, often represented by specific alleles at particular loci.
 -   **Allele**: A variant form of a gene that can exist at a specific locus on a chromosome.
 -   **Locus**: A specific, fixed position on a chromosome where a particular gene or genetic marker is located.
+- **Diploid**: Having two sets of chromosomes (one from each parent)
+- **Penetrance**: Likelihood of expressing a phenotype given a genotype
 -   **Polymorphism**: The occurrence of two or more genetically determined forms in a population, such as single nucleotide polymorphisms (SNPs) or copy number variations (CNVs).
 -   **Genetic Marker**: A specific DNA sequence with a known location on a chromosome that can be used to identify individuals or species, often used in genetic mapping or association studies.
--   **Linkage Disequilibrium (LD)**: The non-random association of alleles at different loci, indicating that certain allele combinations occur together more frequently than expected by chance.
--   **Heritability**: The proportion of phenotypic variance in a trait that can be attributed to genetic variance, often estimated through twin or family studies.
+
 
 ## Some vocabulary
 
+- **Mendelian Disease**: A disease caused by a mutation in a single gene, following Mendelian inheritance patterns (dominant, recessive, X-linked).
+-   **Linkage Disequilibrium (LD)**: The non-random association of alleles at different loci, indicating that certain allele combinations occur together more frequently than expected by chance.
+-   **Heritability**: The proportion of phenotypic variance in a trait that can be attributed to genetic variance, often estimated through twin or family studies.
 -   **Genome-Wide Association Study (GWAS)**: A study that looks for associations between genetic variants across the genome and specific traits or diseases in a large population.
 -   **Polygenic Score (PGS)**: A score that aggregates the effects of multiple genetic variants to predict an individual's genetic predisposition to a trait or disease.
 -   **Quantitative Trait Locus (QTL)**: A region of the genome that is associated with a quantitative trait, often identified through linkage or association mapping.
 -   **Epistasis**: The interaction between genes where the effect of one gene is modified by one or more other genes, influencing the expression of a trait.
--   **Epigenetics**: The study of heritable changes in gene expression that do not involve changes to the underlying DNA sequence, often influenced by environmental factors.
--   **Functional Annotation**: The process of identifying the functional elements in the genome, such as genes, regulatory regions, and non-coding RNAs, and understanding their roles in biological processes.
 
 ## Genetic Variant Example
 
