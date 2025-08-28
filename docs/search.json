@@ -384,6 +384,23 @@
     ]
   },
   {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Schedule",
+    "section": "",
+    "text": "Article links direct to files hosted on the Zotero group library\n\n\n\nWeek\nLecture\nReadings\nAssignment\n\n\n\n\n1\nFoundations: Mendelian genetics & statistical basics\nMendel’s laws, Hardy–Weinberg equilibrium, \\(\\chi^2\\)goodness‑of‑fit. Sampling distributions; linking population parameters to sample estimates. One‑locus likelihood: building and interpreting likelihood functions.\n\nSorensen Chapter 1\nEdwards, A. W. F. (2008), “G. H. Hardy (1908) and Hardy–Weinberg Equilibrium,” Genetics.\nIntroduction to Probability Theory\n\nProblem Set 01\n\n\n2\nHeritability, segregation, and the gene-mapping toolkit\nNarrow and broad sense heritability; variance-component interpretation. Segregation analysis and modelling genetic inheritance without marker data. Conceptual framework for linkage versus association studies and marker maps\n\nSorensen Chapter 2.1-2.2, 2.4, 2.8\nVisscher, P. M., et al., (2008), “Heritability in the genomics era — concepts and misconceptions,” Nature Reviews Genetics.\n\nProblem Set 02\n\n\n3\nLikelihood algorithms & practical gene mapping\nNewton-Raphson, EM, and stochastic gradient algorithms for complex likelihoods. Pedigree linkage analysis, LOD-score calculation, and missing-data EM steps. Single-marker and haplotype association tests with basic quality control\n\nSorensen, Chapter 3\nLander, E. S., and Green, P. (1987), “Construction of multilocus genetic linkage maps in humans.,” Proceedings of the National Academy of Sciences of the United States of America.\n\nProblem Set 03\n\n\n4\nPopulation structure & Bayesian fundamentals\nDetecting and correcting for population stratification and admixture confounding. Priors, posteriors, and the Bayes-frequentist debate in genetic inference. Bayesian admixture/STRUCTURE-style modelling implemented in Stan.\n\nSorensen 4.1-4.5, 4.7-4.8, 5.1\nPorras-Hurtado, L. et al., (2013), “An overview of STRUCTURE: applications, parameter settings, and supporting software,” Frontiers in Genetics.\nLawson, D. J. et al., (2018), “A tutorial on how not to over-interpret STRUCTURE and ADMIXTURE bar plots,” Nature Communications.\n\nProblem Set 04\n\n\n5\nGWAS at Scale – design, LMMs, and meta-analysis\nEnd to end GWAS workflow: sample QC, variant QC, power, pitfalls. Linear mixed models (BOLT LMM/REML concepts) and SAIGE for imbalance/relatedness. Fixed/random effects meta-analysis; genomic inflation and calibration.\n\nLoh, P.-R. et al., (2015), “Efficient Bayesian mixed model analysis increases association power in large cohorts,” Nature Genetics.\n\nProblem Set 05\n\n\n6\nPrediction models in genetics\n\nSorensen Chapters 6, 7.1-7.2, 10.1, 10.5, 11.3-11.5\nWu, T. T., Chen, Y. F., Hastie, T., Sobel, E., and Lange, K. (2009), “Genome-wide association analysis by lasso penalized logistic regression,” Bioinformatics, 25, 714–721. https://doi.org/10.1093/bioinformatics/btp041.\n\n\n\n\n7\nMultiple testing & false-discovery control\n\nSorensen Chapter 8\nOtani, T., Noma, H., Nishino, J., and Matsui, S. (2018), “Re-assessment of multiple testing strategies for more efficient genome-wide association studies,” European Journal of Human Genetics, Nature Publishing Group, 26, 1038–1048. https://doi.org/10.1038/s41431-018-0125-3.\n\n\n\n\n8\nBinary traits and family-based association tests\n\nSorensen Chapter 9\nZhou, W., Bi, W., Zhao, Z., Dey, K. K., Jagadeesh, K. A., Karczewski, K. J., Daly, M. J., Neale, B. M., and Lee, S. (2022), “SAIGE-GENE+ improves the efficiency and accuracy of set-based rare variant association tests,” Nature Genetics, Nature Publishing Group, 54, 1466–1469. https://doi.org/10.1038/s41588-022-01178-w.\n\n\n\n\n9\nCausal inference & functional integration (Mendelian randomization)\n\nSanderson, E., Glymour, M. M., Holmes, M. V., Kang, H., Morrison, J., Munafò, M. R., Palmer, T., Schooling, C. M., Wallace, C., Zhao, Q., and Davey Smith, G. (2022), “Mendelian randomization,” Nature Reviews Methods Primers, 2, 1–21. https://doi.org/10.1038/s43586-021-00092-5.\n\n\n\n\n10\nAdvanced AI Topics in Statistical Genetics: Language Models for Genomics\nRecommended:\n\nJi et al., 2021\nAvsec et al., 2021\nCheng et al., 2023\nBaghbanzadeh et al., 2025\nMollerus et al., 2025",
+    "crumbs": [
+      "Schedule"
+    ]
+  },
+  {
+    "objectID": "assignments/assignment-01.html",
+    "href": "assignments/assignment-01.html",
+    "title": "Assignment 01",
+    "section": "",
+    "text": "Make a Zotero account using the guide here. Make sure you use your GW email address, as this will provide unlimited cloud storage for PDFs. Once you have created your account, email chiraaggohel@gwu.edu your username.\n(Laird, 2.4) How many genotypes are possible with a 3-allele marker? With K alleles?\n(Laird, 2.6) Consider a recessive Mendelian disease, where in the population, P(\\text{an individual has 2 disease variants}) = 0.000001.\n\nWhat is the probability that a randomly selected person is affected? Suppose that the randomly selected person is affected. What does that imply about the probability that their sibling is also affected (you can assume that having either one or two parents with two variants is so rare that you can ignore them)?\nNow answer both of these questions assuming the penetrance is only \\frac{1}{2}, i.e., P(\\text{disease} | 2 \\text{ variants}) = \\frac{1}{2}, but the phenocopy rate is still zero.\n\nConsider a sample size of n of unrelated haploid individuals is obtained from some population with the objective of estimating allele frequency at a biallelic locus. The sample contains x copies of A, and n-x copies of a.\n\nPlot the probability distribution of X given n = 30, and \\theta = .1. Plot the probability distribution of X given n = 1000, and \\theta = .1.\nLets say we observed 30 samples, with 10 copies of allele A. Plot the likelihood function for \\theta\nWhat is the MLE of \\theta?\nLet’s say n = 1000, and x = 100. What is the sampling variance of \\hat{\\theta}?\nLet’s say n = 100, and x = 10. What is the sampling variance of \\hat{\\theta}? Why is this different than the result above?\n\nRefer to equations (1.3) and (1.5) in Sorensen. Say you observe 8 individuals, and 1 copies of genotype X. Assume that X \\sim \\textsf{Binom}(n, \\theta).\n\n\nCompute \\hat{\\theta}\nCompute \\hat{\\text{Var}}(\\hat{\\theta})\nProvide a 95% Wald confidence interval for \\theta\nWrite an interpretation of this confidence interval. What problem does this reveal about the Wald confidence interval?\nCompute a 95% Wilson confidence interval for \\theta. Documentation for this can be found here. Hint: you will need the fastR2 package.\n\n\nRefer to slides 13 and 14 in lecture 1. Write a one to two sentence answer for how a researcher would try to answer each question.\nWhat is your math background? What is your programming background?"
+  },
+  {
     "objectID": "faq.html",
     "href": "faq.html",
     "title": "Frequently Asked Questions",
@@ -421,30 +438,6 @@
     "text": "The required paper is not open source, how do I access it?\nVia our shared Zotero library. If you don’t have access, please email chiraaggohel@gwu.edu to be added.",
     "crumbs": [
       "FAQ"
-    ]
-  },
-  {
-    "objectID": "assignments/assignment-01.html",
-    "href": "assignments/assignment-01.html",
-    "title": "Assignment 01",
-    "section": "",
-    "text": "Make a Zotero account using the guide here. Make sure you use your GW email address, as this will provide unlimited cloud storage for PDFs. Once you have created your account, email chiraaggohel@gwu.edu your username.\n(Laird, 2.4) How many genotypes are possible with a 3-allele marker? With K alleles?\n(Laird, 2.6) Consider a recessive Mendelian disease, where in the population, P(\\text{an individual has 2 disease variants}) = 0.000001.\n\nWhat is the probability that a randomly selected person is affected? Suppose that the randomly selected person is affected. What does that imply about the probability that their sibling is also affected (you can assume that having either one or two parents with two variants is so rare that you can ignore them)?\nNow answer both of these questions assuming the penetrance is only \\frac{1}{2}, i.e., P(\\text{disease} | 2 \\text{ variants}) = \\frac{1}{2}, but the phenocopy rate is still zero.\n\nConsider a sample size of n of unrelated haploid individuals is obtained from some population with the objective of estimating allele frequency at a biallelic locus. The sample contains x copies of A, and n-x copies of a.\n\nPlot the probability distribution of X given n = 30, and \\theta = .1. Plot the probability distribution of X given n = 1000, and \\theta = .1.\nLets say we observed 30 samples, with 10 copies of allele A. Plot the likelihood function for \\theta\nWhat is the MLE of \\theta?\nLet’s say n = 1000, and x = 100. What is the sampling variance of \\hat{\\theta}?\nLet’s say n = 100, and x = 10. What is the sampling variance of \\hat{\\theta}? Why is this different than the result above?\n\nRefer to equations (1.3) and (1.5) in Sorensen. Say you observe 8 individuals, and 1 copies of genotype X. Assume that X \\sim \\textsf{Binom}(n, \\theta).\n\n\nCompute \\hat{\\theta}\nCompute \\hat{\\text{Var}}(\\hat{\\theta})\nProvide a 95% Wald confidence interval for \\theta\nWrite an interpretation of this confidence interval. What problem does this reveal about the Wald confidence interval?\nCompute a 95% Wilson confidence interval for \\theta. Documentation for this can be found here. Hint: you will need the fastR2 package.\n\n\nRefer to slides 13 and 14 in lecture 1. Write a one to two sentence answer for how a researcher would try to answer each question.\nWhat is your math background? What is your programming background?"
-  },
-  {
-    "objectID": "assignments/assignment-02.html",
-    "href": "assignments/assignment-02.html",
-    "title": "Assignment 02",
-    "section": "",
-    "text": "Laird, Section 4.5, Exercise 2\nLaird, Section 4.5, Exercise 7\nLaird, Section 4.5, Exercise 11\nLaird, Section 4.5, Exercise 14\nLaird, Section 2.4, Exercise 4\nLaird, Section 2.4, Exercise 7\nConsider a sample size of \\(n\\) of unrelated haploid individuals is obtained from some population with the objective of estimating allele frequency at a biallelic locus. The sample contains \\(x\\) copies of \\(A\\), and \\(n-x\\) copies of \\(a\\).\n\nPlot the probability distribution of \\(X\\) given \\(n = 30\\), and \\(\\theta = .1\\). Plot the probability distribution of \\(X\\) given \\(n = 1000\\), and \\(\\theta = .1\\).\nLets say we observed \\(30\\) samples, with \\(10\\) copies of allele \\(A\\). Plot the likelihood function for \\(\\theta\\)\nWhat is the MLE of \\(\\theta\\)?\nLet’s say \\(n = 1000\\), and \\(x = 100\\). What is the sampling variance of \\(\\hat{\\theta}\\)?\nLet’s say \\(n = 100\\), and \\(x = 10\\). What is the sampling variance of \\(\\hat{\\theta}\\)? Why is this different than the result above?"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Schedule",
-    "section": "",
-    "text": "Article links direct to files hosted on the Zotero group library\n\n\n\nWeek\nLecture\nReadings\nAssignment\n\n\n\n\n1\nFoundations: Mendelian genetics & statistical basics\nMendel’s laws, Hardy–Weinberg equilibrium, \\(\\chi^2\\)goodness‑of‑fit. Sampling distributions; linking population parameters to sample estimates. One‑locus likelihood: building and interpreting likelihood functions.\n\nSorensen Chapter 1\nEdwards, A. W. F. (2008), “G. H. Hardy (1908) and Hardy–Weinberg Equilibrium,” Genetics.\nIntroduction to Probability Theory\n\nProblem Set 01\n\n\n2\nHeritability, segregation, and the gene-mapping toolkit\nNarrow and broad sense heritability; variance-component interpretation. Segregation analysis and modelling genetic inheritance without marker data. Conceptual framework for linkage versus association studies and marker maps\n\nSorensen Chapter 2.1-2.2, 2.4, 2.8\nVisscher, P. M., et al., (2008), “Heritability in the genomics era — concepts and misconceptions,” Nature Reviews Genetics.\n\nProblem Set 02\n\n\n3\nLikelihood algorithms & practical gene mapping\nNewton-Raphson, EM, and stochastic gradient algorithms for complex likelihoods. Pedigree linkage analysis, LOD-score calculation, and missing-data EM steps. Single-marker and haplotype association tests with basic quality control\n\nSorensen, Chapter 3\nLander, E. S., and Green, P. (1987), “Construction of multilocus genetic linkage maps in humans.,” Proceedings of the National Academy of Sciences of the United States of America.\n\nProblem Set 03\n\n\n4\nPopulation structure & Bayesian fundamentals\nDetecting and correcting for population stratification and admixture confounding. Priors, posteriors, and the Bayes-frequentist debate in genetic inference. Bayesian admixture/STRUCTURE-style modelling implemented in Stan.\n\nSorensen 4.1-4.5, 4.7-4.8, 5.1\nPorras-Hurtado, L. et al., (2013), “An overview of STRUCTURE: applications, parameter settings, and supporting software,” Frontiers in Genetics.\nLawson, D. J. et al., (2018), “A tutorial on how not to over-interpret STRUCTURE and ADMIXTURE bar plots,” Nature Communications.\n\nProblem Set 04\n\n\n5\nGWAS at Scale – design, LMMs, and meta-analysis\nEnd to end GWAS workflow: sample QC, variant QC, power, pitfalls. Linear mixed models (BOLT LMM/REML concepts) and SAIGE for imbalance/relatedness. Fixed/random effects meta-analysis; genomic inflation and calibration.\n\nLoh, P.-R. et al., (2015), “Efficient Bayesian mixed model analysis increases association power in large cohorts,” Nature Genetics.\n\nProblem Set 05\n\n\n6\nPrediction models in genetics\n\nSorensen Chapters 6, 7.1-7.2, 10.1, 10.5, 11.3-11.5\nWu, T. T., Chen, Y. F., Hastie, T., Sobel, E., and Lange, K. (2009), “Genome-wide association analysis by lasso penalized logistic regression,” Bioinformatics, 25, 714–721. https://doi.org/10.1093/bioinformatics/btp041.\n\n\n\n\n7\nMultiple testing & false-discovery control\n\nSorensen Chapter 8\nOtani, T., Noma, H., Nishino, J., and Matsui, S. (2018), “Re-assessment of multiple testing strategies for more efficient genome-wide association studies,” European Journal of Human Genetics, Nature Publishing Group, 26, 1038–1048. https://doi.org/10.1038/s41431-018-0125-3.\n\n\n\n\n8\nBinary traits and family-based association tests\n\nSorensen Chapter 9\nZhou, W., Bi, W., Zhao, Z., Dey, K. K., Jagadeesh, K. A., Karczewski, K. J., Daly, M. J., Neale, B. M., and Lee, S. (2022), “SAIGE-GENE+ improves the efficiency and accuracy of set-based rare variant association tests,” Nature Genetics, Nature Publishing Group, 54, 1466–1469. https://doi.org/10.1038/s41588-022-01178-w.\n\n\n\n\n9\nCausal inference & functional integration (Mendelian randomization)\n\nSanderson, E., Glymour, M. M., Holmes, M. V., Kang, H., Morrison, J., Munafò, M. R., Palmer, T., Schooling, C. M., Wallace, C., Zhao, Q., and Davey Smith, G. (2022), “Mendelian randomization,” Nature Reviews Methods Primers, 2, 1–21. https://doi.org/10.1038/s43586-021-00092-5.\n\n\n\n\n10\nAdvanced AI Topics in Statistical Genetics: Language Models for Genomics\nRecommended:\n\nJi et al., 2021\nAvsec et al., 2021\nCheng et al., 2023\nBaghbanzadeh et al., 2025\nMollerus et al., 2025",
-    "crumbs": [
-      "Schedule"
     ]
   },
   {
@@ -516,61 +509,5 @@
     "crumbs": [
       "Syllabus"
     ]
-  },
-  {
-    "objectID": "lectures/lecture-02.html#aggregation-heritability-and-segregation-analyses",
-    "href": "lectures/lecture-02.html#aggregation-heritability-and-segregation-analyses",
-    "title": "Lecture 02: Heritability, segregation, and the gene-mapping toolkit",
-    "section": "Aggregation, heritability, and segregation analyses",
-    "text": "Aggregation, heritability, and segregation analyses\n\n\n\nAggregation/heritability analyses: Investigating patterns of phenotypic correlation between relatives\nSegregation analysis: Finding support for a specific genetic model underlying inheritance patterns\n\n\n\n\n\n\n\n\nNote\n\n\nThese analysis do not use molecular genetic data… so why should we care?"
-  },
-  {
-    "objectID": "lectures/lecture-02.html#a-gap-in-estimation",
-    "href": "lectures/lecture-02.html#a-gap-in-estimation",
-    "title": "Lecture 02: Heritability, segregation, and the gene-mapping toolkit",
-    "section": "A gap in estimation",
-    "text": "A gap in estimation\n\n\n\n\n\nYoung, A. I. (2019), “Solving the missing heritability problem,” PLOS Genetics, Public Library of Science, 15, e1008222. https://doi.org/10.1371/journal.pgen.1008222.\n\n\n\n\nAggregation and heritability analyses tend to have much higher heritability estimates of traits than genotyping methods\nUnderstanding these models may help explain this delta"
-  },
-  {
-    "objectID": "lectures/lecture-02.html#recurrence-risk-ratios",
-    "href": "lectures/lecture-02.html#recurrence-risk-ratios",
-    "title": "Lecture 02: Heritability, segregation, and the gene-mapping toolkit",
-    "section": "Recurrence Risk Ratios",
-    "text": "Recurrence Risk Ratios\n\nEstimating strength of genetic aggregation across relatives\nCompares probability of a study subject being affected, given that given that a relative is affected to the general risk in the population.\nLet \\(K\\) be the population prevalence of the disease\n\n\\[\\lambda_R = P(Y_2 = 1 | Y_1 = 1) / K\\]\nWhere\n\n\\(Y_1\\) is the status of the relative (affected or not affected)\n\\(Y_2\\) is the status of the study subject (affected or not affected)\n\\(K = P(Y_1 = 1) = P(Y_2 = 1)\\) is the population prevalence of the disease\n\nWhat assumptions does this model make?"
-  },
-  {
-    "objectID": "lectures/lecture-02.html#heritability-analysis",
-    "href": "lectures/lecture-02.html#heritability-analysis",
-    "title": "Lecture 02: Heritability, segregation, and the gene-mapping toolkit",
-    "section": "Heritability Analysis",
-    "text": "Heritability Analysis\n\nAssume that a trait of interest is measured on a quantitative scale\nHeritability analysis measures the overall genetic component of a trait, relative to the total observed phenotypic variation of the trait\nIt is not analyzing “how much” a trait is passed down to offspring\nLet \\(Y\\) be the phenotype of interest, \\(G\\) be genetics, and \\(\\epsilon\\) be the environment\nGiven the model, \\(Y = G + \\epsilon\\), how do we partition out the variance?"
-  },
-  {
-    "objectID": "lectures/lecture-02.html#calculation-of-parent-offspring-genotype-distribution-for-a-pair-of-siblings",
-    "href": "lectures/lecture-02.html#calculation-of-parent-offspring-genotype-distribution-for-a-pair-of-siblings",
-    "title": "Lecture 02: Heritability, segregation, and the gene-mapping toolkit",
-    "section": "Calculation of parent-offspring genotype distribution for a pair of siblings",
-    "text": "Calculation of parent-offspring genotype distribution for a pair of siblings\n\n\n\n\n\n\n\n\n\nMating Type \\((MT)\\)\n\\(P(MT)\\)\nOffspring Genotypes \\((OG)\\)\n\\(P(OG|MT)\\)\n\n\n\n\n\\(DD \\times DD\\)\n\\(p^4\\)\n\\(\\{(DD, DD)\\}\\)\n\\(1\\)\n\n\n\\(DD \\times Dd\\)\n\\(4p^3(1-p)\\)\n\\(\\{(DD, DD), (DD, Dd), (Dd, Dd)\\}\\)\n\\(\\frac{1}{4}, \\frac{1}{2}, \\frac{1}{4}\\)\n\n\n\\(DD \\times dd\\)\n\\(2p^2(1-p)^2\\)\n\\(\\{(Dd, Dd)\\}\\)\n\\(1\\)\n\n\n\\(Dd \\times Dd\\)\n\\(4p^2(1-p)^2\\)\n\\(\\{(DD, DD), (DD, Dd), (DD, dd),\\) \\((Dd, Dd), (Dd, DD), (dd, dd)\\}\\)\n\\(\\frac{1}{16}, \\frac{1}{4}, \\frac{1}{8}, \\frac{1}{4}, \\frac{1}{4}, \\frac{1}{16}\\)\n\n\n\\(Dd \\times dd\\)\n\\(4p(1-p)^3\\)\n\\(\\{(Dd, Dd), (DD, dd), (dd, dd)\\}\\)\n\\(\\frac{1}{4}, \\frac{1}{2}, \\frac{1}{4}\\)\n\n\n\\(dd \\times dd\\)\n\\((1-p)^4\\)\n\\(\\{(dd, dd)\\}\\)\n\\(1\\)"
-  },
-  {
-    "objectID": "lectures/lecture-02.html#heritability-analysis-1",
-    "href": "lectures/lecture-02.html#heritability-analysis-1",
-    "title": "Lecture 02: Heritability, segregation, and the gene-mapping toolkit",
-    "section": "Heritability Analysis",
-    "text": "Heritability Analysis"
-  },
-  {
-    "objectID": "lectures/lecture-02.html#heritability-analysis-2",
-    "href": "lectures/lecture-02.html#heritability-analysis-2",
-    "title": "Lecture 02: Heritability, segregation, and the gene-mapping toolkit",
-    "section": "Heritability Analysis",
-    "text": "Heritability Analysis\n\nAssume trait is measured on a quantitative scale\nModel as a function of multiple QTLs:\n\n\\[\nY = \\mu + \\sum_{m=1}^M \\{a_m X_m + d_m I [X_m = 1]\\} + \\epsilon\n\\]\nWhere:\n\n\\(M\\) is the unknown number of QTLs\n\\(X_m\\) is the number of disease alleles at the \\(m\\)-th disease locus\n\\(I [X_m = 1]\\) is an indicator function that is 1 if \\(X_m = 1\\) and 0 otherwise"
-  },
-  {
-    "objectID": "lectures/lecture-02.html#heritability-analysis-3",
-    "href": "lectures/lecture-02.html#heritability-analysis-3",
-    "title": "Lecture 02: Heritability, segregation, and the gene-mapping toolkit",
-    "section": "Heritability Analysis",
-    "text": "Heritability Analysis\nThe following R code simulates the model above to demonstrate how different parameter choices affect the parent-offspring phenotypic relationship. We will vary the number of QTLs (\\(M\\)) and the presence of dominance effects (\\(d_m\\)).\n\n\n\n\n\n\nParent-offspring regression under different genetic architectures. Each point is a family. The red line is the regression slope, which estimates narrow-sense heritability (h²)."
   }
 ]

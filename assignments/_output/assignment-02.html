@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.33">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Assignment 02</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="assignment-02_files/libs/clipboard/clipboard.min.js"></script>
+<script src="assignment-02_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="assignment-02_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="assignment-02_files/libs/quarto-html/popper.min.js"></script>
+<script src="assignment-02_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="assignment-02_files/libs/quarto-html/anchor.min.js"></script>
+<link href="assignment-02_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="assignment-02_files/libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="assignment-02_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="assignment-02_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="assignment-02_files/libs/bootstrap/bootstrap-81267100e462c21b3d6c0d5bf76a3417.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<meta name="quarto:status" content="draft">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="quarto-light"><div id="quarto-draft-alert" class="alert alert-warning"><i class="bi bi-pencil-square"></i>Draft</div>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="assignment-02.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li><li><a href="assignment-02.docx"><i class="bi bi-file-word"></i>MS Word</a></li></ul></div></div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Assignment 02</h1>
+<p class="subtitle lead">PUBH 8878: Heritability, Segregation, and Gene Mapping Theory</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><em>Due: [Date TBD]</em></p>
+<section id="instructions" class="level2">
+<h2 class="anchored" data-anchor-id="instructions">Instructions</h2>
+<p>This assignment covers theoretical foundations of heritability analysis, segregation modeling, and gene mapping strategy. You will work with mathematical derivations, implement computational algorithms, and simulate genetic data to understand the statistical genetics toolkit.</p>
+<p><strong>Requirements:</strong> - Show all mathematical work - Submit well-documented R code with clear comments - Interpret results in biological context - Submit both <code>.qmd</code> source and rendered output</p>
+<hr>
+</section>
+<section id="problem-1-recurrence-risk-and-heritability-theory-25-points" class="level2">
+<h2 class="anchored" data-anchor-id="problem-1-recurrence-risk-and-heritability-theory-25-points">Problem 1: Recurrence Risk and Heritability Theory (25 points)</h2>
+<section id="part-a-mathematical-derivations-15-points" class="level3">
+<h3 class="anchored" data-anchor-id="part-a-mathematical-derivations-15-points">Part A: Mathematical Derivations (15 points)</h3>
+<p>Consider a binary trait with population prevalence <span class="math inline">\(K = 0.01\)</span> and sibling recurrence risk ratio <span class="math inline">\(\lambda_{\text{sibling}} = 25\)</span>.</p>
+<ol type="i">
+<li>Using the liability threshold model, derive the relationship between <span class="math inline">\(\lambda_{\text{sibling}}\)</span> and heritability <span class="math inline">\(h^2\)</span> on the liability scale. Start from the bivariate normal distribution of sibling liabilities and show that:</li>
+</ol>
+<p><span class="math display">\[\lambda_{\text{sibling}} = \frac{\Phi_2(T, T; h^2/2)}{K^2}\]</span></p>
+<p>where <span class="math inline">\(\Phi_2\)</span> is the bivariate normal CDF and <span class="math inline">\(T\)</span> is the liability threshold.</p>
+<ol start="2" type="i">
+<li>For low prevalence traits (<span class="math inline">\(K &lt; 0.05\)</span>), prove that this simplifies to:</li>
+</ol>
+<p><span class="math display">\[h^2 \approx \frac{\ln(\lambda_{\text{sibling}}) \cdot K^2}{i^2}\]</span></p>
+<p>where <span class="math inline">\(i = \phi(z_K)/K\)</span> is the intensity of selection. Show all approximation steps.</p>
+<ol start="3" type="i">
+<li>Calculate <span class="math inline">\(h^2\)</span> for the given parameters and compare to the exact formula.</li>
+</ol>
+</section>
+<section id="part-b-computational-implementation-10-points" class="level3">
+<h3 class="anchored" data-anchor-id="part-b-computational-implementation-10-points">Part B: Computational Implementation (10 points)</h3>
+<ol type="i">
+<li>Implement the liability threshold model in R:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Template - you need to complete this function</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>liability_heritability <span class="ot">&lt;-</span> <span class="cf">function</span>(lambda_sibling, K) {</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Compute threshold</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  z_K <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> K)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Compute intensity of selection</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  i <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(z_K) <span class="sc">/</span> K</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># YOUR CODE HERE: Implement both exact and approximate formulas</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Return list with h2_exact, h2_approx, and comparison</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Test your function with various <span class="math inline">\((\lambda_{\text{sibling}}, K)\)</span> combinations and create a plot showing when the approximation breaks down.</p>
+</section>
+</section>
+<section id="problem-2-heritability-estimation-and-bias-30-points" class="level2">
+<h2 class="anchored" data-anchor-id="problem-2-heritability-estimation-and-bias-30-points">Problem 2: Heritability Estimation and Bias (30 points)</h2>
+<section id="part-a-theoretical-analysis-15-points" class="level3">
+<h3 class="anchored" data-anchor-id="part-a-theoretical-analysis-15-points">Part A: Theoretical Analysis (15 points)</h3>
+<p><strong>2.1</strong> Consider the additive genetic model for a quantitative trait:</p>
+<p><span class="math display">\[Y = \mu + \sum_{m=1}^M a_m X_m + \epsilon\]</span></p>
+<p>where <span class="math inline">\(X_m\)</span> is the number of effect alleles at locus <span class="math inline">\(m\)</span> with allele frequency <span class="math inline">\(p_m\)</span>.</p>
+<p><strong>(a)</strong> Prove that the additive genetic variance is: <span class="math display">\[\sigma_A^2 = \sum_{m=1}^M a_m^2 \cdot 2p_m(1-p_m)\]</span></p>
+<p><strong>(b)</strong> Show that narrow-sense heritability <span class="math inline">\(h^2 = \sigma_A^2/(\sigma_A^2 + \sigma_E^2)\)</span> can be estimated from parent-offspring regression as the slope <span class="math inline">\(\beta_1\)</span> in: <span class="math display">\[Y_{\text{offspring}} = \beta_0 + \beta_1 \cdot \frac{Y_{\text{parent1}} + Y_{\text{parent2}}}{2} + \epsilon\]</span></p>
+<p><strong>(c)</strong> Derive the bias in <span class="math inline">\(\hat{h^2}\)</span> when there are shared environmental effects with correlation <span class="math inline">\(c\)</span> between relatives.</p>
+</section>
+<section id="part-b-simulation-study-15-points" class="level3">
+<h3 class="anchored" data-anchor-id="part-b-simulation-study-15-points">Part B: Simulation Study (15 points)</h3>
+<p><strong>2.2</strong> Design and implement a comprehensive simulation to study heritability estimation:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Template structure - expand this</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>simulate_heritability_study <span class="ot">&lt;-</span> <span class="cf">function</span>(n_families, n_qtl, h2_true, </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">shared_env_cor =</span> <span class="dv">0</span>, <span class="at">dom_variance_prop =</span> <span class="dv">0</span>) {</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># YOUR IMPLEMENTATION:</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 1. Simulate QTL effects and frequencies</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 2. Generate parental genotypes and phenotypes</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 3. Simulate offspring via Mendelian inheritance</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 4. Add environmental effects (including shared if specified)</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 5. Estimate h2 via multiple methods:</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="co">#    - Parent-offspring regression</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">#    - Full-sib correlation (h2 = 2*r_sib for additive model)</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="co">#    - ANOVA-based family components</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 6. Return comparison of estimates</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Requirements:</strong> - Test with different genetic architectures (oligogenic vs polygenic) - Investigate bias from shared environment and dominance - Create publication-quality plots comparing estimation methods - Discuss when each method performs best</p>
+<hr>
+</section>
+</section>
+<section id="problem-3-segregation-analysis-implementation-25-points" class="level2">
+<h2 class="anchored" data-anchor-id="problem-3-segregation-analysis-implementation-25-points">Problem 3: Segregation Analysis Implementation (25 points)</h2>
+<section id="part-a-likelihood-theory-10-points" class="level3">
+<h3 class="anchored" data-anchor-id="part-a-likelihood-theory-10-points">Part A: Likelihood Theory (10 points)</h3>
+<p><strong>3.1</strong> For a binary trait following a single-locus model with genotypes <span class="math inline">\(AA\)</span>, <span class="math inline">\(Aa\)</span>, <span class="math inline">\(aa\)</span>:</p>
+<p><strong>(a)</strong> Write the complete likelihood function for a nuclear family with <span class="math inline">\(n\)</span> offspring, given parental phenotypes and offspring phenotype vector <span class="math inline">\(\mathbf{y} = (y_1, ..., y_n)\)</span>. Include: - Penetrance parameters <span class="math inline">\(f_{AA}, f_{Aa}, f_{aa}\)</span> - Allele frequency <span class="math inline">\(p\)</span> - All possible parental genotype combinations</p>
+<p><strong>(b)</strong> Derive the EM algorithm steps for maximum likelihood estimation when parental genotypes are unknown.</p>
+<p><strong>(c)</strong> Show how to incorporate ascertainment bias correction for families selected because they contain at least one affected individual.</p>
+</section>
+<section id="part-b-computational-implementation-15-points" class="level3">
+<h3 class="anchored" data-anchor-id="part-b-computational-implementation-15-points">Part B: Computational Implementation (15 points)</h3>
+<p><strong>3.2</strong> Implement segregation analysis in R:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Template - you need to complete this</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>segregation_analysis <span class="ot">&lt;-</span> <span class="cf">function</span>(family_data, <span class="at">model =</span> <span class="st">"dominant"</span>) {</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># family_data should have columns: family_id, individual_id, </span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># father_id, mother_id, affected_status</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># YOUR IMPLEMENTATION:</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 1. Set up parameter space (p, penetrances)</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 2. Implement likelihood calculation for each family</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 3. Use optim() to find MLE</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 4. Calculate LOD scores vs sporadic model</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 5. Perform likelihood ratio tests</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 6. Return parameter estimates, standard errors, p-values</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Test your implementation with:</strong> - Simulated data from known genetic models - Real pedigree data (provide sample dataset) - Compare dominant, recessive, and additive models - Validate against published segregation analysis results</p>
+<hr>
+</section>
+</section>
+<section id="problem-4-gene-mapping-strategy-and-power-analysis-20-points" class="level2">
+<h2 class="anchored" data-anchor-id="problem-4-gene-mapping-strategy-and-power-analysis-20-points">Problem 4: Gene Mapping Strategy and Power Analysis (20 points)</h2>
+<section id="part-a-linkage-vs-association-theory-10-points" class="level3">
+<h3 class="anchored" data-anchor-id="part-a-linkage-vs-association-theory-10-points">Part A: Linkage vs Association Theory (10 points)</h3>
+<p><strong>4.1</strong> Consider two scenarios: - <strong>Scenario A</strong>: <span class="math inline">\(\lambda_{\text{sibling}} = 50\)</span>, <span class="math inline">\(h^2 = 0.85\)</span>, significant single-locus segregation - <strong>Scenario B</strong>: <span class="math inline">\(\lambda_{\text{sibling}} = 3\)</span>, <span class="math inline">\(h^2 = 0.45\)</span>, non-significant segregation</p>
+<p><strong>(a)</strong> For each scenario, calculate the expected effect size (relative risk) for association studies using the relationship: <span class="math display">\[\text{RR} \approx 1 + \frac{2p(1-p) \cdot \beta^2}{\sigma_E^2}\]</span> where <span class="math inline">\(\beta\)</span> is the allelic effect.</p>
+<p><strong>(b)</strong> Derive the sample size requirements for 80% power in linkage analysis (families needed) vs association studies (cases/controls needed) for each scenario.</p>
+<p><strong>(c)</strong> Create a decision framework: plot the boundary in <span class="math inline">\((\lambda_{\text{sibling}}, h^2)\)</span> space that separates “linkage optimal” from “association optimal” regions.</p>
+</section>
+<section id="part-b-map-distance-and-recombination-10-points" class="level3">
+<h3 class="anchored" data-anchor-id="part-b-map-distance-and-recombination-10-points">Part B: Map Distance and Recombination (10 points)</h3>
+<p><strong>4.2</strong> Implement and compare map functions:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># YOUR IMPLEMENTATION:</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>map_functions <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">haldane =</span> <span class="cf">function</span>(theta) {</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Convert recombination fraction to genetic distance (cM)</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  },</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">kosambi =</span> <span class="cf">function</span>(theta) {</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Convert with interference assumption</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  },</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add inverse functions</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">haldane_inv =</span> <span class="cf">function</span>(d_cM) {</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Convert genetic distance to recombination fraction</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  },</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">kosambi_inv =</span> <span class="cf">function</span>(d_cM) {</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Convert genetic distance to recombination fraction</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Analysis Requirements:</strong> - Plot both map functions and their differences - Show how interference affects genetic distance estimates - Calculate the maximum difference between Haldane and Kosambi functions - Discuss implications for gene mapping resolution</p>
+<hr>
+</section>
+</section>
+<section id="bonus-problem-advanced-heritability-concepts-10-points" class="level2">
+<h2 class="anchored" data-anchor-id="bonus-problem-advanced-heritability-concepts-10-points">Bonus Problem: Advanced Heritability Concepts (10 points)</h2>
+<p><strong>5.1</strong> <strong>Missing Heritability Decomposition</strong>: The lecture showed that family-based heritability estimates are often much higher than SNP-based estimates.</p>
+<p><strong>(a)</strong> Simulate a polygenic trait with 1000 QTLs where only 100 are genotyped (“tag SNPs”). Calculate: - True narrow-sense heritability - Heritability captured by tag SNPs only - “Missing heritability” = difference</p>
+<p><strong>(b)</strong> Implement a variance components model that partitions heritability into: - Common variants (MAF &gt; 5%) - Low-frequency variants (1% &lt; MAF &lt; 5%)<br>
+- Rare variants (MAF &lt; 1%) - Structural variants/CNVs</p>
+<p><strong>(c)</strong> Discuss how LD patterns, population structure, and gene-gene interactions contribute to missing heritability.</p>
+<hr>
+</section>
+<section id="submission-requirements" class="level2">
+<h2 class="anchored" data-anchor-id="submission-requirements">Submission Requirements</h2>
+<ol type="1">
+<li><strong>Code</strong>: Well-documented R functions with clear variable names and comments</li>
+<li><strong>Plots</strong>: Publication-quality figures with proper labels and captions</li>
+<li><strong>Written responses</strong>: Mathematical derivations and biological interpretations</li>
+<li><strong>Reproducibility</strong>: Set seeds for random simulations; provide session info</li>
+</ol>
+<p><strong>Grading Criteria:</strong> - Mathematical accuracy and completeness (40%) - Code quality and computational correctness (35%) - Biological interpretation and insights (15%) - Clarity of presentation (10%)</p>
+<hr>
+<p><em>This assignment integrates the theoretical foundations from Lecture 02 with hands-on computational implementation, preparing you for advanced topics in statistical genetics.</em></p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

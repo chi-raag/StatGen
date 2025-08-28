@@ -28,8 +28,90 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-04b320997c39aaccd35fd12182209112.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-6a6e82da874a0cf44b52beaf4edd27bf.css">
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -136,6 +218,16 @@
 </div>
 
 </section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-2"><a></a><span class="fu">library</span>(viridis)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: viridisLite</code></pre>
+</div>
+</div>
+</section>
 <section id="aggregation-heritability-and-segregation-analyses" class="slide level2">
 <h2>Aggregation, heritability, and segregation analyses</h2>
 <div class="columns">
@@ -154,7 +246,7 @@
 <p><strong>Note</strong></p>
 </div>
 <div class="callout-content">
-<p>These analysis <strong>do not</strong> use molecular genetic data… so why should we care?</p>
+<p>These analysis <strong>do not always</strong> use molecular genetic data… so why should we care?</p>
 </div>
 </div>
 </div>
@@ -180,127 +272,331 @@
 </ul>
 </div></div>
 </section>
-<section id="recurrence-risk-ratios" class="slide level2">
-<h2>Recurrence Risk Ratios</h2>
-<ul>
-<li>Estimating strength of genetic aggregation across relatives</li>
-<li>Compares probability of a study subject being affected, given that given that a relative is affected to the general risk in the population.</li>
-<li>Let <span class="math inline">\(K\)</span> be the population prevalence of the disease</li>
-</ul>
-<p><span class="math display">\[\lambda_R = P(Y_2 = 1 | Y_1 = 1) / K\]</span></p>
-<p>Where</p>
-<ul>
-<li><span class="math inline">\(Y_1\)</span> is the status of the relative (affected or not affected)</li>
-<li><span class="math inline">\(Y_2\)</span> is the status of the study subject (affected or not affected)</li>
-<li><span class="math inline">\(K = P(Y_1 = 1) = P(Y_2 = 1)\)</span> is the population prevalence of the disease</li>
-</ul>
-<p>What assumptions does this model make?</p>
+<section id="big-picture" class="slide level2">
+<h2>Big picture</h2>
+<ol type="1">
+<li><strong>Pattern</strong>: relatives resemble each other.</li>
+<li><strong>Quantity</strong>: convert resemblance into <span class="math inline">h^2</span> (variance components).</li>
+<li><strong>Mechanism</strong>: test explicit inheritance models with segregation likelihoods.</li>
+<li><strong>What next?</strong> Choose linkage vs association studies (details next week).</li>
+</ol>
 </section>
-<section id="heritability-analysis" class="slide level2">
-<h2>Heritability Analysis</h2>
+<section id="recurrence-risk-ratios-λ" class="slide level2">
+<h2>Recurrence risk ratios (λ)</h2>
+<p>Let <span class="math inline">K</span> be population prevalence for a binary trait. For relatives of type <span class="math inline">R</span>: <span class="math display">
+\lambda_R \;=\; \frac{\Pr(\text{case} \mid \text{has affected relative of type } R)}{K}.
+</span></p>
 <ul>
-<li>Assume that a trait of interest is measured on a quantitative scale</li>
-<li>Heritability analysis measures the overall genetic component of a trait, relative to the total observed phenotypic variation of the trait</li>
-<li>It is not analyzing “how much” a trait is passed down to offspring</li>
-<li>Let <span class="math inline">\(Y\)</span> be the phenotype of interest, <span class="math inline">\(G\)</span> be genetics, and <span class="math inline">\(\epsilon\)</span> be the environment</li>
-<li>Given the model, <span class="math inline">\(Y = G + \epsilon\)</span>, how do we partition out the variance?</li>
+<li><span class="math inline">\lambda_R&gt;1</span> indicates <strong>familial aggregation</strong>.</li>
+<li>Interpretable but <strong>descriptive</strong>: does not separate genes from shared environment.</li>
 </ul>
 </section>
-<section id="calculation-of-parent-offspring-genotype-distribution-for-a-pair-of-siblings" class="slide level2">
-<h2>Calculation of parent-offspring genotype distribution for a pair of siblings</h2>
-<table class="caption-top">
-<colgroup>
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Mating Type <span class="math inline">\((MT)\)</span></th>
-<th><span class="math inline">\(P(MT)\)</span></th>
-<th>Offspring Genotypes <span class="math inline">\((OG)\)</span></th>
-<th><span class="math inline">\(P(OG|MT)\)</span></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><span class="math inline">\(DD \times DD\)</span></td>
-<td><span class="math inline">\(p^4\)</span></td>
-<td><span class="math inline">\(\{(DD, DD)\}\)</span></td>
-<td><span class="math inline">\(1\)</span></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(DD \times Dd\)</span></td>
-<td><span class="math inline">\(4p^3(1-p)\)</span></td>
-<td><span class="math inline">\(\{(DD, DD), (DD, Dd), (Dd, Dd)\}\)</span></td>
-<td><span class="math inline">\(\frac{1}{4}, \frac{1}{2}, \frac{1}{4}\)</span></td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(DD \times dd\)</span></td>
-<td><span class="math inline">\(2p^2(1-p)^2\)</span></td>
-<td><span class="math inline">\(\{(Dd, Dd)\}\)</span></td>
-<td><span class="math inline">\(1\)</span></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(Dd \times Dd\)</span></td>
-<td><span class="math inline">\(4p^2(1-p)^2\)</span></td>
-<td><span class="math inline">\(\{(DD, DD), (DD, Dd), (DD, dd),\)</span> <span class="math inline">\((Dd, Dd), (Dd, DD), (dd, dd)\}\)</span></td>
-<td><span class="math inline">\(\frac{1}{16}, \frac{1}{4}, \frac{1}{8}, \frac{1}{4}, \frac{1}{4}, \frac{1}{16}\)</span></td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(Dd \times dd\)</span></td>
-<td><span class="math inline">\(4p(1-p)^3\)</span></td>
-<td><span class="math inline">\(\{(Dd, Dd), (DD, dd), (dd, dd)\}\)</span></td>
-<td><span class="math inline">\(\frac{1}{4}, \frac{1}{2}, \frac{1}{4}\)</span></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(dd \times dd\)</span></td>
-<td><span class="math inline">\((1-p)^4\)</span></td>
-<td><span class="math inline">\(\{(dd, dd)\}\)</span></td>
-<td><span class="math inline">\(1\)</span></td>
-</tr>
-</tbody>
-</table>
+<section id="from-lambda-to-h2-siblings" class="slide level2">
+<h2>From <span class="math inline">\lambda</span> to <span class="math inline">h^2</span> (siblings)</h2>
+<p>On the liability scale, the sibling correlation can be decomposed as <span class="math display">
+r_{\text{sib}} \approx \tfrac12 A + \tfrac14 D + C,
+</span> where <span class="math inline">A=\sigma_A^2/\sigma_L^2</span> (additive), <span class="math inline">D=\sigma_D^2/\sigma_L^2</span> (dominance), and <span class="math inline">C=\sigma_C^2/\sigma_L^2</span> (shared environment).</p>
+<p>Under <strong>additive-only</strong> genetics $ (D=0, C=0) <span class="math inline">:</span>$ r_{} h^2 h^2 . $$</p>
 </section>
-<section id="heritability-analysis-1" class="slide level2">
-<h2>Heritability Analysis</h2>
-
-<img data-src="https://www.biostat.wisc.edu/~yeshuyun/HERETIBILITY/heregre.jpg" class="r-stretch"></section>
-<section id="heritability-analysis-2" class="slide level2">
-<h2>Heritability Analysis</h2>
+<section id="heritability-definitions" class="slide level2">
+<h2>Heritability definitions</h2>
+<p>Let <span class="math inline">Y=G+E</span> with independent <span class="math inline">G,E</span>. Total variance: <span class="math inline">\sigma_Y^2=\sigma_G^2+\sigma_E^2</span>.</p>
 <ul>
-<li>Assume trait is measured on a quantitative scale</li>
-<li>Model as a function of multiple QTLs:</li>
+<li><strong>Broad-sense</strong> <span class="math inline">H^2=\sigma_G^2/\sigma_Y^2</span> (all genetic effects).</li>
+<li><strong>Narrow-sense</strong> <span class="math inline">h^2=\sigma_A^2/\sigma_Y^2</span> (additive effects only).</li>
 </ul>
-<p><span class="math display">\[
-Y = \mu + \sum_{m=1}^M \{a_m X_m + d_m I [X_m = 1]\} + \epsilon
-\]</span></p>
-<p>Where:</p>
+<p><strong>Important</strong>: <span class="math inline">h^2</span> is <strong>population- and environment-specific</strong>, not a trait constant.</p>
+</section>
+<section id="one-locus-algebra-fisher-decomposition" class="slide level2">
+<h2>One-locus algebra (Fisher decomposition)</h2>
+<p>Let a biallelic locus have allele <span class="math inline">A</span> with frequency <span class="math inline">p</span> (<span class="math inline">q=1-p</span>). Let <span class="math inline">X\in\{0,1,2\}</span> be the count of <span class="math inline">A</span>. Then <span class="math inline">E[X]=2p</span>, <span class="math inline">\operatorname{Var}(X)=2pq</span>.</p>
+<p>Using Fisher’s parameterization with <strong>average effect</strong> <span class="math inline">\alpha</span> and <strong>dominance deviation</strong> <span class="math inline">d</span>: <span class="math display">
+V_A = 2pq\,\alpha^2,\qquad \alpha = a + d(q-p),\qquad
+V_D = (2pq\,d)^2.
+</span></p>
+<p>For many loci, variances add: <span class="math inline">V_A=\sum_m 2p_mq_m\alpha_m^2</span>, <span class="math inline">V_D=\sum_m (2p_mq_m d_m)^2</span>.</p>
+</section>
+<section id="estimating-h2-from-relatives" class="slide level2">
+<h2>Estimating <span class="math inline">h^2</span> from relatives</h2>
+<h3 id="parentoffspring-regression">Parent–offspring regression</h3>
+<p>Regress offspring on <strong>mid-parent</strong>: <span class="math display">
+Y_o = \beta_0 + \beta_1 \cdot \tfrac{Y_{p1}+Y_{p2}}{2} + \varepsilon,\quad \beta_1 \approx h^2.
+</span></p>
+<h3 id="twins">Twins</h3>
+<p>Estimate correlations <span class="math inline">r_{\text{MZ}}</span>, <span class="math inline">r_{\text{DZ}}</span>. <span class="math display">
+\hat h^2 \approx 2\,(r_{\text{MZ}} - r_{\text{DZ}})\quad\text{(Falconer)}.
+</span></p>
+<p><strong>Assumptions to monitor</strong>: equal environments for MZ/DZ, random mating, no gene–environment correlation, reliable measurement.</p>
+</section>
+<section id="segregation-analysis-model-based-mechanism-testing" class="slide level2">
+<h2>Segregation analysis: model-based mechanism testing</h2>
+<p><strong>Parameters</strong> <span class="math inline">\boldsymbol{\psi}=(p, f_{AA}, f_{Aa}, f_{aa}, x)</span></p>
 <ul>
-<li><span class="math inline">\(M\)</span> is the unknown number of QTLs</li>
-<li><span class="math inline">\(X_m\)</span> is the number of disease alleles at the <span class="math inline">\(m\)</span>-th disease locus</li>
-<li><span class="math inline">\(I [X_m = 1]\)</span> is an indicator function that is 1 if <span class="math inline">\(X_m = 1\)</span> and 0 otherwise</li>
+<li><span class="math inline">p</span>: disease-allele frequency</li>
+<li><span class="math inline">f_g</span>: penetrance by genotype</li>
+<li><span class="math inline">x</span>: phenocopy rate</li>
+</ul>
+<p><strong>Pedigree likelihood</strong> (phenotypes <span class="math inline">\mathbf Y</span>, latent genotypes <span class="math inline">\mathbf G</span>): <span class="math display">
+L(\boldsymbol{\psi})=\sum_{\mathbf G}\;\prod_i \Pr(Y_i \mid G_i;\boldsymbol{\psi})\;\Pr(\mathbf G \mid p).
+</span></p>
+<ul>
+<li><strong>Ascertainment correction</strong>: divide by <span class="math inline">\Pr(\text{family ascertained}\mid\boldsymbol{\psi})</span>.</li>
+<li><strong>Model comparison</strong>: LRT or LOD vs a sporadic model.</li>
 </ul>
 </section>
-<section id="heritability-analysis-3" class="slide level2">
-<h2>Heritability Analysis</h2>
-<p>The following R code simulates the model above to demonstrate how different parameter choices affect the parent-offspring phenotypic relationship. We will vary the number of QTLs (<span class="math inline">\(M\)</span>) and the presence of dominance effects (<span class="math inline">\(d_m\)</span>).</p>
-<div class="cell quarto-layout-panel" data-layout-ncol="1">
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="lecture-02_files/figure-revealjs/unnamed-chunk-1-1.png" width="960"></p>
-<figcaption>Parent-offspring regression under different genetic architectures. Each point is a family. The red line is the regression slope, which estimates narrow-sense heritability (h²).</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</div>
-
+<section id="choosing-a-mapping-strategy-conceptual-bridge" class="slide level2">
+<h2>Choosing a mapping strategy (conceptual bridge)</h2>
+<ul>
+<li><strong>Strong major-gene signal</strong>: large <span class="math inline">\lambda_{\text{sib}}</span>, high <span class="math inline">h^2</span>, segregation fits with high penetrance ⇒ <strong>linkage</strong> in families is powerful.</li>
+<li><strong>Polygenic architecture</strong>: moderate <span class="math inline">\lambda_{\text{sib}}</span>/<span class="math inline">h^2</span>, weak single-locus fit ⇒ <strong>association</strong> in populations is preferable.</li>
+</ul>
+</section>
+<section id="worked-example-chalkboard" class="slide level2">
+<h2>Worked example (chalk/board)</h2>
+<p>Given <span class="math inline">K=1\%</span>, <span class="math inline">t=\Phi^{-1}(0.99)\approx 2.326</span>, <span class="math inline">\phi(t)\approx 0.026</span>, <span class="math inline">i\approx 0.026/0.01=2.6</span>.<br>
+If <span class="math inline">\lambda_{\text{sib}}=3</span>, then under additive-only LTM: <span class="math display">
+h^2 \approx \frac{2(3-1)}{2.6^2} \approx \frac{4}{6.76} \approx 0.59.
+</span></p>
+</section>
+<section id="summary" class="slide level2">
+<h2>Summary</h2>
+<ul>
+<li><span class="math inline">\lambda_R</span> captures <strong>familial aggregation</strong>; LTM turns it into parameters.</li>
+<li><span class="math inline">h^2</span> partitions variance into <strong>additive vs other</strong> components.</li>
+<li><strong>Segregation analysis</strong> tests explicit inheritance models via likelihoods.</li>
+<li>These results inform whether to pursue <strong>linkage</strong> or <strong>association</strong> next.</li>
+</ul>
+</section>
+<section>
+<section id="likelihood-maximum-likelihood-in-statistical-genetics" class="title-slide slide level1 center">
+<h1>Likelihood &amp; Maximum Likelihood in Statistical Genetics</h1>
 
 </section>
+<section id="learning-objectives" class="slide level2">
+<h2>Learning objectives</h2>
+<p>By the end, you should be able to:</p>
+<ul>
+<li>Explain <strong>likelihood vs.&nbsp;probability</strong> in one sentence</li>
+<li>Write a likelihood for simple models (Normal, regression)</li>
+<li>Derive/interpret the <strong>MLE</strong> &amp; its <strong>asymptotic</strong> properties</li>
+<li>Recognize <strong>ignorable vs.&nbsp;non‑ignorable</strong> selection</li>
+<li>Set up a <strong>genomic mixed model</strong> likelihood and define <span class="math inline">h_g^2</span></li>
+</ul>
+</section>
+<section id="likelihood-probability" class="slide level2">
+<h2>Likelihood ≠ Probability</h2>
+<ul>
+<li><strong>Probability</strong>: given a fixed parameter, what is the chance of the data?</li>
+</ul>
+<p><span class="math display">p(y\mid \theta)</span></p>
+<ul>
+<li><strong>Likelihood</strong>: given fixed data, how plausible is a parameter value?</li>
+</ul>
+<p><span class="math display">L(\theta\mid y) \propto p(y\mid \theta)</span></p>
+<ul>
+<li>We maximize likelihood over <span class="math inline">\theta</span> to get the <strong>MLE</strong> <span class="math inline">\hat{\theta}</span></li>
+</ul>
+</section>
+<section id="toy-example-normal-mean-known-variance" class="slide level2">
+<h2>Toy example (Normal mean, known variance)</h2>
+<p>Data: <span class="math inline">y=(11.8, 6.1, 7.1, 11.1, 5.8)</span>, <span class="math inline">\sigma^2=2</span></p>
+<p><span class="math display">
+L(\mu\mid y)\;\propto\; \exp\Big\{-\tfrac{1}{2\sigma^2}\sum_i (y_i-\mu)^2\Big\}
+</span></p>
+<p>Maximizer: <span class="math inline">\hat\mu = \bar y = 8.38</span></p>
+</section>
+<section id="toy-example-normal-mean-known-variance-1" class="slide level2">
+<h2>Toy example (Normal mean, known variance)</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">11.8</span>, <span class="fl">6.1</span>, <span class="fl">7.1</span>, <span class="fl">11.1</span>, <span class="fl">5.8</span>)</span>
+<span id="cb3-2"><a></a>s2 <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb3-3"><a></a>mu <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">4</span>, <span class="dv">14</span>, <span class="at">by =</span> .<span class="dv">01</span>)</span>
+<span id="cb3-4"><a></a>logL <span class="ot">&lt;-</span> <span class="fu">sapply</span>(mu, <span class="cf">function</span>(m) <span class="sc">-</span><span class="fu">sum</span>((y <span class="sc">-</span> m)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (<span class="dv">2</span> <span class="sc">*</span> s2))</span>
+<span id="cb3-5"><a></a>likelihood_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">mu =</span> mu, <span class="at">relative_L =</span> <span class="fu">exp</span>(logL <span class="sc">-</span> <span class="fu">max</span>(logL)))</span>
+<span id="cb3-6"><a></a><span class="fu">ggplot</span>(likelihood_data, <span class="fu">aes</span>(<span class="at">x =</span> mu, <span class="at">y =</span> relative_L)) <span class="sc">+</span></span>
+<span id="cb3-7"><a></a>    <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb3-8"><a></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">mean</span>(y), <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb3-9"><a></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(mu), <span class="at">y =</span> <span class="st">"Relative L"</span>) <span class="sc">+</span></span>
+<span id="cb3-10"><a></a>    <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="lecture-02_files/figure-revealjs/unnamed-chunk-2-1.png" width="960" class="r-stretch"></section>
+<section id="loglikelihood-score-information" class="slide level2">
+<h2>Loglikelihood, score, information</h2>
+<ul>
+<li><strong>Loglikelihood</strong>: <span class="math inline">\ell(\theta\mid y) = \sum_i \log p(y_i\mid \theta)</span></li>
+<li><strong>Score</strong>: <span class="math inline">S(\theta) = \partial \ell/\partial \theta</span> (zero at interior maximum)</li>
+<li><strong>Observed information</strong>: <span class="math inline">I(\theta\mid y) = -\partial^2\ell/\partial\theta\partial\theta^\top</span></li>
+<li><strong>Expected information (Fisher)</strong>: <span class="math inline">i(\theta) = \mathbb E[I(\theta\mid Y)]</span></li>
+</ul>
+<p>As <span class="math inline">n\to\infty</span>:<br>
+<span class="math inline">\hat\theta \overset{approx}{\sim} \mathcal N(\theta_0,\; i(\theta_0)^{-1})</span> (standard errors from <span class="math inline">i^{-1}</span>).</p>
+</section>
+<section id="three-mustknow-ml-facts" class="slide level2">
+<h2>Three must‑know ML facts</h2>
+<ol type="1">
+<li><strong>Consistency</strong> (<span class="math inline">\hat\theta\to\theta_0</span>) &amp; <strong>asymptotic normality</strong></li>
+<li><strong>Cramér–Rao lower bound</strong>: asymptotically, MLE attains the best possible variance</li>
+<li><strong>Invariance</strong>: the MLE of <span class="math inline">g(\theta)</span> is <span class="math inline">g(\hat\theta)</span></li>
+</ol>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Warning</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>Non‑unique or boundary solutions; flat likelihoods</li>
+<li>Slow/failed convergence to local maxima in multi‑parameter models</li>
+<li>Asymptotics can misbehave at boundaries or with small <span class="math inline">n</span></li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="example-1-linear-regression-as-a-likelihood" class="slide level2">
+<h2>Example 1 — Linear regression as a likelihood</h2>
+<p>Model (offspring on mid‑parent): <span class="math inline">y_i = \beta_0 + \beta_1 x_i + e_i</span>, <span class="math inline">e_i\sim\mathcal N(0,\sigma^2)</span>.</p>
+<ul>
+<li>Likelihood <span class="math inline">\Rightarrow</span> loglikelihood</li>
+</ul>
+<p><span class="math display">
+\ell(\beta_0,\beta_1,\sigma^2) = -\tfrac{n}{2}\log\sigma^2 - \tfrac{1}{2\sigma^2}\sum_i (y_i-\beta_0-\beta_1 x_i)^2 + C
+</span></p>
+<ul>
+<li>MLEs: <strong>OLS</strong> solutions for <span class="math inline">\beta</span>, and <span class="math inline">\hat\sigma^2 = \tfrac{1}{n}\sum \hat e_i^2</span></li>
+<li>In genetics, <span class="math inline">\beta_1</span> can estimate <strong>heritability</strong> from parent–offspring regression (with caveats)</li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a><span class="co"># Fit and report (not executed)</span></span>
+<span id="cb4-2"><a></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x)</span>
+<span id="cb4-3"><a></a><span class="fu">coef</span>(fit); <span class="fu">sigma</span>(fit)<span class="sc">^</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="what-if-errors-are-correlated-enter-gls" class="slide level2">
+<h2>What if errors are correlated? Enter GLS</h2>
+<p><strong>Problem</strong>: Family members share environments: <span class="math inline">\text{Cov}(e_i, e_j) \neq 0</span> for relatives</p>
+<p><strong>OLS assumption violated</strong>: <span class="math inline">\mathbb{E}[ee^\top] = \sigma^2 I</span> no longer holds</p>
+<p><strong>Correct model</strong>: <span class="math inline">y = X\beta + e</span> where <span class="math inline">e \sim \mathcal{N}(0, \Sigma)</span> and <span class="math inline">\Sigma_{ij} = \text{Cov}(e_i, e_j)</span></p>
+<p><strong>Generalized Least Squares (GLS) solution</strong>: <span class="math display">
+\hat{\beta}_{\text{GLS}} = (X^\top \Sigma^{-1} X)^{-1} X^\top \Sigma^{-1} y
+</span></p>
+<p><strong>Why this matters</strong>: - OLS gives <span class="math inline">\mathbb{E}[\hat{\beta}_{\text{OLS}}] = \beta</span> (still unbiased) - But <span class="math inline">\text{Var}(\hat{\beta}_{\text{OLS}}) &gt; \text{Var}(\hat{\beta}_{\text{GLS}})</span> (inefficient) - <strong>Standard errors from OLS are wrong</strong>: invalid inference</p>
+</section>
+<section id="example-2-transformations-invariance" class="slide level2">
+<h2>Example 2 — Transformations &amp; invariance</h2>
+<p>If <span class="math inline">X\sim\mathcal N(\mu,1)</span> and <span class="math inline">Y=\exp(X)</span>, then <span class="math inline">Y</span> is <strong>log‑Normal</strong>: <span class="math inline">p_Y(y)=\frac{1}{y\sqrt{2\pi}}\exp\{-\tfrac{1}{2}(\log y - \mu)^2\}</span></p>
+<p><strong>Invariance</strong>: MLE of <span class="math inline">\mu</span> from <span class="math inline">Y</span> equals the MLE from <span class="math inline">\log Y</span> using the Normal likelihood.</p>
+</section>
+<section id="statistical-genetics-application-why-log-transform-is-ok" class="slide level2">
+<h2>Statistical genetics application: Why log-transform is OK</h2>
+<p><strong>Common scenario</strong>: Gene expression levels, protein concentrations, or allele frequencies often follow log-normal distributions due to multiplicative biological processes.</p>
+<p><strong>Example</strong>: If fold-change in gene expression <span class="math inline">Y = \exp(X)</span> where <span class="math inline">X \sim \mathcal{N}(\mu, \sigma^2)</span>, then: - Direct analysis of <span class="math inline">Y</span> requires complex log-normal likelihood - <strong>Log-transformation</strong>: Analyze <span class="math inline">\log Y = X</span> with simple normal likelihood - <strong>By invariance</strong>: <span class="math inline">\hat{\mu}</span> from log-normal analysis of <span class="math inline">Y</span> = <span class="math inline">\hat{\mu}</span> from normal analysis of <span class="math inline">\log Y</span></p>
+<p><strong>Why this matters</strong>: Log-transformation linearizes multiplicative genetic effects, stabilizes variance across expression levels, and makes standard linear models (ANOVA, regression) appropriate for GWAS and eQTL analysis.</p>
+</section>
+<section id="example-3-selection-thats-ignorable-ascertainment-in-families" class="slide level2">
+<h2>Example 3 — Selection that’s <em>ignorable</em> (ascertainment in families)</h2>
+<p>Family studies often ascertain through probands with extreme phenotypes. Consider blood pressure measurements in families where: - All siblings have baseline BP measured: <span class="math inline">y_{i1} = \mu + g_i + e_{i1}</span> - Only siblings with high baseline BP (<span class="math inline">y_{i1} &gt; c</span>) get follow-up: <span class="math inline">y_{i2} = \mu + \delta + g_i + e_{i2}</span></p>
+<p>Here <span class="math inline">g_i \sim \mathcal{N}(0, \sigma_g^2)</span> represents genetic effects, errors are <span class="math inline">\mathcal{N}(0, \sigma_e^2)</span>.</p>
+<p><strong>The profound insight:</strong> While selection obviously biases estimates of <span class="math inline">\mu</span>, it is <strong>ignorable</strong> for estimating <span class="math inline">\delta</span> (treatment effect) because:</p>
+<p><span class="math display">P(y_{i2} \mid y_{i1}, \text{selected}) = P(y_{i2} \mid y_{i1})</span></p>
+<p><strong>Why this matters:</strong> When you condition on the selection variable (<span class="math inline">y_{i1}</span>), the selection mechanism becomes irrelevant for estimating <span class="math inline">\delta</span>. The conditional likelihood <span class="math inline">P(y_2 \mid y_1)</span> gives unbiased estimates even though <span class="math inline">P(y_1)</span> is heavily biased.</p>
+<p><strong>Clinical/genetic relevance:</strong> In family studies with extreme proband ascertainment, you can still get unbiased estimates of heritability, treatment effects, and gene-environment interactions by properly conditioning on the ascertainment phenotype.</p>
+</section>
+<section id="example-3-selection-thats-ignorable-ascertainment-in-families-1" class="slide level2">
+<h2>Example 3 — Selection that’s <em>ignorable</em> (ascertainment in families)</h2>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 488 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+</div>
+
+</div>
+<img data-src="lecture-02_files/figure-revealjs/unnamed-chunk-3-1.png" width="960" class="r-stretch"></section>
+<section id="example-3-selection-thats-ignorable-ascertainment-in-families-2" class="slide level2">
+<h2>Example 3 — Selection that’s <em>ignorable</em> (ascertainment in families)</h2>
+
+<img data-src="lecture-02_files/figure-revealjs/unnamed-chunk-4-1.png" width="960" class="r-stretch"></section>
+<section id="example-4-truncation-nonignorable" class="slide level2">
+<h2>Example 4 — Truncation (non‑ignorable)</h2>
+<p>If you only observe <span class="math inline">Y</span> when <span class="math inline">Y&gt;T</span>, you must use the <strong>truncated</strong> density: <span class="math inline">p(y\mid Y&gt;T,\theta) = \dfrac{p(y\mid\theta)}{1-F(T\mid\theta)},\quad y&gt;T</span></p>
+<ul>
+<li>Likelihood multiplies the usual density by a normalizing factor</li>
+<li>Estimators from the <em>untruncated</em> likelihood are <strong>biased</strong></li>
+<li>Solutions: EM, numerical ML, or Bayesian methods</li>
+</ul>
+</section>
+<section id="example-4-truncation-nonignorable-1" class="slide level2">
+<h2>Example 4 — Truncation (non‑ignorable)</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb7-2"><a></a></span>
+<span id="cb7-3"><a></a>regular_loglik <span class="ot">&lt;-</span> <span class="cf">function</span>(mu, sigma, y) {</span>
+<span id="cb7-4"><a></a>    <span class="fu">sum</span>(<span class="fu">dnorm</span>(y, mu, sigma, <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb7-5"><a></a>}</span>
+<span id="cb7-6"><a></a>truncated_loglik <span class="ot">&lt;-</span> <span class="cf">function</span>(mu, sigma, y, T) {</span>
+<span id="cb7-7"><a></a>    <span class="fu">sum</span>(<span class="fu">dnorm</span>(y, mu, sigma, <span class="at">log =</span> <span class="cn">TRUE</span>)) <span class="sc">-</span> <span class="fu">length</span>(y) <span class="sc">*</span> <span class="fu">log</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(T, mu, sigma))</span>
+<span id="cb7-8"><a></a>}</span>
+<span id="cb7-9"><a></a></span>
+<span id="cb7-10"><a></a><span class="co"># Data: only observe values &gt; T=4 (left truncation)</span></span>
+<span id="cb7-11"><a></a>mu <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb7-12"><a></a>sigma <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb7-13"><a></a>T <span class="ot">&lt;-</span> <span class="dv">4</span></span>
+<span id="cb7-14"><a></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span>
+<span id="cb7-15"><a></a>y <span class="ot">&lt;-</span> y[y <span class="sc">&gt;</span> T]</span>
+<span id="cb7-16"><a></a>mu_grid <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">2</span>, <span class="dv">10</span>, <span class="at">by =</span> <span class="fl">0.01</span>)</span>
+<span id="cb7-17"><a></a></span>
+<span id="cb7-18"><a></a><span class="co"># Calculate both likelihoods</span></span>
+<span id="cb7-19"><a></a>logL_regular <span class="ot">&lt;-</span> <span class="fu">sapply</span>(mu_grid, <span class="cf">function</span>(m) <span class="fu">regular_loglik</span>(m, sigma, y))</span>
+<span id="cb7-20"><a></a>logL_truncated <span class="ot">&lt;-</span> <span class="fu">sapply</span>(mu_grid, <span class="cf">function</span>(m) <span class="fu">truncated_loglik</span>(m, sigma, y, T))</span>
+<span id="cb7-21"><a></a></span>
+<span id="cb7-22"><a></a><span class="co"># Create comparison data</span></span>
+<span id="cb7-23"><a></a>likelihood_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb7-24"><a></a>    <span class="at">mu =</span> <span class="fu">rep</span>(mu_grid, <span class="dv">2</span>),</span>
+<span id="cb7-25"><a></a>    <span class="at">relative_L =</span> <span class="fu">c</span>(</span>
+<span id="cb7-26"><a></a>        <span class="fu">exp</span>(logL_regular <span class="sc">-</span> <span class="fu">max</span>(logL_regular)),</span>
+<span id="cb7-27"><a></a>        <span class="fu">exp</span>(logL_truncated <span class="sc">-</span> <span class="fu">max</span>(logL_truncated))</span>
+<span id="cb7-28"><a></a>    ),</span>
+<span id="cb7-29"><a></a>    <span class="at">type =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Regular (BIASED)"</span>, <span class="st">"Truncated (CORRECT)"</span>), <span class="at">each =</span> <span class="fu">length</span>(mu_grid))</span>
+<span id="cb7-30"><a></a>)</span>
+<span id="cb7-31"><a></a></span>
+<span id="cb7-32"><a></a><span class="co"># Plot comparison</span></span>
+<span id="cb7-33"><a></a><span class="fu">ggplot</span>(likelihood_data, <span class="fu">aes</span>(<span class="at">x =</span> mu, <span class="at">y =</span> relative_L, <span class="at">color =</span> type)) <span class="sc">+</span></span>
+<span id="cb7-34"><a></a>    <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb7-35"><a></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">mean</span>(y), <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb7-36"><a></a>    <span class="fu">labs</span>(</span>
+<span id="cb7-37"><a></a>        <span class="at">x =</span> <span class="fu">expression</span>(mu), <span class="at">y =</span> <span class="st">"Relative Likelihood"</span>,</span>
+<span id="cb7-38"><a></a>        <span class="at">color =</span> <span class="st">"Likelihood Type"</span>,</span>
+<span id="cb7-39"><a></a>        <span class="at">title =</span> <span class="st">"Truncated vs Regular Likelihood"</span></span>
+<span id="cb7-40"><a></a>    ) <span class="sc">+</span></span>
+<span id="cb7-41"><a></a>    <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">16</span>) <span class="sc">+</span></span>
+<span id="cb7-42"><a></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
+<span id="cb7-43"><a></a>    <span class="fu">scale_color_viridis_d</span>(<span class="at">end =</span> .<span class="dv">8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="example-4-truncation-nonignorable-2" class="slide level2">
+<h2>Example 4 — Truncation (non‑ignorable)</h2>
+
+<img data-src="lecture-02_files/figure-revealjs/trunc-plot-1.png" width="960" class="r-stretch"></section>
+<section id="example-4---truncation-nonignorable" class="slide level2">
+<h2>Example 4 - Truncation (non‑ignorable)</h2>
+
+<img data-src="lecture-02_files/figure-revealjs/unnamed-chunk-5-1.png" width="960" class="r-stretch"></section>
+<section id="summary-key-takeaways" class="slide level2">
+<h2>Summary &amp; key takeaways</h2>
+<ul>
+<li>Likelihood is your modeling <strong>workhorse</strong>; MLEs are asymptotically efficient</li>
+<li>Account for the <strong>data collection mechanism</strong> (ignorable vs non‑ignorable)</li>
+<li>Genomic models are just <strong>Gaussian hierarchies</strong> with a clever covariance</li>
+<li>When in doubt, <strong>simulate</strong> to check intuition</li>
+</ul>
+
+
+</section></section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">
@@ -322,7 +618,6 @@ Y = \mu + \sum_{m=1}^M \{a_m X_m + d_m I [X_m = 1]\} + \epsilon
   <script src="../site_libs/revealjs/plugin/notes/notes.js"></script>
   <script src="../site_libs/revealjs/plugin/search/search.js"></script>
   <script src="../site_libs/revealjs/plugin/zoom/zoom.js"></script>
-  <script src="../site_libs/revealjs/plugin/math/math.js"></script>
   <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
 
   <script>
@@ -491,27 +786,9 @@ Y = \mu + \sum_{m=1}^M \{a_m X_m + d_m I [X_m = 1]\} + \epsilon
         // Factor of the display size that should remain empty around the content
         margin: 0.1,
 
-        math: {
-          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js',
-          config: 'TeX-AMS_HTML-full',
-          tex2jax: {
-            inlineMath: [['\\(','\\)']],
-            displayMath: [['\\[','\\]']],
-            balanceBraces: true,
-            processEscapes: false,
-            processRefs: true,
-            processEnvironments: true,
-            preview: 'TeX',
-            skipTags: ['script','noscript','style','textarea','pre','code'],
-            ignoreClass: 'tex2jax_ignore',
-            processClass: 'tex2jax_process'
-          },
-        },
-
         // reveal.js plugins
         plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
 
-          RevealMath,
           RevealNotes,
           RevealSearch,
           RevealZoom
