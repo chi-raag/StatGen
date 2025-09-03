@@ -1,289 +1,286 @@
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
+---
+title: "Lecture 02: Heritability, segregation, and the gene-mapping toolkit"
+subtitle: PUBH 8878, Statistical Genetics
+format: 
+    revealjs:
+        theme: [default, "custom.scss"]
+        slide-number: true
+        chalkboard: true
+        html-math-method: katex
+execute:
+  freeze: auto
+  echo: true
+  warning: true
+engine: knitr
+bibliography: references.bib
+csl: https://www.zotero.org/styles/bioinformatics
+draft: true
+---
+
+```{r, echo = F, warning = F, message = F}
 library(ggplot2)
 library(viridis)
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
+```
+
+
+## Agenda
+
+- MLE Review
+- Narrow-and broad-sense heritability: definitions and interpretation
+- Estimating $h^2$ from pedigrees
+- Variance components via pedigrees (LMM with $A$-matrix)
+- Binary traits: liability-threshold, observed vs. liability scales
+- Familial aggregation for binary traits: $\lambda_R$ (concept $\rightarrow$ model)
+- Segregation analysis: modeling inheritance without markers
+- Ascertainment as conditioning (truncation viewpoint)
+
+
+## MLE essentials
+
+:::: columns
+::: {.column width="56%"}
+
+- Probability vs Likelihood:  
+  $L(\theta\mid y)\propto p(y\mid\theta)$ (fix $y$, vary $\theta$).
+
+- Log-likelihood / score / information:  
+  $\ell(\theta)=\sum_i \log p(y_i\mid\theta)$,  
+  $S(\theta)=\partial\ell/\partial\theta$,  
+  $I(\theta)=-\partial^2\ell/\partial\theta\partial\theta^\top$.
+
+- MLE: $\hat\theta=\arg\max_\theta \ell(\theta)$.
+
+- Large-sample:  
+  $\hat\theta \approx \mathcal N\!\big(\theta_0,\; i(\theta_0)^{-1}\big)$,  
+  $i(\theta)=\mathbb E[I(\theta\mid Y)]$.  
+  Invariance: MLE of $g(\theta)$ is $g(\hat\theta)$.
+
+:::
+::: {.column width="44%"}
+
+::: {.callout-tip}
+Regression as a likelihood  
+If $e\sim\mathcal N(0,\sigma^2 I)$, then OLS $=$ MLE for $\beta$;  
+$\hat\sigma^2=\tfrac{1}{n}\sum \hat e_i^2$.
+:::
+
+::: {.callout-warning}
+Pitfalls  
+Non-unique maxima, flat ridges, boundary solutions, small-sample failures of asymptotics.
+:::
+
+:::
+::::
+
+## LRT (unrestricted vs restricted MLE)
+
+- Goal: test $H_0\!:\,\theta=\theta_0$ in a model with log-likelihood $\ell(\theta,\eta)$ and nuisance $\eta$.
+- Unrestricted MLE: $(\hat\theta,\hat\eta) = \arg\max_{\theta,\eta} \ell(\theta,\eta)$.
+- Restricted MLE under $H_0$: $\hat\eta_0 = \arg\max_{\eta} \ell(\theta_0,\eta)$.
+- Test statistic (fit improvement): $\Lambda = 2\{\ell(\hat\theta,\hat\eta) - \ell(\theta_0,\hat\eta_0)\}$.
+- Interpretation: how much better the unrestricted fit is than the restricted fit; large values argue against $H_0$.
+- Asymptotics: $\Lambda \overset{d}{\to} \chi^2_q$ with $q$ constraints (here $q{=}1$). p-value: $1-F_{\chi^2_q}(\Lambda)$.
+
+::: {.callout-warning}
+Variance-component caveat  
+When testing a variance component $\sigma^2=0$ (boundary), the LRT null is a mixture (e.g., $\tfrac{1}{2}\chi^2_0 + \tfrac{1}{2}\chi^2_1$); standard $\chi^2$ reference is invalid. Restricted LRTs or score tests are common alternatives.
+:::
+
+## Aggregation, heritability, and segregation analyses
+
+:::::: columns
+:::: {.column width="35%"}
+-   **Aggregation/heritability analyses**: Investigating patterns of phenotypic correlation between relatives
+-   **Segregation analysis**: Finding support for a specific genetic model underlying inheritance patterns
+
+::: {.callout-note .fragment}
+These analyses **do not always** use molecular genetic data… so why should we care?
+:::
+::::
+
+::: {.column width="65%"}
+![](https://www.cell.com/cms/10.1016/j.cell.2018.04.032/asset/c2ada063-7d56-4685-8c66-3dcb8e71217b/main.assets/fx1_lrg.jpg)
+:::
+::::::
+
+## A gap in estimation
+
+::::: columns
+::: {.column width="80%"}
+![Young, A. I. (2019), “Solving the missing heritability problem,” PLOS Genetics, Public Library of Science, 15, e1008222. https://doi.org/10.1371/journal.pgen.1008222.](https://journals.plos.org/plosgenetics/article/figure/image?size=large&id=10.1371/journal.pgen.1008222.g001)
+:::
+
+::: {.column width="20%"}
+-   Aggregation and heritability analyses tend to have **much higher heritability** estimates of traits than genotyping methods
+-   Understanding these models may help **explain this delta**
+:::
+:::::
+
+## Discussion
+
+
+1. The author frames the "missing heritability" problem as the discrepancy between estimates from twin studies and those from early GWAS. Based on the text, what is the core assumption of the classical twin study design for estimating heritability? How might a violation of this assumption lead to an overestimation of heritability for certain traits?
+
+2. The author argues that methods like RDR and Sib-Regression are more robust against certain biases. What specific confounding factor, prevalent in population-based genomic studies, are these family-based designs better at controlling for?
+
+3. If, as the author suggests, the true narrow-sense heritability of a trait like height is closer to the 60-70% estimated by RDR and Sib-Regression than the 80% from twin studies, what are the primary sources of the remaining "gap"? Does this completely solve the missing heritability problem, or does it redefine it?
+
+## Heritability, first principles
+
+Let $Y = G + E$ 
+
+- Trait Variance: $\operatorname{Var}(Y)$
+- Variance due to genes: $\operatorname{Var}(G)$
+- Variance due to environment: $\operatorname{Var}(E)$.
+
+If we assume independence of $G$ and $E$, then
+$$\operatorname{Var}(Y) = \operatorname{Var}(G) + \operatorname{Var}(E)$$
+
+## Heritability, first principles
+
+We can decompose $\operatorname{Var}(G)$ into different genetic effects:
+- Additive effects: $A$
+- Dominance effects: $D$
+- Epistatic effects: $I$
+
+So we can write:
+
+$$\operatorname{Var}(Y) = \operatorname{Var}(A) + \operatorname{Var}(D) + \operatorname{Var}(I) + \operatorname{Var}(E)$$
+
+- Broad-sense: $H^2 = \operatorname{Var}(A) + \operatorname{Var}(D) + \operatorname{Var}(I) / \operatorname{Var}(Y)$
+- Narrow-sense: $h^2 =\operatorname{Var}(A) / \operatorname{Var}(Y)$ 
+- Context matters: $h^2$ depends on population, environment, and measurement; it is not a trait constant.
+
+::: {.callout-warning}
+Familial aggregation $\neq$ heritability. Shared environment and assortment can produce aggregation without genetic causation.
+:::
+
+## Estimating $h^2$ from relatives (marker-free)
+
+### Parent-offspring regression
+
+$$
+Y_{\text{offspring}} = \alpha + \beta \cdot Y_{\text{mid-parent}} + \varepsilon
+$$
+
+- By definition, $\beta = \frac{\operatorname{Cov}(Y_{\text{offspring}}, Y_{\text{mid-parent}})}{\operatorname{Var}(Y_{\text{mid-parent}})}$.
+
+- Given that an offspring inherits half its genes from each parent, $\operatorname{Cov}(Y_{\text{offspring}}, Y_{\text{mid-parent}}) = \frac{1}{2}\operatorname{Var}(A)$ 
+
+## Estimating $h^2$ from relatives (marker-free)
+
+### Parent-offspring regression
+
+\begin{align*}
+\operatorname{Var}(Y_{\text{mid-parent}}) 
+&= \operatorname{Var}\left(\frac{Y_{\text{parent1}} + Y_{\text{parent2}}}{2}\right) \\
+&= \frac{1}{4}\left(\operatorname{Var}(Y) + \operatorname{Var}(Y)\right) \\
+&= \frac{1}{2}\operatorname{Var}(Y)
+\end{align*}
+
+Plugging this back into the expression for $\beta$:
+
+$$\beta = \frac{\frac{1}{2}\operatorname{Var}(A)}{\frac{1}{2}\operatorname{Var}(Y)} = \frac{\operatorname{Var}(A)}{\operatorname{Var}(Y)} = h^2$$
+
+## Estimating $h^2$ from relatives (marker-free)
+
+### Twin Studies
+
+- Assume equal environments for MZ and DZ twins, and a simplified model
+- $\operatorname{Var}(Y) = \operatorname{Var}(A) + \operatorname{Var}(E)$
+- $h^2 = 2(r_{\text{MZ}} - r_{\text{DZ}})$
+
+where $r_{\text{MZ}}$ and $r_{\text{DZ}}$ are the correlations between monozygotic and dizygotic twins, respectively.
+
+## Pedigree variance components (continuous traits)
+
+Model:
+$$
+\mathbf{Y} = \mathbf{X}\boldsymbol{\beta} + \mathbf{Z}\mathbf{u} + \boldsymbol{\varepsilon},\quad
+\mathbf{u} \sim \mathcal{N}(\mathbf{0}, \mathbf{A}\sigma_A^2),\quad
+\boldsymbol{\varepsilon} \sim \mathcal{N}(\mathbf{0}, \mathbf{I}\sigma_E^2),
+$$
+
+where $\mathbf{A}$ is the pedigree additive relationship matrix with $A_{ij}=2\phi_{ij}$.
+
+- Heritability: $h^2 = \sigma_A^2 / (\sigma_A^2 + \sigma_E^2)$.
+- REML estimates $(\sigma_A^2,\sigma_E^2)$ efficiently; classical family estimators are special cases under balanced designs.
+- ACE (twin) view: $\operatorname{Cov}(\text{MZ}) = A + C$, $\operatorname{Cov}(\text{DZ}) = \tfrac{1}{2}A + C$; $h^2 = \operatorname{Var}(A)/\operatorname{Var}(Y)$, etc.
+
+::: {.callout-warning}
+Boundary testing: testing $\sigma_A^2=0$ is on the boundary. The LRT null is the mixture $\tfrac{1}{2}\chi_0^2 + \tfrac{1}{2}\chi_1^2$ (or use an RLRT).
+:::
+
+## Binary traits via the liability-threshold model
+
+Idea: a binary phenotype arises when a continuous liability $\ell$ crosses a threshold $T$.
+
+$$
+Y = \begin{cases}
+1 & \text{if } \ell > T,\
+0 & \text{if } \ell \le T,
+\end{cases}
+$$
+
+- $\ell = G + E,\quad G \sim \mathcal{N}(0,\sigma_G^2),\ E \sim \mathcal{N}(0,\sigma_E^2)$
+
+- Population prevalence: $K = \Pr(\ell > T) = 1 - \Phi(T)$ with $T = \Phi^{-1}(1-K)$.
+- Liability-scale heritability: $h_\ell^2 = \sigma_G^2 / (\sigma_G^2 + \sigma_E^2)$.
+
+::: {.callout-warning}
+Assumptions: normal liability, single threshold, no $G\times E$ on the liability scale, correct $K$.
+:::
+
+## Probit view and logistic note
+
+- Probit GLM/GLMM corresponds to a normal-liability threshold model; adding pedigree random effects on the probit scale estimates liability-scale variance components.
+
+## Observed vs. liability-scale $h^2$
+
+For an unascertained sample with sample prevalence $P=K$,
+$$
+h_{\text{obs}}^2 ;\approx; h_\ell^2 \cdot \frac{\phi(T)^2}{K(1-K)},\qquad T=\Phi^{-1}(1-K).
+$$
+
+For case–control sampling with sample prevalence $P \ne K$,
+$$
+h_\ell^2 ;\approx; h_{\text{obs}}^2 \cdot \frac{K^2(1-K)^2}{\phi(T)^2\, P(1-P)}.
+$$
+
+::: {.callout-tip}
+Low-prevalence traits ($K \ll 0.5$) often have $h_{\text{obs}}^2 \ll h_\ell^2$. Always report the scale, $K$, and (if applicable) $P$.
+:::
+
+
+## Ascertainment as conditioning (truncation view)
+
+If we only observe $Y$ under an event $A$ (e.g., $Y$ recorded only when $Y>T$ or when a proband is affected), the correct likelihood uses the conditional density
+$$
+p(y \mid A, \theta) ;=; \frac{p(y \mid \theta),\mathbf{1}{y \in A}}{\Pr(A \mid \theta)}.
+$$
+
+- Ignoring ascertainment biases parameters (e.g., means, prevalences, and regression slopes).
+- The liability-threshold model and segregation analysis both require conditioning on how families were recruited.
+
+
+## Segregation analysis (no markers)
+
+Goal: compare inheritance models (major gene vs polygenic vs mixed) using family phenotypes.
+
+- Likelihood: specify penetrance by genotype $\Rightarrow$ build family likelihood; condition on ascertainment (e.g., proband affected).
+- Dominant example ($Dd \times dd$): if $p_D$ is the offspring affected probability, then with $n$ children and $n_A$ affected,
+- $N_A \sim \operatorname{Binom}(n, p_D)$
+- $\log L(p_D \mid n_A,n) = n_A \log p_D + (n-n_A)\log(1-p_D)$
+- Recessive note ($Dd \times Dd$): unaffected genotypes are ambiguous unless carriers are observed (harder identifiability).
+- Pitfalls: reduced penetrance, phenocopies, ascertainment, HWE assumptions.
+
+## Summary & key takeaways
+
+- Heritability: $H^2$ vs $h^2$; interpretation is population- and environment-specific.
+- Variance components (pedigrees): LMM with $A$-matrix unifies family estimators; handle boundary tests correctly.
+- Binary traits: liability-threshold, proper scale conversion, and explicit prevalence reporting.
+- Aggregation: $\lambda_R$ is intuitive; connect it to liability via $r_R$.
+- Segregation: fit penetrance-based likelihoods; condition on ascertainment.
+- Method habit: when unsure, simulate to check intuition and bias under ascertainment.
+
+## References
