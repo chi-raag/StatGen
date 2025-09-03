@@ -509,5 +509,131 @@
     "crumbs": [
       "Syllabus"
     ]
+  },
+  {
+    "objectID": "lectures/lecture-02.html#agenda",
+    "href": "lectures/lecture-02.html#agenda",
+    "title": "Lecture 02: Heritability, segregation, and the gene-mapping toolkit",
+    "section": "Agenda",
+    "text": "Agenda\n\nMLE Review\nNarrow-and broad-sense heritability: definitions and interpretation\nEstimating h^2 from pedigrees\nVariance components via pedigrees (LMM with A-matrix)\nBinary traits: liability-threshold, observed vs. liability scales\nFamilial aggregation for binary traits: \\lambda_R (concept \\rightarrow model)\nSegregation analysis: modeling inheritance without markers\nAscertainment as conditioning (truncation viewpoint)"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#mle-essentials",
+    "href": "lectures/lecture-02.html#mle-essentials",
+    "title": "Lecture 02: Heritability, segregation, and the gene-mapping toolkit",
+    "section": "MLE essentials",
+    "text": "MLE essentials\n\n\n\nProbability vs Likelihood:\nL(\\theta\\mid y)\\propto p(y\\mid\\theta) (fix y, vary \\theta).\nLog-likelihood / score / information:\n\\ell(\\theta)=\\sum_i \\log p(y_i\\mid\\theta),\nS(\\theta)=\\partial\\ell/\\partial\\theta,\nI(\\theta)=-\\partial^2\\ell/\\partial\\theta\\partial\\theta^\\top.\nMLE: \\hat\\theta=\\arg\\max_\\theta \\ell(\\theta).\nLarge-sample:\n\\hat\\theta \\approx \\mathcal N\\!\\big(\\theta_0,\\; i(\\theta_0)^{-1}\\big),\ni(\\theta)=\\mathbb E[I(\\theta\\mid Y)].\nInvariance: MLE of g(\\theta) is g(\\hat\\theta).\n\n\n\n\n\n\n\n\nTip\n\n\nRegression as a likelihood\nIf e\\sim\\mathcal N(0,\\sigma^2 I), then OLS = MLE for \\beta;\n\\hat\\sigma^2=\\tfrac{1}{n}\\sum \\hat e_i^2.\n\n\n\n\n\n\n\n\n\nWarning\n\n\nPitfalls\nNon-unique maxima, flat ridges, boundary solutions, small-sample failures of asymptotics."
+  },
+  {
+    "objectID": "lectures/lecture-02.html#lrt-unrestricted-vs-restricted-mle",
+    "href": "lectures/lecture-02.html#lrt-unrestricted-vs-restricted-mle",
+    "title": "Lecture 02: Heritability, segregation, and the gene-mapping toolkit",
+    "section": "LRT (unrestricted vs restricted MLE)",
+    "text": "LRT (unrestricted vs restricted MLE)\n\nGoal: test H_0\\!:\\,\\theta=\\theta_0 in a model with log-likelihood \\ell(\\theta,\\eta) and nuisance \\eta.\nUnrestricted MLE: (\\hat\\theta,\\hat\\eta) = \\arg\\max_{\\theta,\\eta} \\ell(\\theta,\\eta).\nRestricted MLE under H_0: \\hat\\eta_0 = \\arg\\max_{\\eta} \\ell(\\theta_0,\\eta).\nTest statistic (fit improvement): \\Lambda = 2\\{\\ell(\\hat\\theta,\\hat\\eta) - \\ell(\\theta_0,\\hat\\eta_0)\\}.\nInterpretation: how much better the unrestricted fit is than the restricted fit; large values argue against H_0.\nAsymptotics: \\Lambda \\overset{d}{\\to} \\chi^2_q with q constraints (here q{=}1). p-value: 1-F_{\\chi^2_q}(\\Lambda).\n\n\n\n\n\n\n\nWarning\n\n\nVariance-component caveat\nWhen testing a variance component \\sigma^2=0 (boundary), the LRT null is a mixture (e.g., \\tfrac{1}{2}\\chi^2_0 + \\tfrac{1}{2}\\chi^2_1); standard \\chi^2 reference is invalid. Restricted LRTs or score tests are common alternatives."
+  },
+  {
+    "objectID": "lectures/lecture-02.html#aggregation-heritability-and-segregation-analyses",
+    "href": "lectures/lecture-02.html#aggregation-heritability-and-segregation-analyses",
+    "title": "Lecture 02: Heritability, segregation, and the gene-mapping toolkit",
+    "section": "Aggregation, heritability, and segregation analyses",
+    "text": "Aggregation, heritability, and segregation analyses\n\n\n\nAggregation/heritability analyses: Investigating patterns of phenotypic correlation between relatives\nSegregation analysis: Finding support for a specific genetic model underlying inheritance patterns\n\n\n\n\n\n\n\n\nNote\n\n\nThese analyses do not always use molecular genetic data… so why should we care?"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#a-gap-in-estimation",
+    "href": "lectures/lecture-02.html#a-gap-in-estimation",
+    "title": "Lecture 02: Heritability, segregation, and the gene-mapping toolkit",
+    "section": "A gap in estimation",
+    "text": "A gap in estimation\n\n\n\n\n\nYoung, A. I. (2019), “Solving the missing heritability problem,” PLOS Genetics, Public Library of Science, 15, e1008222. https://doi.org/10.1371/journal.pgen.1008222.\n\n\n\n\nAggregation and heritability analyses tend to have much higher heritability estimates of traits than genotyping methods\nUnderstanding these models may help explain this delta"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#discussion",
+    "href": "lectures/lecture-02.html#discussion",
+    "title": "Lecture 02: Heritability, segregation, and the gene-mapping toolkit",
+    "section": "Discussion",
+    "text": "Discussion\n\nThe author frames the “missing heritability” problem as the discrepancy between estimates from twin studies and those from early GWAS. Based on the text, what is the core assumption of the classical twin study design for estimating heritability? How might a violation of this assumption lead to an overestimation of heritability for certain traits?\nThe author argues that methods like RDR and Sib-Regression are more robust against certain biases. What specific confounding factor, prevalent in population-based genomic studies, are these family-based designs better at controlling for?\nIf, as the author suggests, the true narrow-sense heritability of a trait like height is closer to the 60-70% estimated by RDR and Sib-Regression than the 80% from twin studies, what are the primary sources of the remaining “gap”? Does this completely solve the missing heritability problem, or does it redefine it?"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#heritability-first-principles",
+    "href": "lectures/lecture-02.html#heritability-first-principles",
+    "title": "Lecture 02: Heritability, segregation, and the gene-mapping toolkit",
+    "section": "Heritability, first principles",
+    "text": "Heritability, first principles\nLet Y = G + E\n\nTrait Variance: \\operatorname{Var}(Y)\nVariance due to genes: \\operatorname{Var}(G)\nVariance due to environment: \\operatorname{Var}(E).\n\nIf we assume independence of G and E, then \\operatorname{Var}(Y) = \\operatorname{Var}(G) + \\operatorname{Var}(E)"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#heritability-first-principles-1",
+    "href": "lectures/lecture-02.html#heritability-first-principles-1",
+    "title": "Lecture 02: Heritability, segregation, and the gene-mapping toolkit",
+    "section": "Heritability, first principles",
+    "text": "Heritability, first principles\nWe can decompose \\operatorname{Var}(G) into different genetic effects: - Additive effects: A - Dominance effects: D - Epistatic effects: I\nSo we can write:\n\\operatorname{Var}(Y) = \\operatorname{Var}(A) + \\operatorname{Var}(D) + \\operatorname{Var}(I) + \\operatorname{Var}(E)\n\nBroad-sense: H^2 = \\operatorname{Var}(A) + \\operatorname{Var}(D) + \\operatorname{Var}(I) / \\operatorname{Var}(Y)\nNarrow-sense: h^2 =\\operatorname{Var}(A) / \\operatorname{Var}(Y)\nContext matters: h^2 depends on population, environment, and measurement; it is not a trait constant.\n\n\n\n\n\n\n\nWarning\n\n\nFamilial aggregation \\neq heritability. Shared environment and assortment can produce aggregation without genetic causation."
+  },
+  {
+    "objectID": "lectures/lecture-02.html#estimating-h2-from-relatives-marker-free",
+    "href": "lectures/lecture-02.html#estimating-h2-from-relatives-marker-free",
+    "title": "Lecture 02: Heritability, segregation, and the gene-mapping toolkit",
+    "section": "Estimating h^2 from relatives (marker-free)",
+    "text": "Estimating h^2 from relatives (marker-free)\nParent-offspring regression\n\nY_{\\text{offspring}} = \\alpha + \\beta \\cdot Y_{\\text{mid-parent}} + \\varepsilon\n\n\nBy definition, \\beta = \\frac{\\operatorname{Cov}(Y_{\\text{offspring}}, Y_{\\text{mid-parent}})}{\\operatorname{Var}(Y_{\\text{mid-parent}})}.\nGiven that an offspring inherits half its genes from each parent, \\operatorname{Cov}(Y_{\\text{offspring}}, Y_{\\text{mid-parent}}) = \\frac{1}{2}\\operatorname{Var}(A)"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#estimating-h2-from-relatives-marker-free-1",
+    "href": "lectures/lecture-02.html#estimating-h2-from-relatives-marker-free-1",
+    "title": "Lecture 02: Heritability, segregation, and the gene-mapping toolkit",
+    "section": "Estimating h^2 from relatives (marker-free)",
+    "text": "Estimating h^2 from relatives (marker-free)\nParent-offspring regression\n\\begin{align*}\n\\operatorname{Var}(Y_{\\text{mid-parent}})\n&= \\operatorname{Var}\\left(\\frac{Y_{\\text{parent1}} + Y_{\\text{parent2}}}{2}\\right) \\\\\n&= \\frac{1}{4}\\left(\\operatorname{Var}(Y) + \\operatorname{Var}(Y)\\right) \\\\\n&= \\frac{1}{2}\\operatorname{Var}(Y)\n\\end{align*}\nPlugging this back into the expression for \\beta:\n\\beta = \\frac{\\frac{1}{2}\\operatorname{Var}(A)}{\\frac{1}{2}\\operatorname{Var}(Y)} = \\frac{\\operatorname{Var}(A)}{\\operatorname{Var}(Y)} = h^2"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#estimating-h2-from-relatives-marker-free-2",
+    "href": "lectures/lecture-02.html#estimating-h2-from-relatives-marker-free-2",
+    "title": "Lecture 02: Heritability, segregation, and the gene-mapping toolkit",
+    "section": "Estimating h^2 from relatives (marker-free)",
+    "text": "Estimating h^2 from relatives (marker-free)\nTwin Studies\n\nAssume equal environments for MZ and DZ twins, and a simplified model\n\\operatorname{Var}(Y) = \\operatorname{Var}(A) + \\operatorname{Var}(E)\nh^2 = 2(r_{\\text{MZ}} - r_{\\text{DZ}})\n\nwhere r_{\\text{MZ}} and r_{\\text{DZ}} are the correlations between monozygotic and dizygotic twins, respectively."
+  },
+  {
+    "objectID": "lectures/lecture-02.html#pedigree-variance-components-continuous-traits",
+    "href": "lectures/lecture-02.html#pedigree-variance-components-continuous-traits",
+    "title": "Lecture 02: Heritability, segregation, and the gene-mapping toolkit",
+    "section": "Pedigree variance components (continuous traits)",
+    "text": "Pedigree variance components (continuous traits)\nModel: \n\\mathbf{Y} = \\mathbf{X}\\boldsymbol{\\beta} + \\mathbf{Z}\\mathbf{u} + \\boldsymbol{\\varepsilon},\\quad\n\\mathbf{u} \\sim \\mathcal{N}(\\mathbf{0}, \\mathbf{A}\\sigma_A^2),\\quad\n\\boldsymbol{\\varepsilon} \\sim \\mathcal{N}(\\mathbf{0}, \\mathbf{I}\\sigma_E^2),\n\nwhere \\mathbf{A} is the pedigree additive relationship matrix with A_{ij}=2\\phi_{ij}.\n\nHeritability: h^2 = \\sigma_A^2 / (\\sigma_A^2 + \\sigma_E^2).\nREML estimates (\\sigma_A^2,\\sigma_E^2) efficiently; classical family estimators are special cases under balanced designs.\nACE (twin) view: \\operatorname{Cov}(\\text{MZ}) = A + C, \\operatorname{Cov}(\\text{DZ}) = \\tfrac{1}{2}A + C; h^2 = \\operatorname{Var}(A)/\\operatorname{Var}(Y), etc.\n\n\n\n\n\n\n\nWarning\n\n\nBoundary testing: testing \\sigma_A^2=0 is on the boundary. The LRT null is the mixture \\tfrac{1}{2}\\chi_0^2 + \\tfrac{1}{2}\\chi_1^2 (or use an RLRT)."
+  },
+  {
+    "objectID": "lectures/lecture-02.html#binary-traits-via-the-liability-threshold-model",
+    "href": "lectures/lecture-02.html#binary-traits-via-the-liability-threshold-model",
+    "title": "Lecture 02: Heritability, segregation, and the gene-mapping toolkit",
+    "section": "Binary traits via the liability-threshold model",
+    "text": "Binary traits via the liability-threshold model\nIdea: a binary phenotype arises when a continuous liability \\ell crosses a threshold T.\n\nY = \\begin{cases}\n1 & \\text{if } \\ell &gt; T,\\\n0 & \\text{if } \\ell \\le T,\n\\end{cases}\n\n\n\\ell = G + E,\\quad G \\sim \\mathcal{N}(0,\\sigma_G^2),\\ E \\sim \\mathcal{N}(0,\\sigma_E^2)\nPopulation prevalence: K = \\Pr(\\ell &gt; T) = 1 - \\Phi(T) with T = \\Phi^{-1}(1-K).\nLiability-scale heritability: h_\\ell^2 = \\sigma_G^2 / (\\sigma_G^2 + \\sigma_E^2).\n\n\n\n\n\n\n\nWarning\n\n\nAssumptions: normal liability, single threshold, no G\\times E on the liability scale, correct K."
+  },
+  {
+    "objectID": "lectures/lecture-02.html#probit-view-and-logistic-note",
+    "href": "lectures/lecture-02.html#probit-view-and-logistic-note",
+    "title": "Lecture 02: Heritability, segregation, and the gene-mapping toolkit",
+    "section": "Probit view and logistic note",
+    "text": "Probit view and logistic note\n\nProbit GLM/GLMM corresponds to a normal-liability threshold model; adding pedigree random effects on the probit scale estimates liability-scale variance components."
+  },
+  {
+    "objectID": "lectures/lecture-02.html#observed-vs.-liability-scale-h2",
+    "href": "lectures/lecture-02.html#observed-vs.-liability-scale-h2",
+    "title": "Lecture 02: Heritability, segregation, and the gene-mapping toolkit",
+    "section": "Observed vs. liability-scale h^2",
+    "text": "Observed vs. liability-scale h^2\nFor an unascertained sample with sample prevalence P=K, \nh_{\\text{obs}}^2 ;\\approx; h_\\ell^2 \\cdot \\frac{\\phi(T)^2}{K(1-K)},\\qquad T=\\Phi^{-1}(1-K).\n\nFor case–control sampling with sample prevalence P \\ne K, \nh_\\ell^2 ;\\approx; h_{\\text{obs}}^2 \\cdot \\frac{K^2(1-K)^2}{\\phi(T)^2\\, P(1-P)}.\n\n\n\n\n\n\n\nTip\n\n\nLow-prevalence traits (K \\ll 0.5) often have h_{\\text{obs}}^2 \\ll h_\\ell^2. Always report the scale, K, and (if applicable) P."
+  },
+  {
+    "objectID": "lectures/lecture-02.html#ascertainment-as-conditioning-truncation-view",
+    "href": "lectures/lecture-02.html#ascertainment-as-conditioning-truncation-view",
+    "title": "Lecture 02: Heritability, segregation, and the gene-mapping toolkit",
+    "section": "Ascertainment as conditioning (truncation view)",
+    "text": "Ascertainment as conditioning (truncation view)\nIf we only observe Y under an event A (e.g., Y recorded only when Y&gt;T or when a proband is affected), the correct likelihood uses the conditional density \np(y \\mid A, \\theta) ;=; \\frac{p(y \\mid \\theta),\\mathbf{1}{y \\in A}}{\\Pr(A \\mid \\theta)}.\n\n\nIgnoring ascertainment biases parameters (e.g., means, prevalences, and regression slopes).\nThe liability-threshold model and segregation analysis both require conditioning on how families were recruited."
+  },
+  {
+    "objectID": "lectures/lecture-02.html#segregation-analysis-no-markers",
+    "href": "lectures/lecture-02.html#segregation-analysis-no-markers",
+    "title": "Lecture 02: Heritability, segregation, and the gene-mapping toolkit",
+    "section": "Segregation analysis (no markers)",
+    "text": "Segregation analysis (no markers)\nGoal: compare inheritance models (major gene vs polygenic vs mixed) using family phenotypes.\n\nLikelihood: specify penetrance by genotype \\Rightarrow build family likelihood; condition on ascertainment (e.g., proband affected).\nDominant example (Dd \\times dd): if p_D is the offspring affected probability, then with n children and n_A affected,\nN_A \\sim \\operatorname{Binom}(n, p_D)\n\\log L(p_D \\mid n_A,n) = n_A \\log p_D + (n-n_A)\\log(1-p_D)\nRecessive note (Dd \\times Dd): unaffected genotypes are ambiguous unless carriers are observed (harder identifiability).\nPitfalls: reduced penetrance, phenocopies, ascertainment, HWE assumptions."
+  },
+  {
+    "objectID": "lectures/lecture-02.html#summary-key-takeaways",
+    "href": "lectures/lecture-02.html#summary-key-takeaways",
+    "title": "Lecture 02: Heritability, segregation, and the gene-mapping toolkit",
+    "section": "Summary & key takeaways",
+    "text": "Summary & key takeaways\n\nHeritability: H^2 vs h^2; interpretation is population- and environment-specific.\nVariance components (pedigrees): LMM with A-matrix unifies family estimators; handle boundary tests correctly.\nBinary traits: liability-threshold,\nSegregation: fit penetrance-based likelihoods; condition on ascertainment.\nMethod habit: when unsure, simulate to check intuition and bias under ascertainment."
   }
 ]

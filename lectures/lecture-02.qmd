@@ -12,9 +12,6 @@ execute:
   echo: true
   warning: true
 engine: knitr
-bibliography: references.bib
-csl: https://www.zotero.org/styles/bioinformatics
-draft: true
 ---
 
 ```{r, echo = F, warning = F, message = F}
@@ -278,9 +275,6 @@ Goal: compare inheritance models (major gene vs polygenic vs mixed) using family
 
 - Heritability: $H^2$ vs $h^2$; interpretation is population- and environment-specific.
 - Variance components (pedigrees): LMM with $A$-matrix unifies family estimators; handle boundary tests correctly.
-- Binary traits: liability-threshold, proper scale conversion, and explicit prevalence reporting.
-- Aggregation: $\lambda_R$ is intuitive; connect it to liability via $r_R$.
+- Binary traits: liability-threshold, 
 - Segregation: fit penetrance-based likelihoods; condition on ascertainment.
 - Method habit: when unsure, simulate to check intuition and bias under ascertainment.
-
-## References
