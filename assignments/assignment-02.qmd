@@ -23,6 +23,11 @@ This assignment covers theoretical foundations of heritability analysis, segrega
 
 ---
 
+1. Recall (Young, 2022): "The first challenge is one of precision. The information used to estimate heritability from rare variants by GREML-WGS comes from the variation in sharing of rare variants among distantly related pairs of individuals [13, 15]. However, distantly related individuals typically do not share any particular rare variant, so the variation in rare variant sharing is low. This means that large samples with high quality WGS data are required to obtain precise estimates, and such samples are not common yet. Based on the only existing application of GREML-WGS [13], a sample size of ~40,000 would produce estimates precise enough to be statistically distinguished from other heritability estimates (Table 1). It is likely that this challenge will be overcome shortly, since samples of similar magnitude already exist [16]."
+
+  a. Assume the probability that two distantly related individuals share a rare variant is $p=0.001$. What sample size is required to have a 95% chance that at least one pair shares a rare variant?
+  b. Let's say the true heritability of a trait is $h^2=.4$. How many samples are required to achieve power. 80% to detect this heritability at $\alpha=0.05$ using GREML? Use the `GCTA` software power calculator (https://yanglab.westlake.edu.cn/software/gcta/#Power%20Calculator) and assume the following parameters: 1) 1,000,000 SNPs; 2) prevalence = 0.1; 3) case-control ratio = 1:4; 4) disease risk = 0.01.
+
 ## Problem 1: Recurrence Risk and Heritability Theory (25 points)
 
 ### Part A: Mathematical Derivations (15 points)
@@ -50,14 +55,14 @@ i. Implement the liability threshold model in R:
 ```{r, eval=FALSE}
 # Template - you need to complete this function
 liability_heritability <- function(lambda_sibling, K) {
-  # Compute threshold
-  z_K <- qnorm(1 - K)
-  
-  # Compute intensity of selection
-  i <- dnorm(z_K) / K
-  
-  # YOUR CODE HERE: Implement both exact and approximate formulas
-  # Return list with h2_exact, h2_approx, and comparison
+    # Compute threshold
+    z_K <- qnorm(1 - K)
+
+    # Compute intensity of selection
+    i <- dnorm(z_K) / K
+
+    # YOUR CODE HERE: Implement both exact and approximate formulas
+    # Return list with h2_exact, h2_approx, and comparison
 }
 ```
 
@@ -87,18 +92,18 @@ $$Y_{\text{offspring}} = \beta_0 + \beta_1 \cdot \frac{Y_{\text{parent1}} + Y_{\
 
 ```{r, eval=FALSE}
 # Template structure - expand this
-simulate_heritability_study <- function(n_families, n_qtl, h2_true, 
-                                      shared_env_cor = 0, dom_variance_prop = 0) {
-  # YOUR IMPLEMENTATION:
-  # 1. Simulate QTL effects and frequencies
-  # 2. Generate parental genotypes and phenotypes
-  # 3. Simulate offspring via Mendelian inheritance
-  # 4. Add environmental effects (including shared if specified)
-  # 5. Estimate h2 via multiple methods:
-  #    - Parent-offspring regression
-  #    - Full-sib correlation (h2 = 2*r_sib for additive model)
-  #    - ANOVA-based family components
-  # 6. Return comparison of estimates
+simulate_heritability_study <- function(n_families, n_qtl, h2_true,
+                                        shared_env_cor = 0, dom_variance_prop = 0) {
+    # YOUR IMPLEMENTATION:
+    # 1. Simulate QTL effects and frequencies
+    # 2. Generate parental genotypes and phenotypes
+    # 3. Simulate offspring via Mendelian inheritance
+    # 4. Add environmental effects (including shared if specified)
+    # 5. Estimate h2 via multiple methods:
+    #    - Parent-offspring regression
+    #    - Full-sib correlation (h2 = 2*r_sib for additive model)
+    #    - ANOVA-based family components
+    # 6. Return comparison of estimates
 }
 ```
 
@@ -132,16 +137,16 @@ simulate_heritability_study <- function(n_families, n_qtl, h2_true,
 ```{r, eval=FALSE}
 # Template - you need to complete this
 segregation_analysis <- function(family_data, model = "dominant") {
-  # family_data should have columns: family_id, individual_id, 
-  # father_id, mother_id, affected_status
-  
-  # YOUR IMPLEMENTATION:
-  # 1. Set up parameter space (p, penetrances)
-  # 2. Implement likelihood calculation for each family
-  # 3. Use optim() to find MLE
-  # 4. Calculate LOD scores vs sporadic model
-  # 5. Perform likelihood ratio tests
-  # 6. Return parameter estimates, standard errors, p-values
+    # family_data should have columns: family_id, individual_id,
+    # father_id, mother_id, affected_status
+
+    # YOUR IMPLEMENTATION:
+    # 1. Set up parameter space (p, penetrances)
+    # 2. Implement likelihood calculation for each family
+    # 3. Use optim() to find MLE
+    # 4. Calculate LOD scores vs sporadic model
+    # 5. Perform likelihood ratio tests
+    # 6. Return parameter estimates, standard errors, p-values
 }
 ```
 
@@ -176,19 +181,19 @@ where $\beta$ is the allelic effect.
 ```{r, eval=FALSE}
 # YOUR IMPLEMENTATION:
 map_functions <- list(
-  haldane = function(theta) {
-    # Convert recombination fraction to genetic distance (cM)
-  },
-  kosambi = function(theta) {
-    # Convert with interference assumption
-  },
-  # Add inverse functions
-  haldane_inv = function(d_cM) {
-    # Convert genetic distance to recombination fraction
-  },
-  kosambi_inv = function(d_cM) {
-    # Convert genetic distance to recombination fraction
-  }
+    haldane = function(theta) {
+        # Convert recombination fraction to genetic distance (cM)
+    },
+    kosambi = function(theta) {
+        # Convert with interference assumption
+    },
+    # Add inverse functions
+    haldane_inv = function(d_cM) {
+        # Convert genetic distance to recombination fraction
+    },
+    kosambi_inv = function(d_cM) {
+        # Convert genetic distance to recombination fraction
+    }
 )
 ```
 
