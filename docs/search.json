@@ -394,6 +394,34 @@
     ]
   },
   {
+    "objectID": "assignments/assignment-02.html",
+    "href": "assignments/assignment-02.html",
+    "title": "Assignment 02",
+    "section": "",
+    "text": "Due before class on Wednesday, September 10th.\nRequirements:"
+  },
+  {
+    "objectID": "assignments/assignment-02.html#problem-1-missing-heritability-and-rare-variants-10-points",
+    "href": "assignments/assignment-02.html#problem-1-missing-heritability-and-rare-variants-10-points",
+    "title": "Assignment 02",
+    "section": "Problem 1: Missing Heritability and Rare Variants (10 points)",
+    "text": "Problem 1: Missing Heritability and Rare Variants (10 points)\nRecall (Young 2019): “The first challenge is one of precision. The information used to estimate heritability from rare variants by GREML-WGS comes from the variation in sharing of rare variants among distantly related pairs of individuals. However, distantly related individuals typically do not share any particular rare variant, so the variation in rare variant sharing is low. This means that large samples with high quality WGS data are required to obtain precise estimates, and such samples are not common yet. Based on the only existing application of GREML-WGS, a sample size of ~40,000 would produce estimates precise enough to be statistically distinguished from other heritability estimates. It is likely that this challenge will be overcome shortly, since samples of similar magnitude already exist.”\n\nAssume the probability that two distantly related individuals share a rare variant is p=0.001. Assume a sample size of n=40,000 individuals.\n\nCalculate the expected number of pairs of individuals in this sample who share a rare variant. How many total pairs of individuals exist in the sample?\nIf we estimate that rare variants contribute h^2_{\\text{rare}}=0.10 to heritability, calculate the standard error of this estimate given the sample size. Use the formula \\text{SE}(h^2) \\approx \\frac{2}{\\sqrt{n_{\\text{eff}}}}, where n_{\\text{eff}} is the effective number of independent observations (approximately the number of pairs sharing rare variants).\nCalculate a 95% confidence interval for the heritability estimate. Does this confidence interval allow us to distinguish between h^2_{\\text{rare}}=0.10 and h^2_{\\text{common}}=0.25\n\nBriefly explain in 2-3 sentences how the “missing heritability” problem relates to rare variants, and why larger samples with whole-genome sequencing may be needed to resolve this question."
+  },
+  {
+    "objectID": "assignments/assignment-02.html#problem-2-parentoffspring-regression-with-assortative-mating-14-pts",
+    "href": "assignments/assignment-02.html#problem-2-parentoffspring-regression-with-assortative-mating-14-pts",
+    "title": "Assignment 02",
+    "section": "Problem 2: Parent–offspring regression with assortative mating (14 pts)",
+    "text": "Problem 2: Parent–offspring regression with assortative mating (14 pts)\nLet Y=A+E with \\operatorname{Var}(A)=\\sigma_A^2, \\operatorname{Var}(E)=\\sigma_E^2, random environments, and phenotypic mate correlation \\operatorname{corr}(Y_{\\text{father}},Y_{\\text{mother}})=r_m.\n\nShow that \\operatorname{Var}(Y_{\\text{mid-parent}})=\\frac{1}{2}(1+r_m)\\operatorname{Var}(Y).\nGiven the regression slope \\beta=\\frac{\\operatorname{Cov}(Y_o,Y_{mp})}{\\operatorname{Var}(Y_{mp})}, show that \\beta \\;=\\; \\frac{\\sigma_A^2}{\\sigma_A^2+\\sigma_E^2}\\cdot\\frac{1}{1+r_m} \\;=\\; \\frac{h^2}{1+r_m}. Interpret the direction of bias in \\beta for r_m&gt;0.\nFor h^2=0.5, compute \\beta for r_m=0,0.1,0.3,0.5. Comment on the practical impact of assortative mating on parent–offspring regression."
+  },
+  {
+    "objectID": "assignments/assignment-02.html#problem-3-derivation-of-falconers-formula-from-the-ace-model",
+    "href": "assignments/assignment-02.html#problem-3-derivation-of-falconers-formula-from-the-ace-model",
+    "title": "Assignment 02",
+    "section": "Problem 3: Derivation of Falconer’s Formula from the ACE Model",
+    "text": "Problem 3: Derivation of Falconer’s Formula from the ACE Model\nBackground: The ACE model is a foundational tool in quantitative genetics for partitioning phenotypic variance (V_P) into three components: additive genetic effects (A), common or shared environmental effects (C), and unique or non-shared environmental effects (E). Under this model, the total variance is given by V_P = V_A + V_C + V_E.\nThe intraclass correlations for a trait between monozygotic (MZ) and dizygotic (DZ) twins are given by:\nr_{\\text{MZ}} = \\frac{\\operatorname{Cov}(Y_1, Y_2 \\mid \\text{MZ})}{V_P}\nr_{\\text{DZ}} = \\frac{\\operatorname{Cov}(Y_1, Y_2 \\mid \\text{DZ})}{V_P}\nAssume that:\n\nMating is random (no assortative mating).\nThere are no gene-environment interactions or correlations.\nThe equal environments assumption holds (MZ and DZ twins experience their shared environments to a similar degree).\nGenetic effects are purely additive (no dominance or epistasis).\n\nAssuming the ACE model, demonstrate that the narrow-sense heritability (h^2 = V_A/V_P) can be estimated as twice the difference between the MZ and DZ twin correlations.\nShow that:\nh^2 = 2(r_{\\text{MZ}} - r_{\\text{DZ}})"
+  },
+  {
     "objectID": "assignments/assignment-01.html",
     "href": "assignments/assignment-01.html",
     "title": "Assignment 01",

@@ -4,15 +4,15 @@ subtitle: "PUBH 8878: Heritability, Segregation, and Gene Mapping Theory"
 format: 
   html:
     html-math-method: katex
+    code-tools: true
   pdf: default
   docx: default
 format-links: [pdf, docx]
-draft: true
 bibliography: references.bib
 csl: https://www.zotero.org/styles/biostatistics
 ---
 
-*Due: \[Date TBD\]*
+Due before class on **Wednesday, September 10th**.
 
 **Requirements:**
 
@@ -31,59 +31,37 @@ Recall [@young2019]: "The first challenge is one of precision. The information u
     c.  Calculate a 95% confidence interval for the heritability estimate. Does this confidence interval allow us to distinguish between $h^2_{\text{rare}}=0.10$ and $h^2_{\text{common}}=0.25$
 2.  Briefly explain in 2-3 sentences how the "missing heritability" problem relates to rare variants, and why larger samples with whole-genome sequencing may be needed to resolve this question.
 
-## Problem 2: Parent–Offspring Regression for $h^2$ (15 points)
 
-Use the Lab 02 scaffold to simulate a quantitative trait on the pedigree (see `labs/unsolved/lab-02.R`, Sections 1–2) and estimate heritability from mid-parent regression.
 
-1.  Construct a data set with columns `fam`, `midparent` (mean of father/mother phenotypes), and `child` (one row per child). Fit `lm(child ~ midparent)`.
-2.  Report the estimated slope $\hat\beta$ and its 95% CI. Compute $\hat h^2 = \hat\beta$ for mid-parent regression (justify briefly from lecture notes) and give a 95% CI for $h^2$ by transforming the CI for $\beta$.
-3.  Compare $\hat h^2$ to the simulation truth used in your code. Give one sentence on a factor that could bias this estimator in real data.
+## Problem 2: Parent–offspring regression with assortative mating (14 pts)
 
-## Problem 3: Pedigree LMM (Variance Components) (15 points)
+Let $Y=A+E$ with $\operatorname{Var}(A)=\sigma_A^2$, $\operatorname{Var}(E)=\sigma_E^2$, random environments, and phenotypic mate correlation $\operatorname{corr}(Y_{\text{father}},Y_{\text{mother}})=r_m$.
 
-Fit an “animal model” with an additive relationship matrix using `lme4qtl::relmatLmer` (see `labs/solved/lab-02.R`). .
+1.	Show that $\operatorname{Var}(Y_{\text{mid-parent}})=\frac{1}{2}(1+r_m)\operatorname{Var}(Y)$.
+2. Given the regression slope $\beta=\frac{\operatorname{Cov}(Y_o,Y_{mp})}{\operatorname{Var}(Y_{mp})}$, show that
+$\beta \;=\; \frac{\sigma_A^2}{\sigma_A^2+\sigma_E^2}\cdot\frac{1}{1+r_m} \;=\; \frac{h^2}{1+r_m}$. Interpret the direction of bias in $\beta$ for $r_m>0$.
+3.	For $h^2=0.5$, compute $\beta$ for $r_m=0,0.1,0.3,0.5$. Comment on the practical impact of assortative mating on parent–offspring regression.
 
-1.  Fit `y ~ age + sex01 + (1|id_factor)` with `relmat = list(id_factor = A)` on your simulated data. Extract $\hat\sigma^2_A$ and $\hat\sigma^2_E$ and report $\hat h^2 = \hat\sigma^2_A/(\hat\sigma^2_A+\hat\sigma^2_E)$.
-2.  Obtain a 95% bootstrap CI for $h^2$ using `bootMer` (100–500 resamples is fine). Compare to the true simulation value.
-3.  In 2–3 sentences, explain why a standard $\chi^2_1$ LRT is invalid for testing $H_0\!:\,\sigma_A^2=0$. What is the appropriate asymptotic null distribution from lecture, and why?
+## Problem 3: Derivation of Falconer's Formula from the ACE Model
 
-## Problem 4: Twins Estimator (ACE Heuristics) (15 points)
+**Background:** The ACE model is a foundational tool in quantitative genetics for partitioning phenotypic variance ($V_P$) into three components: additive genetic effects ($A$), common or shared environmental effects ($C$), and unique or non-shared environmental effects ($E$). Under this model, the total variance is given by $V_P = V_A + V_C + V_E$.
 
-1.  Derive Falconer's formula for twins heritability $h^2 = 2(r_{\text{MZ}} - r_{\text{DZ}})$ from the ACE model, assuming MZ twins share all their additive genetics and DZ twins share half. Note that
+The intraclass correlations for a trait between monozygotic (MZ) and dizygotic (DZ) twins are given by:
 
--   $Y_MZ = A + C + E$
--   $Y_DZ = 0.5A + C + E$
--   $r_MZ = \operatorname{Corr}(Y_MZ1, Y_MZ2)$
--   $r_DZ = \operatorname{Corr}(Y_DZ1, Y_DZ2)$
--   $\operatorname{Corr}(X, Y) = \frac{\operatorname{Cov}(X, Y)}{\sqrt{\operatorname{Var}(X)\operatorname{Var}(Y)}}$
+$$r_{\text{MZ}} = \frac{\operatorname{Cov}(Y_1, Y_2 \mid \text{MZ})}{V_P}$$
 
-## Problem 5: Binary Traits and Liability-Threshold (20 points)
+$$r_{\text{DZ}} = \frac{\operatorname{Cov}(Y_1, Y_2 \mid \text{DZ})}{V_P}$$
 
-Simulate a binary trait from a liability-threshold model on the pedigree as in the lab (`simulate_binary_from_liability`). Let population prevalence be $K$ and sample prevalence be $P$.
 
-1.  Fit an intercept-only probit GLM `glm(case ~ 1, family = binomial(link = "probit"))`. Recover $\hat K$ from the fitted intercept and verify it matches the empirical prevalence.
-2.  Construct a mid-parent/offspring data set for the binary trait and fit a probit regression of child on mid-parent. Report the slope and use lecture logic to interpret $\hat h^2$ on the liability scale. Provide a simple bootstrap CI.
-3.  Using the formulas from lecture, convert between observed-scale and liability-scale heritability:
-    -   Unascertained case ($P=K$): $h_{\text{obs}}^2 \approx h_\ell^2\,\phi(T)^2/[K(1-K)]$ with $T=\Phi^{-1}(1-K)$.
-    -   Case–control sampling ($P \ne K$): $h_\ell^2 \approx h_{\text{obs}}^2\,K^2(1-K)^2/[\phi(T)^2\,P(1-P)]$. Compute both and comment on how low $K$ affects $h_{\text{obs}}^2$.
+Assume that: 
 
-## Problem 6: Ascertainment and Recurrence Risk (15 points)
+- Mating is random (no assortative mating).
+- There are no gene-environment interactions or correlations.
+- The equal environments assumption holds (MZ and DZ twins experience their shared environments to a similar degree).
+- Genetic effects are purely additive (no dominance or epistasis).
 
-1.  Ascertainment as conditioning: In 2–3 sentences, explain why analyzing a case–control sample as if it were a random sample biases prevalence and regression parameters, and how the truncation view corrects the likelihood.
-2.  Using your simulated binary data, restrict to families with at least one affected child (probands). Re-estimate the probit intercept-only model on this ascertained sample and compare $\hat K$ to the true $K$.
-3.  Estimate the sibling recurrence risk ratio $\lambda_R = \Pr(\text{sib affected} \mid \text{proband affected})/K$ empirically from your simulated families. Report your estimate and a brief interpretation.
+Assuming the ACE model, demonstrate that the narrow-sense heritability ($h^2 = V_A/V_P$) can be estimated as twice the difference between the MZ and DZ twin correlations.
 
-## Problem 7: Segregation Analysis — Likelihood Basics (10 points)
+Show that:
 
-1.  Consider a dominant model with a single heterozygous parent ($Dd\times dd$) and penetrance $f$ for genotype $D\cdot$. For a family with $n$ children and $n_A$ affected, write the binomial likelihood and log-likelihood for $f$ and show that the MLE is $\hat f = n_A/n$.
-2.  Now suppose you observe five such families with counts $(n, n_A)$ equal to $(3,2)$, $(4,1)$, $(5,3)$, $(2,1)$, $(6,2)$. Compute the MLE $\hat f$ pooling across families and give a Wald 95% CI.
-3.  Very briefly list two pitfalls in segregation analysis highlighted in lecture (e.g., reduced penetrance, phenocopies, ascertainment, or HWE assumptions).
-
-------------------------------------------------------------------------
-
-Submission checklist:
-
--   Code: Include commented R code for Problems 2, 3, 4, 5, and 6. You may adapt from `labs/unsolved/lab-02.R` and cite any external code you used.
--   Math: Show algebra for Problems 1 and 7.
--   Interpretation: For each numeric answer, add 1–2 sentence interpretation in context.
--   Deliverable: Render and submit the PDF, not the source `.qmd`.
+$$h^2 = 2(r_{\text{MZ}} - r_{\text{DZ}})$$

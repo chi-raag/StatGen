@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 /* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
@@ -54,7 +89,6 @@ div.csl-indent {
 <script src="assignment-02_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="assignment-02_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="assignment-02_files/libs/bootstrap/bootstrap-81267100e462c21b3d6c0d5bf76a3417.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
-<meta name="quarto:status" content="draft">
 
   <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
   <script>document.addEventListener("DOMContentLoaded", function () {
@@ -102,7 +136,7 @@ window.Quarto = {
 
 </head>
 
-<body class="quarto-light"><div id="quarto-draft-alert" class="alert alert-warning"><i class="bi bi-pencil-square"></i>Draft</div>
+<body class="quarto-light">
 
 <div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
 <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
@@ -111,7 +145,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Assignment 02</h1>
+<div class="quarto-title-block"><div><h1 class="title">Assignment 02</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 <p class="subtitle lead">PUBH 8878: Heritability, Segregation, and Gene Mapping Theory</p>
 </div>
 
@@ -129,89 +163,54 @@ window.Quarto = {
 </header>
 
 
-<p><em>Due: [Date TBD]</em></p>
-<p><strong>Requirements:</strong> - Show all mathematical work - Submit well-documented R code with clear comments - Interpret results in biological context - Submit <em>pdf</em> rendered output, not the source <code>.qmd</code> file</p>
+<p>Due before class on <strong>Wednesday, September 10th</strong>.</p>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>Show all mathematical work</li>
+<li>Submit well-documented R code with clear comments</li>
+<li>Interpret results in biological context</li>
+<li>Submit <em>pdf</em> rendered output, not the source <code>.qmd</code> file</li>
+</ul>
 <section id="problem-1-missing-heritability-and-rare-variants-10-points" class="level2">
 <h2 class="anchored" data-anchor-id="problem-1-missing-heritability-and-rare-variants-10-points">Problem 1: Missing Heritability and Rare Variants (10 points)</h2>
-<p>Recall (<span class="citation" data-cites="young2019">(<a href="#ref-young2019" role="doc-biblioref">Young 2019</a>)</span>): “The first challenge is one of precision. The information used to estimate heritability from rare variants by GREML-WGS comes from the variation in sharing of rare variants among distantly related pairs of individuals. However, distantly related individuals typically do not share any particular rare variant, so the variation in rare variant sharing is low. This means that large samples with high quality WGS data are required to obtain precise estimates, and such samples are not common yet. Based on the only existing application of GREML-WGS, a sample size of ~40,000 would produce estimates precise enough to be statistically distinguished from other heritability estimates. It is likely that this challenge will be overcome shortly, since samples of similar magnitude already exist.”</p>
+<p>Recall <span class="citation" data-cites="young2019">(<a href="#ref-young2019" role="doc-biblioref">Young 2019</a>)</span>: “The first challenge is one of precision. The information used to estimate heritability from rare variants by GREML-WGS comes from the variation in sharing of rare variants among distantly related pairs of individuals. However, distantly related individuals typically do not share any particular rare variant, so the variation in rare variant sharing is low. This means that large samples with high quality WGS data are required to obtain precise estimates, and such samples are not common yet. Based on the only existing application of GREML-WGS, a sample size of ~40,000 would produce estimates precise enough to be statistically distinguished from other heritability estimates. It is likely that this challenge will be overcome shortly, since samples of similar magnitude already exist.”</p>
 <ol type="1">
-<li>Assume the probability that two distantly related individuals share a rare variant is <span class="math inline">p=0.001</span>. Assume a sample size of <span class="math inline">n=40,000</span> individuals.</li>
-</ol>
-<!-- -->
+<li>Assume the probability that two distantly related individuals share a rare variant is <span class="math inline">p=0.001</span>. Assume a sample size of <span class="math inline">n=40,000</span> individuals.
 <ol type="a">
-<li><p>Calculate the expected number of pairs of individuals in this sample who share a rare variant. How many total pairs of individuals exist in the sample?</p></li>
-<li><p>If we estimate that rare variants contribute <span class="math inline">h^2_{\text{rare}}=0.10</span> to heritability, calculate the standard error of this estimate given the sample size. Use the formula <span class="math inline">\text{SE}(h^2) \approx \frac{2}{\sqrt{n_{\text{eff}}}}</span>, where <span class="math inline">n_{\text{eff}}</span> is the effective number of independent observations (approximately the number of pairs sharing rare variants).</p></li>
-<li><p>Calculate a 95% confidence interval for the heritability estimate. Does this confidence interval allow us to distinguish between <span class="math inline">h^2_{\text{rare}}=0.10</span> and <span class="math inline">h^2_{\text{common}}=0.25</span></p></li>
-<li><p>Briefly explain in 2-3 sentences how the “missing heritability” problem relates to rare variants, and why larger samples with whole-genome sequencing may be needed to resolve this question.</p></li>
+<li>Calculate the expected number of pairs of individuals in this sample who share a rare variant. How many total pairs of individuals exist in the sample?</li>
+<li>If we estimate that rare variants contribute <span class="math inline">h^2_{\text{rare}}=0.10</span> to heritability, calculate the standard error of this estimate given the sample size. Use the formula <span class="math inline">\text{SE}(h^2) \approx \frac{2}{\sqrt{n_{\text{eff}}}}</span>, where <span class="math inline">n_{\text{eff}}</span> is the effective number of independent observations (approximately the number of pairs sharing rare variants).</li>
+<li>Calculate a 95% confidence interval for the heritability estimate. Does this confidence interval allow us to distinguish between <span class="math inline">h^2_{\text{rare}}=0.10</span> and <span class="math inline">h^2_{\text{common}}=0.25</span></li>
+</ol></li>
+<li>Briefly explain in 2-3 sentences how the “missing heritability” problem relates to rare variants, and why larger samples with whole-genome sequencing may be needed to resolve this question.</li>
 </ol>
 </section>
-<section id="problem-2-parentoffspring-regression-for-h2-15-points" class="level2">
-<h2 class="anchored" data-anchor-id="problem-2-parentoffspring-regression-for-h2-15-points">Problem 2: Parent–Offspring Regression for <span class="math inline">h^2</span> (15 points)</h2>
-<p>Use the Lab 02 scaffold to simulate a quantitative trait on the pedigree (see <code>labs/unsolved/lab-02.R</code>, Sections 1–2) and estimate heritability from mid-parent regression.</p>
+<section id="problem-2-parentoffspring-regression-with-assortative-mating-14-pts" class="level2">
+<h2 class="anchored" data-anchor-id="problem-2-parentoffspring-regression-with-assortative-mating-14-pts">Problem 2: Parent–offspring regression with assortative mating (14 pts)</h2>
+<p>Let <span class="math inline">Y=A+E</span> with <span class="math inline">\operatorname{Var}(A)=\sigma_A^2</span>, <span class="math inline">\operatorname{Var}(E)=\sigma_E^2</span>, random environments, and phenotypic mate correlation <span class="math inline">\operatorname{corr}(Y_{\text{father}},Y_{\text{mother}})=r_m</span>.</p>
 <ol type="1">
-<li>Construct a data set with columns <code>fam</code>, <code>midparent</code> (mean of father/mother phenotypes), and <code>child</code> (one row per child). Fit <code>lm(child ~ midparent)</code>.</li>
-<li>Report the estimated slope <span class="math inline">\hat\beta</span> and its 95% CI. Compute <span class="math inline">\hat h^2 = \hat\beta</span> for mid-parent regression (justify briefly from lecture notes) and give a 95% CI for <span class="math inline">h^2</span> by transforming the CI for <span class="math inline">\beta</span>.</li>
-<li>Compare <span class="math inline">\hat h^2</span> to the simulation truth used in your code. Give one sentence on a factor that could bias this estimator in real data.</li>
+<li>Show that <span class="math inline">\operatorname{Var}(Y_{\text{mid-parent}})=\frac{1}{2}(1+r_m)\operatorname{Var}(Y)</span>.</li>
+<li>Given the regression slope <span class="math inline">\beta=\frac{\operatorname{Cov}(Y_o,Y_{mp})}{\operatorname{Var}(Y_{mp})}</span>, show that <span class="math inline">\beta \;=\; \frac{\sigma_A^2}{\sigma_A^2+\sigma_E^2}\cdot\frac{1}{1+r_m} \;=\; \frac{h^2}{1+r_m}</span>. Interpret the direction of bias in <span class="math inline">\beta</span> for <span class="math inline">r_m&gt;0</span>.</li>
+<li>For <span class="math inline">h^2=0.5</span>, compute <span class="math inline">\beta</span> for <span class="math inline">r_m=0,0.1,0.3,0.5</span>. Comment on the practical impact of assortative mating on parent–offspring regression.</li>
 </ol>
 </section>
-<section id="problem-3-pedigree-lmm-variance-components-15-points" class="level2">
-<h2 class="anchored" data-anchor-id="problem-3-pedigree-lmm-variance-components-15-points">Problem 3: Pedigree LMM (Variance Components) (15 points)</h2>
-<p>Fit an “animal model” with an additive relationship matrix using <code>lme4qtl::relmatLmer</code> (see <code>labs/solved/lab-02.R</code>). .</p>
-<ol type="1">
-<li>Fit <code>y ~ age + sex01 + (1|id_factor)</code> with <code>relmat = list(id_factor = A)</code> on your simulated data. Extract <span class="math inline">\hat\sigma^2_A</span> and <span class="math inline">\hat\sigma^2_E</span> and report <span class="math inline">\hat h^2 = \hat\sigma^2_A/(\hat\sigma^2_A+\hat\sigma^2_E)</span>.</li>
-<li>Obtain a 95% bootstrap CI for <span class="math inline">h^2</span> using <code>bootMer</code> (100–500 resamples is fine). Compare to the true simulation value.</li>
-<li>In 2–3 sentences, explain why a standard <span class="math inline">\chi^2_1</span> LRT is invalid for testing <span class="math inline">H_0\!:\,\sigma_A^2=0</span>. What is the appropriate asymptotic null distribution from lecture, and why?</li>
-</ol>
-</section>
-<section id="problem-4-twins-estimator-ace-heuristics-15-points" class="level2">
-<h2 class="anchored" data-anchor-id="problem-4-twins-estimator-ace-heuristics-15-points">Problem 4: Twins Estimator (ACE Heuristics) (15 points)</h2>
-<ol type="1">
-<li>Derive Falconer’s formula for twins heritability <span class="math inline">h^2 = 2(r_{\text{MZ}} - r_{\text{DZ}})</span> from the ACE model, assuming MZ twins share all their additive genetics and DZ twins share half. Note that</li>
-</ol>
+<section id="problem-3-derivation-of-falconers-formula-from-the-ace-model" class="level2">
+<h2 class="anchored" data-anchor-id="problem-3-derivation-of-falconers-formula-from-the-ace-model">Problem 3: Derivation of Falconer’s Formula from the ACE Model</h2>
+<p><strong>Background:</strong> The ACE model is a foundational tool in quantitative genetics for partitioning phenotypic variance (<span class="math inline">V_P</span>) into three components: additive genetic effects (<span class="math inline">A</span>), common or shared environmental effects (<span class="math inline">C</span>), and unique or non-shared environmental effects (<span class="math inline">E</span>). Under this model, the total variance is given by <span class="math inline">V_P = V_A + V_C + V_E</span>.</p>
+<p>The intraclass correlations for a trait between monozygotic (MZ) and dizygotic (DZ) twins are given by:</p>
+<p><span class="math display">r_{\text{MZ}} = \frac{\operatorname{Cov}(Y_1, Y_2 \mid \text{MZ})}{V_P}</span></p>
+<p><span class="math display">r_{\text{DZ}} = \frac{\operatorname{Cov}(Y_1, Y_2 \mid \text{DZ})}{V_P}</span></p>
+<p>Assume that:</p>
 <ul>
-<li><span class="math inline">Y_MZ = A + C + E</span></li>
-<li><span class="math inline">Y_DZ = 0.5A + C + E</span></li>
-<li><span class="math inline">r_MZ = \operatorname{Corr}(Y_MZ1, Y_MZ2)</span></li>
-<li><span class="math inline">r_DZ = \operatorname{Corr}(Y_DZ1, Y_DZ2)</span></li>
-<li><span class="math inline">\operatorname{Corr}(X, Y) = \frac{\operatorname{Cov}(X, Y)}{\sqrt{\operatorname{Var}(X)\operatorname{Var}(Y)}}</span></li>
+<li>Mating is random (no assortative mating).</li>
+<li>There are no gene-environment interactions or correlations.</li>
+<li>The equal environments assumption holds (MZ and DZ twins experience their shared environments to a similar degree).</li>
+<li>Genetic effects are purely additive (no dominance or epistasis).</li>
 </ul>
-</section>
-<section id="problem-5-binary-traits-and-liability-threshold-20-points" class="level2">
-<h2 class="anchored" data-anchor-id="problem-5-binary-traits-and-liability-threshold-20-points">Problem 5: Binary Traits and Liability-Threshold (20 points)</h2>
-<p>Simulate a binary trait from a liability-threshold model on the pedigree as in the lab (<code>simulate_binary_from_liability</code>). Let population prevalence be <span class="math inline">K</span> and sample prevalence be <span class="math inline">P</span>.</p>
-<ol type="1">
-<li>Fit an intercept-only probit GLM <code>glm(case ~ 1, family = binomial(link = "probit"))</code>. Recover <span class="math inline">\hat K</span> from the fitted intercept and verify it matches the empirical prevalence.</li>
-<li>Construct a mid-parent/offspring data set for the binary trait and fit a probit regression of child on mid-parent. Report the slope and use lecture logic to interpret <span class="math inline">\hat h^2</span> on the liability scale. Provide a simple bootstrap CI.</li>
-<li>Using the formulas from lecture, convert between observed-scale and liability-scale heritability:
-<ul>
-<li>Unascertained case (<span class="math inline">P=K</span>): <span class="math inline">h_{\text{obs}}^2 \approx h_\ell^2\,\phi(T)^2/[K(1-K)]</span> with <span class="math inline">T=\Phi^{-1}(1-K)</span>.</li>
-<li>Case–control sampling (<span class="math inline">P \ne K</span>): <span class="math inline">h_\ell^2 \approx h_{\text{obs}}^2\,K^2(1-K)^2/[\phi(T)^2\,P(1-P)]</span>. Compute both and comment on how low <span class="math inline">K</span> affects <span class="math inline">h_{\text{obs}}^2</span>.</li>
-</ul></li>
-</ol>
-</section>
-<section id="problem-6-ascertainment-and-recurrence-risk-15-points" class="level2">
-<h2 class="anchored" data-anchor-id="problem-6-ascertainment-and-recurrence-risk-15-points">Problem 6: Ascertainment and Recurrence Risk (15 points)</h2>
-<ol type="1">
-<li>Ascertainment as conditioning: In 2–3 sentences, explain why analyzing a case–control sample as if it were a random sample biases prevalence and regression parameters, and how the truncation view corrects the likelihood.</li>
-<li>Using your simulated binary data, restrict to families with at least one affected child (probands). Re-estimate the probit intercept-only model on this ascertained sample and compare <span class="math inline">\hat K</span> to the true <span class="math inline">K</span>.</li>
-<li>Estimate the sibling recurrence risk ratio <span class="math inline">\lambda_R = \Pr(\text{sib affected} \mid \text{proband affected})/K</span> empirically from your simulated families. Report your estimate and a brief interpretation.</li>
-</ol>
-</section>
-<section id="problem-7-segregation-analysis-likelihood-basics-10-points" class="level2">
-<h2 class="anchored" data-anchor-id="problem-7-segregation-analysis-likelihood-basics-10-points">Problem 7: Segregation Analysis — Likelihood Basics (10 points)</h2>
-<ol type="1">
-<li>Consider a dominant model with a single heterozygous parent (<span class="math inline">Dd\times dd</span>) and penetrance <span class="math inline">f</span> for genotype <span class="math inline">D\cdot</span>. For a family with <span class="math inline">n</span> children and <span class="math inline">n_A</span> affected, write the binomial likelihood and log-likelihood for <span class="math inline">f</span> and show that the MLE is <span class="math inline">\hat f = n_A/n</span>.</li>
-<li>Now suppose you observe five such families with counts <span class="math inline">(n, n_A)</span> equal to <span class="math inline">(3,2)</span>, <span class="math inline">(4,1)</span>, <span class="math inline">(5,3)</span>, <span class="math inline">(2,1)</span>, <span class="math inline">(6,2)</span>. Compute the MLE <span class="math inline">\hat f</span> pooling across families and give a Wald 95% CI.</li>
-<li>Very briefly list two pitfalls in segregation analysis highlighted in lecture (e.g., reduced penetrance, phenocopies, ascertainment, or HWE assumptions).</li>
-</ol>
-<hr>
-<p>Submission checklist:</p>
-<ul>
-<li>Code: Include commented R code for Problems 2, 3, 4, 5, and 6. You may adapt from <code>labs/unsolved/lab-02.R</code> and cite any external code you used.</li>
-<li>Math: Show algebra for Problems 1 and 7.</li>
-<li>Interpretation: For each numeric answer, add 1–2 sentence interpretation in context.</li>
-<li>Deliverable: Render and submit the PDF, not the source <code>.qmd</code>.</li>
-</ul>
+<p>Assuming the ACE model, demonstrate that the narrow-sense heritability (<span class="math inline">h^2 = V_A/V_P</span>) can be estimated as twice the difference between the MZ and DZ twin correlations.</p>
+<p>Show that:</p>
+<p><span class="math display">h^2 = 2(r_{\text{MZ}} - r_{\text{DZ}})</span></p>
+<!-- -->
+
 
 </section>
 
@@ -290,6 +289,57 @@ Young, A. I. (2019). <a href="https://doi.org/10.1371/journal.pgen.1008222">Solv
         container: window.document.getElementById('quarto-embedded-source-code-modal')
       });
       clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
@@ -619,7 +669,75 @@ Young, A. I. (2019). <a href="https://doi.org/10.1371/journal.pgen.1008222">Solv
       }
     }
   });
-  </script>
+  </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Assignment 02"</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "PUBH 8878: Heritability, Segregation, and Gene Mapping Theory"</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span><span class="co"> </span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">    html-math-method: katex</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">  pdf: default</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">  docx: default</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="an">format-links:</span><span class="co"> [pdf, docx]</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="an">bibliography:</span><span class="co"> references.bib</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="an">csl:</span><span class="co"> https://www.zotero.org/styles/biostatistics</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>Due before class on **Wednesday, September 10th**.</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>**Requirements:**</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Show all mathematical work</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Submit well-documented R code with clear comments</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Interpret results in biological context</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Submit *pdf* rendered output, not the source <span class="in">`.qmd`</span> file</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="fu">## Problem 1: Missing Heritability and Rare Variants (10 points)</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>Recall <span class="co">[</span><span class="ot">@young2019</span><span class="co">]</span>: "The first challenge is one of precision. The information used to estimate heritability from rare variants by GREML-WGS comes from the variation in sharing of rare variants among distantly related pairs of individuals. However, distantly related individuals typically do not share any particular rare variant, so the variation in rare variant sharing is low. This means that large samples with high quality WGS data are required to obtain precise estimates, and such samples are not common yet. Based on the only existing application of GREML-WGS, a sample size of \~40,000 would produce estimates precise enough to be statistically distinguished from other heritability estimates. It is likely that this challenge will be overcome shortly, since samples of similar magnitude already exist."</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Assume the probability that two distantly related individuals share a rare variant is $p=0.001$. Assume a sample size of $n=40,000$ individuals.</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    a.  Calculate the expected number of pairs of individuals in this sample who share a rare variant. How many total pairs of individuals exist in the sample?</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    b.  If we estimate that rare variants contribute $h^2_{\text{rare}}=0.10$ to heritability, calculate the standard error of this estimate given the sample size. Use the formula $\text{SE}(h^2) \approx \frac{2}{\sqrt{n_{\text{eff}}}}$, where $n_{\text{eff}}$ is the effective number of independent observations (approximately the number of pairs sharing rare variants).</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    c.  Calculate a 95% confidence interval for the heritability estimate. Does this confidence interval allow us to distinguish between $h^2_{\text{rare}}=0.10$ and $h^2_{\text{common}}=0.25$</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Briefly explain in 2-3 sentences how the "missing heritability" problem relates to rare variants, and why larger samples with whole-genome sequencing may be needed to resolve this question.</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="fu">## Problem 2: Parent–offspring regression with assortative mating (14 pts)</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>Let $Y=A+E$ with $\operatorname{Var}(A)=\sigma_A^2$, $\operatorname{Var}(E)=\sigma_E^2$, random environments, and phenotypic mate correlation $\operatorname{corr}(Y_{\text{father}},Y_{\text{mother}})=r_m$.</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Show that $\operatorname{Var}(Y_{\text{mid-parent}})=\frac{1}{2}(1+r_m)\operatorname{Var}(Y)$.</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Given the regression slope $\beta=\frac{\operatorname{Cov}(Y_o,Y_{mp})}{\operatorname{Var}(Y_{mp})}$, show that</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>$\beta \;=\; \frac{\sigma_A^2}{\sigma_A^2+\sigma_E^2}\cdot\frac{1}{1+r_m} \;=\; \frac{h^2}{1+r_m}$. Interpret the direction of bias in $\beta$ for $r_m&gt;0$.</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>For $h^2=0.5$, compute $\beta$ for $r_m=0,0.1,0.3,0.5$. Comment on the practical impact of assortative mating on parent–offspring regression.</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="fu">## Problem 3: Derivation of Falconer's Formula from the ACE Model</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>**Background:** The ACE model is a foundational tool in quantitative genetics for partitioning phenotypic variance ($V_P$) into three components: additive genetic effects ($A$), common or shared environmental effects ($C$), and unique or non-shared environmental effects ($E$). Under this model, the total variance is given by $V_P = V_A + V_C + V_E$.</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>The intraclass correlations for a trait between monozygotic (MZ) and dizygotic (DZ) twins are given by:</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>$$r_{\text{MZ}} = \frac{\operatorname{Cov}(Y_1, Y_2 \mid \text{MZ})}{V_P}$$</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>$$r_{\text{DZ}} = \frac{\operatorname{Cov}(Y_1, Y_2 \mid \text{DZ})}{V_P}$$</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>Assume that: </span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Mating is random (no assortative mating).</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>There are no gene-environment interactions or correlations.</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The equal environments assumption holds (MZ and DZ twins experience their shared environments to a similar degree).</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Genetic effects are purely additive (no dominance or epistasis).</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>Assuming the ACE model, demonstrate that the narrow-sense heritability ($h^2 = V_A/V_P$) can be estimated as twice the difference between the MZ and DZ twin correlations.</span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>Show that:</span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>$$h^2 = 2(r_{\text{MZ}} - r_{\text{DZ}})$$</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
 </div> <!-- /content -->
 
 
