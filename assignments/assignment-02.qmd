@@ -1,6 +1,6 @@
 ---
 title: "Assignment 02"
-subtitle: "PUBH 8878: Heritability, Segregation, and Gene Mapping Theory"
+subtitle: "PUBH 8878"
 format: 
   html:
     html-math-method: katex
