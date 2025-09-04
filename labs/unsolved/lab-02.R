@@ -1,31 +1,10 @@
-############################################################
-# PUBH 8878 — Lab 02: Linear modeling for heritability concepts
-# Topic: Heritability (A/C/E), liability-threshold, ascertainment.
-#
-# Theme: Use familiar modeling tools (lm, glm with probit, optional REML via lme4)
-# to answer questions. Avoid custom MLE implementations from scratch.
-#
-# You will:
-#   1) Build a simple pedigree and A (2\phi) matrix
-#   2) Simulate quantitative and binary traits on the pedigree
-#   3) Estimate h^2 via:
-#       - Parent–offspring regression (lm)
-#       - Twins (MZ/DZ) via regression slopes
-#       - Optional: REML LMM using a package (no from-scratch code)
-#   4) For binary traits, fit probit GLMs and apply scale conversion
-#   5) Examine ascertainment bias using probit GLMs
-############################################################
-
-## ---- 0) Setup ---------------------------------------------------------------
-
 library(kinship2) # pedigree and kinship matrix
 library(mvtnorm) # multivariate normal probabilities
 library(dplyr) # data manipulation
-library(lme4) # optional LMM (if installed)
-library(sandwich) # robust SEs
-
+library(lme4qtl) # LMM with custom relationship matrices
+library(sandwich) # robust/sandwich variance estimators
+library(lme4)
 set.seed(8878)
-options(stringsAsFactors = FALSE)
 
 ## ---- 1) Build a pedigree and the additive relationship matrix A ------------
 
@@ -49,6 +28,7 @@ make_nuclear_families <- function(n_fam = 100, kids_min = 2, kids_max = 4) {
     kids <- sprintf("K%03d_%02d", f, seq_len(nk))
 
     id_vec <- c(dad, mom, kids)
+    # Use NA for unknown parents (kinship2 expects 0 or NA; avoid "0" as a string)
     dad_vec <- c(NA, NA, rep(dad, nk))
     mom_vec <- c(NA, NA, rep(mom, nk))
     sex_vec <- c(1L, 2L, sample(c(1L, 2L), nk, replace = TRUE))
@@ -73,8 +53,8 @@ ped_df <- make_nuclear_families(n_fam = 120, kids_min = 2, kids_max = 4)
 
 # Build a kinship2 pedigree object and compute the kinship matrix Φ.
 ped_obj <- with(ped_df, pedigree(id = id, dadid = dadid, momid = momid, sex = sex))
-Phi <- kinship(ped_obj) # kinship coefficients
-A <- 2 * as.matrix(Phi) # additive relationship
+Phi <- kinship(ped_obj) # kinship coefficients φ_ij
+A <- 2 * as.matrix(Phi) # additive relationship A = 2Φ
 dim(A) # sanity check
 
 # Index helpers
@@ -88,6 +68,9 @@ ped_df$sex01 <- as.integer(ped_df$sex == 1L) # male=1, female=0
 
 ## ---- 2) Simulate a quantitative trait from the pedigree ---------------------
 
+# We simulate Y ~ N(Xβ, V) with V = σ_A^2 * A + σ_E^2 * I.
+# Choose true parameters and compute h^2 = σ_A^2 / (σ_A^2 + σ_E^2).
+
 true_beta <- c(`(Intercept)` = 2.0, age = 0.10, sex01 = -0.25)
 true_h2 <- 0.60
 true_VA <- true_h2
@@ -99,20 +82,66 @@ V <- true_VA * A + true_VE * diag(n)
 # Simulate via Cholesky
 R <- chol(V) # upper triangular s.t. V = R'R
 z <- rnorm(n)
-y <- as.vector(X %*% true_beta + t(R) %*% z)
+y <- as.vector(X %*% true_beta + t(R) %*% z) # note: R' * z is N(0, V)
 
 ped_df$y <- y
 
-## ---- 3) Linear-model estimators (no custom MLE) -----------------------------
+## ---- 3) Linear-model estimators -----------------------------
 
 # A) Parent–offspring regression (lm)
 #  - Build a parent–offspring dataset from ped_df
 #  - Regress offspring y on parent y; h2_hat ≈ 2 * slope
-# TODO: construct a data.frame with columns: fam, parent_y, child_y (one child per family or all children)
+
+# TODO: construct `parents`, a data.frame with columns: fam, midparent (average y of both parents)
+
+# TODO: construct `children`, a data.frame with columns: fam, child (y of all children)
+
+# TODO: merge to get `df_child` with columns: fam, midparent, child
+
 # TODO: fit: lm(child ~ midparent)
 
-# TODO: compute h2_hat as coef(fit)[2]
-# TODO: fit mixed model with lmer4, compare confidence intervals using confint
+# TODO: compute confidence intervals for h2_hat
+
+# TODO: fit mixed model with lme4qtl (retmatLmer)
+
+# The ID for the random effect must be a factor
+ped_df$id_factor <- factor(ped_df$id)
+
+# TODO fit the model with relmatLmer and relmat = list(id_factor = A)
+fit_lmer <- relmatLmer(y ~ age + sex01 + (1 | id_factor),
+  data = ped_df,
+  relmat = list(id_factor = A)
+)
+
+# TODO: extract variance components
+# sigma2_A = additive genetic variance
+# sigma2_E = residual variance
+sigma2_A <- vars$vcov[1] # Additive genetic variance
+sigma2_E <- vars$vcov[2] # Residual variance
+
+# TODO: compute h2_est_lmer = sigma2_A / (sigma2_A + sigma2_E)
+h2_est_lmer <- sigma2_A / (sigma2_A + sigma2_E)
+h2_est_lmer
+
+# get confidence intervals for h2_hat
+
+# Profile likelihood for variance components
+pr <- profile(fit_lmer, which = "theta_", prof.scale = "varcov")
+
+# Convert the profile to “proportion of variance” scale
+pr_prop <- lme4qtl::varpropProf(pr)
+
+# Get profile-likelihood CIs; pick the row for the additive component
+ci_all <- confint(pr_prop, level = 0.95)
+
+# In a one‑random‑effect model, the additive proportion is `.sigprop01`
+ci_h2 <- ci_all[setdiff(
+  grep("sigprop", rownames(ci_all), value = TRUE),
+  ".sigmaprop"
+), , drop = FALSE]
+
+ci_h2
+
 
 # B) Twins (regression on standardized phenotypes)
 #  - Create synthetic MZ/DZ pairs from the simulated pedigree or simulate separately
@@ -172,21 +201,11 @@ tw <- tw |>
 
 # TODO: get correlation for r_DZ
 
-# Compute h^2 = 2*(r_MZ - r_DZ)
+# TODO: Compute h^2 = 2*(r_MZ - r_DZ)
+h2_hat <- 2 * (r_MZ - r_DZ)
+h2_hat
 
-# compute bootstrap CIs for h2_hat
-
-
-
-# Optional REML using a package
-#  - If available, demonstrate lme4::lmer with a family random intercept (captures C)
-#  - For kinship-based A random effects, consider coxme::lmekin (if installed)
-# if (requireNamespace("lme4", quietly = TRUE)) {
-#   library(lme4)
-#   # Example: random intercept for family (shared environment):
-#   # lmer(y ~ age + sex01 + (1|fam), data = ped_df, REML = TRUE)
-# }
-
+# TODO: compute bootstrap CIs for h2_hat
 
 ## ---- 4) Binary trait: probit GLM + recurrence risk -------------------------
 
@@ -204,13 +223,26 @@ simulate_binary_from_liability <- function(A, h2_liab = 0.5, K = 0.10) {
 }
 
 set.seed(91)
-h2_liab_true <- 0.50
-K_true <- 0.10
+h2_liab_true <- 0.2
+K_true <- 0.1
 bin_dat <- simulate_binary_from_liability(A, h2_liab = h2_liab_true, K = K_true)
 ped_df$case <- bin_dat$y
+# TODO: construct `parents_bin`, a data.frame with columns: fam, midparent_case
+# TODO: construct `children_bin`, a data.frame with columns: fam, child_case (all children)
 
-# Probit GLM sanity check (intercept-only): prevalence via probit link
-# TODO: fit <- glm(case ~ 1, family = binomial(link = "probit"), data = ped_df)
-# TODO: recover prevalence_hat = 1 - pnorm(-coef(fit)[1]) and compare to mean(case)
+# TODO: merge to get `df_child_bin` with columns: fam, midparent_case, child_case
 
-# compare to empirical prevalence
+# TODO: K <- prevalence (mean) of child_case
+
+# TODO: get T, which is the threshold on the liability scale
+
+# TODO: get phiT = density of N(0,1) at T
+
+# TODO: Build midparent liability score s_mp = phi(T)*(m - K) / [K(1-K)]
+# assign to df_child_bin$mp_score
+
+# TODO: fit a probit GLM of child_case on mp_score
+
+# TODO: Retrieve h2_hat, which is the regression coefficient for mp_score
+
+# TODO: get standard error for h2_hat and compute 95% CI using sandwich::vcovCL (cluster by familiy)

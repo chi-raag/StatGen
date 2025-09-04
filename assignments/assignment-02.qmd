@@ -2,241 +2,88 @@
 title: "Assignment 02"
 subtitle: "PUBH 8878: Heritability, Segregation, and Gene Mapping Theory"
 format: 
-  html: default
+  html:
+    html-math-method: katex
   pdf: default
   docx: default
 format-links: [pdf, docx]
 draft: true
+bibliography: references.bib
+csl: https://www.zotero.org/styles/biostatistics
 ---
 
-*Due: [Date TBD]*
-
-## Instructions
-
-This assignment covers theoretical foundations of heritability analysis, segregation modeling, and gene mapping strategy. You will work with mathematical derivations, implement computational algorithms, and simulate genetic data to understand the statistical genetics toolkit.
+*Due: \[Date TBD\]*
 
 **Requirements:**
-- Show all mathematical work
-- Submit well-documented R code with clear comments
-- Interpret results in biological context
-- Submit both `.qmd` source and rendered output
 
----
+-   Show all mathematical work
+-   Submit well-documented R code with clear comments
+-   Interpret results in biological context
+-   Submit *pdf* rendered output, not the source `.qmd` file
 
-1. Recall (Young, 2022): "The first challenge is one of precision. The information used to estimate heritability from rare variants by GREML-WGS comes from the variation in sharing of rare variants among distantly related pairs of individuals [13, 15]. However, distantly related individuals typically do not share any particular rare variant, so the variation in rare variant sharing is low. This means that large samples with high quality WGS data are required to obtain precise estimates, and such samples are not common yet. Based on the only existing application of GREML-WGS [13], a sample size of ~40,000 would produce estimates precise enough to be statistically distinguished from other heritability estimates (Table 1). It is likely that this challenge will be overcome shortly, since samples of similar magnitude already exist [16]."
+## Problem 1: Missing Heritability and Rare Variants (10 points)
 
-  a. Assume the probability that two distantly related individuals share a rare variant is $p=0.001$. What sample size is required to have a 95% chance that at least one pair shares a rare variant?
-  b. Let's say the true heritability of a trait is $h^2=.4$. How many samples are required to achieve power. 80% to detect this heritability at $\alpha=0.05$ using GREML? Use the `GCTA` software power calculator (https://yanglab.westlake.edu.cn/software/gcta/#Power%20Calculator) and assume the following parameters: 1) 1,000,000 SNPs; 2) prevalence = 0.1; 3) case-control ratio = 1:4; 4) disease risk = 0.01.
+Recall [@young2019]: "The first challenge is one of precision. The information used to estimate heritability from rare variants by GREML-WGS comes from the variation in sharing of rare variants among distantly related pairs of individuals. However, distantly related individuals typically do not share any particular rare variant, so the variation in rare variant sharing is low. This means that large samples with high quality WGS data are required to obtain precise estimates, and such samples are not common yet. Based on the only existing application of GREML-WGS, a sample size of \~40,000 would produce estimates precise enough to be statistically distinguished from other heritability estimates. It is likely that this challenge will be overcome shortly, since samples of similar magnitude already exist."
 
-## Problem 1: Recurrence Risk and Heritability Theory (25 points)
+1.  Assume the probability that two distantly related individuals share a rare variant is $p=0.001$. Assume a sample size of $n=40,000$ individuals.
+    a.  Calculate the expected number of pairs of individuals in this sample who share a rare variant. How many total pairs of individuals exist in the sample?
+    b.  If we estimate that rare variants contribute $h^2_{\text{rare}}=0.10$ to heritability, calculate the standard error of this estimate given the sample size. Use the formula $\text{SE}(h^2) \approx \frac{2}{\sqrt{n_{\text{eff}}}}$, where $n_{\text{eff}}$ is the effective number of independent observations (approximately the number of pairs sharing rare variants).
+    c.  Calculate a 95% confidence interval for the heritability estimate. Does this confidence interval allow us to distinguish between $h^2_{\text{rare}}=0.10$ and $h^2_{\text{common}}=0.25$
+2.  Briefly explain in 2-3 sentences how the "missing heritability" problem relates to rare variants, and why larger samples with whole-genome sequencing may be needed to resolve this question.
 
-### Part A: Mathematical Derivations (15 points)
+## Problem 2: Parent–Offspring Regression for $h^2$ (15 points)
 
-Consider a binary trait with population prevalence $K = 0.01$ and sibling recurrence risk ratio $\lambda_{\text{sibling}} = 25$.
+Use the Lab 02 scaffold to simulate a quantitative trait on the pedigree (see `labs/unsolved/lab-02.R`, Sections 1–2) and estimate heritability from mid-parent regression.
 
-i. Using the liability threshold model, derive the relationship between $\lambda_{\text{sibling}}$ and heritability $h^2$ on the liability scale. Start from the bivariate normal distribution of sibling liabilities and show that:
+1.  Construct a data set with columns `fam`, `midparent` (mean of father/mother phenotypes), and `child` (one row per child). Fit `lm(child ~ midparent)`.
+2.  Report the estimated slope $\hat\beta$ and its 95% CI. Compute $\hat h^2 = \hat\beta$ for mid-parent regression (justify briefly from lecture notes) and give a 95% CI for $h^2$ by transforming the CI for $\beta$.
+3.  Compare $\hat h^2$ to the simulation truth used in your code. Give one sentence on a factor that could bias this estimator in real data.
 
-$$\lambda_{\text{sibling}} = \frac{\Phi_2(T, T; h^2/2)}{K^2}$$
+## Problem 3: Pedigree LMM (Variance Components) (15 points)
 
-where $\Phi_2$ is the bivariate normal CDF and $T$ is the liability threshold.
+Fit an “animal model” with an additive relationship matrix using `lme4qtl::relmatLmer` (see `labs/solved/lab-02.R`). .
 
-ii. For low prevalence traits ($K < 0.05$), prove that this simplifies to:
+1.  Fit `y ~ age + sex01 + (1|id_factor)` with `relmat = list(id_factor = A)` on your simulated data. Extract $\hat\sigma^2_A$ and $\hat\sigma^2_E$ and report $\hat h^2 = \hat\sigma^2_A/(\hat\sigma^2_A+\hat\sigma^2_E)$.
+2.  Obtain a 95% bootstrap CI for $h^2$ using `bootMer` (100–500 resamples is fine). Compare to the true simulation value.
+3.  In 2–3 sentences, explain why a standard $\chi^2_1$ LRT is invalid for testing $H_0\!:\,\sigma_A^2=0$. What is the appropriate asymptotic null distribution from lecture, and why?
 
-$$h^2 \approx \frac{\ln(\lambda_{\text{sibling}}) \cdot K^2}{i^2}$$
+## Problem 4: Twins Estimator (ACE Heuristics) (15 points)
 
-where $i = \phi(z_K)/K$ is the intensity of selection. Show all approximation steps.
+1.  Derive Falconer's formula for twins heritability $h^2 = 2(r_{\text{MZ}} - r_{\text{DZ}})$ from the ACE model, assuming MZ twins share all their additive genetics and DZ twins share half. Note that
 
-iii. Calculate $h^2$ for the given parameters and compare to the exact formula.
+-   $Y_MZ = A + C + E$
+-   $Y_DZ = 0.5A + C + E$
+-   $r_MZ = \operatorname{Corr}(Y_MZ1, Y_MZ2)$
+-   $r_DZ = \operatorname{Corr}(Y_DZ1, Y_DZ2)$
+-   $\operatorname{Corr}(X, Y) = \frac{\operatorname{Cov}(X, Y)}{\sqrt{\operatorname{Var}(X)\operatorname{Var}(Y)}}$
 
-### Part B: Computational Implementation (10 points)
+## Problem 5: Binary Traits and Liability-Threshold (20 points)
 
-i. Implement the liability threshold model in R:
+Simulate a binary trait from a liability-threshold model on the pedigree as in the lab (`simulate_binary_from_liability`). Let population prevalence be $K$ and sample prevalence be $P$.
 
-```{r, eval=FALSE}
-# Template - you need to complete this function
-liability_heritability <- function(lambda_sibling, K) {
-    # Compute threshold
-    z_K <- qnorm(1 - K)
+1.  Fit an intercept-only probit GLM `glm(case ~ 1, family = binomial(link = "probit"))`. Recover $\hat K$ from the fitted intercept and verify it matches the empirical prevalence.
+2.  Construct a mid-parent/offspring data set for the binary trait and fit a probit regression of child on mid-parent. Report the slope and use lecture logic to interpret $\hat h^2$ on the liability scale. Provide a simple bootstrap CI.
+3.  Using the formulas from lecture, convert between observed-scale and liability-scale heritability:
+    -   Unascertained case ($P=K$): $h_{\text{obs}}^2 \approx h_\ell^2\,\phi(T)^2/[K(1-K)]$ with $T=\Phi^{-1}(1-K)$.
+    -   Case–control sampling ($P \ne K$): $h_\ell^2 \approx h_{\text{obs}}^2\,K^2(1-K)^2/[\phi(T)^2\,P(1-P)]$. Compute both and comment on how low $K$ affects $h_{\text{obs}}^2$.
 
-    # Compute intensity of selection
-    i <- dnorm(z_K) / K
+## Problem 6: Ascertainment and Recurrence Risk (15 points)
 
-    # YOUR CODE HERE: Implement both exact and approximate formulas
-    # Return list with h2_exact, h2_approx, and comparison
-}
-```
+1.  Ascertainment as conditioning: In 2–3 sentences, explain why analyzing a case–control sample as if it were a random sample biases prevalence and regression parameters, and how the truncation view corrects the likelihood.
+2.  Using your simulated binary data, restrict to families with at least one affected child (probands). Re-estimate the probit intercept-only model on this ascertained sample and compare $\hat K$ to the true $K$.
+3.  Estimate the sibling recurrence risk ratio $\lambda_R = \Pr(\text{sib affected} \mid \text{proband affected})/K$ empirically from your simulated families. Report your estimate and a brief interpretation.
 
-Test your function with various $(\lambda_{\text{sibling}}, K)$ combinations and create a plot showing when the approximation breaks down.
+## Problem 7: Segregation Analysis — Likelihood Basics (10 points)
 
-## Problem 2: Heritability Estimation and Bias (30 points)
+1.  Consider a dominant model with a single heterozygous parent ($Dd\times dd$) and penetrance $f$ for genotype $D\cdot$. For a family with $n$ children and $n_A$ affected, write the binomial likelihood and log-likelihood for $f$ and show that the MLE is $\hat f = n_A/n$.
+2.  Now suppose you observe five such families with counts $(n, n_A)$ equal to $(3,2)$, $(4,1)$, $(5,3)$, $(2,1)$, $(6,2)$. Compute the MLE $\hat f$ pooling across families and give a Wald 95% CI.
+3.  Very briefly list two pitfalls in segregation analysis highlighted in lecture (e.g., reduced penetrance, phenocopies, ascertainment, or HWE assumptions).
 
-### Part A: Theoretical Analysis (15 points)
+------------------------------------------------------------------------
 
-**2.1** Consider the additive genetic model for a quantitative trait:
+Submission checklist:
 
-$$Y = \mu + \sum_{m=1}^M a_m X_m + \epsilon$$
-
-where $X_m$ is the number of effect alleles at locus $m$ with allele frequency $p_m$.
-
-**(a)** Prove that the additive genetic variance is:
-$$\sigma_A^2 = \sum_{m=1}^M a_m^2 \cdot 2p_m(1-p_m)$$
-
-**(b)** Show that narrow-sense heritability $h^2 = \sigma_A^2/(\sigma_A^2 + \sigma_E^2)$ can be estimated from parent-offspring regression as the slope $\beta_1$ in:
-$$Y_{\text{offspring}} = \beta_0 + \beta_1 \cdot \frac{Y_{\text{parent1}} + Y_{\text{parent2}}}{2} + \epsilon$$
-
-**(c)** Derive the bias in $\hat{h^2}$ when there are shared environmental effects with correlation $c$ between relatives.
-
-### Part B: Simulation Study (15 points)
-
-**2.2** Design and implement a comprehensive simulation to study heritability estimation:
-
-```{r, eval=FALSE}
-# Template structure - expand this
-simulate_heritability_study <- function(n_families, n_qtl, h2_true,
-                                        shared_env_cor = 0, dom_variance_prop = 0) {
-    # YOUR IMPLEMENTATION:
-    # 1. Simulate QTL effects and frequencies
-    # 2. Generate parental genotypes and phenotypes
-    # 3. Simulate offspring via Mendelian inheritance
-    # 4. Add environmental effects (including shared if specified)
-    # 5. Estimate h2 via multiple methods:
-    #    - Parent-offspring regression
-    #    - Full-sib correlation (h2 = 2*r_sib for additive model)
-    #    - ANOVA-based family components
-    # 6. Return comparison of estimates
-}
-```
-
-**Requirements:**
-- Test with different genetic architectures (oligogenic vs polygenic)
-- Investigate bias from shared environment and dominance
-- Create publication-quality plots comparing estimation methods
-- Discuss when each method performs best
-
----
-
-## Problem 3: Segregation Analysis Implementation (25 points)
-
-### Part A: Likelihood Theory (10 points)
-
-**3.1** For a binary trait following a single-locus model with genotypes $AA$, $Aa$, $aa$:
-
-**(a)** Write the complete likelihood function for a nuclear family with $n$ offspring, given parental phenotypes and offspring phenotype vector $\mathbf{y} = (y_1, ..., y_n)$. Include:
-- Penetrance parameters $f_{AA}, f_{Aa}, f_{aa}$
-- Allele frequency $p$
-- All possible parental genotype combinations
-
-**(b)** Derive the EM algorithm steps for maximum likelihood estimation when parental genotypes are unknown.
-
-**(c)** Show how to incorporate ascertainment bias correction for families selected because they contain at least one affected individual.
-
-### Part B: Computational Implementation (15 points)
-
-**3.2** Implement segregation analysis in R:
-
-```{r, eval=FALSE}
-# Template - you need to complete this
-segregation_analysis <- function(family_data, model = "dominant") {
-    # family_data should have columns: family_id, individual_id,
-    # father_id, mother_id, affected_status
-
-    # YOUR IMPLEMENTATION:
-    # 1. Set up parameter space (p, penetrances)
-    # 2. Implement likelihood calculation for each family
-    # 3. Use optim() to find MLE
-    # 4. Calculate LOD scores vs sporadic model
-    # 5. Perform likelihood ratio tests
-    # 6. Return parameter estimates, standard errors, p-values
-}
-```
-
-**Test your implementation with:**
-- Simulated data from known genetic models
-- Real pedigree data (provide sample dataset)
-- Compare dominant, recessive, and additive models
-- Validate against published segregation analysis results
-
----
-
-## Problem 4: Gene Mapping Strategy and Power Analysis (20 points)
-
-### Part A: Linkage vs Association Theory (10 points)
-
-**4.1** Consider two scenarios:
-- **Scenario A**: $\lambda_{\text{sibling}} = 50$, $h^2 = 0.85$, significant single-locus segregation
-- **Scenario B**: $\lambda_{\text{sibling}} = 3$, $h^2 = 0.45$, non-significant segregation
-
-**(a)** For each scenario, calculate the expected effect size (relative risk) for association studies using the relationship:
-$$\text{RR} \approx 1 + \frac{2p(1-p) \cdot \beta^2}{\sigma_E^2}$$
-where $\beta$ is the allelic effect.
-
-**(b)** Derive the sample size requirements for 80% power in linkage analysis (families needed) vs association studies (cases/controls needed) for each scenario.
-
-**(c)** Create a decision framework: plot the boundary in $(\lambda_{\text{sibling}}, h^2)$ space that separates "linkage optimal" from "association optimal" regions.
-
-### Part B: Map Distance and Recombination (10 points)
-
-**4.2** Implement and compare map functions:
-
-```{r, eval=FALSE}
-# YOUR IMPLEMENTATION:
-map_functions <- list(
-    haldane = function(theta) {
-        # Convert recombination fraction to genetic distance (cM)
-    },
-    kosambi = function(theta) {
-        # Convert with interference assumption
-    },
-    # Add inverse functions
-    haldane_inv = function(d_cM) {
-        # Convert genetic distance to recombination fraction
-    },
-    kosambi_inv = function(d_cM) {
-        # Convert genetic distance to recombination fraction
-    }
-)
-```
-
-**Analysis Requirements:**
-- Plot both map functions and their differences
-- Show how interference affects genetic distance estimates
-- Calculate the maximum difference between Haldane and Kosambi functions
-- Discuss implications for gene mapping resolution
-
----
-
-## Bonus Problem: Advanced Heritability Concepts (10 points)
-
-**5.1** **Missing Heritability Decomposition**: The lecture showed that family-based heritability estimates are often much higher than SNP-based estimates. 
-
-**(a)** Simulate a polygenic trait with 1000 QTLs where only 100 are genotyped ("tag SNPs"). Calculate:
-- True narrow-sense heritability
-- Heritability captured by tag SNPs only
-- "Missing heritability" = difference
-
-**(b)** Implement a variance components model that partitions heritability into:
-- Common variants (MAF > 5%)
-- Low-frequency variants (1% < MAF < 5%)  
-- Rare variants (MAF < 1%)
-- Structural variants/CNVs
-
-**(c)** Discuss how LD patterns, population structure, and gene-gene interactions contribute to missing heritability.
-
----
-
-## Submission Requirements
-
-1. **Code**: Well-documented R functions with clear variable names and comments
-2. **Plots**: Publication-quality figures with proper labels and captions
-3. **Written responses**: Mathematical derivations and biological interpretations
-4. **Reproducibility**: Set seeds for random simulations; provide session info
-
-**Grading Criteria:**
-- Mathematical accuracy and completeness (40%)
-- Code quality and computational correctness (35%)
-- Biological interpretation and insights (15%)
-- Clarity of presentation (10%)
-
----
-
-*This assignment integrates the theoretical foundations from Lecture 02 with hands-on computational implementation, preparing you for advanced topics in statistical genetics.*
+-   Code: Include commented R code for Problems 2, 3, 4, 5, and 6. You may adapt from `labs/unsolved/lab-02.R` and cite any external code you used.
+-   Math: Show algebra for Problems 1 and 7.
+-   Interpretation: For each numeric answer, add 1–2 sentence interpretation in context.
+-   Deliverable: Render and submit the PDF, not the source `.qmd`.
