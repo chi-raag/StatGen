@@ -21,7 +21,7 @@ Due before class on **Wednesday, September 10th**.
 -   Interpret results in biological context
 -   Submit *pdf* rendered output, not the source `.qmd` file
 
-## Problem 1: Missing Heritability and Rare Variants (10 points)
+## Problem 1: Missing Heritability and Rare Variants (40 pts)
 
 Recall [@young2019]: "The first challenge is one of precision. The information used to estimate heritability from rare variants by GREML-WGS comes from the variation in sharing of rare variants among distantly related pairs of individuals. However, distantly related individuals typically do not share any particular rare variant, so the variation in rare variant sharing is low. This means that large samples with high quality WGS data are required to obtain precise estimates, and such samples are not common yet. Based on the only existing application of GREML-WGS, a sample size of \~40,000 would produce estimates precise enough to be statistically distinguished from other heritability estimates. It is likely that this challenge will be overcome shortly, since samples of similar magnitude already exist."
 
@@ -33,7 +33,7 @@ Recall [@young2019]: "The first challenge is one of precision. The information u
 
 
 
-## Problem 2: Parent–offspring regression with assortative mating (14 pts)
+## Problem 2: Parent–offspring regression with assortative mating (40 pts)
 
 Let $Y=A+E$ with $\operatorname{Var}(A)=\sigma_A^2$, $\operatorname{Var}(E)=\sigma_E^2$, random environments, and phenotypic mate correlation $\operatorname{corr}(Y_{\text{father}},Y_{\text{mother}})=r_m$.
 
@@ -42,7 +42,7 @@ Let $Y=A+E$ with $\operatorname{Var}(A)=\sigma_A^2$, $\operatorname{Var}(E)=\sig
 $\beta \;=\; \frac{\sigma_A^2}{\sigma_A^2+\sigma_E^2}\cdot\frac{1}{1+r_m} \;=\; \frac{h^2}{1+r_m}$. Interpret the direction of bias in $\beta$ for $r_m>0$.
 3.	For $h^2=0.5$, compute $\beta$ for $r_m=0,0.1,0.3,0.5$. Comment on the practical impact of assortative mating on parent–offspring regression.
 
-## Problem 3: Derivation of Falconer's Formula from the ACE Model
+## Problem 3: Derivation of Falconer's Formula from the ACE Model (20 pts)
 
 **Background:** The ACE model is a foundational tool in quantitative genetics for partitioning phenotypic variance ($V_P$) into three components: additive genetic effects ($A$), common or shared environmental effects ($C$), and unique or non-shared environmental effects ($E$). Under this model, the total variance is given by $V_P = V_A + V_C + V_E$.
 

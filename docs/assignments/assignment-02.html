@@ -248,9 +248,9 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#problem-1-missing-heritability-and-rare-variants-10-points" id="toc-problem-1-missing-heritability-and-rare-variants-10-points" class="nav-link active" data-scroll-target="#problem-1-missing-heritability-and-rare-variants-10-points">Problem 1: Missing Heritability and Rare Variants (10 points)</a></li>
-  <li><a href="#problem-2-parentoffspring-regression-with-assortative-mating-14-pts" id="toc-problem-2-parentoffspring-regression-with-assortative-mating-14-pts" class="nav-link" data-scroll-target="#problem-2-parentoffspring-regression-with-assortative-mating-14-pts">Problem 2: Parent–offspring regression with assortative mating (14 pts)</a></li>
-  <li><a href="#problem-3-derivation-of-falconers-formula-from-the-ace-model" id="toc-problem-3-derivation-of-falconers-formula-from-the-ace-model" class="nav-link" data-scroll-target="#problem-3-derivation-of-falconers-formula-from-the-ace-model">Problem 3: Derivation of Falconer’s Formula from the ACE Model</a></li>
+  <li><a href="#problem-1-missing-heritability-and-rare-variants-40-pts" id="toc-problem-1-missing-heritability-and-rare-variants-40-pts" class="nav-link active" data-scroll-target="#problem-1-missing-heritability-and-rare-variants-40-pts">Problem 1: Missing Heritability and Rare Variants (40 pts)</a></li>
+  <li><a href="#problem-2-parentoffspring-regression-with-assortative-mating-40-pts" id="toc-problem-2-parentoffspring-regression-with-assortative-mating-40-pts" class="nav-link" data-scroll-target="#problem-2-parentoffspring-regression-with-assortative-mating-40-pts">Problem 2: Parent–offspring regression with assortative mating (40 pts)</a></li>
+  <li><a href="#problem-3-derivation-of-falconers-formula-from-the-ace-model-20-pts" id="toc-problem-3-derivation-of-falconers-formula-from-the-ace-model-20-pts" class="nav-link" data-scroll-target="#problem-3-derivation-of-falconers-formula-from-the-ace-model-20-pts">Problem 3: Derivation of Falconer’s Formula from the ACE Model (20 pts)</a></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="assignment-02.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li><li><a href="assignment-02.docx"><i class="bi bi-file-word"></i>MS Word</a></li></ul></div></nav>
     </div>
@@ -285,8 +285,8 @@ window.Quarto = {
 <li>Interpret results in biological context</li>
 <li>Submit <em>pdf</em> rendered output, not the source <code>.qmd</code> file</li>
 </ul>
-<section id="problem-1-missing-heritability-and-rare-variants-10-points" class="level2">
-<h2 class="anchored" data-anchor-id="problem-1-missing-heritability-and-rare-variants-10-points">Problem 1: Missing Heritability and Rare Variants (10 points)</h2>
+<section id="problem-1-missing-heritability-and-rare-variants-40-pts" class="level2">
+<h2 class="anchored" data-anchor-id="problem-1-missing-heritability-and-rare-variants-40-pts">Problem 1: Missing Heritability and Rare Variants (40 pts)</h2>
 <p>Recall <span class="citation" data-cites="young2019">(<a href="#ref-young2019" role="doc-biblioref">Young 2019</a>)</span>: “The first challenge is one of precision. The information used to estimate heritability from rare variants by GREML-WGS comes from the variation in sharing of rare variants among distantly related pairs of individuals. However, distantly related individuals typically do not share any particular rare variant, so the variation in rare variant sharing is low. This means that large samples with high quality WGS data are required to obtain precise estimates, and such samples are not common yet. Based on the only existing application of GREML-WGS, a sample size of ~40,000 would produce estimates precise enough to be statistically distinguished from other heritability estimates. It is likely that this challenge will be overcome shortly, since samples of similar magnitude already exist.”</p>
 <ol type="1">
 <li>Assume the probability that two distantly related individuals share a rare variant is <span class="math inline">p=0.001</span>. Assume a sample size of <span class="math inline">n=40,000</span> individuals.
@@ -298,8 +298,8 @@ window.Quarto = {
 <li>Briefly explain in 2-3 sentences how the “missing heritability” problem relates to rare variants, and why larger samples with whole-genome sequencing may be needed to resolve this question.</li>
 </ol>
 </section>
-<section id="problem-2-parentoffspring-regression-with-assortative-mating-14-pts" class="level2">
-<h2 class="anchored" data-anchor-id="problem-2-parentoffspring-regression-with-assortative-mating-14-pts">Problem 2: Parent–offspring regression with assortative mating (14 pts)</h2>
+<section id="problem-2-parentoffspring-regression-with-assortative-mating-40-pts" class="level2">
+<h2 class="anchored" data-anchor-id="problem-2-parentoffspring-regression-with-assortative-mating-40-pts">Problem 2: Parent–offspring regression with assortative mating (40 pts)</h2>
 <p>Let <span class="math inline">Y=A+E</span> with <span class="math inline">\operatorname{Var}(A)=\sigma_A^2</span>, <span class="math inline">\operatorname{Var}(E)=\sigma_E^2</span>, random environments, and phenotypic mate correlation <span class="math inline">\operatorname{corr}(Y_{\text{father}},Y_{\text{mother}})=r_m</span>.</p>
 <ol type="1">
 <li>Show that <span class="math inline">\operatorname{Var}(Y_{\text{mid-parent}})=\frac{1}{2}(1+r_m)\operatorname{Var}(Y)</span>.</li>
@@ -307,8 +307,8 @@ window.Quarto = {
 <li>For <span class="math inline">h^2=0.5</span>, compute <span class="math inline">\beta</span> for <span class="math inline">r_m=0,0.1,0.3,0.5</span>. Comment on the practical impact of assortative mating on parent–offspring regression.</li>
 </ol>
 </section>
-<section id="problem-3-derivation-of-falconers-formula-from-the-ace-model" class="level2">
-<h2 class="anchored" data-anchor-id="problem-3-derivation-of-falconers-formula-from-the-ace-model">Problem 3: Derivation of Falconer’s Formula from the ACE Model</h2>
+<section id="problem-3-derivation-of-falconers-formula-from-the-ace-model-20-pts" class="level2">
+<h2 class="anchored" data-anchor-id="problem-3-derivation-of-falconers-formula-from-the-ace-model-20-pts">Problem 3: Derivation of Falconer’s Formula from the ACE Model (20 pts)</h2>
 <p><strong>Background:</strong> The ACE model is a foundational tool in quantitative genetics for partitioning phenotypic variance (<span class="math inline">V_P</span>) into three components: additive genetic effects (<span class="math inline">A</span>), common or shared environmental effects (<span class="math inline">C</span>), and unique or non-shared environmental effects (<span class="math inline">E</span>). Under this model, the total variance is given by <span class="math inline">V_P = V_A + V_C + V_E</span>.</p>
 <p>The intraclass correlations for a trait between monozygotic (MZ) and dizygotic (DZ) twins are given by:</p>
 <p><span class="math display">r_{\text{MZ}} = \frac{\operatorname{Cov}(Y_1, Y_2 \mid \text{MZ})}{V_P}</span></p>
@@ -808,7 +808,7 @@ Young, A. I. (2019). <a href="https://doi.org/10.1371/journal.pgen.1008222">Solv
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Interpret results in biological context</span>
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Submit *pdf* rendered output, not the source <span class="in">`.qmd`</span> file</span>
 <span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="fu">## Problem 1: Missing Heritability and Rare Variants (10 points)</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="fu">## Problem 1: Missing Heritability and Rare Variants (40 pts)</span></span>
 <span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>Recall <span class="co">[</span><span class="ot">@young2019</span><span class="co">]</span>: "The first challenge is one of precision. The information used to estimate heritability from rare variants by GREML-WGS comes from the variation in sharing of rare variants among distantly related pairs of individuals. However, distantly related individuals typically do not share any particular rare variant, so the variation in rare variant sharing is low. This means that large samples with high quality WGS data are required to obtain precise estimates, and such samples are not common yet. Based on the only existing application of GREML-WGS, a sample size of \~40,000 would produce estimates precise enough to be statistically distinguished from other heritability estimates. It is likely that this challenge will be overcome shortly, since samples of similar magnitude already exist."</span>
 <span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
@@ -820,7 +820,7 @@ Young, A. I. (2019). <a href="https://doi.org/10.1371/journal.pgen.1008222">Solv
 <span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="fu">## Problem 2: Parent–offspring regression with assortative mating (14 pts)</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="fu">## Problem 2: Parent–offspring regression with assortative mating (40 pts)</span></span>
 <span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>Let $Y=A+E$ with $\operatorname{Var}(A)=\sigma_A^2$, $\operatorname{Var}(E)=\sigma_E^2$, random environments, and phenotypic mate correlation $\operatorname{corr}(Y_{\text{father}},Y_{\text{mother}})=r_m$.</span>
 <span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
@@ -829,7 +829,7 @@ Young, A. I. (2019). <a href="https://doi.org/10.1371/journal.pgen.1008222">Solv
 <span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>$\beta \;=\; \frac{\sigma_A^2}{\sigma_A^2+\sigma_E^2}\cdot\frac{1}{1+r_m} \;=\; \frac{h^2}{1+r_m}$. Interpret the direction of bias in $\beta$ for $r_m&gt;0$.</span>
 <span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>For $h^2=0.5$, compute $\beta$ for $r_m=0,0.1,0.3,0.5$. Comment on the practical impact of assortative mating on parent–offspring regression.</span>
 <span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="fu">## Problem 3: Derivation of Falconer's Formula from the ACE Model</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="fu">## Problem 3: Derivation of Falconer's Formula from the ACE Model (20 pts)</span></span>
 <span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>**Background:** The ACE model is a foundational tool in quantitative genetics for partitioning phenotypic variance ($V_P$) into three components: additive genetic effects ($A$), common or shared environmental effects ($C$), and unique or non-shared environmental effects ($E$). Under this model, the total variance is given by $V_P = V_A + V_C + V_E$.</span>
 <span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a></span>
