@@ -1,0 +1,777 @@
+---
+title: "Lecture 03: Advanced Likelihood Methods and Inference"
+subtitle: PUBH 8878, Statistical Genetics
+format: 
+    revealjs:
+        theme: [default, "custom.scss"]
+        css: styles.css
+        slide-number: true
+        html-math-method: 
+          method: mathjax
+          url: https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js
+execute:
+  freeze: auto
+  echo: true
+  warning: true
+engine: knitr
+knitr:
+  opts_chunk: 
+    R.options:
+      width: 80
+draft: true
+---
+
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+library(dplyr)
+library(ggplot2)
+library(knitr)
+library(viridis)
+library(htmltools)
+library(kableExtra)
+```
+
+## Review: Likelihood Function Basics
+
+From Lecture 1, we learned:
+
+- Likelihood function: $L(\boldsymbol{\theta} | \text{data}) = P(\text{data} | \boldsymbol{\theta})$
+- Maximum Likelihood Estimation (MLE)
+- Simple one-parameter examples
+
+However often direct MLE is not possible because
+
+- Closed-form solution does not exist 
+- Missing or latent data 
+- High-dimensional or constrained parameter space leads to non-convex surface with multiple local maxima
+
+## Agenda
+
+- Optimization for MLE: Newton–Raphson, Gradient Descent, SGD
+- EM algorithm: gene frequencies and incomplete data
+- Linkage analysis: two-point, unknown phase EM, multipoint HMM
+- Linkage disequilibrium (LD) and its measures (D, D', r)
+- Association: single-marker/haplotype tests and basic QC
+
+## Newton-Raphson Method for MLE
+
+- General procedure to find $x$ such that $g(x) = 0$
+- Uses Taylor Expansion, for $g(x)$ about a point $x = a$:
+
+\begin{align*}
+g(x) = g(a) &+ 
+\frac{g'(a)(x-a)}{1!} + \frac{g''(a)(x-a)^2}{2!} \\
+&+ ... + \frac{g^{(n)}(a)(x-a)^n}{n!}
+\end{align*}
+
+## Taylor Series Convergence
+
+```{r, echo = F}
+# Show how higher-order Taylor polynomials approach exp(x) on [-1, 1]
+x_plot <- seq(-1, 1, by = 0.01)
+orders <- c(1, 2, 3)
+exp_f <- function(x) exp(x)
+
+eval_poly <- function(f_or_str, x) {
+    if (is.function(f_or_str)) {
+        return(f_or_str(x))
+    }
+    expr <- parse(text = f_or_str)[[1]]
+    vapply(x, function(xi) eval(expr, envir = list(x = xi)), numeric(1))
+}
+
+poly_curves <- purrr::map_dfr(orders, function(n) {
+    tf <- calculus::taylor(exp_f, var = c(x = 0), order = n)
+    tibble(
+        x = x_plot,
+        value = eval_poly(tf$f, x_plot),
+        order = factor(sprintf("n = %d", n), levels = sprintf("n = %d", orders))
+    )
+})
+
+exp_curve <- tibble(x = x_plot, value = exp_f(x_plot), series = "exp(x)")
+
+ggplot() +
+    geom_line(data = exp_curve, aes(x, value), color = "black", linewidth = 1.2) +
+    geom_line(data = poly_curves, aes(x, value, color = order), linewidth = 0.9, alpha = 0.9) +
+    scale_color_viridis_d(name = "Taylor order", end = .8) +
+    labs(
+        x = "x", y = "g(x)"
+    ) +
+    theme_bw(base_size = 14) +
+    theme(panel.grid = element_blank())
+```
+
+## Gradient Descent
+
+- First-order iterative optimization algorithm
+- Does not rely on matrix inversions $\longrightarrow$ better for high dimensional problems
+- [Visualizer from UCLA](https://uclaacm.github.io/gradient-descent-visualiser/#playground)
+
+## Stochastic Gradient Descent (SGD)
+
+- Uses mini-batches or single observations to form an unbiased gradient estimate.
+- Pros: scales to large datasets; inexpensive per-iteration; escapes shallow local structure via noise.
+- Cons: requires step-size schedule (e.g., Robbins–Monro); more variance in updates than full GD.
+- Practical tweaks: momentum/Nesterov, Adam/Adagrad; early stopping and learning-rate decay.
+
+## The EM Algorithm 
+
+- Expectation-Maximization Algorithm
+- Key idea: transform an **incomplete** data problem into a **complete** data problem
+
+$$
+p\left(y \mid \theta \right) = \frac{p\left(y, z \mid \theta \right)}{p\left(z \mid y, \theta\right)}
+$$
+
+## EM for Gene Frequencies
+
+```{r, echo = FALSE}
+
+# Genotype to phenotype mapping for ABO example (EM for gene frequencies)
+df <- tibble(
+    Genotype = c("AA", "AO", "AB", "BB", "BO", "OO"),
+    Phenotype = c("A", "A", "AB", "B", "B", "O"),
+    `Observed Counts` = c("n_A", "", "n_{AB}", "n_B", "", "n_O"),
+    Frequency = c("p_A^2", "2 p_A p_O", "2 p_A p_B", "p_B^2", "2 p_B p_O", "p_O^2")
+)
+
+# Wrap every non-empty cell in math mode
+df_print <- df %>%
+    mutate(across(everything(), ~ if_else(. == "", "", paste0("$", ., "$"))))
+
+
+knitr::kable(
+    df_print,
+    escape = FALSE,
+    col.names = c("Genotype", "Phenotype", "Observed Counts", "Genotype Frequency")
+)
+```
+
+## EM for Gene Frequencies
+
+- We don’t know if $n_A$ is from $AA$ or $AO$! (And similarly for $n_B$)
+- However, given our data model, we can find values of $(\hat{p}_A, \hat{p}_B)$ via EM
+
+## EM for Gene Frequencies
+
+- Start with initial $(p_A^{(0)}, p_B^{(0)})$ and set $p_O^{(0)} = 1 - p_A^{(0)} - p_B^{(0)}$.
+
+- E-step: allocate ambiguous phenotype counts:
+    - $A$ phenotype: $\tilde n_{AA} = n_A \frac{(p_A^{(t)})^2}{(p_A^{(t)})^2 + 2 p_A^{(t)} p_O^{(t)}}$, $\tilde n_{AO} = n_A \frac{2 p_A^{(t)} p_O^{(t)}}{(p_A^{(t)})^2 + 2 p_A^{(t)} p_O^{(t)}}$.
+    - $B$ phenotype: $\tilde n_{BB} = n_B \frac{(p_B^{(t)})^2}{(p_B^{(t)})^2 + 2 p_B^{(t)} p_O^{(t)}}$, $\tilde n_{BO} = n_B \frac{2 p_B^{(t)} p_O^{(t)}}{(p_B^{(t)})^2 + 2 p_B^{(t)} p_O^{(t)}}$.
+    
+## EM for Gene Frequencies
+
+- M-step (with $N$ total individuals):
+
+\begin{aligned}
+p_A^{(t+1)} &= \frac{2\tilde n_{AA} + \tilde n_{AO} + n_{AB}}{2N},\\
+p_B^{(t+1)} &= \frac{2\tilde n_{BB} + \tilde n_{BO} + n_{AB}}{2N},\\
+p_O^{(t+1)} &= 1 - p_A^{(t+1)} - p_B^{(t+1)}
+\end{aligned}
+
+- Iterate until parameter changes are below a tolerance.
+
+## EM for Gene Frequencies
+
+```{r, echo = FALSE}
+
+# Genotype to phenotype mapping for ABO example (EM for gene frequencies)
+df <- tibble(
+    Genotype = c("AA", "AO", "AB", "BB", "BO", "OO"),
+    Phenotype = c("A", "A", "AB", "B", "B", "O"),
+    `Observed Counts` = c("725", "", "72", "258", "", "1073"),
+    Frequency = c("p_A^2", "2 p_A p_O", "2 p_A p_B", "p_B^2", "2 p_B p_O", "p_O^2")
+)
+
+# Wrap every non-empty cell in math mode
+df_print <- df %>%
+    mutate(across(everything(), ~ if_else(. == "", "", paste0("$", ., "$"))))
+
+knitr::kable(
+    df_print,
+    escape = FALSE,
+    col.names = c("Genotype", "Phenotype", "Observed Counts", "Genotype Frequency")
+)
+```
+
+## EM: Starting Values Matter
+
+- Different initial $(p_A, p_B, p_O)$ can change speed (not the final MLE)
+- Strategies:
+    - Equal: $(1/3, 1/3, 1/3)$
+    - Unbalanced guess: $(0.01, 0.98, 0.01)$
+    - Smart (use $p_O^{(0)} = \sqrt{n_O/N}$, solve for $(p_A^{(0)}, p_B^{(0)})$ from $2p_A p_B$)
+- Tolerance of $1 \times 10^{-6}$
+
+## EM: Starting Values Matter
+
+```{r, echo=FALSE}
+counts <- list(nA = 725, nAB = 72, nB = 258, nO = 1073)
+N <- sum(unlist(counts))
+
+loglik_pheno <- function(pA, pB) {
+    pO <- 1 - pA - pB
+    if (pA <= 0 || pB <= 0 || pO <= 0) {
+        return(NA_real_)
+    }
+    PA <- pA^2 + 2 * pA * pO
+    PAB <- 2 * pA * pB
+    PB <- pB^2 + 2 * pB * pO
+    PO <- pO^2
+    if (min(PA, PAB, PB, PO) <= 0) {
+        return(NA_real_)
+    }
+    counts$nA * log(PA) + counts$nAB * log(PAB) + counts$nB * log(PB) + counts$nO * log(PO)
+}
+
+em_abo <- function(pA0, pB0, max_iter = 200, tol = 1e-6) {
+    pA <- pA0
+    pB <- pB0
+    pO <- 1 - pA - pB
+    out <- tibble(iter = 0, pA = pA, pB = pB, pO = pO, logLik = loglik_pheno(pA, pB))
+    for (t in 1:max_iter) {
+        # E-step allocations
+        PA <- pA^2 + 2 * pA * pO
+        PBp <- pB^2 + 2 * pB * pO
+        # Avoid division issues
+        wA_AA <- ifelse(PA == 0, 0, (pA^2) / PA)
+        wA_AO <- ifelse(PA == 0, 0, (2 * pA * pO) / PA)
+        wB_BB <- ifelse(PBp == 0, 0, (pB^2) / PBp)
+        wB_BO <- ifelse(PBp == 0, 0, (2 * pB * pO) / PBp)
+        nAA <- counts$nA * wA_AA
+        nAO <- counts$nA * wA_AO
+        nBB <- counts$nB * wB_BB
+        nBO <- counts$nB * wB_BO
+        nAB <- counts$nAB
+        nOO <- counts$nO
+        # M-step
+        pA_new <- (2 * nAA + nAO + nAB) / (2 * N)
+        pB_new <- (2 * nBB + nBO + nAB) / (2 * N)
+        pO_new <- 1 - pA_new - pB_new
+        ll_new <- loglik_pheno(pA_new, pB_new)
+        out <- add_row(out, iter = t, pA = pA_new, pB = pB_new, pO = pO_new, logLik = ll_new)
+        if (max(abs(c(pA_new - pA, pB_new - pB, pO_new - pO))) < tol) break
+        pA <- pA_new
+        pB <- pB_new
+        pO <- pO_new
+    }
+    out
+}
+
+# Smart start
+pO_smart <- sqrt(counts$nO / N)
+S <- 1 - pO_smart
+c_prod <- counts$nAB / (2 * N)
+disc <- S^2 - 4 * c_prod
+root1 <- (S + sqrt(disc)) / 2
+root2 <- (S - sqrt(disc)) / 2
+pA_smart <- max(root1, root2)
+pB_smart <- min(root1, root2)
+
+res_smart <- em_abo(pA_smart, pB_smart)
+res_equal <- em_abo(1 / 3, 1 / 3)
+res_unbal <- em_abo(.01, 0.98)
+
+all_res <- bind_rows(
+    mutate(res_smart, strategy = "Smart"),
+    mutate(res_equal, strategy = "Equal"),
+    mutate(res_unbal, strategy = "Unbalanced")
+) %>%
+    group_by(strategy) %>%
+    mutate(max_ll = max(logLik), gap = max_ll - logLik)
+
+conv_summary <- all_res %>%
+    group_by(strategy) %>%
+    summarise(
+        Iterations = max(iter),
+        `$\\hat{p}_A$` = last(pA),
+        `$\\hat{p}_B$` = last(pB),
+        `$\\hat{p}_O$` = last(pO),
+        .groups = "drop"
+    ) %>%
+    rename(Strategy = strategy)
+
+conv_summary %>%
+    kable(digits = 6, escape = TRUE)
+```
+
+## EM Convergence: Log-Likelihood Gap
+
+```{r, echo=FALSE}
+eps <- 1e-10
+all_res_plot <- all_res %>%
+    mutate(gap_plot = gap + eps)
+
+ggplot(all_res_plot, aes(iter, gap_plot, color = strategy)) +
+    geom_line(linewidth = 2) +
+    scale_y_log10() +
+    labs(
+        x = "Iteration", y = paste0("Gap + ", eps, " (log scale)")
+    ) +
+    scale_color_viridis_d(end = .8, guide = "none") +
+    scale_fill_viridis_d(end = .8, guide = "none") +
+    theme_bw(base_size = 20) +
+    theme(
+        legend.position = "none", panel.grid = element_blank(),
+        axis.text.y = element_blank(), axis.ticks.y = element_blank(),
+        plot.margin = margin(5.5, 70, 5.5, 5.5)
+    ) +
+    {
+        # label only final iteration per strategy
+        label_df <- all_res_plot %>%
+            group_by(strategy) %>%
+            filter(iter == max(iter)) %>%
+            ungroup()
+        ggrepel::geom_label_repel(
+            data = label_df,
+            aes(label = strategy, color = strategy),
+            box.padding = 2,
+            nudge_x = 0,
+            nudge_y = 1,
+            size = 8,
+            segment.color = "grey60",
+            show.legend = FALSE,
+            seed = 123
+        )
+    } +
+    coord_cartesian(xlim = c(0, max(all_res_plot$iter) + 1), clip = "off")
+```
+
+## EM Parameter Trajectories
+
+```{r, echo=FALSE}
+param_long <- all_res %>%
+    select(strategy, iter, pA) %>%
+    rename(p_A = pA)
+
+label_df_pa <- param_long %>%
+    group_by(strategy) %>%
+    filter(iter == max(iter)) %>%
+    ungroup()
+
+ggplot(param_long, aes(iter, p_A, color = strategy)) +
+    geom_line(linewidth = 1) +
+    geom_point(data = label_df_pa, size = 1.6) +
+    facet_wrap(~strategy, nrow = 1) +
+    scale_x_continuous(expand = expansion(mult = c(0, 0.05))) +
+    labs(
+        x = "Iteration",
+        y = expression(p[A])
+    ) +
+    scale_color_viridis_d(end = .8, guide = "none") +
+    theme_bw(base_size = 20) +
+    theme(
+        legend.position = "none",
+        strip.text = element_text(face = "bold"),
+        plot.margin = margin(5.5, 30, 5.5, 5.5),
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank()
+    )
+```
+
+## When does EM fail?
+
+
+- **Non-identifiability / flat likelihood**: Ridges in segregation or linkage models; EM wanders or stalls.
+- **Local maxima & starts**: Multiple modes (e.g., mixture of penetrance classes); poor initialization traps EM.
+- **Boundary degeneracy**: Rare allele/component weight driven to 0; variance or frequency estimates collapse.
+- **Model misspecification**: Violated assumptions (e.g., Hardy-Weinberg, stratification) give misleading “convergence.”
+
+## Linkage vs Association Testing
+
+- Linkage: Tracks co-segregation of markers and traits within families to map disease genes.
+    - Null hypothesis: no linkage (independent assortment), $\theta = 0.5$.
+- Association: Tests for correlation between variants and traits in populations to pinpoint causal loci.
+    - Null hypothesis: no association (e.g., $\beta=0$ or OR=1).
+
+## Two-Point Linkage: Terms
+
+- Independent assortment (recall): when loci are unlinked, transmissions are independent and the chance a crossover separates them is $\theta=0.5$ (Mendel’s Second Law).
+- Informative transmission/meiosis: a parent→child transmission where the transmitting parent is heterozygous at the loci of interest and the genotypes allow us to tell whether a crossover occurred.
+- Nonrecombinant transmission: the child receives an allele combination that matches one of the transmitting parent’s original allele pairs (no crossover between the loci).
+- Recombinant transmission: the child receives a new combination relative to the transmitting parent’s original pair (a crossover occurred between the loci).
+
+## Two-Point Linkage: Direct Counting
+
+- Count $R$ recombinants and $NR$ nonrecombinants; total informative $I=R+NR$.
+- Point estimate: $\hat{\theta}=R/I$.
+- LOD from counts (vs. independence at $\theta=0.5$):
+$$
+\mathrm{LOD}(\theta) = \log_{10}\!\left\{ \frac{\theta^{R} (1-\theta)^{NR}}{0.5^{I}} \right\}
+$$
+
+## Worked Example: Direct Counting LOD
+
+- Suppose $I=40$ informative meioses with $R=12$ recombinants. For $\theta=0.1$,
+    $$
+    \mathrm{LOD}(0.1) = \log_{10}\!\left\{ \frac{0.1^{12} \cdot 0.9^{28}}{0.5^{40}} \right\}.
+    $$
+- Maximize $\mathrm{LOD}(\theta)$ over $\theta$ to estimate the recombination fraction; thresholds like LOD $\ge 3$ (strong evidence) and $\le -2$ (against) guide interpretation.
+
+## Two-Point Linkage: EM with Unknown Phase
+
+- Setup: One heterozygous transmitting parent at two loci ($A/a$ and $B/b$), crossed to an $aabb$ mate; $N$ children observed. The parent’s haplotype configuration (coupling $AB/ab$ vs repulsion $Ab/aB$) is unknown.
+- Observations: child haplotype counts (which equal transmitted haplotypes from the heterozygous parent): $(n_{AB}, n_{Ab}, n_{aB}, n_{ab})$ with $N=\sum n_{\cdot}$. Let $n_{\text{NR}} = n_{AB}+n_{ab}$ and $n_{\text{R}} = n_{Ab}+n_{aB}$.
+
+## Two-Point Linkage: EM with Unknown Phase
+
+- Model (given recombination fraction $\theta$):
+    - If phase is coupling ($Z=C$): $P(\text{NR})=1-\theta$, $P(\text{R})=\theta$ (split equally across the two categories).
+    - If phase is repulsion ($Z=R$): $P(\text{NR})=\theta$, $P(\text{R})=1-\theta$.
+- Latent variable: $Z\in\{C,R\}$ (parental phase). Prior $P(Z=C)=P(Z=R)=1/2$.
+
+## Two-Point Linkage: EM with Unknown Phase
+
+E-step (posterior phase weights)
+
+$$
+w_C \equiv P(Z{=}C\mid \text{data},\theta^{(t)}) \propto \tfrac12\,(1-\theta^{(t)})^{n_{\text{NR}}}\,(\theta^{(t)})^{n_{\text{R}}}
+$$
+
+$$
+w_R = 1 - w_C \propto \tfrac12\,(\theta^{(t)})^{n_{\text{NR}}}\,(1-\theta^{(t)})^{n_{\text{R}}}.
+$$
+
+M-step (update $\theta$)
+
+\begin{align*}
+\theta^{(t+1)} 
+&= \frac{\mathbb E[\text{\# recombinants}\mid\text{data},\theta^{(t)}]}{N} \\
+&= \frac{w_C\,n_{\text{R}} + w_R\,n_{\text{NR}}}{N}
+\end{align*}
+
+## Numerical illustration
+
+- Let $(n_{AB}, n_{Ab}, n_{aB}, n_{ab})=(18,5,4,17)$ so $N=44$, $n_{\text{NR}}=35$, $n_{\text{R}}=9$.
+
+- True $\theta=(5+4)/44=0.2045$.
+
+- Let's begin with an estimate $\theta^{(0)}=0.99$ and iterate 5 times.
+
+## Numerical illustration
+
+```{r}
+n_AB <- 18
+n_Ab <- 5
+n_aB <- 4
+n_ab <- 17
+theta_true <- (n_Ab + n_aB) / (n_AB + n_Ab + n_aB + n_ab)
+n_NR <- 35
+n_R <- 9
+N <- n_NR + n_R
+theta_init <- 0.00001
+iter <- data.frame(iter = 0, theta = theta_init, theta_true = theta_true, abs_err = theta_init - theta_true)
+theta <- theta_init
+for (t in 1:20) {
+    numC <- 0.5 * (1 - theta)^n_NR * (theta)^n_R
+    numR <- 0.5 * (theta)^n_NR * (1 - theta)^n_R
+    wC <- numC / (numC + numR)
+    wR <- 1 - wC
+    theta <- (wC * n_R + wR * n_NR) / N
+    iter <- rbind(iter, data.frame(iter = t, theta = theta, theta_true = theta_true, abs_err = theta - theta_true))
+}
+knitr::kable(
+    tail(iter, 1) |> select(`Final Theta` = theta, `True Theta` = theta_true),
+    digits = 4
+)
+```
+
+
+## From Two-Point EM to Multipoint
+
+- Same objective: estimate recombination while marginalizing over latent transmissions/phase under current $\theta$.
+- E-step engine: compute required posteriors via Elston–Stewart peeling (pedigrees) or Lander–Green forward–backward (marker HMM) when you have multiple markers and missing genotypes.
+- Quantities needed: $\mathbb E[\#\,\text{recombinants between adjacent markers}]$ and $\mathbb E[\#\,\text{informative transmissions}]$ under current map.
+- Use in practice: either (a) plug these expectations into an EM-style update, or (b) more commonly, scan positions to build a LOD curve and report peak and 1-LOD interval.
+
+
+## What Is Multipoint?
+
+- Definition: jointly analyze many linked markers (not just a pair) to infer inheritance patterns across a chromosome region while estimating recombination parameters.
+- Why it helps: each marker contributes information; combining them increases the number of informative transmissions and sharpens localization (higher, narrower LOD peaks).
+- Model view: a sequence of inheritance states (who inherited which parental haplotypes) connected by transitions governed by recombination rates — naturally represented as an HMM.
+- Practical outputs: likelihood/LOD as a function of position, posterior IBD/phase probabilities, and expected recombinant counts between adjacent markers.
+- Algorithms: Elston–Stewart (peeling) is efficient for large, shallow pedigrees; Lander–Green (HMM) is efficient for many markers on small/moderate pedigrees.
+
+## Multipoint Linkage (HMM)
+
+```{r, echo=FALSE, fig.width=9, fig.height=3}
+# Schematic: hidden inheritance states along markers (HMM view)
+states <- data.frame(x = 1:6, y = 1, label = paste0("S", 1:6))
+markers <- data.frame(x = 1:6, y = 0, label = paste0("m", 1:6))
+
+p <- ggplot() +
+    # hidden states (circles) and labels
+    geom_point(data = states, aes(x, y), shape = 21, fill = "white", size = 6, stroke = 1) +
+    geom_text(data = states, aes(x, y, label = label), size = 4) +
+    # connect states with directional edges (recombination-driven transitions)
+    NULL
+for (i in 1:(nrow(states) - 1)) {
+    p <- p + annotate(
+        "segment",
+        x = states$x[i], xend = states$x[i + 1], y = 1, yend = 1,
+        colour = "grey40", linewidth = 0.8,
+        arrow = arrow(length = grid::unit(0.15, "cm"), type = "closed")
+    )
+}
+p <- p +
+    # marker axis and tick marks
+    annotate("segment", x = min(markers$x) - 0.3, xend = max(markers$x) + 0.3, y = 0, yend = 0, colour = "grey50") +
+    geom_segment(data = markers, aes(x = x, xend = x, y = 0, yend = 0.18), colour = "grey50") +
+    geom_text(data = markers, aes(x = x, y = -0.18, label = label), size = 3.5) +
+    coord_cartesian(xlim = c(0.5, 6.5), ylim = c(-0.5, 1.5), clip = "off") +
+    theme_void()
+p
+```
+
+## Multipoint Linkage (HMM)
+
+- Markers along a chromosome define an HMM over inheritance states; adjacent recombination rates drive transitions.
+- Combine penetrance with the marker HMM to compute $L(\theta)$ efficiently as you slide along the map (forward–backward yields the needed posteriors even with missing phase/genotypes).
+- Pros: more information than two-point; better localization. Cons: requires a genetic map and error modeling.
+
+## Missing-Data EM in Linkage
+
+- Complete data: informative meioses labeled as recombinant/nonrecombinant; incomplete data: untyped genotypes/phase.
+- E-step: compute $E[\text{\# recombinants}]$ and $\mathrm E[\text{\# informative meioses}]$ given current $\theta^{(t)}$ via peeling/HMM.
+- M-step: $\displaystyle \theta^{(t+1)} = \frac{\mathrm E[R\mid\text{data},\theta^{(t)}]}{\mathrm E[I\mid\text{data},\theta^{(t)}]}$.
+- Iterate across $\theta$ grid to produce a LOD curve; maximize or report support interval.
+
+## Practical Issues in Linkage
+
+- Model specification: penetrance, phenocopy, allele frequencies; misspecification can distort LOD.
+- Marker selection: highly polymorphic markers increase information; account for sex-specific recombination if needed.
+- Computational trade-offs: many markers×large pedigrees require approximations or pruning; consider parametric vs nonparametric linkage.
+
+## Linkage Disequilibrium 
+
+- Let alleles at two markers be denoted $A, a$ and $B, b$
+- Define allele frequencies by $P_A, P_a, P_B, P_b$
+- Define frequencies of haplotypes as $P_{AB}, P_{Ab}, P_{aB}, P_{ab}$
+ - Define linkage equilibrium as independence in the $2 \times 2$ table
+    - For example, $P_{AB} = P_A \times P_B$
+
+## Linkage Disequilibrium 
+
+- Define the LD coefficient as $D$
+
+$$D = p_{AB} - p_A p_B$$
+
+- What are we looking at here?
+
+## Linkage Disequilibrium 
+
+- Define the LD coefficient as $D$
+
+$$D = p_{AB} - p_A p_B$$
+
+- Note that 
+    - $\operatorname{E}[A] = p_A, \operatorname{E}[B] = p_B$
+    - $\operatorname{E}[AB] = p_{AB}$
+    - $\operatorname{Cov}(A, B) = \operatorname{E}[AB] - \operatorname{E}[A]\operatorname{E}[B]$
+
+## Linkage Disequilibrium 
+
+- $D$, or $\operatorname{Cov}(A, B)$, is scale-dependent
+- Normalized measures:
+    - $D' = D / D_{\max}$, where $D_{\max} = \min(p_A p_b, p_a p_B)$ if $D < 0$
+    - Pearson correlation:
+
+\begin{align}
+r 
+&= \frac{\operatorname{Cov}(A, B)}{\sqrt{\operatorname{Var}(A) \operatorname{Var}(B)}} \\
+&= \frac{D}{\sqrt{p_A(1 - p_A) p_B(1 - p_B)}}
+\end{align}
+
+## From LD to Association
+
+- LD (measured by $D$, $D'$, $r$) captures non-random allele co-occurrence across loci.
+- Association tests correlate variants (or dosages) with traits in populations.
+- Bridge: markers tag causal variants via LD; detectable effects attenuate with lower $r^2$.
+
+## LD $\to$ Association: Mini Derivation
+
+- Standardize marker $M$ and causal $C$ to unit variance; regress $Y$ on $M$ marginally.
+- $\displaystyle \beta_M = \frac{\operatorname{cov}(M,Y)}{\operatorname{var}(M)} \approx \frac{\operatorname{cov}(M,\beta_C C)}{1} = \beta_C\,\operatorname{cov}(M,C) = r\,\beta_C.$
+
+
+## LD $\to$ Association: Concrete Example
+
+- Suppose causal per-allele $\mathrm{OR}_C=1.50$ and a tag has $r^2=0.64$ ($r=0.8$) to the causal.
+- Attenuation: $\log\mathrm{OR}_M \approx r\,\log\mathrm{OR}_C \Rightarrow \mathrm{OR}_M \approx 1.50^{0.8} \approx 1.38$.
+
+
+
+## Single-Marker Association: Core Tests
+
+- Linear trait: $Y=\alpha+\beta G+\gamma^T C+\varepsilon$; test $H_0{:}\,\beta=0$.
+- Logistic (case–control): $\text{logit}\,P(Y=1)=\alpha+\beta G+\gamma^T C$; $\exp(\beta)$ is OR per allele.
+- Encodings: additive (0/1/2) or genotypic (AA/Aa/aa); include dominance to test non-additivity.
+- Armitage trend/allelic or genotypic $\chi^2$ approximate additive logistic.
+
+
+## Single-Marker: Special Cases
+
+- Rare variants: Fisher’s exact or Firth logistic to handle small counts/separation.
+- Gene-level: burden/collapsing or SKAT for sets of rare variants.
+- Family designs: TDT/FBAT for stratification-robust association.
+
+
+## Basic QC Pipeline (Variant-level)
+
+- Call rate/missingness (e.g., variant missingness < 2%).
+- Hardy–Weinberg equilibrium in controls (e.g., P > 1e−6), mindful of true deviations.
+- Minor allele frequency threshold (e.g., MAF ≥ 0.01 unless rare-variant methods used).
+- Differential missingness across case/control; strand/allele checks.
+
+## Basic QC Pipeline (Sample-level)
+
+- Sample call rate; sex checks from X chr; heterozygosity outliers.
+- Relatedness/duplicates via IBD; ancestry via PCA; remove outliers or adjust with PCs.
+- Duplicates/cryptic relatedness: retain one per pair or use mixed models.
+
+## Demo: Simulated Single-Marker Test
+
+```{r, echo=FALSE}
+set.seed(2)
+n <- 1500
+G <- rbinom(n, 2, 0.3) # genotype 0/1/2
+C <- rnorm(n) # covariate
+eta <- -1 + 0.5 * G + 0.8 * C
+p <- 1 / (1 + exp(-eta))
+Y <- rbinom(n, 1, p)
+fit <- glm(Y ~ G + C, family = binomial())
+sm <- summary(fit)$coefficients
+df <- data.frame(
+    term = rownames(sm),
+    estimate = sm[, 1],
+    std.error = sm[, 2],
+    statistic = sm[, 3],
+    p.value = sm[, 4],
+    row.names = NULL
+)
+knitr::kable(df, digits = 4)
+```
+
+## HWE and Allele Counts (Quick Checks)
+
+- For a bi-allelic SNP, with counts $(n_{AA}, n_{Aa}, n_{aa})$, test HWE via $\chi^2$:
+  $\displaystyle X^2=\sum_{g\in\{AA,Aa,aa\}} \frac{(n_g - N \hat p_g)^2}{N\hat p_g}$ with $\hat p_A=(2n_{AA}+n_{Aa})/(2N)$ and $\hat p_g$ from HWE.
+- Prefer exact tests for small $N$ or rare variants; compute in controls to avoid case-driven deviations.
+
+## Haplotype Association: Setup
+
+- Unphased genotypes induce ambiguity in haplotypes; EM estimates haplotype frequencies under HWE.
+- E-step: compute $P(\text{haplotype pair}\mid \text{genotype}, p^{(t)})$ per person; M-step: update haplotype frequencies by expected counts.
+- Association: use haplotype dosages as covariates in regression; sliding windows or gene-based haplotypes; consider LD and multiple testing.
+
+## EM Demo: Two-SNP Haplotype Frequencies
+
+```{r, echo=FALSE}
+set.seed(3)
+# True haplotype frequencies for two SNPs (ab, aB, Ab, AB)
+p_true <- c(ab = .40, aB = .10, Ab = .25, AB = .25)
+stopifnot(abs(sum(p_true) - 1) < 1e-12)
+n <- 1000
+draw_hap <- function(p) sample(names(p), 2, replace = TRUE, prob = unname(p))
+haps <- replicate(n, draw_hap(p_true))
+# Convert to genotypes: count B alleles per SNP
+hap_to_vec <- function(h) {
+    m <- cbind(h1 = strsplit(h[1], "")[[1]], h2 = strsplit(h[2], "")[[1]])
+    # Map hap string to allele vectors for two SNPs
+    map1 <- list(ab = c(0, 0), aB = c(0, 1), Ab = c(1, 0), AB = c(1, 1))
+    v1 <- map1[[h[1]]]
+    v2 <- map1[[h[2]]]
+    c(g1 = v1[1] + v2[1], g2 = v1[2] + v2[2])
+}
+G <- t(apply(haps, 2, hap_to_vec))
+G <- as_tibble(G)
+
+# EM for two-SNP haplotypes (ab, aB, Ab, AB)
+em_hap2 <- function(G, p0 = rep(0.25, 4), tol = 1e-8, maxit = 500) {
+    names(p0) <- c("ab", "aB", "Ab", "AB")
+    p <- p0
+    pair_counts <- function(g1, g2) {
+        # Enumerate possible pairs and their weights given p
+        poss <- list()
+        if (g1 == 0 && g2 == 0) {
+            poss <- list(c("ab", "ab"))
+        } else if (g1 == 2 && g2 == 2) {
+            poss <- list(c("AB", "AB"))
+        } else if (g1 == 2 && g2 == 0) {
+            poss <- list(c("Ab", "Ab"))
+        } else if (g1 == 0 && g2 == 2) {
+            poss <- list(c("aB", "aB"))
+        } else if (g1 == 2 && g2 == 1) {
+            poss <- list(c("Ab", "AB"))
+        } else if (g1 == 1 && g2 == 2) {
+            poss <- list(c("aB", "AB"))
+        } else if (g1 == 1 && g2 == 0) {
+            poss <- list(c("ab", "Ab"))
+        } else if (g1 == 0 && g2 == 1) {
+            poss <- list(c("ab", "aB"))
+        } else if (g1 == 1 && g2 == 1) {
+            poss <- list(c("ab", "AB"), c("aB", "Ab"))
+        } else {
+            stop("Invalid genotype")
+        }
+        poss
+    }
+    for (it in 1:maxit) {
+        ec <- setNames(numeric(4), names(p))
+        for (i in 1:nrow(G)) {
+            poss <- pair_counts(G$g1[i], G$g2[i])
+            if (length(poss) == 1) {
+                h1 <- poss[[1]][1]
+                h2 <- poss[[1]][2]
+                ec[h1] <- ec[h1] + 1
+                ec[h2] <- ec[h2] + 1
+            } else {
+                # ambiguous (1,1): two pairs with weights proportional to p[h1]*p[h2]
+                w <- sapply(poss, function(h) p[h[1]] * p[h[2]])
+                w <- w / sum(w)
+                for (k in seq_along(poss)) {
+                    h1 <- poss[[k]][1]
+                    h2 <- poss[[k]][2]
+                    ec[h1] <- ec[h1] + w[k]
+                    ec[h2] <- ec[h2] + w[k]
+                }
+            }
+        }
+        p_new <- ec / (2 * nrow(G))
+        if (max(abs(p_new - p)) < tol) {
+            p <- p_new
+            break
+        }
+        p <- p_new
+    }
+    p
+}
+
+p_est <- em_hap2(G)
+res <- tibble(Haplotype = names(p_true), True = as.numeric(p_true), EM_Estimate = as.numeric(p_est))
+knitr::kable(res, digits = 4)
+```
+
+## LD From Estimated Haplotypes
+
+```{r, echo=FALSE}
+p_hat <- as.numeric(p_est)
+names(p_hat) <- names(p_est)
+pB1 <- p_hat["Ab"] + p_hat["AB"]
+pB2 <- p_hat["aB"] + p_hat["AB"]
+p11 <- p_hat["AB"]
+D <- p11 - pB1 * pB2
+r2 <- D^2 / (pB1 * (1 - pB1) * pB2 * (1 - pB2))
+data.frame(pB1 = pB1, pB2 = pB2, D = D, r2 = r2) %>% knitr::kable(digits = 4)
+```
+
+## Summary & Key Takeaways
+
+- Likelihood optimization: Newton–Raphson (score/Hessian), Gradient Descent/SGD (scalable), and EM (latent-data) are core tools.
+- EM for ABO gene frequencies: initialization affects speed; log-likelihood increases monotonically until convergence.
+- Linkage: two-point LOD and unknown phase via EM; multipoint mapping framed as an HMM for efficient inference with missing data.
+- LD basics: D, D′, and r connect haplotypes to correlation; explains tag–causal attenuation in association.
+- Association today: single-marker linear/logistic tests, haplotype tests via EM, and basic variant/sample QC.
+- Next: population structure (PCs), mixed models (LMM/GLMM), and GWAS-scale thresholds, power, and imputation in later lectures.

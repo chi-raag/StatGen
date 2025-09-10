@@ -29,23 +29,8 @@
       vertical-align: middle;
     }
   </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-6a6e82da874a0cf44b52beaf4edd27bf.css">
-  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
-  <script>document.addEventListener("DOMContentLoaded", function () {
- var mathElements = document.getElementsByClassName("math");
- var macros = [];
- for (var i = 0; i < mathElements.length; i++) {
-  var texText = mathElements[i].firstChild;
-  if (mathElements[i].tagName == "SPAN") {
-   katex.render(texText.data, mathElements[i], {
-    displayMode: mathElements[i].classList.contains('display'),
-    throwOnError: false,
-    macros: macros,
-    fleqn: false
-   });
-}}});
-  </script>
-  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-b82c0a7f35523a8d4ca6d2bed643e406.css">
+  <link rel="stylesheet" href="styles.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -154,14 +139,34 @@
 </section>
 <section id="review-likelihood-function-basics" class="slide level2">
 <h2>Review: Likelihood Function Basics</h2>
-<p>From Lecture 1, we learned: - Likelihood function: <span class="math inline">L(\boldsymbol{\theta} | \text{data}) = P(\text{data} | \boldsymbol{\theta})</span> - Maximum Likelihood Estimation (MLE) - Simple one-parameter examples</p>
-<p>Today: <strong>Multi-parameter likelihood surfaces and complex genetic models</strong></p>
+<p>From Lecture 1, we learned:</p>
+<ul>
+<li>Likelihood function: <span class="math inline">\(L(\boldsymbol{\theta} | \text{data}) = P(\text{data} | \boldsymbol{\theta})\)</span></li>
+<li>Maximum Likelihood Estimation (MLE)</li>
+<li>Simple one-parameter examples</li>
+</ul>
 </section>
+<section id="newton-raphson-method-for-mle" class="slide level2">
+<h2>Newton-Raphson Method for MLE</h2>
+<ul>
+<li>General procedure to find <span class="math inline">\(x\)</span> such that <span class="math inline">\(g(x) = 0\)</span></li>
+<li>Uses Taylor Expansion, for <span class="math inline">\(g(x)\)</span> about a point <span class="math inline">\(x = a\)</span>:</li>
+</ul>
+<p><span class="math display">\[\begin{align*}
+g(x) = g(a) &amp;+
+\frac{g'(a)(x-a)}{1!} + \frac{g''(a)(x-a)^2}{2!} \\
+&amp;+ ... + \frac{g^{(n)}(a)(x-a)^n}{n!}
+\end{align*}\]</span></p>
+</section>
+<section id="taylor-series-convergence" class="slide level2">
+<h2>Taylor Series Convergence</h2>
+
+<img data-src="lecture-03-draft_files/figure-revealjs/unnamed-chunk-2-1.png" width="960" class="r-stretch"></section>
 <section id="multi-parameter-likelihood-surfaces" class="slide level2">
 <h2>Multi-Parameter Likelihood Surfaces</h2>
 <h3 id="penetrance-model-with-two-parameters">Penetrance Model with Two Parameters</h3>
-<p>Consider a dominant disease model with: - Allele frequency: <span class="math inline">p</span> - Penetrance for heterozygotes: <span class="math inline">f_1</span> - Fixed: <span class="math inline">f_0 = 0</span> (unaffected homozygotes), <span class="math inline">f_2 = 1</span> (affected homozygotes)</p>
-<p>Population disease risk: <span class="math inline">K = p^2 \cdot 1 + 2p(1-p) \cdot f_1 + (1-p)^2 \cdot 0</span></p>
+<p>Consider a dominant disease model with: - Allele frequency: <span class="math inline">\(p\)</span> - Penetrance for heterozygotes: <span class="math inline">\(f_1\)</span> - Fixed: <span class="math inline">\(f_0 = 0\)</span> (unaffected homozygotes), <span class="math inline">\(f_2 = 1\)</span> (affected homozygotes)</p>
+<p>Population disease risk: <span class="math inline">\(K = p^2 \cdot 1 + 2p(1-p) \cdot f_1 + (1-p)^2 \cdot 0\)</span></p>
 </section>
 <section id="likelihood-surface-visualization" class="slide level2">
 <h2>Likelihood Surface Visualization</h2>
@@ -175,7 +180,7 @@
 </div>
 
 </div>
-<img data-src="lecture-03-draft_files/figure-revealjs/unnamed-chunk-2-1.png" width="960" class="r-stretch"></section>
+<img data-src="lecture-03-draft_files/figure-revealjs/unnamed-chunk-3-1.png" width="960" class="r-stretch"></section>
 <section id="interpreting-likelihood-surfaces" class="slide level2">
 <h2>Interpreting Likelihood Surfaces</h2>
 <ul>
@@ -189,23 +194,23 @@
 <section id="likelihood-ratio-tests" class="slide level2">
 <h2>Likelihood Ratio Tests</h2>
 <h3 id="testing-nested-hypotheses">Testing Nested Hypotheses</h3>
-<p><strong>Full Model</strong>: <span class="math inline">H_1: \text{both } p \text{ and } f_1 \text{ free}</span> <strong>Reduced Model</strong>: <span class="math inline">H_0: f_1 = 1 \text{ (complete penetrance)}</span></p>
-<p>Test statistic: <span class="math inline">\Lambda = 2[\ell(\hat{\boldsymbol{\theta}}_1) - \ell(\hat{\boldsymbol{\theta}}_0)]</span></p>
-<p>Under <span class="math inline">H_0</span>: <span class="math inline">\Lambda \sim \chi^2_{df}</span> where $df = $ difference in parameters</p>
+<p><strong>Full Model</strong>: <span class="math inline">\(H_1: \text{both } p \text{ and } f_1 \text{ free}\)</span> <strong>Reduced Model</strong>: <span class="math inline">\(H_0: f_1 = 1 \text{ (complete penetrance)}\)</span></p>
+<p>Test statistic: <span class="math inline">\(\Lambda = 2[\ell(\hat{\boldsymbol{\theta}}_1) - \ell(\hat{\boldsymbol{\theta}}_0)]\)</span></p>
+<p>Under <span class="math inline">\(H_0\)</span>: <span class="math inline">\(\Lambda \sim \chi^2_{df}\)</span> where $df = $ difference in parameters</p>
 </section>
 <section id="profile-likelihood" class="slide level2">
 <h2>Profile Likelihood</h2>
 <p>When interested in one parameter but others are nuisance:</p>
-<p><span class="math display">L_{\text{profile}}(p) = \max_{f_1} L(p, f_1)</span></p>
+<p><span class="math display">\[L_{\text{profile}}(p) = \max_{f_1} L(p, f_1)\]</span></p>
 
-<img data-src="lecture-03-draft_files/figure-revealjs/unnamed-chunk-3-1.png" width="960" class="r-stretch"></section>
+<img data-src="lecture-03-draft_files/figure-revealjs/unnamed-chunk-4-1.png" width="960" class="r-stretch"></section>
 <section id="information-and-standard-errors" class="slide level2">
 <h2>Information and Standard Errors</h2>
 <h3 id="fisher-information-matrix">Fisher Information Matrix</h3>
-<p>For parameters <span class="math inline">\boldsymbol{\theta} = (\theta_1, \theta_2)</span>:</p>
-<p><span class="math display">I_{ij}(\boldsymbol{\theta}) = -E\left[\frac{\partial^2 \ell}{\partial \theta_i \partial \theta_j}\right]</span></p>
-<p><strong>Asymptotic standard errors</strong>: <span class="math inline">SE(\hat{\theta}_i) \approx \sqrt{[I^{-1}]_{ii}}</span></p>
-<p><strong>Confidence intervals</strong>: <span class="math inline">\hat{\theta}_i \pm 1.96 \cdot SE(\hat{\theta}_i)</span></p>
+<p>For parameters <span class="math inline">\(\boldsymbol{\theta} = (\theta_1, \theta_2)\)</span>:</p>
+<p><span class="math display">\[I_{ij}(\boldsymbol{\theta}) = -E\left[\frac{\partial^2 \ell}{\partial \theta_i \partial \theta_j}\right]\]</span></p>
+<p><strong>Asymptotic standard errors</strong>: <span class="math inline">\(SE(\hat{\theta}_i) \approx \sqrt{[I^{-1}]_{ii}}\)</span></p>
+<p><strong>Confidence intervals</strong>: <span class="math inline">\(\hat{\theta}_i \pm 1.96 \cdot SE(\hat{\theta}_i)\)</span></p>
 </section>
 <section id="practical-considerations" class="slide level2">
 <h2>Practical Considerations</h2>
@@ -267,6 +272,7 @@
   <script src="../site_libs/revealjs/plugin/notes/notes.js"></script>
   <script src="../site_libs/revealjs/plugin/search/search.js"></script>
   <script src="../site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../site_libs/revealjs/plugin/math/math.js"></script>
   <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
 
   <script>
@@ -435,9 +441,27 @@
         // Factor of the display size that should remain empty around the content
         margin: 0.1,
 
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
         // reveal.js plugins
         plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
 
+          RevealMath,
           RevealNotes,
           RevealSearch,
           RevealZoom

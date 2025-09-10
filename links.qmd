@@ -8,3 +8,4 @@ title: "Helpful Links"
 - [Probability Primer](http://users.stat.umn.edu/~helwig/notes/ProbabilityTheory.pdf)
 - [Statistical Inference Primer](https://www.math.utah.edu/~davar/math6070/2014/Statistics.pdf)
 - [Statistics Cheatsheet](https://stanford.edu/~shervine/teaching/cme-106/cheatsheet-statistics)
+- [EM Algorithm Video](https://www.youtube.com/watch?v=3zbAsgCf1Sw)
