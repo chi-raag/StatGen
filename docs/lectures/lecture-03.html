@@ -7,10 +7,10 @@
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-c8ad9e5dbd60b7b70b38521ab19b7da4.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.7.34">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.24">
 
-  <title>Statistical Genetics – Lecture 03: Advanced Likelihood Methods and Inference</title>
+  <title>Statistical Genetics – Lecture 03: Fitting Likelihoods, Linkage, and Association</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-92b42eaa45933db571ed77ca2219fc17.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-9ceb70b301f0ba424aef28943b965eaa.css">
   <link rel="stylesheet" href="styles.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
@@ -194,7 +194,7 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Lecture 03: Advanced Likelihood Methods and Inference</h1>
+  <h1 class="title">Lecture 03: Fitting Likelihoods, Linkage, and Association</h1>
   <p class="subtitle">PUBH 8878, Statistical Genetics</p>
 
 <div class="quarto-title-authors">
@@ -203,9 +203,8 @@
 </section>
 <section id="review-likelihood-function-basics" class="slide level2">
 <h2>Review: Likelihood Function Basics</h2>
-<p>From Lecture 1, we learned:</p>
 <ul>
-<li>Likelihood function: <span class="math inline">\(L(\boldsymbol{\theta} | \text{data}) = P(\text{data} | \boldsymbol{\theta})\)</span></li>
+<li>Likelihood function: <span class="math inline">\(L(\boldsymbol{\theta} \mid \text{data}) = P(\text{data} \mid \boldsymbol{\theta})\)</span></li>
 <li>Maximum Likelihood Estimation (MLE)</li>
 <li>Simple one-parameter examples</li>
 </ul>
@@ -215,6 +214,22 @@
 <li>Missing or latent data</li>
 <li>High-dimensional or constrained parameter space leads to non-convex surface with multiple local maxima</li>
 </ul>
+<aside class="notes">
+<p><strong>Script:</strong><br>
+“Let’s start by aligning on what <em>likelihood</em> means. We take the sampling model <span class="math inline">\(p(\text{data}\mid\theta)\)</span> and, after we’ve observed the data, we view it as a function of the parameter <span class="math inline">\(\theta\)</span>. That function is the likelihood <span class="math inline">\(L(\theta)\)</span>. The MLE is simply the value of <span class="math inline">\(\theta\)</span> that maximizes <span class="math inline">\(L\)</span>.</p>
+<p>Two reminders that will be useful all semester: first, the <strong>invariance</strong> property—if <span class="math inline">\(\hat\theta\)</span> maximizes <span class="math inline">\(L(\theta)\)</span>, then <span class="math inline">\(g(\hat\theta)\)</span> maximizes the likelihood of <span class="math inline">\(g(\theta)\)</span>. Second, the <strong>curvature</strong> of the log-likelihood, via Fisher information, anticipates precision.</p>
+<p>In practice, closed forms fail us for three common reasons: there’s no algebraic solution; there’s <strong>missing or latent data</strong>; or the parameter space is constrained or high-dimensional so the surface is bumpy. Today we’ll build the numerical toolkit that handles these realities.”</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="agenda" class="slide level2">
 <h2>Agenda</h2>
@@ -225,6 +240,21 @@
 <li>Linkage disequilibrium (LD) and its measures (D, D’, r)</li>
 <li>Association: single-marker/haplotype tests and basic QC</li>
 </ul>
+<aside class="notes">
+<p><strong>Script:</strong><br>
+“Here’s the plan. We’ll warm up with Newton–Raphson and first‑order methods—how to actually <em>move</em> on a likelihood surface. We’ll then introduce EM as a principled way to deal with missing or latent pieces, anchored by an ABO example.</p>
+<p>Next, we pivot to <strong>linkage</strong>: first two‑point LOD, then an EM formulation for <strong>unknown phase</strong>, and finally the multipoint <strong>HMM</strong> perspective. We’ll connect that to <strong>LD</strong>, clarify <span class="math inline">\(D\)</span>, <span class="math inline">\(D'\)</span> and <span class="math inline">\(r\)</span>, and finish with a single‑marker association demo and the <strong>QC</strong> that keeps results honest.”</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="newton-raphson-method-for-mle" class="slide level2">
 <h2>Newton-Raphson Method for MLE</h2>
@@ -237,11 +267,24 @@ g(x) = g(a) &amp;+
 \frac{g'(a)(x-a)}{1!} + \frac{g''(a)(x-a)^2}{2!} \\
 &amp;+ ... + \frac{g^{(n)}(a)(x-a)^n}{n!}
 \end{align*}\]</span></p>
+<aside class="notes">
+<p><strong>Script:</strong><br>
+“In MLE we set <span class="math inline">\(g(\theta)=\ell'(\theta)\)</span>, the <strong>score</strong>, and look for a root. Newton’s update is<br>
+\[ \theta<sup>{(t+1)}=</sup>{(t)}-.\]<br>
+In multiple dimensions it’s <span class="math inline">\(\boldsymbol{\theta}^{(t+1)}=\boldsymbol{\theta}^{(t)}-\mathbf{H}^{-1}\mathbf{g}\)</span>, where <span class="math inline">\(\mathbf{g}\)</span> is the gradient and <span class="math inline">\(\mathbf{H}\)</span> the Hessian.</p>
+<p>Three practical notes. First, Newton is <strong>quadratically convergent</strong> when you’re close to the solution—that’s why it’s fast. Second, guard against wild steps with <strong>damping or line search</strong>, and keep feasibility in mind if your parameter must lie on a simplex or in <span class="math inline">\([0,0.5]\)</span>. Third, if the Hessian misbehaves, use <strong>Fisher scoring</strong> (replace <span class="math inline">\(-\mathbf{H}\)</span> with expected information) or a <strong>trust region</strong>.”</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
-<section id="taylor-series-convergence" class="slide level2">
-<h2>Taylor Series Convergence</h2>
-
-<img data-src="lecture-03_files/figure-revealjs/unnamed-chunk-2-1.png" width="960" class="r-stretch"></section>
 <section id="gradient-descent" class="slide level2">
 <h2>Gradient Descent</h2>
 <ul>
@@ -249,15 +292,21 @@ g(x) = g(a) &amp;+
 <li>Does not rely on matrix inversions <span class="math inline">\(\longrightarrow\)</span> better for high dimensional problems</li>
 <li><a href="https://uclaacm.github.io/gradient-descent-visualiser/#playground">Visualizer from UCLA</a></li>
 </ul>
-</section>
-<section id="stochastic-gradient-descent-sgd" class="slide level2">
-<h2>Stochastic Gradient Descent (SGD)</h2>
-<ul>
-<li>Uses mini-batches or single observations to form an unbiased gradient estimate.</li>
-<li>Pros: scales to large datasets; inexpensive per-iteration; escapes shallow local structure via noise.</li>
-<li>Cons: requires step-size schedule (e.g., Robbins–Monro); more variance in updates than full GD.</li>
-<li>Practical tweaks: momentum/Nesterov, Adam/Adagrad; early stopping and learning-rate decay.</li>
-</ul>
+<aside class="notes">
+<p><strong>Script:</strong><br>
+“First‑order methods move along the <strong>steepest descent</strong> direction without ever inverting a matrix. That’s a superpower in high‑dimensional genetics models where Hessians are huge. The tradeoff: convergence is typically <strong>linear</strong>, not quadratic.</p>
+<p>What matters in practice is the <strong>step size</strong>: constant steps are brittle; backtracking or scheduled decay is safer. Stochastic and mini‑batch variants are essential when your objective decomposes over people, markers, or families. The mental model is simple: noisy but cheap steps that converge ‘on average’.”</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="the-em-algorithm" class="slide level2">
 <h2>The EM Algorithm</h2>
@@ -268,6 +317,26 @@ g(x) = g(a) &amp;+
 <p><span class="math display">\[
 p\left(y \mid \theta \right) = \frac{p\left(y, z \mid \theta \right)}{p\left(z \mid y, \theta\right)}
 \]</span></p>
+<aside class="notes">
+<p><strong>Script:</strong><br>
+“EM turns missingness into bookkeeping. We invent latent variables <span class="math inline">\(z\)</span> so that the <strong>complete‑data</strong> log-likelihood <span class="math inline">\(\log p(y,z\mid\theta)\)</span> is easy to maximize. At iterate <span class="math inline">\(t\)</span>:</p>
+<ul>
+<li><strong>E‑step:</strong> compute <span class="math inline">\(Q(\theta\mid\theta^{(t)})=\mathbb{E}_{z\mid y,\theta^{(t)}}[\log p(y,z\mid\theta)]\)</span>.<br>
+</li>
+<li><strong>M‑step:</strong> update <span class="math inline">\(\theta^{(t+1)}=\arg\max_\theta Q(\theta\mid\theta^{(t)})\)</span>.</li>
+</ul>
+<p>Why does it work? By Jensen’s inequality, EM <strong>monotonically increases</strong> the observed log-likelihood. The feel is ‘stable but sometimes slow’; we’ll flag accelerations like ECME and PX‑EM later.”</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="em-for-gene-frequencies" class="slide level2">
 <h2>EM for Gene Frequencies</h2>
@@ -323,6 +392,20 @@ p\left(y \mid \theta \right) = \frac{p\left(y, z \mid \theta \right)}{p\left(z \
 </table>
 </div>
 </div>
+<aside class="notes">
+<p><strong>Script:</strong><br>
+“Here’s the ABO mapping. The assumption is Hardy–Weinberg and random mating, so genotype frequencies are the usual <span class="math inline">\(p^2\)</span>, <span class="math inline">\(2pq\)</span>, <span class="math inline">\(q^2\)</span>. The ambiguity sits exactly in the <strong>A</strong> and <strong>B</strong> phenotypes: each collapses over two genotypes. EM will split those cells into expected counts using the current allele frequencies and then re‑estimate the frequencies as if those expected counts were observed.”</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="em-for-gene-frequencies-1" class="slide level2">
 <h2>EM for Gene Frequencies</h2>
@@ -330,6 +413,20 @@ p\left(y \mid \theta \right) = \frac{p\left(y, z \mid \theta \right)}{p\left(z \
 <li>We don’t know if <span class="math inline">\(n_A\)</span> is from <span class="math inline">\(AA\)</span> or <span class="math inline">\(AO\)</span>! (And similarly for <span class="math inline">\(n_B\)</span>)</li>
 <li>However, given our data model, we can find values of <span class="math inline">\((\hat{p}_A, \hat{p}_B)\)</span> via EM</li>
 </ul>
+<aside class="notes">
+<p><strong>Script:</strong><br>
+“Think of each A phenotype as a <strong>soft label</strong> between AA and AO, with probabilities determined by the current <span class="math inline">\((p_A,p_O)\)</span>. Same story for B. That’s the essence of the E‑step.”</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="em-for-gene-frequencies-2" class="slide level2">
 <h2>EM for Gene Frequencies</h2>
@@ -341,6 +438,20 @@ p\left(y \mid \theta \right) = \frac{p\left(y, z \mid \theta \right)}{p\left(z \
 <li><span class="math inline">\(B\)</span> phenotype: <span class="math inline">\(\tilde n_{BB} = n_B \frac{(p_B^{(t)})^2}{(p_B^{(t)})^2 + 2 p_B^{(t)} p_O^{(t)}}\)</span>, <span class="math inline">\(\tilde n_{BO} = n_B \frac{2 p_B^{(t)} p_O^{(t)}}{(p_B^{(t)})^2 + 2 p_B^{(t)} p_O^{(t)}}\)</span>.</li>
 </ul></li>
 </ul>
+<aside class="notes">
+<p><strong>Script:</strong><br>
+“These are just conditional probabilities. Given the person has phenotype A, what’s the chance they’re AA versus AO under the current <span class="math inline">\((p_A,p_O)\)</span>? Multiply by <span class="math inline">\(n_A\)</span> to get <strong>expected</strong> genotype counts <span class="math inline">\(\tilde n_{AA}\)</span> and <span class="math inline">\(\tilde n_{AO}\)</span>. Do the same for B. That’s the E‑step.”</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="em-for-gene-frequencies-3" class="slide level2">
 <h2>EM for Gene Frequencies</h2>
@@ -355,6 +466,20 @@ p_O^{(t+1)} &amp;= 1 - p_A^{(t+1)} - p_B^{(t+1)}
 <ul>
 <li>Iterate until parameter changes are below a tolerance.</li>
 </ul>
+<aside class="notes">
+<p><strong>Script:</strong><br>
+“Now treat the expected genotype table as complete and <strong>recount alleles</strong>: two from each homozygote and one from each heterozygote, divided by <span class="math inline">\(2N\)</span>. That gives updated <span class="math inline">\((p_A,p_B,p_O)\)</span>. Iterate E and M until the changes are tiny and the observed log‑likelihood is no longer increasing.”</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="em-for-gene-frequencies-4" class="slide level2">
 <h2>EM for Gene Frequencies</h2>
@@ -410,6 +535,20 @@ p_O^{(t+1)} &amp;= 1 - p_A^{(t+1)} - p_B^{(t+1)}
 </table>
 </div>
 </div>
+<aside class="notes">
+<p><strong>Script:</strong><br>
+“With these sample counts—A = 725, AB = 72, B = 258, O = 1073—we can run EM. I’ll show convergence behavior next, and I want you to notice two things: the <strong>monotone</strong> increase in log‑likelihood and the impact of <strong>starting values</strong>.”</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="em-starting-values-matter" class="slide level2">
 <h2>EM: Starting Values Matter</h2>
@@ -423,6 +562,20 @@ p_O^{(t+1)} &amp;= 1 - p_A^{(t+1)} - p_B^{(t+1)}
 </ul></li>
 <li>Tolerance of <span class="math inline">\(1 \times 10^{-6}\)</span></li>
 </ul>
+<aside class="notes">
+<p><strong>Script:</strong><br>
+“The ‘smart start’ uses two near‑identities: <span class="math inline">\(n_O \approx N p_O^2\)</span> gives <span class="math inline">\(p_O^{(0)}\approx\sqrt{n_O/N}\)</span>; then <span class="math inline">\(n_{AB}\approx 2N p_A p_B\)</span> plus <span class="math inline">\(p_A+p_B=1-p_O^{(0)}\)</span> gives a quadratic for <span class="math inline">\((p_A^{(0)},p_B^{(0)})\)</span>. This gets you close to the basin of attraction and trims iterations substantially. Equal and wild unbalanced starts are good stress tests.”</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="em-starting-values-matter-1" class="slide level2">
 <h2>EM: Starting Values Matter</h2>
@@ -464,15 +617,39 @@ p_O^{(t+1)} &amp;= 1 - p_A^{(t+1)} - p_B^{(t+1)}
 </table>
 </div>
 </div>
+<aside class="notes">
+<p><strong>Script:</strong><br>
+“Read this table left to right. Each row is a starting strategy; the last three columns are the converged allele frequency estimates. The point is not that the answers differ—they don’t—but that the <strong>iterations</strong> column can vary a lot. You can buy free speed by initializing intelligently.”</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
-<section id="em-convergence-log-likelihood-gap" class="slide level2">
-<h2>EM Convergence: Log-Likelihood Gap</h2>
-
-<img data-src="lecture-03_files/figure-revealjs/unnamed-chunk-6-1.png" width="960" class="r-stretch"></section>
 <section id="em-parameter-trajectories" class="slide level2">
 <h2>EM Parameter Trajectories</h2>
 
-<img data-src="lecture-03_files/figure-revealjs/unnamed-chunk-7-1.png" width="960" class="r-stretch"></section>
+<img data-src="lecture-03_files/figure-revealjs/unnamed-chunk-5-1.png" width="960" class="r-stretch"><aside class="notes">
+<p><strong>Script:</strong><br>
+“Here are the trajectories for <span class="math inline">\(p_A\)</span>. Different starts head toward the same fixed point, and the paths are smooth. If you ever see oscillation or jaggedness here, it’s a warning sign about numerical underflow or a bad update rule.”</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
 <section id="when-does-em-fail" class="slide level2">
 <h2>When does EM fail?</h2>
 <ul>
@@ -481,6 +658,20 @@ p_O^{(t+1)} &amp;= 1 - p_A^{(t+1)} - p_B^{(t+1)}
 <li><strong>Boundary degeneracy</strong>: Rare allele/component weight driven to 0; variance or frequency estimates collapse.</li>
 <li><strong>Model misspecification</strong>: Violated assumptions (e.g., Hardy-Weinberg, stratification) give misleading “convergence.”</li>
 </ul>
+<aside class="notes">
+<p><strong>Script:</strong><br>
+“EM is not magic. If your model is <strong>not identifiable</strong>, EM will happily march along a ridge forever. If the likelihood is <strong>multimodal</strong>, bad starts can trap you. Near <strong>boundaries</strong>—think vanishing allele frequency—updates can collapse and stick. And if assumptions like HWE are wrong, EM will converge…to the wrong place. The antidotes are multiple starts, likelihood profiling, and stress‑testing the assumptions.”</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="linkage-vs-association-testing" class="slide level2">
 <h2>Linkage vs Association Testing</h2>
@@ -494,153 +685,336 @@ p_O^{(t+1)} &amp;= 1 - p_A^{(t+1)} - p_B^{(t+1)}
 <li>Null hypothesis: no association (e.g., <span class="math inline">\(\beta=0\)</span> or OR=1).</li>
 </ul></li>
 </ul>
+<aside class="notes">
+<p><strong>Script:</strong><br>
+“Two mapping mindsets. <strong>Linkage</strong> works within families, asks whether a trait and a marker co‑segregate more than chance, and summarizes evidence on a <strong>centimorgan</strong> scale with LOD curves. It’s robust to population structure. <strong>Association</strong> works across unrelateds, tests regression coefficients or odds ratios, and resolves at <strong>kilobase</strong> scale, but is sensitive to confounding. We need both lenses.”</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="two-point-linkage-terms" class="slide level2">
 <h2>Two-Point Linkage: Terms</h2>
 <ul>
 <li>Independent assortment (recall): when loci are unlinked, transmissions are independent and the chance a crossover separates them is <span class="math inline">\(\theta=0.5\)</span> (Mendel’s Second Law).</li>
-<li>Informative transmission/meiosis: a parent→child transmission where the transmitting parent is heterozygous at the loci of interest and the genotypes allow us to tell whether a crossover occurred.</li>
+<li>Informative transmission/meiosis: a parent <span class="math inline">\(\to\)</span> child transmission where the transmitting parent is heterozygous at the loci of interest and the genotypes allow us to tell whether a crossover occurred.
+<ul>
+<li>Example: parent <span class="math inline">\(Aa/Bb\)</span> transmits <span class="math inline">\(AB\)</span> or <span class="math inline">\(ab\)</span> (nonrecombinant) vs <span class="math inline">\(Ab\)</span> or <span class="math inline">\(aB\)</span> (recombinant).</li>
+</ul></li>
+</ul>
+<aside class="notes">
+<p><strong>Script:</strong><br>
+“An <strong>informative</strong> meiosis is one where you can tell whether a crossover happened. If the transmitting parent is not heterozygous at both loci, you can’t tell—so that meiosis doesn’t contribute information about <span class="math inline">\(\theta\)</span>.”</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="two-point-linkage-terms-1" class="slide level2">
+<h2>Two-Point Linkage: Terms</h2>
+<ul>
+<li>Recombinant fraction <span class="math inline">\(\theta\)</span>: the probability that a crossover occurs between two loci in a single meiosis; <span class="math inline">\(0 \le \theta \le 0.5\)</span>.</li>
 <li>Nonrecombinant transmission: the child receives an allele combination that matches one of the transmitting parent’s original allele pairs (no crossover between the loci).</li>
 <li>Recombinant transmission: the child receives a new combination relative to the transmitting parent’s original pair (a crossover occurred between the loci).</li>
 </ul>
+<aside class="notes">
+<p><strong>Script:</strong><br>
+“Operationally, <strong>nonrecombinants</strong> copy one of the parental haplotypes; <strong>recombinants</strong> mix them. Our complete‑data likelihoods will be binomial in the counts of these two outcomes.”</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="two-point-linkage-repulsion-vs-coupling" class="slide level2">
+<h2>Two-Point Linkage: Repulsion vs Coupling</h2>
+
+<img data-src="images/paste-8.png" class="r-stretch"><aside class="notes">
+<p><strong>Script:</strong><br>
+“Phase matters. In <strong>coupling</strong>, <span class="math inline">\(AB/ab\)</span>, nonrecombinants are <span class="math inline">\(\{AB,ab\}\)</span> and recombinants are <span class="math inline">\(\{Ab,aB\}\)</span>. In <strong>repulsion</strong>, <span class="math inline">\(Ab/aB\)</span>, those roles flip. When phase is unknown, we’ll treat it as <strong>latent</strong> and estimate a posterior weight on the two configurations.”</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="two-point-linkage-direct-counting" class="slide level2">
 <h2>Two-Point Linkage: Direct Counting</h2>
 <ul>
-<li>Count <span class="math inline">\(R\)</span> recombinants and <span class="math inline">\(NR\)</span> nonrecombinants; total informative <span class="math inline">\(I=R+NR\)</span>.</li>
-<li>Point estimate: <span class="math inline">\(\hat{\theta}=R/I\)</span>.</li>
-<li>LOD from counts (vs.&nbsp;independence at <span class="math inline">\(\theta=0.5\)</span>): <span class="math display">\[
-\mathrm{LOD}(\theta) = \log_{10}\!\left\{ \frac{\theta^{R} (1-\theta)^{NR}}{0.5^{I}} \right\}
-\]</span></li>
+<li><p>Count <span class="math inline">\(R\)</span> recombinants and <span class="math inline">\(NR\)</span> nonrecombinants; total informative <span class="math inline">\(I=R+NR\)</span>.</p></li>
+<li><p>Point estimate: <span class="math inline">\(\hat{\theta}=R/I\)</span>.</p></li>
+<li><p>LOD from counts (vs.&nbsp;independence at <span class="math inline">\(\theta=0.5\)</span>):</p></li>
 </ul>
+<p><span class="math display">\[
+\mathrm{LOD}(\theta) = \log_{10}\!\left\{ \frac{\theta^{R} (1-\theta)^{NR}}{0.5^{I}} \right\}
+\]</span></p>
+<ul>
+<li>This is a likelihood ratio test!</li>
+</ul>
+<aside class="notes">
+<p><strong>Script:</strong><br>
+“In the simplest case, count recombinants <span class="math inline">\(R\)</span> and informatives <span class="math inline">\(I\)</span>, and compute <span class="math inline">\(\hat\theta=R/I\)</span>. The LOD is a base‑10 log likelihood ratio against <span class="math inline">\(\theta=0.5\)</span>. The curve peaks at <span class="math inline">\(\hat\theta\)</span> and tells you where the evidence lies.”</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="worked-example-direct-counting-lod" class="slide level2">
 <h2>Worked Example: Direct Counting LOD</h2>
 <ul>
-<li>Suppose <span class="math inline">\(I=40\)</span> informative meioses with <span class="math inline">\(R=12\)</span> recombinants. For <span class="math inline">\(\theta=0.1\)</span>, <span class="math display">\[
-  \mathrm{LOD}(0.1) = \log_{10}\!\left\{ \frac{0.1^{12} \cdot 0.9^{28}}{0.5^{40}} \right\}.
-  \]</span></li>
-<li>Maximize <span class="math inline">\(\mathrm{LOD}(\theta)\)</span> over <span class="math inline">\(\theta\)</span> to estimate the recombination fraction; thresholds like LOD <span class="math inline">\(\ge 3\)</span> (strong evidence) and <span class="math inline">\(\le -2\)</span> (against) guide interpretation.</li>
+<li>Suppose <span class="math inline">\(I=40\)</span> informative meioses with <span class="math inline">\(R=12\)</span> recombinants.</li>
+<li>MLE <span class="math inline">\(\hat{\theta}=R/I=12/40=0.3\)</span>.</li>
+<li>For <span class="math inline">\(\theta=0.3\)</span></li>
 </ul>
+<p><span class="math display">\[
+\mathrm{LOD}(0.3) = \log_{10}\!\left\{ \frac{0.3^{12} \cdot 0.7^{28}}{0.5^{40}} \right\}.
+\]</span></p>
+<aside class="notes">
+<p><strong>Script:</strong><br>
+“With <span class="math inline">\(R=12\)</span> out of <span class="math inline">\(I=40\)</span>, <span class="math inline">\(\hat\theta=0.30\)</span>. Plugging into the LOD gives about <span class="math inline">\(1.43\)</span>, i.e., roughly 27:1 odds for linkage at the MLE. That’s suggestive, but below the classical <span class="math inline">\(LOD\ge 3\)</span> bar. Modern practice often uses permutation‑based thresholds instead of a hard rule.”</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="worked-example-direct-counting-lod-1" class="slide level2">
+<h2>Worked Example: Direct Counting LOD</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a>R <span class="ot">&lt;-</span> <span class="dv">12</span></span>
+<span id="cb1-2"><a></a>N <span class="ot">&lt;-</span> <span class="dv">40</span></span>
+<span id="cb1-3"><a></a>thetahat <span class="ot">&lt;-</span> R <span class="sc">/</span> N</span>
+<span id="cb1-4"><a></a></span>
+<span id="cb1-5"><a></a>lod <span class="ot">&lt;-</span> <span class="fu">log10</span>((thetahat<span class="sc">^</span>R <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> thetahat)<span class="sc">^</span>(N <span class="sc">-</span> R)) <span class="sc">/</span> (<span class="fl">0.5</span><span class="sc">^</span>N))</span>
+<span id="cb1-6"><a></a>lod</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.4294</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a><span class="dv">10</span><span class="sc">^</span>lod</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 26.87819</code></pre>
+</div>
+</div>
+<ul>
+<li>Maximize <span class="math inline">\(\mathrm{LOD}(\theta)\)</span> over <span class="math inline">\(\theta \in [0,0.5]\)</span> to estimate the recombination fraction; <span class="math inline">\(LOD \ge 3\)</span> and <span class="math inline">\(\leq -2\)</span> are classic heuristics (context-dependent).</li>
+</ul>
+<aside class="notes">
+<p><strong>Script:</strong><br>
+“This code reproduces the arithmetic: LOD around 1.43, odds around 27:1. The maximizer of the LOD is exactly <span class="math inline">\(R/I\)</span>. The <span class="math inline">\(\pm\)</span> thresholds are heuristics, not laws—use context and proper genome‑wide calibration.”</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="worked-example-direct-counting-lod-2" class="slide level2">
+<h2>Worked Example: Direct Counting LOD</h2>
+<ul>
+<li>Under <span class="math inline">\(H_0:\theta=0.5\)</span> (a boundary point), <span class="math inline">\(D = 2\ln(10)\cdot \mathrm{LOD}(\hat\theta)\)</span> has the mixture limit <span class="math inline">\(\tfrac{1}{2}\chi^2_0 + \tfrac{1}{2}\chi^2_1\)</span>; thus <span class="math inline">\(p = \tfrac{1}{2}\, \Pr(\chi^2_1 \ge D)\)</span>.</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a>D <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">log</span>(<span class="dv">10</span>) <span class="sc">*</span> lod</span>
+<span id="cb5-2"><a></a>pval <span class="ot">&lt;-</span> <span class="fl">0.5</span> <span class="sc">*</span> <span class="fu">pchisq</span>(D, <span class="at">df =</span> <span class="dv">1</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb5-3"><a></a>pval</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.005148931</code></pre>
+</div>
+</div>
+<aside class="notes">
+<p><strong>Script:</strong><br>
+“At the <strong>boundary</strong> <span class="math inline">\(\theta=0.5\)</span>, Wilks’ theorem gives a <strong>mixture</strong> null: half the mass at zero degrees of freedom and half at one. Concretely, compute <span class="math inline">\(D=2\ln(10)\cdot \mathrm{LOD}\)</span> and take <span class="math inline">\(p=\tfrac{1}{2}\Pr(\chi^2_1\ge D)\)</span>. This is the right conversion for two‑point tests against <span class="math inline">\(\theta=0.5\)</span>.”</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="two-point-linkage-em-with-unknown-phase" class="slide level2">
 <h2>Two-Point Linkage: EM with Unknown Phase</h2>
 <ul>
-<li>Setup: One heterozygous transmitting parent at two loci (<span class="math inline">\(A/a\)</span> and <span class="math inline">\(B/b\)</span>), crossed to an <span class="math inline">\(aabb\)</span> mate; <span class="math inline">\(N\)</span> children observed. The parent’s haplotype configuration (coupling <span class="math inline">\(AB/ab\)</span> vs repulsion <span class="math inline">\(Ab/aB\)</span>) is unknown.</li>
-<li>Observations: child haplotype counts (which equal transmitted haplotypes from the heterozygous parent): <span class="math inline">\((n_{AB}, n_{Ab}, n_{aB}, n_{ab})\)</span> with <span class="math inline">\(N=\sum n_{\cdot}\)</span>. Let <span class="math inline">\(n_{\text{NR}} = n_{AB}+n_{ab}\)</span> and <span class="math inline">\(n_{\text{R}} = n_{Ab}+n_{aB}\)</span>.</li>
+<li>Transmitting parent: <strong>double het</strong> <span class="math inline">\(Aa/Bb\)</span> with <strong>unknown phase</strong>.</li>
+<li>Mate: <strong>Aa/bb</strong> (heterozygous at <span class="math inline">\(A\)</span>, homozygous at <span class="math inline">\(B\)</span>).<br>
+</li>
+<li>Observed per child: two-locus <strong>genotypes</strong> <span class="math inline">\((A\text{-genotype}, B\text{-genotype})\)</span>.</li>
 </ul>
+<aside class="notes">
+<p><strong>Script:</strong><br>
+“Now a case where EM is <strong>actually necessary</strong>. The mate is <strong>bb</strong>, so the child’s <span class="math inline">\(B\)</span> allele comes entirely from the transmitting parent. That’s helpful. But the mate is <strong>Aa</strong> at <span class="math inline">\(A\)</span>, so whenever a child is <strong>Aa</strong>, we can’t tell whether the transmitting parent contributed <span class="math inline">\(A\)</span> or <span class="math inline">\(a\)</span>. Those are <strong>ambiguous transmissions</strong> between two haplotypes—exactly the kind of soft labeling EM was built for.”</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="two-point-linkage-em-with-unknown-phase-1" class="slide level2">
 <h2>Two-Point Linkage: EM with Unknown Phase</h2>
 <ul>
+<li>Missing-data view: the parental phase (coupling vs repulsion) is not observed. We make it a complete-data problem by introducing a weight <span class="math inline">\(w\in[0,1]\)</span> that blends the two phase-specific models.</li>
 <li>Model (given recombination fraction <span class="math inline">\(\theta\)</span>):
 <ul>
-<li>If phase is coupling (<span class="math inline">\(Z=C\)</span>): <span class="math inline">\(P(\text{NR})=1-\theta\)</span>, <span class="math inline">\(P(\text{R})=\theta\)</span> (split equally across the two categories).</li>
-<li>If phase is repulsion (<span class="math inline">\(Z=R\)</span>): <span class="math inline">\(P(\text{NR})=\theta\)</span>, <span class="math inline">\(P(\text{R})=1-\theta\)</span>.</li>
+<li>Coupling: <span class="math inline">\(P(\text{NR})=1-\theta\)</span>, <span class="math inline">\(P(\text{R})=\theta\)</span> (split equally across the two categories).</li>
+<li>Repulsion: <span class="math inline">\(P(\text{NR})=\theta\)</span>, <span class="math inline">\(P(\text{R})=1-\theta\)</span>.</li>
 </ul></li>
-<li>Latent variable: <span class="math inline">\(Z\in\{C,R\}\)</span> (parental phase). Prior <span class="math inline">\(P(Z=C)=P(Z=R)=1/2\)</span>.</li>
 </ul>
+<aside class="notes">
+<p><strong>Script:</strong><br>
+“Think of <strong>phase</strong> as a two‑component latent class: coupling vs repulsion. We’ll carry a single scalar, <span class="math inline">\(w\)</span>, the posterior weight on coupling. Under coupling, nonrecombinants are more likely by <span class="math inline">\(1-\theta\)</span>; under repulsion the roles swap. EM will update <span class="math inline">\(w\)</span> and then update <span class="math inline">\(\theta\)</span> from <strong>weighted</strong> recombinant counts.”</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="two-point-linkage-em-with-unknown-phase-2" class="slide level2">
 <h2>Two-Point Linkage: EM with Unknown Phase</h2>
-<p>E-step (posterior phase weights)</p>
+<p>E-step (update the phase weight)</p>
 <p><span class="math display">\[
-w_C \equiv P(Z{=}C\mid \text{data},\theta^{(t)}) \propto \tfrac12\,(1-\theta^{(t)})^{n_{\text{NR}}}\,(\theta^{(t)})^{n_{\text{R}}}
+w = \frac{(1-\theta^{(t)})^{\,n_{\text{NR}}}\,(\theta^{(t)})^{\,n_{\text{R}}}}
+{(1-\theta^{(t)})^{\,n_{\text{NR}}}\,(\theta^{(t)})^{\,n_{\text{R}}} + (\theta^{(t)})^{\,n_{\text{NR}}}\,(1-\theta^{(t)})^{\,n_{\text{R}}}}
 \]</span></p>
-<p><span class="math display">\[
-w_R = 1 - w_C \propto \tfrac12\,(\theta^{(t)})^{n_{\text{NR}}}\,(1-\theta^{(t)})^{n_{\text{R}}}.
-\]</span></p>
+<p>and use <span class="math inline">\(1-w\)</span> as the weight on the repulsion configuration.</p>
+<aside class="notes">
+<p><strong>Script:</strong><br>
+“This is the <strong>posterior</strong> weight on coupling: likelihood under coupling divided by the sum of likelihoods under both phases. In code, use logs and a log‑sum‑exp trick to avoid underflow if <span class="math inline">\(n_{\text{NR}}\)</span> or <span class="math inline">\(n_{\text{R}}\)</span> is large.”</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 <p>M-step (update <span class="math inline">\(\theta\)</span>)</p>
 <p><span class="math display">\[\begin{align*}
 \theta^{(t+1)}
-&amp;= \frac{\mathbb E[\text{\# recombinants}\mid\text{data},\theta^{(t)}]}{N} \\
-&amp;= \frac{w_C\,n_{\text{R}} + w_R\,n_{\text{NR}}}{N}
+&amp;= \frac{\text{(weighted recombinants)}}{N}
+= \frac{w\,n_{\text{R}} + (1-w)\,n_{\text{NR}}}{N}.
 \end{align*}\]</span></p>
-</section>
-<section id="numerical-illustration" class="slide level2">
-<h2>Numerical illustration</h2>
-<ul>
-<li><p>Let <span class="math inline">\((n_{AB}, n_{Ab}, n_{aB}, n_{ab})=(18,5,4,17)\)</span> so <span class="math inline">\(N=44\)</span>, <span class="math inline">\(n_{\text{NR}}=35\)</span>, <span class="math inline">\(n_{\text{R}}=9\)</span>.</p></li>
-<li><p>True <span class="math inline">\(\theta=(5+4)/44=0.2045\)</span>.</p></li>
-<li><p>Let’s begin with an estimate <span class="math inline">\(\theta^{(0)}=0.99\)</span> and iterate 5 times.</p></li>
-</ul>
-</section>
-<section id="numerical-illustration-1" class="slide level2">
-<h2>Numerical illustration</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a>n_AB <span class="ot">&lt;-</span> <span class="dv">18</span></span>
-<span id="cb1-2"><a></a>n_Ab <span class="ot">&lt;-</span> <span class="dv">5</span></span>
-<span id="cb1-3"><a></a>n_aB <span class="ot">&lt;-</span> <span class="dv">4</span></span>
-<span id="cb1-4"><a></a>n_ab <span class="ot">&lt;-</span> <span class="dv">17</span></span>
-<span id="cb1-5"><a></a>theta_true <span class="ot">&lt;-</span> (n_Ab <span class="sc">+</span> n_aB) <span class="sc">/</span> (n_AB <span class="sc">+</span> n_Ab <span class="sc">+</span> n_aB <span class="sc">+</span> n_ab)</span>
-<span id="cb1-6"><a></a>n_NR <span class="ot">&lt;-</span> <span class="dv">35</span></span>
-<span id="cb1-7"><a></a>n_R <span class="ot">&lt;-</span> <span class="dv">9</span></span>
-<span id="cb1-8"><a></a>N <span class="ot">&lt;-</span> n_NR <span class="sc">+</span> n_R</span>
-<span id="cb1-9"><a></a>theta_init <span class="ot">&lt;-</span> <span class="fl">0.00001</span></span>
-<span id="cb1-10"><a></a>iter <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">iter =</span> <span class="dv">0</span>, <span class="at">theta =</span> theta_init, <span class="at">theta_true =</span> theta_true, <span class="at">abs_err =</span> theta_init <span class="sc">-</span> theta_true)</span>
-<span id="cb1-11"><a></a>theta <span class="ot">&lt;-</span> theta_init</span>
-<span id="cb1-12"><a></a><span class="cf">for</span> (t <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>) {</span>
-<span id="cb1-13"><a></a>    numC <span class="ot">&lt;-</span> <span class="fl">0.5</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> theta)<span class="sc">^</span>n_NR <span class="sc">*</span> (theta)<span class="sc">^</span>n_R</span>
-<span id="cb1-14"><a></a>    numR <span class="ot">&lt;-</span> <span class="fl">0.5</span> <span class="sc">*</span> (theta)<span class="sc">^</span>n_NR <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> theta)<span class="sc">^</span>n_R</span>
-<span id="cb1-15"><a></a>    wC <span class="ot">&lt;-</span> numC <span class="sc">/</span> (numC <span class="sc">+</span> numR)</span>
-<span id="cb1-16"><a></a>    wR <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> wC</span>
-<span id="cb1-17"><a></a>    theta <span class="ot">&lt;-</span> (wC <span class="sc">*</span> n_R <span class="sc">+</span> wR <span class="sc">*</span> n_NR) <span class="sc">/</span> N</span>
-<span id="cb1-18"><a></a>    iter <span class="ot">&lt;-</span> <span class="fu">rbind</span>(iter, <span class="fu">data.frame</span>(<span class="at">iter =</span> t, <span class="at">theta =</span> theta, <span class="at">theta_true =</span> theta_true, <span class="at">abs_err =</span> theta <span class="sc">-</span> theta_true))</span>
-<span id="cb1-19"><a></a>}</span>
-<span id="cb1-20"><a></a>knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
-<span id="cb1-21"><a></a>    <span class="fu">tail</span>(iter, <span class="dv">1</span>) <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="st">`</span><span class="at">Final Theta</span><span class="st">`</span> <span class="ot">=</span> theta, <span class="st">`</span><span class="at">True Theta</span><span class="st">`</span> <span class="ot">=</span> theta_true),</span>
-<span id="cb1-22"><a></a>    <span class="at">digits =</span> <span class="dv">4</span></span>
-<span id="cb1-23"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: left;"></th>
-<th style="text-align: right;">Final Theta</th>
-<th style="text-align: right;">True Theta</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">21</td>
-<td style="text-align: right;">0.2045</td>
-<td style="text-align: right;">0.2045</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<aside class="notes">
+<p><strong>Script:</strong><br>
+“The M‑step is ‘recombinants over informatives’, but with a twist: we average the recombinant counts under coupling and repulsion using the current <span class="math inline">\(w\)</span>. That keeps the intuition intact.”</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="from-two-point-em-to-multipoint" class="slide level2">
 <h2>From Two-Point EM to Multipoint</h2>
 <ul>
 <li>Same objective: estimate recombination while marginalizing over latent transmissions/phase under current <span class="math inline">\(\theta\)</span>.</li>
-<li>E-step engine: compute required posteriors via Elston–Stewart peeling (pedigrees) or Lander–Green forward–backward (marker HMM) when you have multiple markers and missing genotypes.</li>
+<li>E-step engine: compute required state weights via Elston–Stewart peeling (pedigrees) or Lander–Green forward–backward (marker HMM) when you have multiple markers and missing genotypes.</li>
 <li>Quantities needed: <span class="math inline">\(\mathbb E[\#\,\text{recombinants between adjacent markers}]\)</span> and <span class="math inline">\(\mathbb E[\#\,\text{informative transmissions}]\)</span> under current map.</li>
 <li>Use in practice: either (a) plug these expectations into an EM-style update, or (b) more commonly, scan positions to build a LOD curve and report peak and 1-LOD interval.</li>
 </ul>
-</section>
-<section id="what-is-multipoint" class="slide level2">
-<h2>What Is Multipoint?</h2>
-<ul>
-<li>Definition: jointly analyze many linked markers (not just a pair) to infer inheritance patterns across a chromosome region while estimating recombination parameters.</li>
-<li>Why it helps: each marker contributes information; combining them increases the number of informative transmissions and sharpens localization (higher, narrower LOD peaks).</li>
-<li>Model view: a sequence of inheritance states (who inherited which parental haplotypes) connected by transitions governed by recombination rates — naturally represented as an HMM.</li>
-<li>Practical outputs: likelihood/LOD as a function of position, posterior IBD/phase probabilities, and expected recombinant counts between adjacent markers.</li>
-<li>Algorithms: Elston–Stewart (peeling) is efficient for large, shallow pedigrees; Lander–Green (HMM) is efficient for many markers on small/moderate pedigrees.</li>
-</ul>
+<aside class="notes">
+<p><strong>Script:</strong><br>
+“In multipoint linkage, the hidden object is the <strong>inheritance state</strong> along the chromosome. The forward–backward algorithm gives us posterior state probabilities; from those we compute expected <strong>recombinant counts between markers</strong> and assemble LOD curves across the map. It’s the same EM logic, just powered by an HMM.”</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="multipoint-linkage-hmm" class="slide level2">
 <h2>Multipoint Linkage (HMM)</h2>
-
-<img data-src="lecture-03_files/figure-revealjs/unnamed-chunk-9-1.png" width="864" class="r-stretch"></section>
-<section id="multipoint-linkage-hmm-1" class="slide level2">
-<h2>Multipoint Linkage (HMM)</h2>
 <ul>
 <li>Markers along a chromosome define an HMM over inheritance states; adjacent recombination rates drive transitions.</li>
-<li>Combine penetrance with the marker HMM to compute <span class="math inline">\(L(\theta)\)</span> efficiently as you slide along the map (forward–backward yields the needed posteriors even with missing phase/genotypes).</li>
+<li>Combine penetrance with the marker HMM to compute <span class="math inline">\(L(\theta)\)</span> efficiently as you slide along the map (forward–backward yields the needed state probabilities even with missing phase/genotypes).</li>
 <li>Pros: more information than two-point; better localization. Cons: requires a genetic map and error modeling.</li>
 </ul>
+<aside class="notes">
+<p><strong>Script:</strong><br>
+“Two practical cautions: include a <strong>genotyping‑error model</strong>—even a small error rate flattens LODs if ignored—and consider sex‑specific maps or interference if your study demands it. Otherwise, the HMM machinery scales cleanly.”</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="missing-data-em-in-linkage" class="slide level2">
 <h2>Missing-Data EM in Linkage</h2>
@@ -650,14 +1024,42 @@ w_R = 1 - w_C \propto \tfrac12\,(\theta^{(t)})^{n_{\text{NR}}}\,(1-\theta^{(t)})
 <li>M-step: <span class="math inline">\(\displaystyle \theta^{(t+1)} = \frac{\mathrm E[R\mid\text{data},\theta^{(t)}]}{\mathrm E[I\mid\text{data},\theta^{(t)}]}\)</span>.</li>
 <li>Iterate across <span class="math inline">\(\theta\)</span> grid to produce a LOD curve; maximize or report support interval.</li>
 </ul>
+<aside class="notes">
+<p><strong>Script:</strong><br>
+“This slide distills the recipe: compute <strong>expected</strong> recombinants and informatives under the current map, then update <span class="math inline">\(\theta\)</span> as their ratio. In practice we report the <strong>LOD curve</strong> and a 1‑LOD support interval rather than a single point estimate.”</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="practical-issues-in-linkage" class="slide level2">
 <h2>Practical Issues in Linkage</h2>
 <ul>
 <li>Model specification: penetrance, phenocopy, allele frequencies; misspecification can distort LOD.</li>
 <li>Marker selection: highly polymorphic markers increase information; account for sex-specific recombination if needed.</li>
-<li>Computational trade-offs: many markers×large pedigrees require approximations or pruning; consider parametric vs nonparametric linkage.</li>
+<li>Computational trade-offs: many markers and large pedigrees require approximations or pruning; consider parametric vs nonparametric linkage.</li>
 </ul>
+<aside class="notes">
+<p><strong>Script:</strong><br>
+“Linkage analyses are only as good as their <strong>trait model</strong>. Probe sensitivity to penetrance and phenocopy. Use polymorphic markers to maximize information, and thin dense SNPs if LD bloats state spaces. For large pedigrees, Elston–Stewart pruning is your friend.”</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="linkage-disequilibrium" class="slide level2">
 <h2>Linkage Disequilibrium</h2>
@@ -670,6 +1072,20 @@ w_R = 1 - w_C \propto \tfrac12\,(\theta^{(t)})^{n_{\text{NR}}}\,(1-\theta^{(t)})
 <li>For example, <span class="math inline">\(P_{AB} = P_A \times P_B\)</span></li>
 </ul></li>
 </ul>
+<aside class="notes">
+<p><strong>Script:</strong><br>
+“LD is simply <strong>statistical dependence</strong> between alleles on the same haplotype. Think forces: drift and finite population size create dependence, recombination erodes it, selection and admixture can inflate it.”</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="linkage-disequilibrium-1" class="slide level2">
 <h2>Linkage Disequilibrium</h2>
@@ -680,6 +1096,20 @@ w_R = 1 - w_C \propto \tfrac12\,(\theta^{(t)})^{n_{\text{NR}}}\,(1-\theta^{(t)})
 <ul>
 <li>What are we looking at here?</li>
 </ul>
+<aside class="notes">
+<p><strong>Script:</strong><br>
+“Algebraically, <span class="math inline">\(D\)</span> is the <strong>covariance</strong> between the allele indicators on a random haplotype. If <span class="math inline">\(D&gt;0\)</span>, <span class="math inline">\(AB\)</span> is over‑represented relative to independence; if <span class="math inline">\(D&lt;0\)</span>, it’s under‑represented.”</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="linkage-disequilibrium-2" class="slide level2">
 <h2>Linkage Disequilibrium</h2>
@@ -695,6 +1125,20 @@ w_R = 1 - w_C \propto \tfrac12\,(\theta^{(t)})^{n_{\text{NR}}}\,(1-\theta^{(t)})
 <li><span class="math inline">\(\operatorname{Cov}(A, B) = \operatorname{E}[AB] - \operatorname{E}[A]\operatorname{E}[B]\)</span></li>
 </ul></li>
 </ul>
+<aside class="notes">
+<p><strong>Script:</strong><br>
+“Formalizing that intuition: let <span class="math inline">\(A,B\in\{0,1\}\)</span> indicate the presence of alleles on a haplotype. Then <span class="math inline">\(D=\operatorname{Cov}(A,B)\)</span>. This is why correlation <span class="math inline">\(r\)</span> shows up naturally on the next slide.”</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="linkage-disequilibrium-3" class="slide level2">
 <h2>Linkage Disequilibrium</h2>
@@ -702,7 +1146,7 @@ w_R = 1 - w_C \propto \tfrac12\,(\theta^{(t)})^{n_{\text{NR}}}\,(1-\theta^{(t)})
 <li><span class="math inline">\(D\)</span>, or <span class="math inline">\(\operatorname{Cov}(A, B)\)</span>, is scale-dependent</li>
 <li>Normalized measures:
 <ul>
-<li><span class="math inline">\(D' = D / D_{\max}\)</span>, where <span class="math inline">\(D_{\max} = \min(p_A p_b, p_a p_B)\)</span> if <span class="math inline">\(D &lt; 0\)</span></li>
+<li><span class="math inline">\(D' = D / D_{\max}\)</span>, where <span class="math inline">\(D_{\max} = \min(p_A p_b, p_a p_B)\)</span> if <span class="math inline">\(D &gt; 0\)</span></li>
 <li>Pearson correlation:</li>
 </ul></li>
 </ul>
@@ -711,45 +1155,66 @@ r
 &amp;= \frac{\operatorname{Cov}(A, B)}{\sqrt{\operatorname{Var}(A) \operatorname{Var}(B)}} \\
 &amp;= \frac{D}{\sqrt{p_A(1 - p_A) p_B(1 - p_B)}}
 \end{align}\]</span></p>
+<aside class="notes">
+<p><strong>Script:</strong><br>
+“<span class="math inline">\(D\)</span> depends on allele frequencies, so we normalize. Two popular choices: <span class="math inline">\(D'\)</span> and <span class="math inline">\(r\)</span>. For <strong>association power</strong>, <span class="math inline">\(r\)</span>—and really <span class="math inline">\(r^2\)</span>—matters most because it directly scales the noncentrality parameter: effect sizes at a tag SNP are attenuated by about <span class="math inline">\(r\)</span> relative to the causal.”</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
-<section id="from-ld-to-association" class="slide level2">
-<h2>From LD to Association</h2>
+<section id="goal-of-association-ld-link" class="slide level2">
+<h2>Goal of Association &amp; LD Link</h2>
 <ul>
-<li>LD (measured by <span class="math inline">\(D\)</span>, <span class="math inline">\(D'\)</span>, <span class="math inline">\(r\)</span>) captures non-random allele co-occurrence across loci.</li>
-<li>Association tests correlate variants (or dosages) with traits in populations.</li>
-<li>Bridge: markers tag causal variants via LD; detectable effects attenuate with lower <span class="math inline">\(r^2\)</span>.</li>
+<li>Goal: test the null of no effect (e.g., <span class="math inline">\(\beta=0\)</span> or OR<span class="math inline">\(=1\)</span>) to identify regions harboring causal variants.</li>
+<li>We test markers, not necessarily the causal variant. If a marker has nonzero LD (correlation <span class="math inline">\(r\)</span>) with a causal variant, its association test can detect signal from that causal.</li>
+<li>Stronger <span class="math inline">\(|r|\)</span> implies a stronger expected signal at the marker; if <span class="math inline">\(r\approx 0\)</span>, the marker carries no information about that causal.</li>
+<li>Sign matters: <span class="math inline">\(r&lt;0\)</span> flips the observed effect direction at the marker relative to the causal.</li>
+<li>In practice, nearby markers within LD blocks show clustered p-values and similar effect signs.</li>
 </ul>
+<aside class="notes">
+<p><strong>Script:</strong><br>
+“Here’s the bridge: association tests fire at <strong>markers</strong>. If a marker correlates with a causal by <span class="math inline">\(r\)</span>, the observed effect is roughly <span class="math inline">\(r\)</span> times the causal effect, and power scales with <span class="math inline">\(r^2\)</span>. That’s why p‑values cluster within LD blocks and why effect <strong>signs</strong> can flip if <span class="math inline">\(r&lt;0\)</span>.”</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
-<section id="ld-to-association-mini-derivation" class="slide level2">
-<h2>LD <span class="math inline">\(\to\)</span> Association: Mini Derivation</h2>
-<ul>
-<li>Standardize marker <span class="math inline">\(M\)</span> and causal <span class="math inline">\(C\)</span> to unit variance; regress <span class="math inline">\(Y\)</span> on <span class="math inline">\(M\)</span> marginally.</li>
-<li><span class="math inline">\(\displaystyle \beta_M = \frac{\operatorname{cov}(M,Y)}{\operatorname{var}(M)} \approx \frac{\operatorname{cov}(M,\beta_C C)}{1} = \beta_C\,\operatorname{cov}(M,C) = r\,\beta_C.\)</span></li>
-</ul>
-</section>
-<section id="ld-to-association-concrete-example" class="slide level2">
-<h2>LD <span class="math inline">\(\to\)</span> Association: Concrete Example</h2>
-<ul>
-<li>Suppose causal per-allele <span class="math inline">\(\mathrm{OR}_C=1.50\)</span> and a tag has <span class="math inline">\(r^2=0.64\)</span> (<span class="math inline">\(r=0.8\)</span>) to the causal.</li>
-<li>Attenuation: <span class="math inline">\(\log\mathrm{OR}_M \approx r\,\log\mathrm{OR}_C \Rightarrow \mathrm{OR}_M \approx 1.50^{0.8} \approx 1.38\)</span>.</li>
-</ul>
-</section>
-<section id="single-marker-association-core-tests" class="slide level2">
-<h2>Single-Marker Association: Core Tests</h2>
+<section id="single-marker-association-core-test-linear" class="slide level2">
+<h2>Single-Marker Association: Core Test (Linear)</h2>
 <ul>
 <li>Linear trait: <span class="math inline">\(Y=\alpha+\beta G+\gamma^T C+\varepsilon\)</span>; test <span class="math inline">\(H_0{:}\,\beta=0\)</span>.</li>
-<li>Logistic (case–control): <span class="math inline">\(\text{logit}\,P(Y=1)=\alpha+\beta G+\gamma^T C\)</span>; <span class="math inline">\(\exp(\beta)\)</span> is OR per allele.</li>
-<li>Encodings: additive (0/1/2) or genotypic (AA/Aa/aa); include dominance to test non-additivity.</li>
-<li>Armitage trend/allelic or genotypic <span class="math inline">\(\chi^2\)</span> approximate additive logistic.</li>
+<li>Genotype encodings: additive (0/1/2) or genotypic (AA/Aa/aa); include dominance to test non-additivity.</li>
+<li>Binary outcomes (case–control) and logistic models will be covered later.</li>
 </ul>
-</section>
-<section id="single-marker-special-cases" class="slide level2">
-<h2>Single-Marker: Special Cases</h2>
-<ul>
-<li>Rare variants: Fisher’s exact or Firth logistic to handle small counts/separation.</li>
-<li>Gene-level: burden/collapsing or SKAT for sets of rare variants.</li>
-<li>Family designs: TDT/FBAT for stratification-robust association.</li>
-</ul>
+<aside class="notes">
+<p><strong>Script:</strong><br>
+“Regression 101 with genetics details. Code genotypes additively unless biology suggests dominance or recessivity; add a dominance term if you want to test non‑additivity. Always include relevant covariates—sex, age, and <strong>PCs</strong> for ancestry—because stratification can fake associations.”</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="basic-qc-pipeline-variant-level" class="slide level2">
 <h2>Basic QC Pipeline (Variant-level)</h2>
@@ -759,6 +1224,20 @@ r
 <li>Minor allele frequency threshold (e.g., MAF ≥ 0.01 unless rare-variant methods used).</li>
 <li>Differential missingness across case/control; strand/allele checks.</li>
 </ul>
+<aside class="notes">
+<p><strong>Script:</strong><br>
+“QC is prevention. Missingness filters remove low‑quality sites; HWE in <strong>controls</strong> flags genotyping problems; MAF thresholds avoid unstable estimates unless you’re using rare‑variant methods. Don’t forget <strong>strand and allele</strong> checks—mismatches there create phantom effects.”</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="basic-qc-pipeline-sample-level" class="slide level2">
 <h2>Basic QC Pipeline (Sample-level)</h2>
@@ -767,127 +1246,20 @@ r
 <li>Relatedness/duplicates via IBD; ancestry via PCA; remove outliers or adjust with PCs.</li>
 <li>Duplicates/cryptic relatedness: retain one per pair or use mixed models.</li>
 </ul>
-</section>
-<section id="demo-simulated-single-marker-test" class="slide level2">
-<h2>Demo: Simulated Single-Marker Test</h2>
-<div class="cell">
-<div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: left;">term</th>
-<th style="text-align: right;">estimate</th>
-<th style="text-align: right;">std.error</th>
-<th style="text-align: right;">statistic</th>
-<th style="text-align: right;">p.value</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">(Intercept)</td>
-<td style="text-align: right;">-0.9053</td>
-<td style="text-align: right;">0.0810</td>
-<td style="text-align: right;">-11.1739</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">G</td>
-<td style="text-align: right;">0.3797</td>
-<td style="text-align: right;">0.0855</td>
-<td style="text-align: right;">4.4390</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">C</td>
-<td style="text-align: right;">0.7500</td>
-<td style="text-align: right;">0.0641</td>
-<td style="text-align: right;">11.7074</td>
-<td style="text-align: right;">0</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</section>
-<section id="hwe-and-allele-counts-quick-checks" class="slide level2">
-<h2>HWE and Allele Counts (Quick Checks)</h2>
-<ul>
-<li>For a bi-allelic SNP, with counts <span class="math inline">\((n_{AA}, n_{Aa}, n_{aa})\)</span>, test HWE via <span class="math inline">\(\chi^2\)</span>: <span class="math inline">\(\displaystyle X^2=\sum_{g\in\{AA,Aa,aa\}} \frac{(n_g - N \hat p_g)^2}{N\hat p_g}\)</span> with <span class="math inline">\(\hat p_A=(2n_{AA}+n_{Aa})/(2N)\)</span> and <span class="math inline">\(\hat p_g\)</span> from HWE.</li>
-<li>Prefer exact tests for small <span class="math inline">\(N\)</span> or rare variants; compute in controls to avoid case-driven deviations.</li>
-</ul>
-</section>
-<section id="haplotype-association-setup" class="slide level2">
-<h2>Haplotype Association: Setup</h2>
-<ul>
-<li>Unphased genotypes induce ambiguity in haplotypes; EM estimates haplotype frequencies under HWE.</li>
-<li>E-step: compute <span class="math inline">\(P(\text{haplotype pair}\mid \text{genotype}, p^{(t)})\)</span> per person; M-step: update haplotype frequencies by expected counts.</li>
-<li>Association: use haplotype dosages as covariates in regression; sliding windows or gene-based haplotypes; consider LD and multiple testing.</li>
-</ul>
-</section>
-<section id="em-demo-two-snp-haplotype-frequencies" class="slide level2">
-<h2>EM Demo: Two-SNP Haplotype Frequencies</h2>
-<div class="cell">
-<div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: left;">Haplotype</th>
-<th style="text-align: right;">True</th>
-<th style="text-align: right;">EM_Estimate</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">ab</td>
-<td style="text-align: right;">0.40</td>
-<td style="text-align: right;">0.3981</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">aB</td>
-<td style="text-align: right;">0.10</td>
-<td style="text-align: right;">0.0959</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Ab</td>
-<td style="text-align: right;">0.25</td>
-<td style="text-align: right;">0.2469</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">AB</td>
-<td style="text-align: right;">0.25</td>
-<td style="text-align: right;">0.2591</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</section>
-<section id="ld-from-estimated-haplotypes" class="slide level2">
-<h2>LD From Estimated Haplotypes</h2>
-<div class="cell">
-<div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: left;"></th>
-<th style="text-align: right;">pB1</th>
-<th style="text-align: right;">pB2</th>
-<th style="text-align: right;">D</th>
-<th style="text-align: right;">r2</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Ab</td>
-<td style="text-align: right;">0.506</td>
-<td style="text-align: right;">0.355</td>
-<td style="text-align: right;">0.0795</td>
-<td style="text-align: right;">0.1103</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<aside class="notes">
+<p><strong>Script:</strong><br>
+“At the sample level, verify <strong>sex</strong> against X‑chromosome heterozygosity, look for <strong>heterozygosity outliers</strong>, and identify relatives with IBD. Use PCA to quantify ancestry and either exclude outliers or adjust downstream. Mixed models help with relatedness, but don’t use them as an excuse to skip QC.”</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="summary-key-takeaways" class="slide level2">
 <h2>Summary &amp; Key Takeaways</h2>
@@ -895,10 +1267,46 @@ r
 <li>Likelihood optimization: Newton–Raphson (score/Hessian), Gradient Descent/SGD (scalable), and EM (latent-data) are core tools.</li>
 <li>EM for ABO gene frequencies: initialization affects speed; log-likelihood increases monotonically until convergence.</li>
 <li>Linkage: two-point LOD and unknown phase via EM; multipoint mapping framed as an HMM for efficient inference with missing data.</li>
-<li>LD basics: D, D′, and r connect haplotypes to correlation; explains tag–causal attenuation in association.</li>
-<li>Association today: single-marker linear/logistic tests, haplotype tests via EM, and basic variant/sample QC.</li>
-<li>Next: population structure (PCs), mixed models (LMM/GLMM), and GWAS-scale thresholds, power, and imputation in later lectures.</li>
+<li>LD basics: r and r^2 quantify correlation between markers and explain why nearby markers can show similar association signals when a causal variant is unobserved</li>
 </ul>
+<aside class="notes">
+<p><strong>Script:</strong><br>
+“Take‑home messages. Newton and first‑order methods are your optimization workhorses. EM turns missingness into a tractable expectation–maximization cycle and increases the log‑likelihood monotonically. Linkage is about family transmissions; association is about population correlation. And <span class="math inline">\(r^2\)</span> is the currency that converts LD into expected association signal.”</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="hands-on-lab-03-applied" class="slide level2">
+<h2>Hands-On: Lab 03 (Applied)</h2>
+<ul>
+<li>Implement ABO EM and compare starts; plot log-likelihood gap.</li>
+<li>Two-point linkage: LOD grid search + EM with unknown phase.</li>
+<li>Two-SNP haplotype EM; compute LD (D, r^2).</li>
+<li>Mini association demo: linear regression + HWE QC in controls.</li>
+</ul>
+<p>See <code>labs/unsolved/lab-03.R</code> for the scaffold (with TODOs) and <code>labs/solved/lab-03.R</code> for a worked solution.</p>
+<aside class="notes">
+<p><strong>Script:</strong><br>
+“For the lab: keep a log of starting values and attained log‑likelihoods—this is good hygiene with EM. In the two‑point EM, verify that ambiguous transmissions are being split sensibly as <span class="math inline">\(\theta\)</span> and <span class="math inline">\(w\)</span> update. In the haplotype EM, watch for boundary estimates at very low MAFs. And in the association mini‑demo, confirm that including PCs meaningfully reduces ancestry structure before you trust the p‑values.”</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 
 
 </section>
@@ -1203,13 +1611,14 @@ r
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-            const codeEl = trigger.previousElementSibling.cloneNode(true);
-            for (const childEl of codeEl.children) {
-              if (isCodeAnnotation(childEl)) {
-                childEl.remove();
-              }
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
             }
-            return codeEl.innerText;
+          }
+          return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy

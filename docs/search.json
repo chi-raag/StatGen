@@ -364,11 +364,284 @@
     "text": "References\n\n\n\n\nDowney,A. (2016) Probably overthinking it: There is still only one test.\n\n\nLaird,N.M. and Lange,C. (2011) The fundamentals of modern statistical genetics Springer Science, New York.\n\n\nSörensen,D. (2025) Statistical Learning in Genetics: An Introduction Using R 2nd ed. 2025. Springer Nature Switzerland, Cham."
   },
   {
+    "objectID": "lectures/lecture-03.html#review-likelihood-function-basics",
+    "href": "lectures/lecture-03.html#review-likelihood-function-basics",
+    "title": "Lecture 03: Fitting Likelihoods, Linkage, and Association",
+    "section": "Review: Likelihood Function Basics",
+    "text": "Review: Likelihood Function Basics\n\nLikelihood function: \\(L(\\boldsymbol{\\theta} \\mid \\text{data}) = P(\\text{data} \\mid \\boldsymbol{\\theta})\\)\nMaximum Likelihood Estimation (MLE)\nSimple one-parameter examples\n\nHowever often direct MLE is not possible because\n\nClosed-form solution does not exist\nMissing or latent data\nHigh-dimensional or constrained parameter space leads to non-convex surface with multiple local maxima\n\n\nScript:\n“Let’s start by aligning on what likelihood means. We take the sampling model \\(p(\\text{data}\\mid\\theta)\\) and, after we’ve observed the data, we view it as a function of the parameter \\(\\theta\\). That function is the likelihood \\(L(\\theta)\\). The MLE is simply the value of \\(\\theta\\) that maximizes \\(L\\).\nTwo reminders that will be useful all semester: first, the invariance property—if \\(\\hat\\theta\\) maximizes \\(L(\\theta)\\), then \\(g(\\hat\\theta)\\) maximizes the likelihood of \\(g(\\theta)\\). Second, the curvature of the log-likelihood, via Fisher information, anticipates precision.\nIn practice, closed forms fail us for three common reasons: there’s no algebraic solution; there’s missing or latent data; or the parameter space is constrained or high-dimensional so the surface is bumpy. Today we’ll build the numerical toolkit that handles these realities.”"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#agenda",
+    "href": "lectures/lecture-03.html#agenda",
+    "title": "Lecture 03: Fitting Likelihoods, Linkage, and Association",
+    "section": "Agenda",
+    "text": "Agenda\n\nOptimization for MLE: Newton–Raphson, Gradient Descent, SGD\nEM algorithm: gene frequencies and incomplete data\nLinkage analysis: two-point, unknown phase EM, multipoint HMM\nLinkage disequilibrium (LD) and its measures (D, D’, r)\nAssociation: single-marker/haplotype tests and basic QC\n\n\nScript:\n“Here’s the plan. We’ll warm up with Newton–Raphson and first‑order methods—how to actually move on a likelihood surface. We’ll then introduce EM as a principled way to deal with missing or latent pieces, anchored by an ABO example.\nNext, we pivot to linkage: first two‑point LOD, then an EM formulation for unknown phase, and finally the multipoint HMM perspective. We’ll connect that to LD, clarify \\(D\\), \\(D'\\) and \\(r\\), and finish with a single‑marker association demo and the QC that keeps results honest.”"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#newton-raphson-method-for-mle",
+    "href": "lectures/lecture-03.html#newton-raphson-method-for-mle",
+    "title": "Lecture 03: Fitting Likelihoods, Linkage, and Association",
+    "section": "Newton-Raphson Method for MLE",
+    "text": "Newton-Raphson Method for MLE\n\nGeneral procedure to find \\(x\\) such that \\(g(x) = 0\\)\nUses Taylor Expansion, for \\(g(x)\\) about a point \\(x = a\\):\n\n\\[\\begin{align*}\ng(x) = g(a) &+\n\\frac{g'(a)(x-a)}{1!} + \\frac{g''(a)(x-a)^2}{2!} \\\\\n&+ ... + \\frac{g^{(n)}(a)(x-a)^n}{n!}\n\\end{align*}\\]\n\nScript:\n“In MLE we set \\(g(\\theta)=\\ell'(\\theta)\\), the score, and look for a root. Newton’s update is\n\\[ \\theta{(t+1)}={(t)}-.\\]\nIn multiple dimensions it’s \\(\\boldsymbol{\\theta}^{(t+1)}=\\boldsymbol{\\theta}^{(t)}-\\mathbf{H}^{-1}\\mathbf{g}\\), where \\(\\mathbf{g}\\) is the gradient and \\(\\mathbf{H}\\) the Hessian.\nThree practical notes. First, Newton is quadratically convergent when you’re close to the solution—that’s why it’s fast. Second, guard against wild steps with damping or line search, and keep feasibility in mind if your parameter must lie on a simplex or in \\([0,0.5]\\). Third, if the Hessian misbehaves, use Fisher scoring (replace \\(-\\mathbf{H}\\) with expected information) or a trust region.”"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#gradient-descent",
+    "href": "lectures/lecture-03.html#gradient-descent",
+    "title": "Lecture 03: Fitting Likelihoods, Linkage, and Association",
+    "section": "Gradient Descent",
+    "text": "Gradient Descent\n\nFirst-order iterative optimization algorithm\nDoes not rely on matrix inversions \\(\\longrightarrow\\) better for high dimensional problems\nVisualizer from UCLA\n\n\nScript:\n“First‑order methods move along the steepest descent direction without ever inverting a matrix. That’s a superpower in high‑dimensional genetics models where Hessians are huge. The tradeoff: convergence is typically linear, not quadratic.\nWhat matters in practice is the step size: constant steps are brittle; backtracking or scheduled decay is safer. Stochastic and mini‑batch variants are essential when your objective decomposes over people, markers, or families. The mental model is simple: noisy but cheap steps that converge ‘on average’.”"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#the-em-algorithm",
+    "href": "lectures/lecture-03.html#the-em-algorithm",
+    "title": "Lecture 03: Fitting Likelihoods, Linkage, and Association",
+    "section": "The EM Algorithm",
+    "text": "The EM Algorithm\n\nExpectation-Maximization Algorithm\nKey idea: transform an incomplete data problem into a complete data problem\n\n\\[\np\\left(y \\mid \\theta \\right) = \\frac{p\\left(y, z \\mid \\theta \\right)}{p\\left(z \\mid y, \\theta\\right)}\n\\]\n\nScript:\n“EM turns missingness into bookkeeping. We invent latent variables \\(z\\) so that the complete‑data log-likelihood \\(\\log p(y,z\\mid\\theta)\\) is easy to maximize. At iterate \\(t\\):\n\nE‑step: compute \\(Q(\\theta\\mid\\theta^{(t)})=\\mathbb{E}_{z\\mid y,\\theta^{(t)}}[\\log p(y,z\\mid\\theta)]\\).\n\nM‑step: update \\(\\theta^{(t+1)}=\\arg\\max_\\theta Q(\\theta\\mid\\theta^{(t)})\\).\n\nWhy does it work? By Jensen’s inequality, EM monotonically increases the observed log-likelihood. The feel is ‘stable but sometimes slow’; we’ll flag accelerations like ECME and PX‑EM later.”"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#em-for-gene-frequencies",
+    "href": "lectures/lecture-03.html#em-for-gene-frequencies",
+    "title": "Lecture 03: Fitting Likelihoods, Linkage, and Association",
+    "section": "EM for Gene Frequencies",
+    "text": "EM for Gene Frequencies\n\n\n\n\n\nGenotype\nPhenotype\nObserved Counts\nGenotype Frequency\n\n\n\n\n\\(AA\\)\n\\(A\\)\n\\(n_A\\)\n\\(p_A^2\\)\n\n\n\\(AO\\)\n\\(A\\)\n\n\\(2 p_A p_O\\)\n\n\n\\(AB\\)\n\\(AB\\)\n\\(n_{AB}\\)\n\\(2 p_A p_B\\)\n\n\n\\(BB\\)\n\\(B\\)\n\\(n_B\\)\n\\(p_B^2\\)\n\n\n\\(BO\\)\n\\(B\\)\n\n\\(2 p_B p_O\\)\n\n\n\\(OO\\)\n\\(O\\)\n\\(n_O\\)\n\\(p_O^2\\)\n\n\n\n\n\n\nScript:\n“Here’s the ABO mapping. The assumption is Hardy–Weinberg and random mating, so genotype frequencies are the usual \\(p^2\\), \\(2pq\\), \\(q^2\\). The ambiguity sits exactly in the A and B phenotypes: each collapses over two genotypes. EM will split those cells into expected counts using the current allele frequencies and then re‑estimate the frequencies as if those expected counts were observed.”"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#em-for-gene-frequencies-1",
+    "href": "lectures/lecture-03.html#em-for-gene-frequencies-1",
+    "title": "Lecture 03: Fitting Likelihoods, Linkage, and Association",
+    "section": "EM for Gene Frequencies",
+    "text": "EM for Gene Frequencies\n\nWe don’t know if \\(n_A\\) is from \\(AA\\) or \\(AO\\)! (And similarly for \\(n_B\\))\nHowever, given our data model, we can find values of \\((\\hat{p}_A, \\hat{p}_B)\\) via EM\n\n\nScript:\n“Think of each A phenotype as a soft label between AA and AO, with probabilities determined by the current \\((p_A,p_O)\\). Same story for B. That’s the essence of the E‑step.”"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#em-for-gene-frequencies-2",
+    "href": "lectures/lecture-03.html#em-for-gene-frequencies-2",
+    "title": "Lecture 03: Fitting Likelihoods, Linkage, and Association",
+    "section": "EM for Gene Frequencies",
+    "text": "EM for Gene Frequencies\n\nStart with initial \\((p_A^{(0)}, p_B^{(0)})\\) and set \\(p_O^{(0)} = 1 - p_A^{(0)} - p_B^{(0)}\\).\nE-step: allocate ambiguous phenotype counts:\n\n\\(A\\) phenotype: \\(\\tilde n_{AA} = n_A \\frac{(p_A^{(t)})^2}{(p_A^{(t)})^2 + 2 p_A^{(t)} p_O^{(t)}}\\), \\(\\tilde n_{AO} = n_A \\frac{2 p_A^{(t)} p_O^{(t)}}{(p_A^{(t)})^2 + 2 p_A^{(t)} p_O^{(t)}}\\).\n\\(B\\) phenotype: \\(\\tilde n_{BB} = n_B \\frac{(p_B^{(t)})^2}{(p_B^{(t)})^2 + 2 p_B^{(t)} p_O^{(t)}}\\), \\(\\tilde n_{BO} = n_B \\frac{2 p_B^{(t)} p_O^{(t)}}{(p_B^{(t)})^2 + 2 p_B^{(t)} p_O^{(t)}}\\).\n\n\n\nScript:\n“These are just conditional probabilities. Given the person has phenotype A, what’s the chance they’re AA versus AO under the current \\((p_A,p_O)\\)? Multiply by \\(n_A\\) to get expected genotype counts \\(\\tilde n_{AA}\\) and \\(\\tilde n_{AO}\\). Do the same for B. That’s the E‑step.”"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#em-for-gene-frequencies-3",
+    "href": "lectures/lecture-03.html#em-for-gene-frequencies-3",
+    "title": "Lecture 03: Fitting Likelihoods, Linkage, and Association",
+    "section": "EM for Gene Frequencies",
+    "text": "EM for Gene Frequencies\n\nM-step (with \\(N\\) total individuals):\n\n\\[\\begin{aligned}\np_A^{(t+1)} &= \\frac{2\\tilde n_{AA} + \\tilde n_{AO} + n_{AB}}{2N},\\\\\np_B^{(t+1)} &= \\frac{2\\tilde n_{BB} + \\tilde n_{BO} + n_{AB}}{2N},\\\\\np_O^{(t+1)} &= 1 - p_A^{(t+1)} - p_B^{(t+1)}\n\\end{aligned}\\]\n\nIterate until parameter changes are below a tolerance.\n\n\nScript:\n“Now treat the expected genotype table as complete and recount alleles: two from each homozygote and one from each heterozygote, divided by \\(2N\\). That gives updated \\((p_A,p_B,p_O)\\). Iterate E and M until the changes are tiny and the observed log‑likelihood is no longer increasing.”"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#em-for-gene-frequencies-4",
+    "href": "lectures/lecture-03.html#em-for-gene-frequencies-4",
+    "title": "Lecture 03: Fitting Likelihoods, Linkage, and Association",
+    "section": "EM for Gene Frequencies",
+    "text": "EM for Gene Frequencies\n\n\n\n\n\nGenotype\nPhenotype\nObserved Counts\nGenotype Frequency\n\n\n\n\n\\(AA\\)\n\\(A\\)\n\\(725\\)\n\\(p_A^2\\)\n\n\n\\(AO\\)\n\\(A\\)\n\n\\(2 p_A p_O\\)\n\n\n\\(AB\\)\n\\(AB\\)\n\\(72\\)\n\\(2 p_A p_B\\)\n\n\n\\(BB\\)\n\\(B\\)\n\\(258\\)\n\\(p_B^2\\)\n\n\n\\(BO\\)\n\\(B\\)\n\n\\(2 p_B p_O\\)\n\n\n\\(OO\\)\n\\(O\\)\n\\(1073\\)\n\\(p_O^2\\)\n\n\n\n\n\n\nScript:\n“With these sample counts—A = 725, AB = 72, B = 258, O = 1073—we can run EM. I’ll show convergence behavior next, and I want you to notice two things: the monotone increase in log‑likelihood and the impact of starting values.”"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#em-starting-values-matter",
+    "href": "lectures/lecture-03.html#em-starting-values-matter",
+    "title": "Lecture 03: Fitting Likelihoods, Linkage, and Association",
+    "section": "EM: Starting Values Matter",
+    "text": "EM: Starting Values Matter\n\nDifferent initial \\((p_A, p_B, p_O)\\) can change speed (not the final MLE)\nStrategies:\n\nEqual: \\((1/3, 1/3, 1/3)\\)\nUnbalanced guess: \\((0.01, 0.98, 0.01)\\)\nSmart (use \\(p_O^{(0)} = \\sqrt{n_O/N}\\), solve for \\((p_A^{(0)}, p_B^{(0)})\\) from \\(2p_A p_B\\))\n\nTolerance of \\(1 \\times 10^{-6}\\)\n\n\nScript:\n“The ‘smart start’ uses two near‑identities: \\(n_O \\approx N p_O^2\\) gives \\(p_O^{(0)}\\approx\\sqrt{n_O/N}\\); then \\(n_{AB}\\approx 2N p_A p_B\\) plus \\(p_A+p_B=1-p_O^{(0)}\\) gives a quadratic for \\((p_A^{(0)},p_B^{(0)})\\). This gets you close to the basin of attraction and trims iterations substantially. Equal and wild unbalanced starts are good stress tests.”"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#em-starting-values-matter-1",
+    "href": "lectures/lecture-03.html#em-starting-values-matter-1",
+    "title": "Lecture 03: Fitting Likelihoods, Linkage, and Association",
+    "section": "EM: Starting Values Matter",
+    "text": "EM: Starting Values Matter\n\n\n\n\n\nStrategy\nIterations\n\\(\\hat{p}_A\\)\n\\(\\hat{p}_B\\)\n\\(\\hat{p}_O\\)\n\n\n\n\nEqual\n7\n0.209131\n0.080801\n0.710068\n\n\nSmart\n4\n0.209131\n0.080801\n0.710068\n\n\nUnbalanced\n8\n0.209131\n0.080801\n0.710068\n\n\n\n\n\n\nScript:\n“Read this table left to right. Each row is a starting strategy; the last three columns are the converged allele frequency estimates. The point is not that the answers differ—they don’t—but that the iterations column can vary a lot. You can buy free speed by initializing intelligently.”"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#em-parameter-trajectories",
+    "href": "lectures/lecture-03.html#em-parameter-trajectories",
+    "title": "Lecture 03: Fitting Likelihoods, Linkage, and Association",
+    "section": "EM Parameter Trajectories",
+    "text": "EM Parameter Trajectories\n\n\nScript:\n“Here are the trajectories for \\(p_A\\). Different starts head toward the same fixed point, and the paths are smooth. If you ever see oscillation or jaggedness here, it’s a warning sign about numerical underflow or a bad update rule.”"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#when-does-em-fail",
+    "href": "lectures/lecture-03.html#when-does-em-fail",
+    "title": "Lecture 03: Fitting Likelihoods, Linkage, and Association",
+    "section": "When does EM fail?",
+    "text": "When does EM fail?\n\nNon-identifiability / flat likelihood: Ridges in segregation or linkage models; EM wanders or stalls.\nLocal maxima & starts: Multiple modes (e.g., mixture of penetrance classes); poor initialization traps EM.\nBoundary degeneracy: Rare allele/component weight driven to 0; variance or frequency estimates collapse.\nModel misspecification: Violated assumptions (e.g., Hardy-Weinberg, stratification) give misleading “convergence.”\n\n\nScript:\n“EM is not magic. If your model is not identifiable, EM will happily march along a ridge forever. If the likelihood is multimodal, bad starts can trap you. Near boundaries—think vanishing allele frequency—updates can collapse and stick. And if assumptions like HWE are wrong, EM will converge…to the wrong place. The antidotes are multiple starts, likelihood profiling, and stress‑testing the assumptions.”"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#linkage-vs-association-testing",
+    "href": "lectures/lecture-03.html#linkage-vs-association-testing",
+    "title": "Lecture 03: Fitting Likelihoods, Linkage, and Association",
+    "section": "Linkage vs Association Testing",
+    "text": "Linkage vs Association Testing\n\nLinkage: Tracks co-segregation of markers and traits within families to map disease genes.\n\nNull hypothesis: no linkage (independent assortment), \\(\\theta = 0.5\\).\n\nAssociation: Tests for correlation between variants and traits in populations to pinpoint causal loci.\n\nNull hypothesis: no association (e.g., \\(\\beta=0\\) or OR=1).\n\n\n\nScript:\n“Two mapping mindsets. Linkage works within families, asks whether a trait and a marker co‑segregate more than chance, and summarizes evidence on a centimorgan scale with LOD curves. It’s robust to population structure. Association works across unrelateds, tests regression coefficients or odds ratios, and resolves at kilobase scale, but is sensitive to confounding. We need both lenses.”"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#two-point-linkage-terms",
+    "href": "lectures/lecture-03.html#two-point-linkage-terms",
+    "title": "Lecture 03: Fitting Likelihoods, Linkage, and Association",
+    "section": "Two-Point Linkage: Terms",
+    "text": "Two-Point Linkage: Terms\n\nIndependent assortment (recall): when loci are unlinked, transmissions are independent and the chance a crossover separates them is \\(\\theta=0.5\\) (Mendel’s Second Law).\nInformative transmission/meiosis: a parent \\(\\to\\) child transmission where the transmitting parent is heterozygous at the loci of interest and the genotypes allow us to tell whether a crossover occurred.\n\nExample: parent \\(Aa/Bb\\) transmits \\(AB\\) or \\(ab\\) (nonrecombinant) vs \\(Ab\\) or \\(aB\\) (recombinant).\n\n\n\nScript:\n“An informative meiosis is one where you can tell whether a crossover happened. If the transmitting parent is not heterozygous at both loci, you can’t tell—so that meiosis doesn’t contribute information about \\(\\theta\\).”"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#two-point-linkage-terms-1",
+    "href": "lectures/lecture-03.html#two-point-linkage-terms-1",
+    "title": "Lecture 03: Fitting Likelihoods, Linkage, and Association",
+    "section": "Two-Point Linkage: Terms",
+    "text": "Two-Point Linkage: Terms\n\nRecombinant fraction \\(\\theta\\): the probability that a crossover occurs between two loci in a single meiosis; \\(0 \\le \\theta \\le 0.5\\).\nNonrecombinant transmission: the child receives an allele combination that matches one of the transmitting parent’s original allele pairs (no crossover between the loci).\nRecombinant transmission: the child receives a new combination relative to the transmitting parent’s original pair (a crossover occurred between the loci).\n\n\nScript:\n“Operationally, nonrecombinants copy one of the parental haplotypes; recombinants mix them. Our complete‑data likelihoods will be binomial in the counts of these two outcomes.”"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#two-point-linkage-repulsion-vs-coupling",
+    "href": "lectures/lecture-03.html#two-point-linkage-repulsion-vs-coupling",
+    "title": "Lecture 03: Fitting Likelihoods, Linkage, and Association",
+    "section": "Two-Point Linkage: Repulsion vs Coupling",
+    "text": "Two-Point Linkage: Repulsion vs Coupling\n\n\nScript:\n“Phase matters. In coupling, \\(AB/ab\\), nonrecombinants are \\(\\{AB,ab\\}\\) and recombinants are \\(\\{Ab,aB\\}\\). In repulsion, \\(Ab/aB\\), those roles flip. When phase is unknown, we’ll treat it as latent and estimate a posterior weight on the two configurations.”"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#two-point-linkage-direct-counting",
+    "href": "lectures/lecture-03.html#two-point-linkage-direct-counting",
+    "title": "Lecture 03: Fitting Likelihoods, Linkage, and Association",
+    "section": "Two-Point Linkage: Direct Counting",
+    "text": "Two-Point Linkage: Direct Counting\n\nCount \\(R\\) recombinants and \\(NR\\) nonrecombinants; total informative \\(I=R+NR\\).\nPoint estimate: \\(\\hat{\\theta}=R/I\\).\nLOD from counts (vs. independence at \\(\\theta=0.5\\)):\n\n\\[\n\\mathrm{LOD}(\\theta) = \\log_{10}\\!\\left\\{ \\frac{\\theta^{R} (1-\\theta)^{NR}}{0.5^{I}} \\right\\}\n\\]\n\nThis is a likelihood ratio test!\n\n\nScript:\n“In the simplest case, count recombinants \\(R\\) and informatives \\(I\\), and compute \\(\\hat\\theta=R/I\\). The LOD is a base‑10 log likelihood ratio against \\(\\theta=0.5\\). The curve peaks at \\(\\hat\\theta\\) and tells you where the evidence lies.”"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#worked-example-direct-counting-lod",
+    "href": "lectures/lecture-03.html#worked-example-direct-counting-lod",
+    "title": "Lecture 03: Fitting Likelihoods, Linkage, and Association",
+    "section": "Worked Example: Direct Counting LOD",
+    "text": "Worked Example: Direct Counting LOD\n\nSuppose \\(I=40\\) informative meioses with \\(R=12\\) recombinants.\nMLE \\(\\hat{\\theta}=R/I=12/40=0.3\\).\nFor \\(\\theta=0.3\\)\n\n\\[\n\\mathrm{LOD}(0.3) = \\log_{10}\\!\\left\\{ \\frac{0.3^{12} \\cdot 0.7^{28}}{0.5^{40}} \\right\\}.\n\\]\n\nScript:\n“With \\(R=12\\) out of \\(I=40\\), \\(\\hat\\theta=0.30\\). Plugging into the LOD gives about \\(1.43\\), i.e., roughly 27:1 odds for linkage at the MLE. That’s suggestive, but below the classical \\(LOD\\ge 3\\) bar. Modern practice often uses permutation‑based thresholds instead of a hard rule.”"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#worked-example-direct-counting-lod-1",
+    "href": "lectures/lecture-03.html#worked-example-direct-counting-lod-1",
+    "title": "Lecture 03: Fitting Likelihoods, Linkage, and Association",
+    "section": "Worked Example: Direct Counting LOD",
+    "text": "Worked Example: Direct Counting LOD\n\nR &lt;- 12\nN &lt;- 40\nthetahat &lt;- R / N\n\nlod &lt;- log10((thetahat^R * (1 - thetahat)^(N - R)) / (0.5^N))\nlod\n\n[1] 1.4294\n\n10^lod\n\n[1] 26.87819\n\n\n\nMaximize \\(\\mathrm{LOD}(\\theta)\\) over \\(\\theta \\in [0,0.5]\\) to estimate the recombination fraction; \\(LOD \\ge 3\\) and \\(\\leq -2\\) are classic heuristics (context-dependent).\n\n\nScript:\n“This code reproduces the arithmetic: LOD around 1.43, odds around 27:1. The maximizer of the LOD is exactly \\(R/I\\). The \\(\\pm\\) thresholds are heuristics, not laws—use context and proper genome‑wide calibration.”"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#worked-example-direct-counting-lod-2",
+    "href": "lectures/lecture-03.html#worked-example-direct-counting-lod-2",
+    "title": "Lecture 03: Fitting Likelihoods, Linkage, and Association",
+    "section": "Worked Example: Direct Counting LOD",
+    "text": "Worked Example: Direct Counting LOD\n\nUnder \\(H_0:\\theta=0.5\\) (a boundary point), \\(D = 2\\ln(10)\\cdot \\mathrm{LOD}(\\hat\\theta)\\) has the mixture limit \\(\\tfrac{1}{2}\\chi^2_0 + \\tfrac{1}{2}\\chi^2_1\\); thus \\(p = \\tfrac{1}{2}\\, \\Pr(\\chi^2_1 \\ge D)\\).\n\n\nD &lt;- 2 * log(10) * lod\npval &lt;- 0.5 * pchisq(D, df = 1, lower.tail = FALSE)\npval\n\n[1] 0.005148931\n\n\n\nScript:\n“At the boundary \\(\\theta=0.5\\), Wilks’ theorem gives a mixture null: half the mass at zero degrees of freedom and half at one. Concretely, compute \\(D=2\\ln(10)\\cdot \\mathrm{LOD}\\) and take \\(p=\\tfrac{1}{2}\\Pr(\\chi^2_1\\ge D)\\). This is the right conversion for two‑point tests against \\(\\theta=0.5\\).”"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#two-point-linkage-em-with-unknown-phase",
+    "href": "lectures/lecture-03.html#two-point-linkage-em-with-unknown-phase",
+    "title": "Lecture 03: Fitting Likelihoods, Linkage, and Association",
+    "section": "Two-Point Linkage: EM with Unknown Phase",
+    "text": "Two-Point Linkage: EM with Unknown Phase\n\nTransmitting parent: double het \\(Aa/Bb\\) with unknown phase.\nMate: Aa/bb (heterozygous at \\(A\\), homozygous at \\(B\\)).\n\nObserved per child: two-locus genotypes \\((A\\text{-genotype}, B\\text{-genotype})\\).\n\n\nScript:\n“Now a case where EM is actually necessary. The mate is bb, so the child’s \\(B\\) allele comes entirely from the transmitting parent. That’s helpful. But the mate is Aa at \\(A\\), so whenever a child is Aa, we can’t tell whether the transmitting parent contributed \\(A\\) or \\(a\\). Those are ambiguous transmissions between two haplotypes—exactly the kind of soft labeling EM was built for.”"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#two-point-linkage-em-with-unknown-phase-1",
+    "href": "lectures/lecture-03.html#two-point-linkage-em-with-unknown-phase-1",
+    "title": "Lecture 03: Fitting Likelihoods, Linkage, and Association",
+    "section": "Two-Point Linkage: EM with Unknown Phase",
+    "text": "Two-Point Linkage: EM with Unknown Phase\n\nMissing-data view: the parental phase (coupling vs repulsion) is not observed. We make it a complete-data problem by introducing a weight \\(w\\in[0,1]\\) that blends the two phase-specific models.\nModel (given recombination fraction \\(\\theta\\)):\n\nCoupling: \\(P(\\text{NR})=1-\\theta\\), \\(P(\\text{R})=\\theta\\) (split equally across the two categories).\nRepulsion: \\(P(\\text{NR})=\\theta\\), \\(P(\\text{R})=1-\\theta\\).\n\n\n\nScript:\n“Think of phase as a two‑component latent class: coupling vs repulsion. We’ll carry a single scalar, \\(w\\), the posterior weight on coupling. Under coupling, nonrecombinants are more likely by \\(1-\\theta\\); under repulsion the roles swap. EM will update \\(w\\) and then update \\(\\theta\\) from weighted recombinant counts.”"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#two-point-linkage-em-with-unknown-phase-2",
+    "href": "lectures/lecture-03.html#two-point-linkage-em-with-unknown-phase-2",
+    "title": "Lecture 03: Fitting Likelihoods, Linkage, and Association",
+    "section": "Two-Point Linkage: EM with Unknown Phase",
+    "text": "Two-Point Linkage: EM with Unknown Phase\nE-step (update the phase weight)\n\\[\nw = \\frac{(1-\\theta^{(t)})^{\\,n_{\\text{NR}}}\\,(\\theta^{(t)})^{\\,n_{\\text{R}}}}\n{(1-\\theta^{(t)})^{\\,n_{\\text{NR}}}\\,(\\theta^{(t)})^{\\,n_{\\text{R}}} + (\\theta^{(t)})^{\\,n_{\\text{NR}}}\\,(1-\\theta^{(t)})^{\\,n_{\\text{R}}}}\n\\]\nand use \\(1-w\\) as the weight on the repulsion configuration.\n\nScript:\n“This is the posterior weight on coupling: likelihood under coupling divided by the sum of likelihoods under both phases. In code, use logs and a log‑sum‑exp trick to avoid underflow if \\(n_{\\text{NR}}\\) or \\(n_{\\text{R}}\\) is large.”\n\nM-step (update \\(\\theta\\))\n\\[\\begin{align*}\n\\theta^{(t+1)}\n&= \\frac{\\text{(weighted recombinants)}}{N}\n= \\frac{w\\,n_{\\text{R}} + (1-w)\\,n_{\\text{NR}}}{N}.\n\\end{align*}\\]\n\nScript:\n“The M‑step is ‘recombinants over informatives’, but with a twist: we average the recombinant counts under coupling and repulsion using the current \\(w\\). That keeps the intuition intact.”"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#from-two-point-em-to-multipoint",
+    "href": "lectures/lecture-03.html#from-two-point-em-to-multipoint",
+    "title": "Lecture 03: Fitting Likelihoods, Linkage, and Association",
+    "section": "From Two-Point EM to Multipoint",
+    "text": "From Two-Point EM to Multipoint\n\nSame objective: estimate recombination while marginalizing over latent transmissions/phase under current \\(\\theta\\).\nE-step engine: compute required state weights via Elston–Stewart peeling (pedigrees) or Lander–Green forward–backward (marker HMM) when you have multiple markers and missing genotypes.\nQuantities needed: \\(\\mathbb E[\\#\\,\\text{recombinants between adjacent markers}]\\) and \\(\\mathbb E[\\#\\,\\text{informative transmissions}]\\) under current map.\nUse in practice: either (a) plug these expectations into an EM-style update, or (b) more commonly, scan positions to build a LOD curve and report peak and 1-LOD interval.\n\n\nScript:\n“In multipoint linkage, the hidden object is the inheritance state along the chromosome. The forward–backward algorithm gives us posterior state probabilities; from those we compute expected recombinant counts between markers and assemble LOD curves across the map. It’s the same EM logic, just powered by an HMM.”"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#multipoint-linkage-hmm",
+    "href": "lectures/lecture-03.html#multipoint-linkage-hmm",
+    "title": "Lecture 03: Fitting Likelihoods, Linkage, and Association",
+    "section": "Multipoint Linkage (HMM)",
+    "text": "Multipoint Linkage (HMM)\n\nMarkers along a chromosome define an HMM over inheritance states; adjacent recombination rates drive transitions.\nCombine penetrance with the marker HMM to compute \\(L(\\theta)\\) efficiently as you slide along the map (forward–backward yields the needed state probabilities even with missing phase/genotypes).\nPros: more information than two-point; better localization. Cons: requires a genetic map and error modeling.\n\n\nScript:\n“Two practical cautions: include a genotyping‑error model—even a small error rate flattens LODs if ignored—and consider sex‑specific maps or interference if your study demands it. Otherwise, the HMM machinery scales cleanly.”"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#missing-data-em-in-linkage",
+    "href": "lectures/lecture-03.html#missing-data-em-in-linkage",
+    "title": "Lecture 03: Fitting Likelihoods, Linkage, and Association",
+    "section": "Missing-Data EM in Linkage",
+    "text": "Missing-Data EM in Linkage\n\nComplete data: informative meioses labeled as recombinant/nonrecombinant; incomplete data: untyped genotypes/phase.\nE-step: compute \\(E[\\text{\\# recombinants}]\\) and \\(\\mathrm E[\\text{\\# informative meioses}]\\) given current \\(\\theta^{(t)}\\) via peeling/HMM.\nM-step: \\(\\displaystyle \\theta^{(t+1)} = \\frac{\\mathrm E[R\\mid\\text{data},\\theta^{(t)}]}{\\mathrm E[I\\mid\\text{data},\\theta^{(t)}]}\\).\nIterate across \\(\\theta\\) grid to produce a LOD curve; maximize or report support interval.\n\n\nScript:\n“This slide distills the recipe: compute expected recombinants and informatives under the current map, then update \\(\\theta\\) as their ratio. In practice we report the LOD curve and a 1‑LOD support interval rather than a single point estimate.”"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#practical-issues-in-linkage",
+    "href": "lectures/lecture-03.html#practical-issues-in-linkage",
+    "title": "Lecture 03: Fitting Likelihoods, Linkage, and Association",
+    "section": "Practical Issues in Linkage",
+    "text": "Practical Issues in Linkage\n\nModel specification: penetrance, phenocopy, allele frequencies; misspecification can distort LOD.\nMarker selection: highly polymorphic markers increase information; account for sex-specific recombination if needed.\nComputational trade-offs: many markers and large pedigrees require approximations or pruning; consider parametric vs nonparametric linkage.\n\n\nScript:\n“Linkage analyses are only as good as their trait model. Probe sensitivity to penetrance and phenocopy. Use polymorphic markers to maximize information, and thin dense SNPs if LD bloats state spaces. For large pedigrees, Elston–Stewart pruning is your friend.”"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#linkage-disequilibrium",
+    "href": "lectures/lecture-03.html#linkage-disequilibrium",
+    "title": "Lecture 03: Fitting Likelihoods, Linkage, and Association",
+    "section": "Linkage Disequilibrium",
+    "text": "Linkage Disequilibrium\n\nLet alleles at two markers be denoted \\(A, a\\) and \\(B, b\\)\nDefine allele frequencies by \\(P_A, P_a, P_B, P_b\\)\nDefine frequencies of haplotypes as \\(P_{AB}, P_{Ab}, P_{aB}, P_{ab}\\)\nDefine linkage equilibrium as independence in the \\(2 \\times 2\\) table\n\nFor example, \\(P_{AB} = P_A \\times P_B\\)\n\n\n\nScript:\n“LD is simply statistical dependence between alleles on the same haplotype. Think forces: drift and finite population size create dependence, recombination erodes it, selection and admixture can inflate it.”"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#linkage-disequilibrium-1",
+    "href": "lectures/lecture-03.html#linkage-disequilibrium-1",
+    "title": "Lecture 03: Fitting Likelihoods, Linkage, and Association",
+    "section": "Linkage Disequilibrium",
+    "text": "Linkage Disequilibrium\n\nDefine the LD coefficient as \\(D\\)\n\n\\[D = p_{AB} - p_A p_B\\]\n\nWhat are we looking at here?\n\n\nScript:\n“Algebraically, \\(D\\) is the covariance between the allele indicators on a random haplotype. If \\(D&gt;0\\), \\(AB\\) is over‑represented relative to independence; if \\(D&lt;0\\), it’s under‑represented.”"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#linkage-disequilibrium-2",
+    "href": "lectures/lecture-03.html#linkage-disequilibrium-2",
+    "title": "Lecture 03: Fitting Likelihoods, Linkage, and Association",
+    "section": "Linkage Disequilibrium",
+    "text": "Linkage Disequilibrium\n\nDefine the LD coefficient as \\(D\\)\n\n\\[D = p_{AB} - p_A p_B\\]\n\nNote that\n\n\\(\\operatorname{E}[A] = p_A, \\operatorname{E}[B] = p_B\\)\n\\(\\operatorname{E}[AB] = p_{AB}\\)\n\\(\\operatorname{Cov}(A, B) = \\operatorname{E}[AB] - \\operatorname{E}[A]\\operatorname{E}[B]\\)\n\n\n\nScript:\n“Formalizing that intuition: let \\(A,B\\in\\{0,1\\}\\) indicate the presence of alleles on a haplotype. Then \\(D=\\operatorname{Cov}(A,B)\\). This is why correlation \\(r\\) shows up naturally on the next slide.”"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#linkage-disequilibrium-3",
+    "href": "lectures/lecture-03.html#linkage-disequilibrium-3",
+    "title": "Lecture 03: Fitting Likelihoods, Linkage, and Association",
+    "section": "Linkage Disequilibrium",
+    "text": "Linkage Disequilibrium\n\n\\(D\\), or \\(\\operatorname{Cov}(A, B)\\), is scale-dependent\nNormalized measures:\n\n\\(D' = D / D_{\\max}\\), where \\(D_{\\max} = \\min(p_A p_b, p_a p_B)\\) if \\(D &gt; 0\\)\nPearson correlation:\n\n\n\\[\\begin{align}\nr\n&= \\frac{\\operatorname{Cov}(A, B)}{\\sqrt{\\operatorname{Var}(A) \\operatorname{Var}(B)}} \\\\\n&= \\frac{D}{\\sqrt{p_A(1 - p_A) p_B(1 - p_B)}}\n\\end{align}\\]\n\nScript:\n“\\(D\\) depends on allele frequencies, so we normalize. Two popular choices: \\(D'\\) and \\(r\\). For association power, \\(r\\)—and really \\(r^2\\)—matters most because it directly scales the noncentrality parameter: effect sizes at a tag SNP are attenuated by about \\(r\\) relative to the causal.”"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#goal-of-association-ld-link",
+    "href": "lectures/lecture-03.html#goal-of-association-ld-link",
+    "title": "Lecture 03: Fitting Likelihoods, Linkage, and Association",
+    "section": "Goal of Association & LD Link",
+    "text": "Goal of Association & LD Link\n\nGoal: test the null of no effect (e.g., \\(\\beta=0\\) or OR\\(=1\\)) to identify regions harboring causal variants.\nWe test markers, not necessarily the causal variant. If a marker has nonzero LD (correlation \\(r\\)) with a causal variant, its association test can detect signal from that causal.\nStronger \\(|r|\\) implies a stronger expected signal at the marker; if \\(r\\approx 0\\), the marker carries no information about that causal.\nSign matters: \\(r&lt;0\\) flips the observed effect direction at the marker relative to the causal.\nIn practice, nearby markers within LD blocks show clustered p-values and similar effect signs.\n\n\nScript:\n“Here’s the bridge: association tests fire at markers. If a marker correlates with a causal by \\(r\\), the observed effect is roughly \\(r\\) times the causal effect, and power scales with \\(r^2\\). That’s why p‑values cluster within LD blocks and why effect signs can flip if \\(r&lt;0\\).”"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#single-marker-association-core-test-linear",
+    "href": "lectures/lecture-03.html#single-marker-association-core-test-linear",
+    "title": "Lecture 03: Fitting Likelihoods, Linkage, and Association",
+    "section": "Single-Marker Association: Core Test (Linear)",
+    "text": "Single-Marker Association: Core Test (Linear)\n\nLinear trait: \\(Y=\\alpha+\\beta G+\\gamma^T C+\\varepsilon\\); test \\(H_0{:}\\,\\beta=0\\).\nGenotype encodings: additive (0/1/2) or genotypic (AA/Aa/aa); include dominance to test non-additivity.\nBinary outcomes (case–control) and logistic models will be covered later.\n\n\nScript:\n“Regression 101 with genetics details. Code genotypes additively unless biology suggests dominance or recessivity; add a dominance term if you want to test non‑additivity. Always include relevant covariates—sex, age, and PCs for ancestry—because stratification can fake associations.”"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#basic-qc-pipeline-variant-level",
+    "href": "lectures/lecture-03.html#basic-qc-pipeline-variant-level",
+    "title": "Lecture 03: Fitting Likelihoods, Linkage, and Association",
+    "section": "Basic QC Pipeline (Variant-level)",
+    "text": "Basic QC Pipeline (Variant-level)\n\nCall rate/missingness (e.g., variant missingness &lt; 2%).\nHardy–Weinberg equilibrium in controls (e.g., P &gt; 1e−6), mindful of true deviations.\nMinor allele frequency threshold (e.g., MAF ≥ 0.01 unless rare-variant methods used).\nDifferential missingness across case/control; strand/allele checks.\n\n\nScript:\n“QC is prevention. Missingness filters remove low‑quality sites; HWE in controls flags genotyping problems; MAF thresholds avoid unstable estimates unless you’re using rare‑variant methods. Don’t forget strand and allele checks—mismatches there create phantom effects.”"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#basic-qc-pipeline-sample-level",
+    "href": "lectures/lecture-03.html#basic-qc-pipeline-sample-level",
+    "title": "Lecture 03: Fitting Likelihoods, Linkage, and Association",
+    "section": "Basic QC Pipeline (Sample-level)",
+    "text": "Basic QC Pipeline (Sample-level)\n\nSample call rate; sex checks from X chr; heterozygosity outliers.\nRelatedness/duplicates via IBD; ancestry via PCA; remove outliers or adjust with PCs.\nDuplicates/cryptic relatedness: retain one per pair or use mixed models.\n\n\nScript:\n“At the sample level, verify sex against X‑chromosome heterozygosity, look for heterozygosity outliers, and identify relatives with IBD. Use PCA to quantify ancestry and either exclude outliers or adjust downstream. Mixed models help with relatedness, but don’t use them as an excuse to skip QC.”"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#summary-key-takeaways",
+    "href": "lectures/lecture-03.html#summary-key-takeaways",
+    "title": "Lecture 03: Fitting Likelihoods, Linkage, and Association",
+    "section": "Summary & Key Takeaways",
+    "text": "Summary & Key Takeaways\n\nLikelihood optimization: Newton–Raphson (score/Hessian), Gradient Descent/SGD (scalable), and EM (latent-data) are core tools.\nEM for ABO gene frequencies: initialization affects speed; log-likelihood increases monotonically until convergence.\nLinkage: two-point LOD and unknown phase via EM; multipoint mapping framed as an HMM for efficient inference with missing data.\nLD basics: r and r^2 quantify correlation between markers and explain why nearby markers can show similar association signals when a causal variant is unobserved\n\n\nScript:\n“Take‑home messages. Newton and first‑order methods are your optimization workhorses. EM turns missingness into a tractable expectation–maximization cycle and increases the log‑likelihood monotonically. Linkage is about family transmissions; association is about population correlation. And \\(r^2\\) is the currency that converts LD into expected association signal.”"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#hands-on-lab-03-applied",
+    "href": "lectures/lecture-03.html#hands-on-lab-03-applied",
+    "title": "Lecture 03: Fitting Likelihoods, Linkage, and Association",
+    "section": "Hands-On: Lab 03 (Applied)",
+    "text": "Hands-On: Lab 03 (Applied)\n\nImplement ABO EM and compare starts; plot log-likelihood gap.\nTwo-point linkage: LOD grid search + EM with unknown phase.\nTwo-SNP haplotype EM; compute LD (D, r^2).\nMini association demo: linear regression + HWE QC in controls.\n\nSee labs/unsolved/lab-03.R for the scaffold (with TODOs) and labs/solved/lab-03.R for a worked solution.\n\nScript:\n“For the lab: keep a log of starting values and attained log‑likelihoods—this is good hygiene with EM. In the two‑point EM, verify that ambiguous transmissions are being split sensibly as \\(\\theta\\) and \\(w\\) update. In the haplotype EM, watch for boundary estimates at very low MAFs. And in the association mini‑demo, confirm that including PCs meaningfully reduces ancestry structure before you trust the p‑values.”"
+  },
+  {
     "objectID": "links.html",
     "href": "links.html",
     "title": "Helpful Links",
     "section": "",
-    "text": "Linear Algebra Primer\nProbability Primer\nStatistical Inference Primer\nStatistics Cheatsheet",
+    "text": "Linear Algebra Primer\nProbability Primer\nStatistical Inference Primer\nStatistics Cheatsheet\nEM Algorithm Video",
     "crumbs": [
       "Useful Links"
     ]
@@ -378,7 +651,7 @@
     "href": "links.html#mathematical-resources",
     "title": "Helpful Links",
     "section": "",
-    "text": "Linear Algebra Primer\nProbability Primer\nStatistical Inference Primer\nStatistics Cheatsheet",
+    "text": "Linear Algebra Primer\nProbability Primer\nStatistical Inference Primer\nStatistics Cheatsheet\nEM Algorithm Video",
     "crumbs": [
       "Useful Links"
     ]
@@ -420,6 +693,41 @@
     "title": "Assignment 02",
     "section": "Problem 3: Derivation of Falconer’s Formula from the ACE Model (20 pts)",
     "text": "Problem 3: Derivation of Falconer’s Formula from the ACE Model (20 pts)\nBackground: The ACE model is a foundational tool in quantitative genetics for partitioning phenotypic variance (V_P) into three components: additive genetic effects (A), common or shared environmental effects (C), and unique or non-shared environmental effects (E). Under this model, the total variance is given by V_P = V_A + V_C + V_E.\nThe intraclass correlations for a trait between monozygotic (MZ) and dizygotic (DZ) twins are given by:\nr_{\\text{MZ}} = \\frac{\\operatorname{Cov}(Y_1, Y_2 \\mid \\text{MZ})}{V_P}\nr_{\\text{DZ}} = \\frac{\\operatorname{Cov}(Y_1, Y_2 \\mid \\text{DZ})}{V_P}\nAssume that:\n\nMating is random (no assortative mating).\nThere are no gene-environment interactions or correlations.\nThe equal environments assumption holds (MZ and DZ twins experience their shared environments to a similar degree).\nGenetic effects are purely additive (no dominance or epistasis).\n\nAssuming the ACE model, demonstrate that the narrow-sense heritability (h^2 = V_A/V_P) can be estimated as twice the difference between the MZ and DZ twin correlations.\nShow that:\nh^2 = 2(r_{\\text{MZ}} - r_{\\text{DZ}})"
+  },
+  {
+    "objectID": "assignments/assignment-03.html",
+    "href": "assignments/assignment-03.html",
+    "title": "Assignment 03",
+    "section": "",
+    "text": "Requirements:"
+  },
+  {
+    "objectID": "assignments/assignment-03.html#problem-1-em-for-abo-gene-frequencies-derivation-inference-and-sensitivity-25-pts",
+    "href": "assignments/assignment-03.html#problem-1-em-for-abo-gene-frequencies-derivation-inference-and-sensitivity-25-pts",
+    "title": "Assignment 03",
+    "section": "Problem 1: EM for ABO gene frequencies; derivation, inference, and sensitivity (25 pts)",
+    "text": "Problem 1: EM for ABO gene frequencies; derivation, inference, and sensitivity (25 pts)\n\nPart A (15 pts)\nConsider phenotype counts from the ABO system under Hardy–Weinberg equilibrium (HWE): n_A, n_{AB}, n_B, n_O with total N. Let genotype frequencies be p_A^2, 2p_Ap_O, 2p_Ap_B, p_B^2, 2p_Bp_O, p_O^2 and p_O = 1 - p_A - p_B.\nDerive the EM updates shown in lecture. Specifically, show that the E‑step allocations for A and B phenotypes are\n\n\\tilde n_{AA} = n_A \\dfrac{p_A^2}{p_A^2 + 2p_Ap_O}\n\n\n\\tilde n_{AO} = n_A \\dfrac{2p_Ap_O}{p_A^2 + 2p_Ap_O}\n\nand similarly for BB, BO, and that the M‑step is \np_A^{(t+1)}=\\frac{2\\tilde n_{AA}+\\tilde n_{AO}+n_{AB}}{2N}\n \np_B^{(t+1)}=\\frac{2\\tilde n_{BB}+\\tilde n_{BO}+n_{AB}}{2N}\n \np_O^{(t+1)}=1-p_A^{(t+1)}-p_B^{(t+1)}\n\nHint (how to derive EM generally):\n\nChoose latent variables so the complete data are simple. Here, treat latent genotype counts, \n(n_{AA}, n_{AO}, n_{AB}, n_{BB}, n_{BO}, n_{OO})\n\n\nas missing, with only phenotype totals observed.\n\nWrite the complete‑data log‑likelihood\n\n\\begin{align*}\n\\ell_c(p_A,p_B) =\n& n_{AA}\\log p_A^2 + n_{AO}\\log(2p_Ap_O) + n_{AB}\\log(2p_Ap_B) + \\\\\n& n_{BB}\\log p_B^2 + n_{BO}\\log(2p_Bp_O) + n_{OO}\\log p_O^2\n\\end{align*}\nusing p_O=1-p_A-p_B.\n\nE‑step: replace latent counts by their conditional expectations given the observed phenotypes under current parameters, e.g., for phenotype A, and form Q(p\\,|\\,p^{(t)}) = \\mathbb E[\\ell_c(p)\\mid\\text{data}, p^{(t)}].\nM‑step: M-step: Maximize Q(p|p^{(t)}) subject to p_A + p_B + p_O = 1. Hint: Consider rewriting the objective in terms of allele counts rather than genotype counts.\n\n\n\nPart B (10 pts)\nConsider two biallelic SNPs with haplotypes \\{ab, aB, Ab, AB\\} under HWE and unphased genotypes (g_1,g_2)\\in\\{0,1,2\\}^2. Note that (ab, ab) yields (0,0), (ab, aB) or (ab, Ab) yields (0,1), (AB, AB) yields (2,2), etc.\nShow that if every observed genotype is (1,1), then P\\{(1,1)\\}=2\\,\\big(p_{ab}p_{AB}+p_{aB}p_{Ab}\\big) and the likelihood depends only on the cross‑sum S=p_{ab}p_{AB}+p_{aB}p_{Ab} (a ridge; parameters not identifiable)."
+  },
+  {
+    "objectID": "assignments/assignment-03.html#problem-2-twopoint-linkage-lod-and-support-intervals-25-pts",
+    "href": "assignments/assignment-03.html#problem-2-twopoint-linkage-lod-and-support-intervals-25-pts",
+    "title": "Assignment 03",
+    "section": "Problem 2: Two‑point linkage — LOD and support intervals (25 pts)",
+    "text": "Problem 2: Two‑point linkage — LOD and support intervals (25 pts)\nSuppose one heterozygous transmitting parent (A/a and B/b) is crossed to an aabb mate, yielding child haplotype counts (n_{AB}, n_{Ab}, n_{aB}, n_{ab}). Let n_{\\text{NR}}=n_{AB}+n_{ab} and n_{\\text{R}}=n_{Ab}+n_{aB}.\n\nPart A: LOD from counts (10 pts).\nShow that for a given recombination fraction \\theta\\in(0,0.5) the two‑point LOD relative to independence (\\theta=0.5) is \n\\mathrm{LOD}(\\theta)\n= \\log_{10}\\!\\left\\{ \\frac{\\theta^{\\,n_{\\text{R}}} (1-\\theta)^{\\,n_{\\text{NR}}}}{0.5^{\\,n_{\\text{R}}+n_{\\text{NR}}}} \\right\\}.\n\nDerive the MLE \\hat\\theta and show it equals n_{\\text{R}}/(n_{\\text{R}}+n_{\\text{NR}}) when 0&lt;\\hat\\theta&lt;0.5.\n\n\nPart B: Unknown phase and LD‑informed LOD (15 pts)\nA heterozygous transmitting parent (A/a,\\;B/b) has unknown phase: either coupling (AB/ab) or repulsion (Ab/aB). Let \nn_{\\mathrm{NR}} = n_{AB}+n_{ab},\\qquad\nn_{\\mathrm{R}}  = n_{Ab}+n_{aB},\\qquad\nN=n_{\\mathrm{NR}}+n_{\\mathrm{R}}.\n\nLet w=\\Pr\\{\\text{coupling }(AB/ab)\\} and 1-w=\\Pr\\{\\text{repulsion }(Ab/aB)\\}.\n(i) Mixture likelihood (5 pts).\nShow that with unknown phase the observed‑data likelihood is a mixture of the two phase‑specific binomial likelihoods: \nL(\\theta; w)\n= w\\,(1-\\theta)^{\\,n_{\\mathrm{NR}}}\\,\\theta^{\\,n_{\\mathrm{R}}}\n\\;+\\;\n(1-w)\\,(1-\\theta)^{\\,n_{\\mathrm{R}}}\\,\\theta^{\\,n_{\\mathrm{NR}}}.\n Hence the two‑point LOD relative to independence (\\theta=0.5) is \n\\mathrm{LOD}(\\theta; w)\n= \\log_{10}\\!\\left\\{\n\\frac{w\\,(1-\\theta)^{\\,n_{\\mathrm{NR}}}\\theta^{\\,n_{\\mathrm{R}}}\n+(1-w)\\,(1-\\theta)^{\\,n_{\\mathrm{R}}}\\theta^{\\,n_{\\mathrm{NR}}}}\n{0.5^{\\,N}}\n\\right\\}.\n\n(ii) Linking LD to w (5 pts).\nLet population haplotype frequencies be p=(p_{ab}, p_{aB}, p_{Ab}, p_{AB}) (sum to 1).\nCondition on the parent being the double heterozygote (g_1,g_2)=(1,1). Use Bayes’ rule to show \nw\n= \\Pr\\{(ab,AB)\\mid(1,1)\\}\n= \\frac{p_{ab}\\,p_{AB}}{p_{ab}\\,p_{AB}+p_{aB}\\,p_{Ab}},\n\n\n1-w\n= \\frac{p_{aB}\\,p_{Ab}}{p_{ab}\\,p_{AB}+p_{aB}\\,p_{Ab}}.\n\nDefine D = p_{ab}p_{AB}-p_{aB}p_{Ab} and note that \\operatorname{sign}(D) indicates whether coupling (D&gt;0) or repulsion (D&lt;0) phase is a priori more likely.\n(iii) Quick numerical check (5 pts).\nTake p^\\star=(0.40,\\,0.10,\\,0.25,\\,0.25).\nCompute w and 1-w. Then, using the example counts (n_{AB}, n_{Ab}, n_{aB}, n_{ab})=(18, 5, 4, 17) (so N=44, n_{\\mathrm{R}}=9, n_{\\mathrm{NR}}=35), evaluate and compare \\mathrm{LOD}(\\hat\\theta; w=\\tfrac12) versus \\mathrm{LOD}(\\hat\\theta; w) at \\hat\\theta = n_{\\mathrm{R}}/N.\nBriefly explain (one sentence) how LD information (w\\neq\\tfrac12) can increase or decrease the peak LOD when phase is unknown."
+  },
+  {
+    "objectID": "assignments/assignment-03.html#problem-3-twosnp-haplotype-em-and-ld-measures-25-pts",
+    "href": "assignments/assignment-03.html#problem-3-twosnp-haplotype-em-and-ld-measures-25-pts",
+    "title": "Assignment 03",
+    "section": "Problem 3: Two‑SNP haplotype EM and LD measures (25 pts)",
+    "text": "Problem 3: Two‑SNP haplotype EM and LD measures (25 pts)\n\nPart A (10 pts)\nFor two biallelic SNPs with haplotypes \\{ab, aB, Ab, AB\\} at frequencies \\{p_{ab},p_{aB},p_{Ab},p_{AB}\\} (summing to 1), enumerate the possible haplotype pairs consistent with each unphased genotype (g_1,g_2)\\in\\{0,1,2\\}^2.\nShow that only (g_1,g_2)=(1,1) is ambiguous with two possible pairs: (ab,AB) and (aB,Ab).\n\n\nPart B (10 pts)\nSimulate N=1000 individuals from true haplotype frequencies p^{\\star}=(0.40,0.10,0.25,0.25) and estimate \\hat p via EM from a uniform start. Report \\hat p and absolute errors |\\hat p - p^{\\star}|.\nNote that the E‑step weights for (1,1) are proportional to p_{ab}p_{AB} and p_{aB}p_{Ab}, and the M‑step update is p^{(t+1)}=\\text{(expected hap counts)}/(2N).\nHere is a sample R code snippet to get you started:\n\nset.seed(8878)\n\nN &lt;- 1000\np_true &lt;- c(ab = 0.40, aB = 0.10, Ab = 0.25, AB = 0.25)\n\n# helper: draw N unordered haplotype pairs, then make unphased genotypes (g1,g2)\ndraw_genotypes &lt;- function(N, p) {\n    # code haplotypes to allele counts (B allele) at SNP1, SNP2\n    H &lt;- rbind(ab = c(0, 0), aB = c(0, 1), Ab = c(1, 0), AB = c(1, 1))\n    hap1 &lt;- sample(rownames(H), size = N, replace = TRUE, prob = p)\n    hap2 &lt;- sample(rownames(H), size = N, replace = TRUE, prob = p)\n    G &lt;- H[hap1, ] + H[hap2, ] # N x 2 matrix with entries in {0,1,2}\n    as.data.frame(G) |&gt;\n        setNames(c(\"g1\", \"g2\"))\n}\n\n# simulate data\ndat &lt;- draw_genotypes(N, p_true)\n\n\n\nPart C (5 pts)\nCompute D = p_{11} - p_{B1}p_{B2} with p_{11}=p_{AB}, p_{B1}=p_{Ab}+p_{AB}, p_{B2}=p_{aB}+p_{AB}. Report D and r^2 = D^2/(p_{B1}(1-p_{B1})p_{B2}(1-p_{B2})). Comment on how LD would affect single‑marker association at either SNP."
+  },
+  {
+    "objectID": "assignments/assignment-03.html#problem-4-singlemarker-association-with-qc-and-ld-attenuation-25-pts",
+    "href": "assignments/assignment-03.html#problem-4-singlemarker-association-with-qc-and-ld-attenuation-25-pts",
+    "title": "Assignment 03",
+    "section": "Problem 4: Single‑marker association with QC and LD attenuation (25 pts)",
+    "text": "Problem 4: Single‑marker association with QC and LD attenuation (25 pts)\nSimulate n=2000 unrelated individuals. Let a causal biallelic SNP C have MAF 0.30 and generate a quantitative trait Y with additive effect size \\beta_C=0.50 (per allele) and noise \\epsilon\\sim\\mathcal N(0,1). Let a tag SNP T be in LD with C such that r=\\operatorname{corr}(G_C,G_T)=0.8 and both are in HWE. Let T have MAF 0.30.\n\nPart A (15 pts)\nGenerate (G_C,G_T,Y) by first simulating haplotypes for (C,T) with a chosen LD structure that yields r\\approx 0.8, then form genotypes and Y=\\beta_C G_C + \\epsilon. Fit simple linear models Y\\sim G_C and Y\\sim G_T and report \\hat\\beta_C and \\hat\\beta_T, alongside their 95\\% confidence intervals.\n\n\nPart B (10 pts)\nIntroduce a basic QC step: test HWE in the controls of a case–control subsample formed by thresholding Y at its 80th percentile to define cases (cases are the top 20% of Y). Compute an exact or \\chi^2 HWE p‑value in controls for T; state whether you would flag T using a threshold of 10^{-6} and why QC is typically done in controls only."
   },
   {
     "objectID": "assignments/assignment-01.html",
