@@ -250,15 +250,15 @@ Briefly explain (one sentence) how LD information (<span class="math inline">w\n
 </section>
 <section id="problem-3-twosnp-haplotype-em-and-ld-measures-25-pts" class="level2">
 <h2 class="anchored" data-anchor-id="problem-3-twosnp-haplotype-em-and-ld-measures-25-pts">Problem 3: Two‑SNP haplotype EM and LD measures (25 pts)</h2>
+<section id="part-a-10-pts" class="level3">
+<h3 class="anchored" data-anchor-id="part-a-10-pts">Part A (10 pts)</h3>
 <p>For two biallelic SNPs with haplotypes <span class="math inline">\{ab, aB, Ab, AB\}</span> at frequencies <span class="math inline">\{p_{ab},p_{aB},p_{Ab},p_{AB}\}</span> (summing to 1), enumerate the possible haplotype pairs consistent with each unphased genotype <span class="math inline">(g_1,g_2)\in\{0,1,2\}^2</span>.</p>
-<section id="part-a-5-pts" class="level3">
-<h3 class="anchored" data-anchor-id="part-a-5-pts">Part A (5 pts)</h3>
 <p>Show that only <span class="math inline">(g_1,g_2)=(1,1)</span> is ambiguous with two possible pairs: <span class="math inline">(ab,AB)</span> and <span class="math inline">(aB,Ab)</span>.</p>
-<p>Note that the E‑step weights for <span class="math inline">(1,1)</span> are proportional to <span class="math inline">p_{ab}p_{AB}</span> and <span class="math inline">p_{aB}p_{Ab}</span>, and the M‑step update is <span class="math inline">p^{(t+1)}=\text{(expected hap counts)}/(2N)</span>.</p>
 </section>
 <section id="part-b-10-pts-1" class="level3">
 <h3 class="anchored" data-anchor-id="part-b-10-pts-1">Part B (10 pts)</h3>
 <p>Simulate <span class="math inline">N=1000</span> individuals from true haplotype frequencies <span class="math inline">p^{\star}=(0.40,0.10,0.25,0.25)</span> and estimate <span class="math inline">\hat p</span> via EM from a uniform start. Report <span class="math inline">\hat p</span> and absolute errors <span class="math inline">|\hat p - p^{\star}|</span>.</p>
+<p>Note that the E‑step weights for <span class="math inline">(1,1)</span> are proportional to <span class="math inline">p_{ab}p_{AB}</span> and <span class="math inline">p_{aB}p_{Ab}</span>, and the M‑step update is <span class="math inline">p^{(t+1)}=\text{(expected hap counts)}/(2N)</span>.</p>
 <p>Here is a sample R code snippet to get you started:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">8878</span>)</span>
@@ -281,8 +281,8 @@ Briefly explain (one sentence) how LD information (<span class="math inline">w\n
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">draw_genotypes</span>(N, p_true)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="part-c-10-pts" class="level3">
-<h3 class="anchored" data-anchor-id="part-c-10-pts">Part C (10 pts)</h3>
+<section id="part-c-5-pts" class="level3">
+<h3 class="anchored" data-anchor-id="part-c-5-pts">Part C (5 pts)</h3>
 <p>Compute <span class="math inline">D = p_{11} - p_{B1}p_{B2}</span> with <span class="math inline">p_{11}=p_{AB}</span>, <span class="math inline">p_{B1}=p_{Ab}+p_{AB}</span>, <span class="math inline">p_{B2}=p_{aB}+p_{AB}</span>. Report <span class="math inline">D</span> and <span class="math inline">r^2 = D^2/(p_{B1}(1-p_{B1})p_{B2}(1-p_{B2}))</span>. Comment on how LD would affect single‑marker association at either SNP.</p>
 </section>
 </section>
@@ -899,17 +899,17 @@ Briefly explain (one sentence) how LD information (<span class="math inline">w\n
 <span id="cb2-143"><a href="#cb2-143" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-144"><a href="#cb2-144" aria-hidden="true" tabindex="-1"></a><span class="fu">## Problem 3: Two‑SNP haplotype EM and LD measures (25 pts)</span></span>
 <span id="cb2-145"><a href="#cb2-145" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-146"><a href="#cb2-146" aria-hidden="true" tabindex="-1"></a>For two biallelic SNPs with haplotypes $<span class="sc">\{</span>ab, aB, Ab, AB<span class="sc">\}</span>$ at frequencies $<span class="sc">\{</span>p_{ab},p_{aB},p_{Ab},p_{AB}<span class="sc">\}</span>$ (summing to 1), enumerate the possible haplotype pairs consistent with each unphased genotype $(g_1,g_2)\in<span class="sc">\{</span>0,1,2<span class="sc">\}</span>^2$. </span>
+<span id="cb2-146"><a href="#cb2-146" aria-hidden="true" tabindex="-1"></a><span class="fu">### Part A (10 pts)</span></span>
 <span id="cb2-147"><a href="#cb2-147" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-148"><a href="#cb2-148" aria-hidden="true" tabindex="-1"></a><span class="fu">### Part A (5 pts)</span></span>
+<span id="cb2-148"><a href="#cb2-148" aria-hidden="true" tabindex="-1"></a>For two biallelic SNPs with haplotypes $<span class="sc">\{</span>ab, aB, Ab, AB<span class="sc">\}</span>$ at frequencies $<span class="sc">\{</span>p_{ab},p_{aB},p_{Ab},p_{AB}<span class="sc">\}</span>$ (summing to 1), enumerate the possible haplotype pairs consistent with each unphased genotype $(g_1,g_2)\in<span class="sc">\{</span>0,1,2<span class="sc">\}</span>^2$. </span>
 <span id="cb2-149"><a href="#cb2-149" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-150"><a href="#cb2-150" aria-hidden="true" tabindex="-1"></a>Show that only $(g_1,g_2)=(1,1)$ is ambiguous with two possible pairs: $(ab,AB)$ and $(aB,Ab)$. </span>
 <span id="cb2-151"><a href="#cb2-151" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-152"><a href="#cb2-152" aria-hidden="true" tabindex="-1"></a>Note that the E‑step weights for $(1,1)$ are proportional to $p_{ab}p_{AB}$ and $p_{aB}p_{Ab}$, and the M‑step update is $p^{(t+1)}=\text{(expected hap counts)}/(2N)$.</span>
+<span id="cb2-152"><a href="#cb2-152" aria-hidden="true" tabindex="-1"></a><span class="fu">### Part B (10 pts)</span></span>
 <span id="cb2-153"><a href="#cb2-153" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-154"><a href="#cb2-154" aria-hidden="true" tabindex="-1"></a><span class="fu">### Part B (10 pts)</span></span>
+<span id="cb2-154"><a href="#cb2-154" aria-hidden="true" tabindex="-1"></a>Simulate $N=1000$ individuals from true haplotype frequencies $p^{\star}=(0.40,0.10,0.25,0.25)$ and estimate $\hat p$ via EM from a uniform start. Report $\hat p$ and absolute errors $|\hat p - p^{\star}|$. </span>
 <span id="cb2-155"><a href="#cb2-155" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-156"><a href="#cb2-156" aria-hidden="true" tabindex="-1"></a>Simulate $N=1000$ individuals from true haplotype frequencies $p^{\star}=(0.40,0.10,0.25,0.25)$ and estimate $\hat p$ via EM from a uniform start. Report $\hat p$ and absolute errors $|\hat p - p^{\star}|$. </span>
+<span id="cb2-156"><a href="#cb2-156" aria-hidden="true" tabindex="-1"></a>Note that the E‑step weights for $(1,1)$ are proportional to $p_{ab}p_{AB}$ and $p_{aB}p_{Ab}$, and the M‑step update is $p^{(t+1)}=\text{(expected hap counts)}/(2N)$.</span>
 <span id="cb2-157"><a href="#cb2-157" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-158"><a href="#cb2-158" aria-hidden="true" tabindex="-1"></a>Here is a sample R code snippet to get you started:</span>
 <span id="cb2-159"><a href="#cb2-159" aria-hidden="true" tabindex="-1"></a></span>
@@ -934,7 +934,7 @@ Briefly explain (one sentence) how LD information (<span class="math inline">w\n
 <span id="cb2-178"><a href="#cb2-178" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">draw_genotypes</span>(N, p_true)</span>
 <span id="cb2-179"><a href="#cb2-179" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb2-180"><a href="#cb2-180" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-181"><a href="#cb2-181" aria-hidden="true" tabindex="-1"></a><span class="fu">### Part C (10 pts)</span></span>
+<span id="cb2-181"><a href="#cb2-181" aria-hidden="true" tabindex="-1"></a><span class="fu">### Part C (5 pts)</span></span>
 <span id="cb2-182"><a href="#cb2-182" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-183"><a href="#cb2-183" aria-hidden="true" tabindex="-1"></a>Compute $D = p_{11} - p_{B1}p_{B2}$ with $p_{11}=p_{AB}$, $p_{B1}=p_{Ab}+p_{AB}$, $p_{B2}=p_{aB}+p_{AB}$. Report $D$ and $r^2 = D^2/(p_{B1}(1-p_{B1})p_{B2}(1-p_{B2}))$. Comment on how LD would affect single‑marker association at either SNP.</span>
 <span id="cb2-184"><a href="#cb2-184" aria-hidden="true" tabindex="-1"></a></span>

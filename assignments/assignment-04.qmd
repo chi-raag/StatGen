@@ -1,0 +1,26 @@
+---
+title: "Assignment 04"
+subtitle: "PUBH 8878"
+format:
+  html:
+    html-math-method: katex
+    code-tools: true
+  pdf: default
+  docx: default
+format-links: [pdf, docx]
+bibliography: references.bib
+csl: https://www.zotero.org/styles/biostatistics
+draft: true
+---
+
+**Requirements:**
+
+- Show complete mathematical work for any derivations.
+- Submit well-documented R code with clear comments and set seeds.
+- Interpret results in a genetic/biological context where applicable.
+- Submit the rendered PDF; do not submit the source `.qmd`.
+- You may reuse and adapt your Lab 03 code, but your write‑up must be self‑contained.
+
+## Problem 1
+
+- Prove that in the presence of population substructure, $\hat{p}$ is unbiased
