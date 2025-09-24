@@ -695,6 +695,34 @@
     "text": "Problem 3: Derivation of Falconer’s Formula from the ACE Model (20 pts)\nBackground: The ACE model is a foundational tool in quantitative genetics for partitioning phenotypic variance (V_P) into three components: additive genetic effects (A), common or shared environmental effects (C), and unique or non-shared environmental effects (E). Under this model, the total variance is given by V_P = V_A + V_C + V_E.\nThe intraclass correlations for a trait between monozygotic (MZ) and dizygotic (DZ) twins are given by:\nr_{\\text{MZ}} = \\frac{\\operatorname{Cov}(Y_1, Y_2 \\mid \\text{MZ})}{V_P}\nr_{\\text{DZ}} = \\frac{\\operatorname{Cov}(Y_1, Y_2 \\mid \\text{DZ})}{V_P}\nAssume that:\n\nMating is random (no assortative mating).\nThere are no gene-environment interactions or correlations.\nThe equal environments assumption holds (MZ and DZ twins experience their shared environments to a similar degree).\nGenetic effects are purely additive (no dominance or epistasis).\n\nAssuming the ACE model, demonstrate that the narrow-sense heritability (h^2 = V_A/V_P) can be estimated as twice the difference between the MZ and DZ twin correlations.\nShow that:\nh^2 = 2(r_{\\text{MZ}} - r_{\\text{DZ}})"
   },
   {
+    "objectID": "assignments/assignment-04.html",
+    "href": "assignments/assignment-04.html",
+    "title": "Assignment 04",
+    "section": "",
+    "text": "Requirements\nA helpful vignette on using cmdstanr is available at https://mc-stan.org/cmdstanr/articles/cmdstanr.html."
+  },
+  {
+    "objectID": "assignments/assignment-04.html#problem-1-population-substructure-and-allele-frequency-estimation-30-pts",
+    "href": "assignments/assignment-04.html#problem-1-population-substructure-and-allele-frequency-estimation-30-pts",
+    "title": "Assignment 04",
+    "section": "Problem 1: Population Substructure and Allele Frequency Estimation (30 pts)",
+    "text": "Problem 1: Population Substructure and Allele Frequency Estimation (30 pts)\nLet there be n diploid individuals sampled at random from a population made of subpopulations k=1,\\dots,K. In subpopulation k, the allele A frequency is p_k, and let w_k be the fraction of sampled individuals from subpopulation k (\\sum_k w_k=1). The “global” allele frequency we want to estimate is the mixture average \np \\;=\\; \\sum_k w_k p_k.\n\nLet n_{AA}, n_{Aa}, n_{aa} be the counts of genotypes AA, Aa, aa in the sample of size n. The standard estimator of the allele frequency is \n\\hat{p} \\;=\\; \\frac{2n_{AA} + n_{Aa}}{2n}.\n\n(a) Show that in the presence of population substructure, \\hat{p} is unbiased.\nHint: Let D_i be the A-dosage for individual i (D_i\\in\\{0,1,2\\}). Under HWE within k, D_i\\mid Z_i=k\\sim \\mathrm{Bin}(2,p_k). Use LOTUS: \\mathbb E[D_i]=\\sum_k w_k\\mathbb E[D_i\\mid Z_i=k].\n(b) What is \\mathrm{Var}(\\hat{p}) under random mixture sampling (i.i.d. individuals from the mixture)? Assume each subpopulation is in HWE. Compare to the case with no substructure (K=1).\nHint: Use the law of total variance on D_i:\n\\mathrm{Var}(D_i)=\\mathbb E\\{\\mathrm{Var}(D_i\\mid Z)\\}+\\mathrm{Var}\\{\\mathbb E(D_i\\mid Z)\\}, with \\mathrm{Var}(D_i\\mid Z=k)=2p_k(1-p_k) and \\mathbb E(D_i\\mid Z=k)=2p_k.\nDefine\n\\begin{gather}\n\\bar p=\\sum_k w_k p_k \\\\\n\\mathrm{Var}_w(p_k)=\\sum_k w_k(p_k-\\bar p)^2,\n\\end{gather}\nand note \\mathbb E[p_k(1-p_k)]=\\bar p(1-\\bar p)-\\mathrm{Var}_w(p_k).\n(c) Now consider a stratified sample: take exactly n_k individuals from subpopulation k (\\sum_k n_k=n; write w_k=n_k/n). Maintain HWE within subpopulations. Derive \\mathrm{Var}(\\hat p) under this design and compare it to your answer in (b). State which design yields the larger variance, and by how much, in terms of \\mathrm{Var}_w(p_k).\nHint: Write \\hat p=\\sum_k w_k \\hat p_k with \\hat p_k=\\frac{1}{2n_k}\\sum_{i:Z_i=k} D_i. Use independence across strata and \\mathrm{Var}(\\hat p_k)=\\frac{p_k(1-p_k)}{2n_k}."
+  },
+  {
+    "objectID": "assignments/assignment-04.html#problem-2-population-substructure-ld-and-association-testing-40-pts",
+    "href": "assignments/assignment-04.html#problem-2-population-substructure-ld-and-association-testing-40-pts",
+    "title": "Assignment 04",
+    "section": "Problem 2: Population Substructure, LD, and Association Testing (40 pts)",
+    "text": "Problem 2: Population Substructure, LD, and Association Testing (40 pts)\nLet X be the genotype dosage (0/1/2 copies of the effect allele) at a tag SNP and X_c at a causal SNP. The causal SNP has effect size \\beta_c on quantitative trait Y. The observed effect from simple regression of Y on X is \\beta_{\\text{obs}}.\nConvenience (scaling): Work with standardized genotypes \n\\tilde X=\\frac{X-\\mathbb E[X]}{\\sqrt{\\mathrm{Var}(X)}},\\qquad\n\\tilde X_c=\\frac{X_c-\\mathbb E[X_c]}{\\sqrt{\\mathrm{Var}(X_c)}}.\n With this scaling, \\beta_{\\text{obs}}=r\\,\\beta_c exactly, where r=\\mathrm{Corr}(\\tilde X,\\tilde X_c)=\\mathrm{Corr}(X,X_c).\nAssume individuals are sampled i.i.d. from a mixture with \\Pr(Z=k)=w_k, \\sum_k w_k=1. Within each subpopulation k: - HWE holds at each locus, - LE (no within-k LD) holds between X and X_c.\nDefine\n\\begin{gather}\n\\bar p=\\sum_k w_k p_k,\\quad \\bar p_c=\\sum_k w_k p_{c,k} \\\\\n\\mathrm{Var}_w(p_k)=\\sum_k w_k(p_k-\\bar p)^2 \\\\\n\\mathrm{Cov}_w(p_k,p_{c,k})=\\sum_k w_k (p_k-\\bar p)(p_{c,k}-\\bar p_c)\n\\end{gather}\n\nPart A (10 pts): Correlation induced by population structure\nLet the allele frequencies at the tag and causal SNPs be p_k and p_{c,k} in subpopulation k. Show that \nr=\\frac{\\mathrm{Cov}(X,X_c)}{\\sqrt{\\mathrm{Var}(X)\\,\\mathrm{Var}(X_c)}},\n and express \\mathrm{Cov}(X,X_c), \\mathrm{Var}(X), and \\mathrm{Var}(X_c) in terms of \\{w_k,p_k,p_{c,k}\\}.\nHint: Law of total covariance:\n\\mathrm{Cov}(X,X_c)=\\mathbb E[\\mathrm{Cov}(X,X_c\\mid Z)]+\\mathrm{Cov}(\\mathbb E[X\\mid Z],\\mathbb E[X_c\\mid Z]). Under LE, the first term is 0. Use \\mathbb E[X\\mid Z=k]=2p_k.\n\n\nPart B (10 pts): Bias from ignoring structure in the trait\nSuppose population structure also affects the trait mean: \\mathbb E[Y\\mid Z=k]=\\mu_k. Consider the model Y=\\mu_Z+\\beta_c X_c+\\varepsilon with \\mathbb E[\\varepsilon]=0. Show that the naïve regression of Y on X (without structure covariates) is biased: \n\\hat\\beta_{\\text{naïve}}\n\\approx \\frac{\\beta_c\\,\\mathrm{Cov}(X,X_c)+\\mathrm{Cov}(X,\\mu_Z)}{\\mathrm{Var}(X)}\n= r\\,\\beta_c + \\underbrace{\\frac{\\mathrm{Cov}(X,\\mu_Z)}{\\mathrm{Var}(X)}}_{\\text{bias}}.\n Under the assumptions above, prove that \\mathrm{Cov}(X,\\mu_Z)=2\\,\\mathrm{Cov}_w(p_k,\\mu_k), and give the bias in terms of w_k,p_k,\\mu_k.\nHint: \\mathrm{Cov}(X,\\mu_Z)=\\mathrm{Cov}(\\mathbb E[X\\mid Z],\\mu_Z)=\\mathrm{Cov}(2p_Z,\\mu_Z).\n\n\nPart C (20 pts): Brief interpretation\nIn a few sentences each:\n\nExplain why r\\neq 0 can arise even if within each subpopulation there is no LD. What feature of the mixture induces it?\n\nGive a sign‑consistent example: if subpopulations with larger p_k also have larger \\mu_k, what is the expected direction of the naïve bias?\n\nName two standard strategies to mitigate both components of bias (structure‑induced r and trait mean differences) in practice."
+  },
+  {
+    "objectID": "assignments/assignment-04.html#problem-3-bayesian-analysis-30-pts",
+    "href": "assignments/assignment-04.html#problem-3-bayesian-analysis-30-pts",
+    "title": "Assignment 04",
+    "section": "Problem 3: Bayesian Analysis (30 pts)",
+    "text": "Problem 3: Bayesian Analysis (30 pts)\n\nPart A (10 pts): Beta–Binomial conjugacy\n\nWith prior \\mathrm{Beta}(4,18) and data x=11 successes out of n=27, write the posterior distribution for p.\n\nCompute the posterior mean and a central 95% credible interval in R using qbeta. Compare to the MLE \\hat p=11/27. Briefly interpret the shrinkage.\n\nSensitivity: repeat with priors \\mathrm{Beta}(1,1) and \\mathrm{Beta}(8,32). Summarize how the posterior mean and width change across priors, and why.\n\n\n\nPart B (10 pts): Beta–Binomial in Stan\n\nWrite a Stan model to estimate the allele frequency p from Binomial data with a \\mathrm{Beta}(4,18) prior. Use x=11, n=27.\n\nRun the model in R using cmdstanr. Check convergence and effective sample size; report \\hat R and bulk ESS for p.\n\nSummarize the posterior mean and a central 95% credible interval. Compare to your analytical result from Part A.\n\nYou will need to install cmdstanr and cmdstan if you haven’t already. Please follow installation instructions at https://mc-stan.org/cmdstanr/\nBoilerplate is provided below. You will need to set eval to TRUE to run the code when knitting the final document:\n\nlibrary(cmdstanr)\n\nstan_beta_binomial &lt;- \"\ndata {\n  int&lt;lower=0&gt; n;                     \n  int&lt;lower=0, upper=n&gt; x;        \n  real&lt;lower=0&gt; a;                 \n  real&lt;lower=0&gt; b;                \n}\nparameters {\n  real&lt;lower=0, upper=1&gt; p;    \n}\nmodel {\n  // TODO: prior on p\n  // Example: p ~ beta(a, b);\n  // TODO: likelihood\n  // Example: x ~ binomial(n, p);\n}\ngenerated quantities {\n  real logit_p = logit(p);            \n  int x_rep = binomial_rng(n, p);   \n}\n\"\n\nlibrary(cmdstanr)\nset.seed(8878)\n\nwriteLines(stan_beta_binomial, con = \"beta_binomial.stan\")\nmod_bb &lt;- cmdstan_model(\"beta_binomial.stan\")\nfit_bb &lt;- mod_bb$sample(\n  data = list(n = 27, x = 11, a = 4, b = 18),\n  seed = 8878, chains = 4, parallel_chains = 4,\n  iter_warmup = 1000, iter_sampling = 1000\n)\n\n# TODO: check convergence and summarize posterior\n\n\n\nPart C (10 pts): ABO blood group frequencies in Stan (missing AB phenotype)\nWe observe phenotype counts in a population sample where AB individuals are not sampled:\n\nn_A = 725\n\nn_B = 258\n\nn_O = 1073\n\nUnder HWE with allele frequencies \\mathbf p=(p_A,p_B,p_O), the unconditional phenotype probabilities are \n\\Pr(A)=p_A^2 + 2p_A p_O,\\quad\n\\Pr(B)=p_B^2 + 2p_B p_O,\\quad\n\\Pr(AB)=2p_A p_B,\\quad\n\\Pr(O)=p_O^2.\n\nBecause AB is missing, the observed category probabilities are the renormalized values \nq_A=\\frac{\\Pr(A)}{1-\\Pr(AB)},\\quad\nq_B=\\frac{\\Pr(B)}{1-\\Pr(AB)},\\quad\nq_O=\\frac{\\Pr(O)}{1-\\Pr(AB)}.\n\n\nWrite a Stan model that estimates (p_A,p_B,p_O) with prior \\mathrm{Dirichlet}(1,1,1) and a Multinomial likelihood on (n_A,n_B,n_O) using (q_A,q_B,q_O).\n\nRun the model and check convergence (report \\hat R and ESS).\n\nPrior sensitivity: re‑run with \\boldsymbol\\alpha = k\\,(0.26,0.09,0.65) for k\\in\\{1,10,100\\}. Summarize how posterior means and credible intervals change with k, and why.\n\nBoilerplate is provided below:\n\nstan_abo_missing_ab &lt;- \"\ndata {\n  int&lt;lower=0&gt; n_A;\n  int&lt;lower=0&gt; n_B;\n  int&lt;lower=0&gt; n_O;\n  vector&lt;lower=0&gt;[3] alpha;             \n}\ntransformed data {\n  int N = n_A + n_B + n_O;\n  int y[3] = { n_A, n_B, n_O };        \n}\nparameters {\n  simplex[3] p;                          \n}\ntransformed parameters {\n  // Unconditional phenotype probabilities under HWE:\n  real PrA  = square(p[1]) + 2 * p[1] * p[3];\n  real PrB  = square(p[2]) + 2 * p[2] * p[3];\n  real PrAB = 2 * p[1] * p[2];\n  real PrO  = square(p[3]);\n\n  // Observed (AB excluded): renormalize by (1 - PrAB)\n  simplex[3] q;\n  {\n    real denom = 1 - PrAB;\n    q[1] = PrA / denom;\n    q[2] = PrB / denom;\n    q[3] = PrO / denom;\n  }\n}\nmodel {\n  // TODO: prior on allele frequencies\n  // Example: p ~ dirichlet(alpha);\n  // TODO: likelihood for observed counts\n  // Example: y ~ multinomial(q);\n}\ngenerated quantities {\n  // Unconditional phenotype probabilities (optional checks)\n  vector[4] phen_prob = [PrA, PrB, PrAB, PrO]';\n}\n\"\n\nset.seed(8878)\nwriteLines(stan_abo_missing_ab, con = \"abo_missing_ab.stan\")\nmod_abo &lt;- cmdstan_model(\"abo_missing_ab.stan\")\nfit_abo &lt;- mod_abo$sample(\n  data = list(n_A = 725, n_B = 258, n_O = 1073, alpha = c(1,1,1)),\n  seed = 8878, chains = 4, parallel_chains = 4,\n  iter_warmup = 1000, iter_sampling = 1000\n)"
+  },
+  {
     "objectID": "assignments/assignment-03.html",
     "href": "assignments/assignment-03.html",
     "title": "Assignment 03",
@@ -845,6 +873,475 @@
     "crumbs": [
       "Syllabus"
     ]
+  },
+  {
+    "objectID": "lectures/lecture-04.html#the-bayesian-paradigm",
+    "href": "lectures/lecture-04.html#the-bayesian-paradigm",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "The Bayesian Paradigm",
+    "text": "The Bayesian Paradigm\n\n\nLet \\theta be unknown parameters, y observed data\nWhile frequentist methods treat \\theta as fixed but unknown, Bayesian methods treat \\theta as random variables\n\n\nSir Thomas Bayes"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#bayes-theorem",
+    "href": "lectures/lecture-04.html#bayes-theorem",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Bayes’ Theorem",
+    "text": "Bayes’ Theorem\n\nUncertainty in \\theta is modeled via a prior distribution p(\\theta)\nObserved data y are modeled via a likelihood p(y|\\theta)\nBayes’ theorem combines these to yield the posterior distribution p(\\theta|y) \\propto p(y|\\theta)p(\\theta)"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#frequentist-vs-bayesian-terminology",
+    "href": "lectures/lecture-04.html#frequentist-vs-bayesian-terminology",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Frequentist vs Bayesian Terminology",
+    "text": "Frequentist vs Bayesian Terminology\n\n\n\n\n\n\n\n\n\n\nConcept\nFrequentist\nBayesian\n\n\n\n\nParameter\nFixed\nRandom\n\n\nData\nRandom\nFixed\n\n\nEstimate\nPoint estimate\nPosterior distribution\n\n\nConfidence Interval\nInterval with coverage\nCredible interval\n\n\nHypothesis Test\nReject/Fail to reject\nPosterior predictive check\n\n\nP-value\nProbability of data under null\nProbability of hypothesis given data\n\n\nLikelihood\nFunction of parameter given data\nFunction of data given parameter"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#interpretation-of-intervals",
+    "href": "lectures/lecture-04.html#interpretation-of-intervals",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Interpretation of Intervals",
+    "text": "Interpretation of Intervals\nCompare statements on intervals\n\nFrequentist: “Over many repeated samples, 95% of such intervals will contain the true parameter.”\nBayesian: “Given the observed data and prior, there is a 95% probability that the parameter lies within this interval.”"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#bayesian-pros-and-cons",
+    "href": "lectures/lecture-04.html#bayesian-pros-and-cons",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Bayesian Pros and Cons",
+    "text": "Bayesian Pros and Cons\nPros\n\nIntuitive: direct probability statements about parameters\nFlexibility: complex models, hierarchical structures, small-n\nIncorporate prior knowledge or expert opinion\nFull uncertainty quantification via posterior distributions\n\nCons\n\nComputationally intensive: MCMC, variational inference\nSensitivity to prior choice\nNot the status quo in many fields"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#further-resources",
+    "href": "lectures/lecture-04.html#further-resources",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Further Resources",
+    "text": "Further Resources\n\n\n\n\n\n\nMcElreath (2020)\n\n\n\n\n\n\n\nGelman (2013)"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#conjugacy",
+    "href": "lectures/lecture-04.html#conjugacy",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Conjugacy",
+    "text": "Conjugacy\n\nA prior is conjugate to a likelihood if the posterior is in the same family as the prior.\nExample: Beta prior + Binomial likelihood to Beta posterior"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#conjugacy-example",
+    "href": "lectures/lecture-04.html#conjugacy-example",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Conjugacy Example",
+    "text": "Conjugacy Example\nConsider the allele-frequency estimation setup introduced in Lecture 1.\n\nPrevious experiment: observed x_{\\text{prev}} = 3 successes (allele A) out of n_{\\text{prev}} = 20 trials.\nCurrent data: x = 11 successes out of n = 27 trials.\nParameter of interest: allele (“success”) frequency p."
+  },
+  {
+    "objectID": "lectures/lecture-04.html#step-1-prior",
+    "href": "lectures/lecture-04.html#step-1-prior",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 1: Prior",
+    "text": "Step 1: Prior\nFrom the previous experiment (3 successes out of 20 trials), we can form a Beta prior:\nInterpret \\alpha and \\beta as pseudo-counts of successes and failures, respectively. (Note that \\text{Beta}(1,1) is uniform on [0,1].)\n\\begin{gather*}\np \\sim \\text{Beta}(\\alpha, \\beta) \\\\\n\\alpha = x_{\\text{prev}} + 1 = 4 \\\\\n\\beta = n_{\\text{prev}} - x_{\\text{prev}} + 1 = 18.\n\\end{gather*}"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#step-2-likelihood",
+    "href": "lectures/lecture-04.html#step-2-likelihood",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 2: Likelihood",
+    "text": "Step 2: Likelihood\nCurrent data likelihood (up to proportionality in p): L(p; x,n) \\propto p^{x} (1-p)^{n-x} = p^{11}(1-p)^{16}.\nRecognize this kernel as\n\n\\text{Beta}(x+1, n-x+1)=\\text{Beta}(12,17)"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#step-3-posterior-conjugacy",
+    "href": "lectures/lecture-04.html#step-3-posterior-conjugacy",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 3: Posterior (Conjugacy)",
+    "text": "Step 3: Posterior (Conjugacy)\nMultiply prior and likelihood kernels: p^{\\alpha-1}(1-p)^{\\beta-1}\\times p^{x}(1-p)^{n-x} = p^{(\\alpha + x) - 1}(1-p)^{(\\beta + n - x) - 1}.\nThus\n\\begin{align*}\np | x \\sim \\text{Beta}(\\alpha + x,\\ \\beta + n - x)\n&= \\text{Beta}(4+11,\\ 18+16) \\\\\n&= \\text{Beta}(15,34).\n\\end{align*}"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#posterior-summaries",
+    "href": "lectures/lecture-04.html#posterior-summaries",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Posterior Summaries",
+    "text": "Posterior Summaries\n\nPosterior mean: E[p|x] = \\frac{15}{15+34} = 0.306 (shrinks slightly toward prior mean \\frac{4}{22}=0.182 relative to MLE \\hat p = 11/27 \\approx 0.407).\nEffective sample size intuition: prior contributes (\\alpha+\\beta-2)=20 pseudo-trials; data contribute 27 real trials."
+  },
+  {
+    "objectID": "lectures/lecture-04.html#visualization",
+    "href": "lectures/lecture-04.html#visualization",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Visualization",
+    "text": "Visualization"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#non-conjugate-models",
+    "href": "lectures/lecture-04.html#non-conjugate-models",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Non-Conjugate Models",
+    "text": "Non-Conjugate Models\n\nConjugacy is convenient but limited to simple models\nMany realistic models (e.g., multinomial/Dirichlet with nonlinear transforms) are non-conjugate\nBayesian inference in these models typically requires computational methods like MCMC or variational inference\nRichard McElreath has a great youtube video on MCMC"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#bayesian-revisit-abo-allele-frequencies",
+    "href": "lectures/lecture-04.html#bayesian-revisit-abo-allele-frequencies",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Bayesian Revisit: ABO Allele Frequencies",
+    "text": "Bayesian Revisit: ABO Allele Frequencies\n\nGoal: Infer allele frequencies (p_A, p_B, p_O) given phenotype counts (n_A, n_AB, n_B, n_O).\nFrequentist (Lecture 03): EM treats latent genotypes for A and B phenotypes.\nBayesian: Place a prior on allele frequencies; integrate (average) over uncertainty rather than impute expected counts."
+  },
+  {
+    "objectID": "lectures/lecture-04.html#data-sufficient-statistics",
+    "href": "lectures/lecture-04.html#data-sufficient-statistics",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Data & Sufficient Statistics",
+    "text": "Data & Sufficient Statistics\n\nFrom Lecture 03, we have:\nn_A = 725 individuals with A phenotype\nn_{AB} = 72 individuals with AB phenotype\nn_{B} = 258 individuals with B phenotype\nn_{O} = 1073 individuals with O phenotype\nTotal sample size: N = 2128 individuals"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#model-specification",
+    "href": "lectures/lecture-04.html#model-specification",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Model Specification",
+    "text": "Model Specification\n\nAllele frequency vector: \\boldsymbol p=(p_A,p_B,p_O), \\boldsymbol p\\sim\\text{Dirichlet}(\\boldsymbol\\alpha).\nUnder HWE, genotype frequencies: p_A^2, 2p_A p_O, p_B^2, 2 p_B p_O, 2 p_A p_B, p_O^2.\nPhenotype probabilities (aggregating ambiguous genotypes):\nP(\\text{A}) = p_A^2 + 2 p_A p_O\nP(\\text{AB}) = 2 p_A p_B\nP(\\text{B}) = p_B^2 + 2 p_B p_O\nP(\\text{O}) = p_O^2\nLikelihood: (n_A,n_{AB},n_B,n_O) \\sim \\text{Multinomial}(N, \\boldsymbol q) with \\boldsymbol q above."
+  },
+  {
+    "objectID": "lectures/lecture-04.html#prior-families",
+    "href": "lectures/lecture-04.html#prior-families",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Prior Families",
+    "text": "Prior Families\n\nWeak Dirichlet(1,1,1) (uniform over allele simplex)\nMild Dirichlet(2,2,2) (light shrink toward center)"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#using-historical-data",
+    "href": "lectures/lecture-04.html#using-historical-data",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Using Historical Data",
+    "text": "Using Historical Data\n\nConsider global survey means (p_A = 0.26, p_B = 0.09, p_O = 0.65) (Mourant et al., 1976; Yamamoto, 2012).\nDirichlet prior: \\mathbf{\\alpha} = k (0.26, 0.09, 0.65)\nEffective sample size idea: acts like observing k allele draws before current data (2N alleles in sample).\nRelative weight vs data (here total alleles = 2N = 4256):\nk = 200 \\to prior weight \\approx 4.5\\% of total information.\nk = 1000 \\to prior weight \\approx 19.0\\% of total information."
+  },
+  {
+    "objectID": "lectures/lecture-04.html#prior-shapes-marginal-densities",
+    "href": "lectures/lecture-04.html#prior-shapes-marginal-densities",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Prior Shapes (Marginal Densities)",
+    "text": "Prior Shapes (Marginal Densities)"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#how-to-fit-these-models",
+    "href": "lectures/lecture-04.html#how-to-fit-these-models",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "How to fit these models?",
+    "text": "How to fit these models?\n\n\n\n\nSo we have our data, likelihood, and priors\nWe can use MCMC to sample from the posterior distribution of allele frequencies\nThere exist many software packages to do this! We will use Stan (Carpenter et al., 2017) via the cmdstanr R package"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#stan-model",
+    "href": "lectures/lecture-04.html#stan-model",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Stan Model",
+    "text": "Stan Model\nStep 1: Phenotype Probabilities\n1functions {\n2    vector abo_pheno_probs(vector p) {\n3        real pA = p[1];\n        real pB = p[2];\n        real pO = p[3];\n        vector[4] q;\n        q[1] = pA * pA + 2 * pA * pO; // A phenotype\n        q[2] = 2 * pA * pB;            // AB phenotype\n        q[3] = pB * pB + 2 * pB * pO; // B phenotype\n        q[4] = pO * pO;               // O phenotype\n        return q;\n        }                                            \n}\n\n1\n\nDeclare the functions block (optional in Stan, but lets us encapsulate logic)\n\n2\n\nDefine a helper that maps allele frequencies to phenotype probabilities\n\n3\n\nExtract components (for readability in later expressions)"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#stan-model-1",
+    "href": "lectures/lecture-04.html#stan-model-1",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Stan Model",
+    "text": "Stan Model\nStep 1: Phenotype Probabilities\nfunctions {\n    vector abo_pheno_probs(vector p) {\n        real pA = p[1];\n        real pB = p[2];\n        real pO = p[3];\n4        vector[4] q;\n5        q[1] = pA * pA + 2 * pA * pO; // A phenotype\n        q[2] = 2 * pA * pB;            // AB phenotype\n        q[3] = pB * pB + 2 * pB * pO; // B phenotype\n        q[4] = pO * pO;               // O phenotype\n6        return q;\n        }                                            \n}\n\n4\n\nAllocate a length-4 vector q (A, AB, B, O) for phenotype probabilities\n\n5\n\nHardy–Weinberg genotype algebra aggregated into phenotype probabilities\n\n6\n\nReturn the vector"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#stan-model-2",
+    "href": "lectures/lecture-04.html#stan-model-2",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Stan Model",
+    "text": "Stan Model\nStep 2: Data & Transforms\n1data {\n2    int&lt;lower=0&gt; nA;\n    int&lt;lower=0&gt; nAB;\n    int&lt;lower=0&gt; nB;\n    int&lt;lower=0&gt; nO;\n3    vector&lt;lower=0&gt;[3] alpha; # Dirichlet hyperparameters\n}\n\ntransformed data {\n    int&lt;lower=0&gt; N = nA + nAB + nB + nO;\n    array[4] int y = { nA, nAB, nB, nO };\n}\n\n1\n\nRaw observed counts and prior hyperparameters enter in the data block.\n\n2\n\nABO phenotype counts (non-negative integers) per category.\n\n3\n\nDirichlet prior parameters supplied from R (allow different priors via alpha)."
+  },
+  {
+    "objectID": "lectures/lecture-04.html#stan-model-3",
+    "href": "lectures/lecture-04.html#stan-model-3",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Stan Model",
+    "text": "Stan Model\nStep 2: Data & Transforms\ndata {\n    int&lt;lower=0&gt; nA;\n    int&lt;lower=0&gt; nAB;\n    int&lt;lower=0&gt; nB;\n    int&lt;lower=0&gt; nO;\n    vector&lt;lower=0&gt;[3] alpha; # Dirichlet hyperparameters\n}\n\n4transformed data {\n5    int&lt;lower=0&gt; N = nA + nAB + nB + nO;\n6    array[4] int y = { nA, nAB, nB, nO };\n}\n\n4\n\ntransformed data pre-computes deterministic quantities once\n\n5\n\nTotal sample size N used for reference or diagnostics\n\n6\n\nAssemble counts into an array to pass to the multinomial"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#stan-model-4",
+    "href": "lectures/lecture-04.html#stan-model-4",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Stan Model",
+    "text": "Stan Model\nStep 3: Parameters & Derived q\n1parameters {\n2    simplex[3] p;  # (pA, pB, pO) on 2-simplex\n}\n\n3transformed parameters {\n4    vector[4] q = abo_pheno_probs(p);\n}\n\n1\n\nDeclare unknown quantities to infer in parameters\n\n2\n\nsimplex[3] enforces positivity and sum-to-one constraints automatically\n\n3\n\ntransformed parameters recomputes per-draw derived values\n\n4\n\nReuse helper to obtain phenotype probabilities from allele frequencies"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#stan-model-step-4-prior-likelihood",
+    "href": "lectures/lecture-04.html#stan-model-step-4-prior-likelihood",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Stan Model (Step 4: Prior & Likelihood)",
+    "text": "Stan Model (Step 4: Prior & Likelihood)\n1model {\n2    p ~ dirichlet(alpha);\n3    y ~ multinomial(q);\n}\n\n1\n\nThe model block contains all sampling statements contributing to log density\n\n2\n\nDirichlet prior on allele frequencies p\n\n3\n\nMultinomial likelihood over phenotype counts with probabilities q."
+  },
+  {
+    "objectID": "lectures/lecture-04.html#stan-model-step-5-generated-quantities",
+    "href": "lectures/lecture-04.html#stan-model-step-5-generated-quantities",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Stan Model (Step 5: Generated Quantities)",
+    "text": "Stan Model (Step 5: Generated Quantities)\n1generated quantities {\n2    real log_lik = multinomial_lpmf(y | q);\n3    vector[6] geno_freq;\n4    real pA = p[1]; real pB = p[2]; real pO = p[3];\n5    geno_freq[1] = pA * pA;        # AA\n    geno_freq[2] = 2 * pA * pO;    # AO\n    geno_freq[3] = pB * pB;        # BB\n    geno_freq[4] = 2 * pB * pO;    # BO\n    geno_freq[5] = 2 * pA * pB;    # AB\n    geno_freq[6] = pO * pO;        # OO\n}\n\n1\n\nPost-processing: quantities saved per posterior draw\n\n2\n\nStore log-likelihood for model comparison / LOO / WAIC\n\n3\n\nAllocate genotype frequency vector\n\n4\n\nLocal aliases improve clarity when computing genotype frequencies\n\n5\n\nHardy–Weinberg genotype probabilities"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#compile-stan-model",
+    "href": "lectures/lecture-04.html#compile-stan-model",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Compile Stan Model",
+    "text": "Compile Stan Model\n\nmod_path &lt;- file.path(\"stan\", \"abo_multinomial.stan\")\nabo_mod &lt;- cmdstan_model(mod_path)\n\n\nStan uses C++ on the backend, so we need to compile the model once before fitting\ncmdstan_model() handles compilation and returns a model object for sampling"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#fit-weak-prior-dirichlet111",
+    "href": "lectures/lecture-04.html#fit-weak-prior-dirichlet111",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Fit: Weak Prior (Dirichlet(1,1,1))",
+    "text": "Fit: Weak Prior (Dirichlet(1,1,1))\n\ncounts &lt;- list(nA = 725, nAB = 72, nB = 258, nO = 1073)\n1fit_weak &lt;- abo_mod$sample(\n2    data = list(\n        nA = counts$nA, nAB = counts$nAB, nB = counts$nB, nO = counts$nO,\n        alpha = rep(1, 3)\n    ),\n    seed = 8878,\n3    chains = 4, parallel_chains = 4,\n    iter_warmup = 1000, iter_sampling = 1000,\n    refresh = 0\n)\n\n\n1\n\nExecute the MCMC sampler using the sample() method on the compiled model object\n\n2\n\nPass data from R to Stan as a named list\n\n3\n\nSpecify MCMC sampler settings\n\n\n\n\nRunning MCMC with 4 parallel chains...\n\nChain 1 finished in 0.1 seconds.\nChain 2 finished in 0.1 seconds.\nChain 3 finished in 0.1 seconds.\nChain 4 finished in 0.1 seconds.\n\nAll 4 chains finished successfully.\nMean chain execution time: 0.1 seconds.\nTotal execution time: 1.6 seconds."
+  },
+  {
+    "objectID": "lectures/lecture-04.html#model-diagnostics",
+    "href": "lectures/lecture-04.html#model-diagnostics",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Model Diagnostics",
+    "text": "Model Diagnostics\n\nfit_weak$summary()\n\n# A tibble: 18 × 10\n   variable       mean   median      sd     mad       q5      q95  rhat ess_bulk\n   &lt;chr&gt;         &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;\n 1 lp__       -2.31e+3 -2.31e+3 9.83e-1 7.26e-1 -2.31e+3 -2.31e+3  1.00    1880.\n 2 p[1]        2.09e-1  2.09e-1 6.60e-3 6.52e-3  1.99e-1  2.20e-1  1.00    4495.\n 3 p[2]        8.10e-2  8.09e-2 4.23e-3 4.26e-3  7.41e-2  8.81e-2  1.00    2125.\n 4 p[3]        7.10e-1  7.10e-1 7.27e-3 7.18e-3  6.98e-1  7.22e-1  1.00    3368.\n 5 q[1]        3.41e-1  3.41e-1 9.80e-3 9.84e-3  3.25e-1  3.57e-1  1.00    4376.\n 6 q[2]        3.39e-2  3.39e-2 1.92e-3 1.92e-3  3.08e-2  3.70e-2  1.00    2338.\n 7 q[3]        1.22e-1  1.21e-1 6.27e-3 6.21e-3  1.11e-1  1.32e-1  1.00    2210.\n 8 q[4]        5.04e-1  5.04e-1 1.03e-2 1.02e-2  4.87e-1  5.21e-1  1.00    3368.\n 9 log_lik    -1.16e+1 -1.13e+1 9.81e-1 7.14e-1 -1.36e+1 -1.07e+1  1.00    1867.\n10 geno_freq…  4.38e-2  4.37e-2 2.76e-3 2.73e-3  3.94e-2  4.85e-2  1.00    4495.\n11 geno_freq…  2.97e-1  2.97e-1 7.10e-3 7.08e-3  2.85e-1  3.08e-1  1.00    4242.\n12 geno_freq…  6.58e-3  6.55e-3 6.87e-4 6.90e-4  5.50e-3  7.76e-3  1.00    2125.\n13 geno_freq…  1.15e-1  1.15e-1 5.59e-3 5.53e-3  1.06e-1  1.24e-1  1.00    2225.\n14 geno_freq…  3.39e-2  3.39e-2 1.92e-3 1.92e-3  3.08e-2  3.70e-2  1.00    2338.\n15 geno_freq…  5.04e-1  5.04e-1 1.03e-2 1.02e-2  4.87e-1  5.21e-1  1.00    3368.\n16 pA          2.09e-1  2.09e-1 6.60e-3 6.52e-3  1.99e-1  2.20e-1  1.00    4495.\n17 pB          8.10e-2  8.09e-2 4.23e-3 4.26e-3  7.41e-2  8.81e-2  1.00    2125.\n18 pO          7.10e-1  7.10e-1 7.27e-3 7.18e-3  6.98e-1  7.22e-1  1.00    3368.\n# ℹ 1 more variable: ess_tail &lt;dbl&gt;"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#posterior-summaries-intervals-weak-prior",
+    "href": "lectures/lecture-04.html#posterior-summaries-intervals-weak-prior",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Posterior Summaries & Intervals (Weak Prior)",
+    "text": "Posterior Summaries & Intervals (Weak Prior)\n\npost_weak &lt;- fit_weak$draws(variables = c(\"p\")) |&gt; as_draws_df()\nweak_summ &lt;- post_weak %&gt;% summarise(\n    mean_pA = mean(`p[1]`), mean_pB = mean(`p[2]`), mean_pO = mean(`p[3]`),\n    sd_pA = sd(`p[1]`), sd_pB = sd(`p[2]`), sd_pO = sd(`p[3]`)\n)\nweak_ci &lt;- post_weak %&gt;% summarise(\n    pA_low = quantile(`p[1]`, 0.025), pA_high = quantile(`p[1]`, 0.975),\n    pB_low = quantile(`p[2]`, 0.025), pB_high = quantile(`p[2]`, 0.975),\n    pO_low = quantile(`p[3]`, 0.025), pO_high = quantile(`p[3]`, 0.975)\n)"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#posterior-histograms-weak-prior",
+    "href": "lectures/lecture-04.html#posterior-histograms-weak-prior",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Posterior Histograms (Weak Prior)",
+    "text": "Posterior Histograms (Weak Prior)"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#em-vs-bayesian-point-estimates",
+    "href": "lectures/lecture-04.html#em-vs-bayesian-point-estimates",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "EM vs Bayesian Point Estimates",
+    "text": "EM vs Bayesian Point Estimates\n\n\n# A tibble: 2 × 5\n  method            pA     pB    pO loglik\n  &lt;chr&gt;          &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;\n1 EM             0.209 0.0808 0.710 -2304.\n2 Posterior Mean 0.209 0.0810 0.710    NA"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#consolidated-posterior-comparison",
+    "href": "lectures/lecture-04.html#consolidated-posterior-comparison",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Consolidated Posterior Comparison",
+    "text": "Consolidated Posterior Comparison"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#population-substructure",
+    "href": "lectures/lecture-04.html#population-substructure",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Population Substructure",
+    "text": "Population Substructure\n\nFeatures of a population which result from variation of expected allele frequencies across individuals\nStandard allele counting (\\hat{p} = (2n_{AA} + n_{Aa}/2n)) will still be unbiased\nBut, not all subjects may have the same probability of being represented in the sample\nVariance of estimate will be effected"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#population-stratification",
+    "href": "lectures/lecture-04.html#population-stratification",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Population Stratification",
+    "text": "Population Stratification\n\nIndividuals in a population can be subdivided into mutually exclusive strata\nWithin each strata the allele frequency is the same for all individuals\nIntuitively, we are partitioning a large dataset into multiple smaller datasets"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#population-admixture",
+    "href": "lectures/lecture-04.html#population-admixture",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Population Admixture",
+    "text": "Population Admixture\n\nWhen individuals in a population have a mixture of different genetic ancestries due to prior mixing of two or more populations\nOften result of migration"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#population-admixture-1",
+    "href": "lectures/lecture-04.html#population-admixture-1",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Population Admixture",
+    "text": "Population Admixture\n\nFrom Korunes and Goldberg (2021)"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#population-inbreeding",
+    "href": "lectures/lecture-04.html#population-inbreeding",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Population Inbreeding",
+    "text": "Population Inbreeding\n\nOccurs when there is a preference for mating among relatives in a population or because geographic isolation of subgroups restricts mating choices\nPossibility that an offspring will inherit two copies of the same ancestral allele\nDefine F, the inbreeding coefficient, as the probability that a random individual in the population inherits two copies of the same allele from a common ancestor"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#admixture-as-a-confounder",
+    "href": "lectures/lecture-04.html#admixture-as-a-confounder",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Admixture as a Confounder",
+    "text": "Admixture as a Confounder\n\nConsider the problem of estimating the effect of a SNP on a disease phenotype: \\beta in P(Y=1) = \\text{logit}^{-1}(\\alpha + \\beta G)\nRecent admixture mixes ancestries within individuals: genotype is a convex combination of source populations\nIf phenotype prevalence differs by ancestry, local or global ancestry proportions act like hidden covariates\nAssociation tests must separate causal signal from ancestry-driven allele frequency differences"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#principal-components-for-structure",
+    "href": "lectures/lecture-04.html#principal-components-for-structure",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Principal Components for Structure",
+    "text": "Principal Components for Structure\n\nConstruct the standardized genotype matrix Z and compute Z^T Z / M (with M markers)\nTop eigenvectors capture major ancestry gradients\nUse the leading PCs as covariates in association tests or to stratify downstream analyses"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#principal-components-for-structure-1",
+    "href": "lectures/lecture-04.html#principal-components-for-structure-1",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Principal Components for Structure",
+    "text": "Principal Components for Structure\n\ndata(\"eHGDP\")\neHGDP\n\n/// GENIND OBJECT /////////\n\n // 1,350 individuals; 678 loci; 8,170 alleles; size: 44.1 Mb\n\n // Basic content\n   @tab:  1350 x 8170 matrix of allele counts\n   @loc.n.all: number of alleles per locus (range: 5-35)\n   @loc.fac: locus factor for the 8170 columns of @tab\n   @all.names: list of allele names for each locus\n   @ploidy: ploidy of each individual  (range: 2-2)\n   @type:  codom\n   @call: read.fstat(file = file, missing = missing, quiet = quiet)\n\n // Optional content\n   @pop: population of each individual (group size range: 3-50)\n   @other: a list containing: popInfo"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#principal-components-for-structure-2",
+    "href": "lectures/lecture-04.html#principal-components-for-structure-2",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Principal Components for Structure",
+    "text": "Principal Components for Structure\n\nhgdp_df &lt;- genind2df(eHGDP, sep = \"/\")\n\n# Convert to allele count matrix, center columns (replace missing with locus means)\ngeno_mat &lt;- scaleGen(eHGDP, center = TRUE, scale = FALSE, NA.method = \"mean\")\npc_fit &lt;- prcomp(geno_mat, center = FALSE, scale. = FALSE)\n\n# Map individuals to geographic regions for coloring\npop_info &lt;- eHGDP@other$popInfo\npop_index &lt;- as.integer(pop(eHGDP))\nregion &lt;- pop_info$Region[pop_index]\n\nplot_df &lt;- data.frame(PC1 = pc_fit$x[, 1], PC2 = pc_fit$x[, 2], Region = region)\nggplot(plot_df, aes(PC1, PC2, color = Region)) +\n    geom_point(alpha = 0.7, size = 1.5) +\n    labs(title = \"Population structure diagnostic\", x = \"PC1\", y = \"PC2\") +\n    theme_minimal()"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#principal-components-for-structure-3",
+    "href": "lectures/lecture-04.html#principal-components-for-structure-3",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Principal Components for Structure",
+    "text": "Principal Components for Structure"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#structure-admixture",
+    "href": "lectures/lecture-04.html#structure-admixture",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "STRUCTURE & ADMIXTURE",
+    "text": "STRUCTURE & ADMIXTURE\n\nModel-based clustering methods for population structure inference\nAssume K latent populations with distinct allele frequencies\nEach individual has ancestry proportions \\boldsymbol{\\pi}_i across K populations\nEach genotype is drawn from a mixture of population-specific allele frequencies\nUse maximum likelihood (ADMIXTURE) or Bayesian inference (STRUCTURE) to estimate parameters"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#assumptions",
+    "href": "lectures/lecture-04.html#assumptions",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Assumptions",
+    "text": "Assumptions\n\nHardy-Weinberg equilibrium within each ancestral population\nLinkage equilibrium between loci within each ancestral population\nLoci are unlinked (or weakly linked)"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#example-output",
+    "href": "lectures/lecture-04.html#example-output",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Example Output",
+    "text": "Example Output"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#bayesian-admixture",
+    "href": "lectures/lecture-04.html#bayesian-admixture",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Bayesian Admixture",
+    "text": "Bayesian Admixture\n\nLatent populations k = 1,\\ldots,K possess allele frequencies \\theta_{k\\ell} at locus \\ell\nIndividual ancestry proportions \\boldsymbol{\\pi}_i \\sim \\text{Dirichlet}(\\boldsymbol{\\alpha})\nGenotype y_{i\\ell} \\sim \\text{Binomial}\\left(2, \\sum_{k} \\pi_{ik} \\theta_{k\\ell}\\right) assuming HWE within each ancestral population\nPosterior draws propagate ancestry/allele-frequency uncertainty into association testing, local ancestry, and polygenic prediction"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#identifiability-label-switching",
+    "href": "lectures/lecture-04.html#identifiability-label-switching",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Identifiability & Label Switching",
+    "text": "Identifiability & Label Switching\n\nProblem: Mixture components are exchangeable → posterior multimodality\nSolution: Anchor loci with informative priors break symmetry\n\nPopulations defined by genetic signatures, not arbitrary labels\nMultiple anchors provide robustness against weak signals"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#stan-model-data-parameters",
+    "href": "lectures/lecture-04.html#stan-model-data-parameters",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Stan Model: Data & Parameters",
+    "text": "Stan Model: Data & Parameters\ndata {\n  int&lt;lower=1&gt; N;                                // individuals\n  int&lt;lower=1&gt; L;                                // loci\n  int&lt;lower=1&gt; K;                                // ancestral pops\n  array[N, L] int&lt;lower=0, upper=2&gt; y;           // genotypes (0,1,2)\n  int&lt;lower=0&gt; L_soft;\n  array[L_soft] int&lt;lower=1, upper=L&gt; soft_idx;  // e.g., {2}\n  array[K] real&lt;lower=0&gt; a_theta;                // Beta 'a' for non-anchor loci\n  array[K] real&lt;lower=0&gt; b_theta;                // Beta 'b' for non-anchor loci\n  int&lt;lower=1, upper=L&gt; l_star;                  // anchor locus index\n  real&lt;lower=0&gt; conc_pi;                         // shared Dirichlet conc. for pi\n}"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#stan-model-parameters-transformed-parameters",
+    "href": "lectures/lecture-04.html#stan-model-parameters-transformed-parameters",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Stan Model: Parameters & Transformed Parameters",
+    "text": "Stan Model: Parameters & Transformed Parameters\nparameters {\n  array[N] simplex[K] pi;                        // ancestry proportions\n  ordered[K] eta;                                // ordered logits at anchor locus\n  matrix&lt;lower=0, upper=1&gt;[K, L-1] theta_rest;   // allele freqs for non-anchor loci\n}\n\n\ntransformed parameters {\n  matrix&lt;lower=0, upper=1&gt;[K, L] theta;          // full allele-frequency matrix\n  matrix[N, L] p_mix;                            // mixed allele frequency\n\n  // anchor column (ordered)\n  for (k in 1:K) theta[k, l_star] = inv_logit(eta[k]);\n\n  // fill remaining columns\n  {\n    int c = 1;\n    for (l in 1:L) {\n      if (l == l_star) continue;\n      for (k in 1:K) theta[k, l] = theta_rest[k, c];\n      c += 1;\n    }\n  }\n\n  // mixture expectations\n  for (n in 1:N)\n    for (l in 1:L)\n      p_mix[n, l] = dot_product(pi[n], col(theta, l));\n}"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#stan-model-priors-likelihood",
+    "href": "lectures/lecture-04.html#stan-model-priors-likelihood",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Stan Model: Priors & Likelihood",
+    "text": "Stan Model: Priors & Likelihood\nmodel {\n  // priors\n  eta ~ normal(0, 2.5);                          // weak prior; ordering gives ID\n  for (k in 1:K)\n    for (c in 1:(L - 1))\n      theta_rest[k, c] ~ beta(a_theta[k], b_theta[k]);\n\n  for (n in 1:N)\n    pi[n] ~ dirichlet(rep_vector(conc_pi, K));\n\n  for (c in 1:L_soft) {\n  int l = soft_idx[c];\n  if (l != l_star) {\n    // comp 1 LOW, comp 2 HIGH at these loci (gentle)\n    target += beta_lpdf(theta[1, l] | 2, 8);\n    target += beta_lpdf(theta[2, l] | 8, 2);\n  }\n}\n\n  // likelihood\n  for (n in 1:N)\n    for (l in 1:L)\n      y[n, l] ~ binomial(2, p_mix[n, l]);\n}"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#stan-model-generated-quantities",
+    "href": "lectures/lecture-04.html#stan-model-generated-quantities",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Stan Model: Generated Quantities",
+    "text": "Stan Model: Generated Quantities\ngenerated quantities {\n  matrix[N, K] logit_pi;\n  array[N, L] int y_rep;\n\n  for (n in 1:N)\n    for (k in 1:K)\n      logit_pi[n, k] = logit(pi[n, k]);\n\n  for (n in 1:N)\n    for (l in 1:L)\n      y_rep[n, l] = binomial_rng(2, p_mix[n, l]);\n}"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#mathematical-framework",
+    "href": "lectures/lecture-04.html#mathematical-framework",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Mathematical Framework",
+    "text": "Mathematical Framework\nIndividual-Locus Allele Frequency\nFor individual i at locus \\ell, expected allele frequency: p_{i\\ell} = \\sum_{k=1}^K \\pi_{ik} \\theta_{k\\ell}\nInformation Borrowing Across Loci\nKey insight: Same \\boldsymbol{\\pi}_i parameters appear in likelihood for all loci\nL(\\boldsymbol{\\pi}_i, \\boldsymbol{\\Theta}) = \\prod_{\\ell=1}^L \\text{Binomial}\\left(y_{i\\ell} \\mid 2, \\sum_{k=1}^K \\pi_{ik} \\theta_{k\\ell}\\right)"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#mathematical-framework-1",
+    "href": "lectures/lecture-04.html#mathematical-framework-1",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Mathematical Framework",
+    "text": "Mathematical Framework\nHierarchical Learning\n\nAnchor loci provide strong identification signal\nRemaining loci contribute cumulative evidence\nPosterior uncertainty propagates through all parameters"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#simulating-admixed-genotypes",
+    "href": "lectures/lecture-04.html#simulating-admixed-genotypes",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Simulating Admixed Genotypes",
+    "text": "Simulating Admixed Genotypes\n\n1set.seed(887804)\n\n2rdirichlet &lt;- function(n, alpha) {\n    k &lt;- length(alpha)\n    gamma_draws &lt;- matrix(rgamma(n * k, shape = alpha, rate = 1),\n                          ncol = k, byrow = TRUE)\n    sweep(gamma_draws, 1, rowSums(gamma_draws), \"/\")\n}\n\n3N &lt;- 40   # individuals\nL &lt;- 20   # loci\nK &lt;- 2    # ancestral populations\n\n\n1\n\nFixed random seed for consistent results across sessions\n\n2\n\nNormalized gamma variates generate simplex-constrained ancestry proportions\n\n3\n\nSet simulation parameters"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#simulating-admixed-genotypes-1",
+    "href": "lectures/lecture-04.html#simulating-admixed-genotypes-1",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Simulating Admixed Genotypes",
+    "text": "Simulating Admixed Genotypes\n\n4# Create very clear population differentiation\ntheta_true &lt;- matrix(0, nrow = K, ncol = L)\n\n# Multiple anchor loci: very strong differentiation\ntheta_true[1, 1] &lt;- 0.1  # Pop 1: very low frequency at anchor 1\ntheta_true[2, 1] &lt;- 0.9  # Pop 2: very high frequency at anchor 1\ntheta_true[1, 2] &lt;- 0.1  # Pop 1: very low frequency at anchor 2\ntheta_true[2, 2] &lt;- 0.9  # Pop 2: very high frequency at anchor 2\n\n# Other loci: strong differentiation \ntheta_true[1, 3:L] &lt;- rbeta(L-2, 2, 8)   # Pop 1: much lower overall\ntheta_true[2, 3:L] &lt;- rbeta(L-2, 8, 2)   # Pop 2: much higher overall\n\n\n5pi_true &lt;- rbind(\n  rdirichlet(12, c(90, 10)),  # pop 1\n  rdirichlet(12, c(10, 90)),  # Very pure pop 2\n  rdirichlet(16, c(10, 10))                                    # Admixed individuals\n)\n\n\n4\n\nStrong genetic signatures with multiple anchor loci\n\n5\n\nMix of unadmixed founders and admixed descendants"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#simulating-admixed-genotypes-2",
+    "href": "lectures/lecture-04.html#simulating-admixed-genotypes-2",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Simulating Admixed Genotypes",
+    "text": "Simulating Admixed Genotypes\n\n6y &lt;- matrix(0L, nrow = N, ncol = L)\nfor (n in 1:N) {\n    for (l in 1:L) {\n        p_mix &lt;- sum(pi_true[n, ] * theta_true[, l])\n        y[n, l] &lt;- rbinom(1, size = 2, prob = p_mix)\n    }\n}\n\n\n6\n\nGenotypes drawn from Binomial(2, p_mix) per individual and locus"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#pca-on-simulated-genotypes",
+    "href": "lectures/lecture-04.html#pca-on-simulated-genotypes",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "PCA On Simulated Genotypes",
+    "text": "PCA On Simulated Genotypes\n\nCenter genotypes by 2 \\times \\hat{p} and scale by \\sqrt{2 \\cdot \\hat{p} \\cdot (1 - \\hat{p})}\n\n\np_hat &lt;- colMeans(y) / 2\nsd_hat &lt;- sqrt(pmax(1e-6, 2 * p_hat * (1 - p_hat)))\nZ &lt;- scale(y, center = 2 * p_hat, scale = sd_hat)\npc &lt;- prcomp(Z, center = FALSE, scale. = FALSE)\n\npc_df &lt;- data.frame(PC1 = pc$x[, 1], PC2 = pc$x[, 2], pi1 = pi_true[, 1])\nggplot(pc_df, aes(PC1, PC2, color = pi1)) +\n  geom_point(alpha = 0.7, size = 1.6) +\n  scale_color_viridis_c(end = .8) +\n  labs(color = expression(pi[1]), x = \"PC1\", y = \"PC2\") +\n  geom_vline(xintercept = 2.75, linetype = \"dashed\", color = \"gray40\", linewidth = 0.6) +\n  geom_vline(xintercept = -2.75, linetype = \"dashed\", color = \"gray40\", linewidth = 0.6) +\n  annotate(\"text\", x = 4.5, y = 6, label = \"Pop 1\", color = \"gray20\", size = 6) +\n  annotate(\"text\", x = -4.5, y = 6, label = \"Pop 2\", color = \"gray20\", size = 6) +\n  annotate(\"text\", x = 0, y = 6, label = \"Admixed\", color = \"gray20\", size = 6) +\n  theme_bw(base_size = 14) +\n  theme(panel.grid = element_blank())"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#pca-on-simulated-genotypes-1",
+    "href": "lectures/lecture-04.html#pca-on-simulated-genotypes-1",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "PCA On Simulated Genotypes",
+    "text": "PCA On Simulated Genotypes"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#fitting-the-model",
+    "href": "lectures/lecture-04.html#fitting-the-model",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Fitting the Model",
+    "text": "Fitting the Model\n\nadmix_mod &lt;- cmdstan_model(file.path(\"stan\", \"structure_admixture.stan\"))\n\nl_star &lt;- 1  # choose your anchor locus (e.g., 1)\n\nadmix_data &lt;- list(\n    N = N, L = L, K = K, y = y,\n    a_theta = rep(1.5, K), b_theta = rep(1.5, K),\n    l_star = l_star, L_soft = 1, soft_idx = c(2),\n    conc_pi = 2.0      \n)\n\nadmix_fit &lt;- admix_mod$sample(\n  data = admix_data,\n  chains = 4, parallel_chains = 4,\n  iter_warmup = 2000, iter_sampling = 2000,\n  seed = 887804, refresh = 0\n)\n\nRunning MCMC with 4 parallel chains...\n\n\nChain 2 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:\n\n\nChain 2 Exception: binomial_lpmf: Probability parameter is 1, but must be in the interval [0, 1] (in '/var/folders/3f/7lk7ddbn19j4f1rzxtlx3z9w0000gn/T/RtmpNcnZ0F/model-176a12d00be28.stan', line 65, column 6 to column 41)\n\n\nChain 2 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,\n\n\nChain 2 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.\n\n\nChain 2 \n\n\nChain 4 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:\n\n\nChain 4 Exception: binomial_lpmf: Probability parameter is 1, but must be in the interval [0, 1] (in '/var/folders/3f/7lk7ddbn19j4f1rzxtlx3z9w0000gn/T/RtmpNcnZ0F/model-176a12d00be28.stan', line 65, column 6 to column 41)\n\n\nChain 4 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,\n\n\nChain 4 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.\n\n\nChain 4 \n\n\nChain 2 finished in 14.6 seconds.\nChain 4 finished in 14.6 seconds.\nChain 1 finished in 14.8 seconds.\nChain 3 finished in 15.4 seconds.\n\nAll 4 chains finished successfully.\nMean chain execution time: 14.9 seconds.\nTotal execution time: 15.5 seconds."
+  },
+  {
+    "objectID": "lectures/lecture-04.html#stan-output",
+    "href": "lectures/lecture-04.html#stan-output",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Stan Output",
+    "text": "Stan Output\n\ndm &lt;- admix_fit$draws(variables = c(\"theta\",\"pi\"), format = \"draws_df\")\n\nlstar &lt;- admix_data$l_star\nL &lt;- ncol(y)\nnon_anchor &lt;- setdiff(1:L, lstar)\n\n# Orientation score per draw: average sign over non-anchor loci\nsign_per_draw &lt;- rowMeans(sapply(non_anchor, function(l)\n  sign(dm[[sprintf(\"theta[2,%d]\", l)]] - dm[[sprintf(\"theta[1,%d]\", l)]])))\n\n# Reference orientation: the majority sign across all draws\nref_sign &lt;- ifelse(mean(sign_per_draw) &gt;= 0, -1, 1)\n\n# Decide which DRAWS to flip (not just which chains)\nflip_draw &lt;- sign_per_draw * ref_sign &lt; 0\n\n# Helper: swap theta rows and pi columns for those draws\nswap_block &lt;- function(df, pat1, pat2, idx){\n  i1 &lt;- grep(pat1, names(df)); i2 &lt;- grep(pat2, names(df))\n  tmp &lt;- df[idx, i1, drop=FALSE]\n  df[idx, i1] &lt;- df[idx, i2, drop=FALSE]\n  df[idx, i2] &lt;- tmp\n  df\n}\n\n# Swap theta rows\ndm &lt;- swap_block(dm, \"^theta\\\\[1,\", \"^theta\\\\[2,\", flip_draw)\n# Swap pi columns\ndm &lt;- swap_block(dm, \"^pi\\\\[[0-9]+,1\\\\]$\", \"^pi\\\\[[0-9]+,2\\\\]$\", flip_draw)"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#aligned-posteriors",
+    "href": "lectures/lecture-04.html#aligned-posteriors",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Aligned Posteriors",
+    "text": "Aligned Posteriors\n\n# Plot aligned posteriors with true values\ntrue_line &lt;- function(pars, truths) data.frame(variable = pars, truth = truths)\n\nmcmc_hist(dm, pars = c(\"pi[1,1]\")) + \n  geom_vline(data = true_line(c(\"pi[1,1]\"), c(pi_true[1,1])),\n             aes(xintercept = truth), linetype = \"dashed\", colour = \"red\") +\nxlim(0, 1)"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#credible-intervals",
+    "href": "lectures/lecture-04.html#credible-intervals",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Credible Intervals",
+    "text": "Credible Intervals\n\nmcmc_intervals(dm, pars = c(\"pi[1,1]\", \"pi[3,1]\", \"pi[14,1]\", \"pi[38,1]\"))"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#summary-next-steps",
+    "href": "lectures/lecture-04.html#summary-next-steps",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Summary & Next Steps",
+    "text": "Summary & Next Steps\n\nPopulation structure influences genetic analyses\nBayesian framing exposes prior choices, enables posterior uncertainty on structure (ABO example, admixture Stan model)\nBayesian modeling as attempting to capture the data-generating process"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#reference",
+    "href": "lectures/lecture-04.html#reference",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Reference",
+    "text": "Reference\n\n\n\n\nCarpenter,B. et al. (2017) Stan: A Probabilistic Programming Language. Journal of Statistical Software, 76, 1–32.\n\n\nGelman,A. (2013) Bayesian Data Analysis 3rd ed. CRC Press.\n\n\nKorunes,K.L. and Goldberg,A. (2021) Human genetic admixture. PLOS Genetics, 17, e1009374.\n\n\nMcElreath,R. (2020) Statistical rethinking: A Bayesian course with examples in R and Stan Second edition. CRC Press, Boca Raton.\n\n\nMourant,A.E. et al. (1976) The distribution of the human blood groups and other polymorphisms 2nd ed. Oxford University Press, London.\n\n\nYamamoto,F. (2012) ABO blood groups. Transfusion Medicine and Hemotherapy, 39, 213–220."
   },
   {
     "objectID": "lectures/lecture-02.html#agenda",

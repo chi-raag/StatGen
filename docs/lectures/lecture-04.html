@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
 <link href="../course_logo.png" rel="icon" type="image/png">
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-html/tabby.min.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -114,7 +115,7 @@
     div.csl-indent {
       margin-left: 2em;
     }  </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-fd091bfd51e2c02178447c91813c7d86.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-264c76fdbb68a1a4f90edbec2b556612.css">
   <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
   <script>document.addEventListener("DOMContentLoaded", function () {
  var mathElements = document.getElementsByClassName("math");
@@ -134,8 +135,6 @@
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
-  <link href="../site_libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
-  <link href="../site_libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
   <style type="text/css">
     .reveal div.sourceCode {
@@ -237,6 +236,11 @@
 </div>
 
 </section>
+<section>
+<section id="intro-to-bayesian-methods" class="title-slide slide level1 center">
+<h1>Intro to Bayesian Methods</h1>
+
+</section>
 <section id="the-bayesian-paradigm" class="slide level2">
 <h2>The Bayesian Paradigm</h2>
 <style>
@@ -250,8 +254,8 @@
 </ul>
 
 <img data-src="images/thomas-bayes.png" class="r-stretch quarto-figure-center"><p class="caption">Sir Thomas Bayes</p></section>
-<section id="anatomy-of-bayes-rule" class="slide level2">
-<h2>Anatomy of Bayes’ Rule</h2>
+<section id="bayes-theorem" class="slide level2">
+<h2>Bayes’ Theorem</h2>
 <ul>
 <li>Uncertainty in <span class="math inline">\theta</span> is modeled via a <strong>prior distribution</strong> <span class="math inline">p(\theta)</span></li>
 <li>Observed data <span class="math inline">y</span> are modeled via a <strong>likelihood</strong> <span class="math inline">p(y|\theta)</span></li>
@@ -341,15 +345,6 @@
 <li>Not the status quo in many fields</li>
 </ul>
 </section>
-<section id="bayes-vs-frequentist-in-genetic-inference" class="slide level2">
-<h2>Bayes vs Frequentist in Genetic Inference</h2>
-<ul>
-<li>Frequentist pipelines (logistic regression + PCs, LMMs) offer calibrated <span class="math inline">p</span>-values but often ignore uncertainty in latent structure</li>
-<li>Bayesian models propagate uncertainty in allele frequencies, effect sizes, and structure into downstream predictions (e.g., polygenic risk scores)</li>
-<li>Empirical Bayes shrinkage (e.g., LDpred) blurs the line: priors estimated from data approximate Bayesian decisions with frequentist guarantees</li>
-<li>Debate centers on transparency of priors vs.&nbsp;reliance on asymptotics—highlight assumptions explicitly to compare answers, not ideologies</li>
-</ul>
-</section>
 <section id="further-resources" class="slide level2">
 <h2>Further Resources</h2>
 <div class="quarto-layout-panel" data-layout="[60, 40]">
@@ -379,7 +374,9 @@
 <li>A prior is <strong>conjugate</strong> to a likelihood if the posterior is in the same family as the prior.</li>
 <li>Example: Beta prior + Binomial likelihood <span class="math inline">to</span> Beta posterior</li>
 </ul>
-<h3 id="conjugacy-example">Conjugacy Example</h3>
+</section>
+<section id="conjugacy-example" class="slide level2">
+<h2>Conjugacy Example</h2>
 <p>Consider the allele-frequency estimation setup introduced in Lecture 1.</p>
 <ul>
 <li>Previous experiment: observed <span class="math inline">x_{\text{prev}} = 3</span> successes (allele A) out of <span class="math inline">n_{\text{prev}} = 20</span> trials.</li>
@@ -425,7 +422,7 @@ p | x \sim \text{Beta}(\alpha + x,\ \beta + n - x)
 <section id="visualization" class="slide level2">
 <h2>Visualization</h2>
 
-<img data-src="lecture-04_files/figure-revealjs/unnamed-chunk-3-1.png" width="960" class="r-stretch"></section>
+<img data-src="lecture-04_files/figure-revealjs/viz-1.png" width="960" class="r-stretch"></section>
 <section id="non-conjugate-models" class="slide level2">
 <h2>Non-Conjugate Models</h2>
 <ul>
@@ -442,157 +439,53 @@ p | x \sim \text{Beta}(\alpha + x,\ \beta + n - x)
 <li>Frequentist (Lecture 03): EM treats latent genotypes for A and B phenotypes.</li>
 <li>Bayesian: Place a prior on allele frequencies; integrate (average) over uncertainty rather than impute expected counts.</li>
 </ul>
-<aside class="notes">
-<p>The EM algorithm gave us point estimates by iteratively reassigning ambiguous A and B phenotypes. In the Bayesian framing we directly place a prior on the simplex and obtain a posterior over allele frequencies that reflects finite-sample uncertainty.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="data-sufficient-statistics" class="slide level2">
 <h2>Data &amp; Sufficient Statistics</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="co"># Phenotype counts (same as EM slide)</span></span>
-<span id="cb1-2"><a></a>counts <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">nA =</span> <span class="dv">725</span>, <span class="at">nAB =</span> <span class="dv">72</span>, <span class="at">nB =</span> <span class="dv">258</span>, <span class="at">nO =</span> <span class="dv">1073</span>)</span>
-<span id="cb1-3"><a></a>N <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">unlist</span>(counts))</span>
-<span id="cb1-4"><a></a>counts</span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>$nA
-[1] 725
-
-$nAB
-[1] 72
-
-$nB
-[1] 258
-
-$nO
-[1] 1073</code></pre>
-</div>
-</div>
 <ul>
-<li>Total sample size: 2128 individuals.</li>
-<li>Minimal information for this model are the four phenotype counts.</li>
+<li>From Lecture 03, we have:</li>
+<li><span class="math inline">n_A = 725</span> individuals with A phenotype</li>
+<li><span class="math inline">n_{AB} = 72</span> individuals with AB phenotype</li>
+<li><span class="math inline">n_{B} = 258</span> individuals with B phenotype</li>
+<li><span class="math inline">n_{O} = 1073</span> individuals with O phenotype</li>
+<li>Total sample size: <span class="math inline">N = 2128</span> individuals</li>
 </ul>
-<aside class="notes">
-<p>Placing the data early clarifies what the likelihood conditions on before diving into priors or Stan code.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
-<section id="model-specification-recap" class="slide level2">
-<h2>Model Specification (Recap)</h2>
+<section id="model-specification" class="slide level2">
+<h2>Model Specification</h2>
 <ul>
 <li>Allele frequency vector: <span class="math inline">\boldsymbol p=(p_A,p_B,p_O)</span>, <span class="math inline">\boldsymbol p\sim\text{Dirichlet}(\boldsymbol\alpha)</span>.</li>
 <li>Under HWE, genotype frequencies: <span class="math inline">p_A^2, 2p_A p_O, p_B^2, 2 p_B p_O, 2 p_A p_B, p_O^2</span>.</li>
-<li>Phenotype probabilities (aggregating ambiguous genotypes):
-<ul>
+<li>Phenotype probabilities (aggregating ambiguous genotypes):</li>
 <li><span class="math inline">P(\text{A}) = p_A^2 + 2 p_A p_O</span></li>
 <li><span class="math inline">P(\text{AB}) = 2 p_A p_B</span></li>
 <li><span class="math inline">P(\text{B}) = p_B^2 + 2 p_B p_O</span></li>
 <li><span class="math inline">P(\text{O}) = p_O^2</span></li>
-</ul></li>
 <li>Likelihood: <span class="math inline">(n_A,n_{AB},n_B,n_O) \sim \text{Multinomial}(N, \boldsymbol q)</span> with <span class="math inline">\boldsymbol q</span> above.</li>
 </ul>
-<aside class="notes">
-<p>Choosing Dirichlet priors keeps conjugacy partially: not fully conjugate because of the nonlinear mapping from allele to phenotype probabilities, but the prior still supplies soft pseudo-counts that regularize towards symmetry (if all alphas equal) or prior knowledge.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="prior-families" class="slide level2">
 <h2>Prior Families</h2>
-<h3 id="weakly-informative">Weakly Informative</h3>
 <ul>
-<li>Weak: Dirichlet(1,1,1) (uniform over allele simplex)</li>
-<li>Mild: Dirichlet(2,2,2) (light shrink toward center)</li>
+<li>Weak Dirichlet(1,1,1) (uniform over allele simplex)</li>
+<li>Mild Dirichlet(2,2,2) (light shrink toward center)</li>
 </ul>
-<aside class="notes">
-<p>Set expectations for how each prior should behave before showing shapes or fits.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
-<section id="prior-families-1" class="slide level2">
-<h2>Prior Families</h2>
-<h3 id="using-historical-data">Using Historical Data</h3>
+<section id="using-historical-data" class="slide level2">
+<h2>Using Historical Data</h2>
 <ul>
 <li>Consider global survey means <span class="math inline">(p_A = 0.26, p_B = 0.09, p_O = 0.65)</span> <span class="citation" data-cites="mourant1976 yamamoto2012abo">(<a href="#/reference" role="doc-biblioref" onclick="">Mourant <em>et al.</em>, 1976</a>; <a href="#/reference" role="doc-biblioref" onclick="">Yamamoto, 2012</a>)</span>.</li>
 <li>Dirichlet prior: <span class="math inline">\mathbf{\alpha} = k (0.26, 0.09, 0.65)</span></li>
 <li>Effective sample size idea: acts like observing k allele draws before current data (2N alleles in sample).</li>
-<li>Relative weight vs data (here total alleles = 2N = 4256):
-<ul>
-<li>k = 200 ⇒ prior weight ≈ 4.5% of total information.</li>
-<li>k = 1000 ⇒ prior weight ≈ 19.0%.</li>
-</ul></li>
+<li>Relative weight vs data (here total alleles = 2N = 4256):</li>
+<li><span class="math inline">k = 200 \to</span> prior weight <span class="math inline">\approx 4.5\%</span> of total information.</li>
+<li><span class="math inline">k = 1000 \to</span> prior weight <span class="math inline">\approx 19.0\%</span> of total information.</li>
 </ul>
-<aside class="notes">
-<p>Explain that k trades off prior certainty vs flexibility. If study population differs (e.g., ancestry-specific shifts), large k may bias estimates. Showing prior SD table makes the 1/k scaling concrete.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="prior-shapes-marginal-densities" class="slide level2">
 <h2>Prior Shapes (Marginal Densities)</h2>
 
-<img data-src="lecture-04_files/figure-revealjs/unnamed-chunk-5-1.png" width="960" class="r-stretch"><aside class="notes">
-<ul>
-<li>Weak priors (Dir(1,1,1), Dir(2,2,2)) are diffuse over the simplex.</li>
-<li>High-concentration informative priors collapse mass tightly around external means.</li>
-<li>Marginal densities illustrate shrinkage strength before seeing data.</li>
-</ul>
-<p>Showing the priors <em>alone</em> helps students distinguish likelihood-driven updates from prior-imposed structure. The near-degenerate appearance for large k reinforces the concept of effective sample size encoded in the concentration.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
+<img data-src="lecture-04_files/figure-revealjs/unnamed-chunk-3-1.png" width="960" class="r-stretch"></section>
 <section id="how-to-fit-these-models" class="slide level2">
 <h2>How to fit these models?</h2>
 <div class="quarto-layout-panel" data-layout="[80, -1, 20]">
@@ -616,62 +509,81 @@ $nO
 <section id="stan-model" class="slide level2">
 <h2>Stan Model</h2>
 <h3 id="step-1-phenotype-probabilities">Step 1: Phenotype Probabilities</h3>
-<div class="sourceCode" id="annotated-cell-2"><pre class="sourceCode numberSource stan code-annotation-code number-lines code-annotated"><code class="sourceCode stan"><button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1">1</button><span id="annotated-cell-2-1" class="code-annotation-target"><a href="#annotated-cell-2-1"></a><span class="kw">functions</span> {</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="2">2</button><span id="annotated-cell-2-2" class="code-annotation-target"><a href="#annotated-cell-2-2"></a>    <span class="dt">vector</span> abo_pheno_probs(<span class="dt">vector</span> p) {</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="3">3</button><span id="annotated-cell-2-3" class="code-annotation-target"><a href="#annotated-cell-2-3"></a>        <span class="dt">real</span> pA = p[<span class="dv">1</span>];</span>
-<span id="annotated-cell-2-4"><a href="#annotated-cell-2-4"></a>        <span class="dt">real</span> pB = p[<span class="dv">2</span>];</span>
-<span id="annotated-cell-2-5"><a href="#annotated-cell-2-5"></a>        <span class="dt">real</span> pO = p[<span class="dv">3</span>];</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="4">4</button><span id="annotated-cell-2-6" class="code-annotation-target"><a href="#annotated-cell-2-6"></a>        <span class="dt">vector</span>[<span class="dv">4</span>] q;</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="5">5</button><span id="annotated-cell-2-7" class="code-annotation-target"><a href="#annotated-cell-2-7"></a>        q[<span class="dv">1</span>] = pA * pA + <span class="dv">2</span> * pA * pO; <span class="co">// A phenotype</span></span>
-<span id="annotated-cell-2-8"><a href="#annotated-cell-2-8"></a>        q[<span class="dv">2</span>] = <span class="dv">2</span> * pA * pB;            <span class="co">// AB phenotype</span></span>
-<span id="annotated-cell-2-9"><a href="#annotated-cell-2-9"></a>        q[<span class="dv">3</span>] = pB * pB + <span class="dv">2</span> * pB * pO; <span class="co">// B phenotype</span></span>
-<span id="annotated-cell-2-10"><a href="#annotated-cell-2-10"></a>        q[<span class="dv">4</span>] = pO * pO;               <span class="co">// O phenotype</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="6">6</button><span id="annotated-cell-2-11" class="code-annotation-target"><a href="#annotated-cell-2-11"></a>        <span class="cf">return</span> q;</span>
-<span id="annotated-cell-2-12"><a href="#annotated-cell-2-12"></a>        }                                            </span>
-<span id="annotated-cell-2-13"><a href="#annotated-cell-2-13"></a>}</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
-<dl class="code-annotation-container-hidden code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-1"><pre class="sourceCode numberSource stan code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode stan"><a class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-1-1" class="code-annotation-target"><a href="#annotated-cell-1-1"></a><span class="kw">functions</span> {</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-1-2" class="code-annotation-target"><a href="#annotated-cell-1-2"></a>    <span class="dt">vector</span> abo_pheno_probs(<span class="dt">vector</span> p) {</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-1-3" class="code-annotation-target"><a href="#annotated-cell-1-3"></a>        <span class="dt">real</span> pA = p[<span class="dv">1</span>];</span>
+<span id="annotated-cell-1-4"><a href="#annotated-cell-1-4"></a>        <span class="dt">real</span> pB = p[<span class="dv">2</span>];</span>
+<span id="annotated-cell-1-5"><a href="#annotated-cell-1-5"></a>        <span class="dt">real</span> pO = p[<span class="dv">3</span>];</span>
+<span id="annotated-cell-1-6"><a href="#annotated-cell-1-6"></a>        <span class="dt">vector</span>[<span class="dv">4</span>] q;</span>
+<span id="annotated-cell-1-7"><a href="#annotated-cell-1-7"></a>        q[<span class="dv">1</span>] = pA * pA + <span class="dv">2</span> * pA * pO; <span class="co">// A phenotype</span></span>
+<span id="annotated-cell-1-8"><a href="#annotated-cell-1-8"></a>        q[<span class="dv">2</span>] = <span class="dv">2</span> * pA * pB;            <span class="co">// AB phenotype</span></span>
+<span id="annotated-cell-1-9"><a href="#annotated-cell-1-9"></a>        q[<span class="dv">3</span>] = pB * pB + <span class="dv">2</span> * pB * pO; <span class="co">// B phenotype</span></span>
+<span id="annotated-cell-1-10"><a href="#annotated-cell-1-10"></a>        q[<span class="dv">4</span>] = pO * pO;               <span class="co">// O phenotype</span></span>
+<span id="annotated-cell-1-11"><a href="#annotated-cell-1-11"></a>        <span class="cf">return</span> q;</span>
+<span id="annotated-cell-1-12"><a href="#annotated-cell-1-12"></a>        }                                            </span>
+<span id="annotated-cell-1-13"><a href="#annotated-cell-1-13"></a>}</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-2" data-code-lines="1,13" data-code-annotation="1">Declare the <code>functions</code> block (optional in Stan, but lets us encapsulate logic).</span>
+<span data-code-cell="annotated-cell-1" data-code-lines="1,13" data-code-annotation="1">Declare the <code>functions</code> block (optional in Stan, but lets us encapsulate logic)</span>
 </dd>
-<dt data-target-cell="annotated-cell-2" data-target-annotation="2">2</dt>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-2" data-code-lines="2" data-code-annotation="2">Define a helper that maps allele frequencies to phenotype probabilities.</span>
+<span data-code-cell="annotated-cell-1" data-code-lines="2" data-code-annotation="2">Define a helper that maps allele frequencies to phenotype probabilities</span>
 </dd>
-<dt data-target-cell="annotated-cell-2" data-target-annotation="3">3</dt>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-2" data-code-lines="3,4,5" data-code-annotation="3">Extract components (purely for readability in later expressions).</span>
-</dd>
-<dt data-target-cell="annotated-cell-2" data-target-annotation="4">4</dt>
-<dd>
-<span data-code-cell="annotated-cell-2" data-code-lines="6" data-code-annotation="4">Allocate a length-4 vector <code>q</code> (A, AB, B, O) for phenotype probabilities.</span>
-</dd>
-<dt data-target-cell="annotated-cell-2" data-target-annotation="5">5</dt>
-<dd>
-<span data-code-cell="annotated-cell-2" data-code-lines="7,8,9,10" data-code-annotation="5">Hardy–Weinberg genotype algebra aggregated into phenotype probabilities.</span>
-</dd>
-<dt data-target-cell="annotated-cell-2" data-target-annotation="6">6</dt>
-<dd>
-<span data-code-cell="annotated-cell-2" data-code-lines="11" data-code-annotation="6">Return the vector; braces close the function and block.</span>
+<span data-code-cell="annotated-cell-1" data-code-lines="3,4,5" data-code-annotation="3">Extract components (for readability in later expressions)</span>
 </dd>
 </dl>
 </section>
 <section id="stan-model-1" class="slide level2">
 <h2>Stan Model</h2>
+<h3 id="step-1-phenotype-probabilities-1">Step 1: Phenotype Probabilities</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-2"><pre class="sourceCode numberSource stan code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode stan"><span id="annotated-cell-2-1"><a href="#annotated-cell-2-1"></a><span class="kw">functions</span> {</span>
+<span id="annotated-cell-2-2"><a href="#annotated-cell-2-2"></a>    <span class="dt">vector</span> abo_pheno_probs(<span class="dt">vector</span> p) {</span>
+<span id="annotated-cell-2-3"><a href="#annotated-cell-2-3"></a>        <span class="dt">real</span> pA = p[<span class="dv">1</span>];</span>
+<span id="annotated-cell-2-4"><a href="#annotated-cell-2-4"></a>        <span class="dt">real</span> pB = p[<span class="dv">2</span>];</span>
+<span id="annotated-cell-2-5"><a href="#annotated-cell-2-5"></a>        <span class="dt">real</span> pO = p[<span class="dv">3</span>];</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-2-6" class="code-annotation-target"><a href="#annotated-cell-2-6"></a>        <span class="dt">vector</span>[<span class="dv">4</span>] q;</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-2-7" class="code-annotation-target"><a href="#annotated-cell-2-7"></a>        q[<span class="dv">1</span>] = pA * pA + <span class="dv">2</span> * pA * pO; <span class="co">// A phenotype</span></span>
+<span id="annotated-cell-2-8"><a href="#annotated-cell-2-8"></a>        q[<span class="dv">2</span>] = <span class="dv">2</span> * pA * pB;            <span class="co">// AB phenotype</span></span>
+<span id="annotated-cell-2-9"><a href="#annotated-cell-2-9"></a>        q[<span class="dv">3</span>] = pB * pB + <span class="dv">2</span> * pB * pO; <span class="co">// B phenotype</span></span>
+<span id="annotated-cell-2-10"><a href="#annotated-cell-2-10"></a>        q[<span class="dv">4</span>] = pO * pO;               <span class="co">// O phenotype</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="6" onclick="event.preventDefault();">6</a><span id="annotated-cell-2-11" class="code-annotation-target"><a href="#annotated-cell-2-11"></a>        <span class="cf">return</span> q;</span>
+<span id="annotated-cell-2-12"><a href="#annotated-cell-2-12"></a>        }                                            </span>
+<span id="annotated-cell-2-13"><a href="#annotated-cell-2-13"></a>}</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-2" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="6" data-code-annotation="4">Allocate a length-4 vector <code>q</code> (A, AB, B, O) for phenotype probabilities</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="7,8,9,10" data-code-annotation="5">Hardy–Weinberg genotype algebra aggregated into phenotype probabilities</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="6">6</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="11" data-code-annotation="6">Return the vector</span>
+</dd>
+</dl>
+</section>
+<section id="stan-model-2" class="slide level2">
+<h2>Stan Model</h2>
 <h3 id="step-2-data-transforms">Step 2: Data &amp; Transforms</h3>
-<div class="sourceCode" id="annotated-cell-3"><pre class="sourceCode numberSource stan code-annotation-code number-lines code-annotated"><code class="sourceCode stan"><button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1">1</button><span id="annotated-cell-3-1" class="code-annotation-target"><a href="#annotated-cell-3-1"></a><span class="kw">data</span> {</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="2">2</button><span id="annotated-cell-3-2" class="code-annotation-target"><a href="#annotated-cell-3-2"></a>    <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; nA;</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-3"><pre class="sourceCode numberSource stan code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode stan"><a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-3-1" class="code-annotation-target"><a href="#annotated-cell-3-1"></a><span class="kw">data</span> {</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-3-2" class="code-annotation-target"><a href="#annotated-cell-3-2"></a>    <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; nA;</span>
 <span id="annotated-cell-3-3"><a href="#annotated-cell-3-3"></a>    <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; nAB;</span>
 <span id="annotated-cell-3-4"><a href="#annotated-cell-3-4"></a>    <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; nB;</span>
 <span id="annotated-cell-3-5"><a href="#annotated-cell-3-5"></a>    <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; nO;</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="3">3</button><span id="annotated-cell-3-6" class="code-annotation-target"><a href="#annotated-cell-3-6"></a>    <span class="dt">vector</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt;[<span class="dv">3</span>] alpha; <span class="co"># Dirichlet hyperparameters</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-3-6" class="code-annotation-target"><a href="#annotated-cell-3-6"></a>    <span class="dt">vector</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt;[<span class="dv">3</span>] alpha; <span class="co"># Dirichlet hyperparameters</span></span>
 <span id="annotated-cell-3-7"><a href="#annotated-cell-3-7"></a>}</span>
 <span id="annotated-cell-3-8"><a href="#annotated-cell-3-8"></a></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="4">4</button><span id="annotated-cell-3-9" class="code-annotation-target"><a href="#annotated-cell-3-9"></a><span class="kw">transformed data</span> {</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="5">5</button><span id="annotated-cell-3-10" class="code-annotation-target"><a href="#annotated-cell-3-10"></a>    <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; N = nA + nAB + nB + nO;</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="6">6</button><span id="annotated-cell-3-11" class="code-annotation-target"><a href="#annotated-cell-3-11"></a>    <span class="dt">array</span>[<span class="dv">4</span>] <span class="dt">int</span> y = { nA, nAB, nB, nO };</span>
-<span id="annotated-cell-3-12"><a href="#annotated-cell-3-12"></a>}</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
-<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<span id="annotated-cell-3-9"><a href="#annotated-cell-3-9"></a><span class="kw">transformed data</span> {</span>
+<span id="annotated-cell-3-10"><a href="#annotated-cell-3-10"></a>    <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; N = nA + nAB + nB + nO;</span>
+<span id="annotated-cell-3-11"><a href="#annotated-cell-3-11"></a>    <span class="dt">array</span>[<span class="dv">4</span>] <span class="dt">int</span> y = { nA, nAB, nB, nO };</span>
+<span id="annotated-cell-3-12"><a href="#annotated-cell-3-12"></a>}</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
 <dd>
 <span data-code-cell="annotated-cell-3" data-code-lines="1,7" data-code-annotation="1">Raw observed counts and prior hyperparameters enter in the <code>data</code> block.</span>
@@ -684,113 +596,129 @@ $nO
 <dd>
 <span data-code-cell="annotated-cell-3" data-code-lines="6" data-code-annotation="3">Dirichlet prior parameters supplied from R (allow different priors via <code>alpha</code>).</span>
 </dd>
-<dt data-target-cell="annotated-cell-3" data-target-annotation="4">4</dt>
+</dl>
+</section>
+<section id="stan-model-3" class="slide level2">
+<h2>Stan Model</h2>
+<h3 id="step-2-data-transforms-1">Step 2: Data &amp; Transforms</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-4"><pre class="sourceCode numberSource stan code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode stan"><span id="annotated-cell-4-1"><a href="#annotated-cell-4-1"></a><span class="kw">data</span> {</span>
+<span id="annotated-cell-4-2"><a href="#annotated-cell-4-2"></a>    <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; nA;</span>
+<span id="annotated-cell-4-3"><a href="#annotated-cell-4-3"></a>    <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; nAB;</span>
+<span id="annotated-cell-4-4"><a href="#annotated-cell-4-4"></a>    <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; nB;</span>
+<span id="annotated-cell-4-5"><a href="#annotated-cell-4-5"></a>    <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; nO;</span>
+<span id="annotated-cell-4-6"><a href="#annotated-cell-4-6"></a>    <span class="dt">vector</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt;[<span class="dv">3</span>] alpha; <span class="co"># Dirichlet hyperparameters</span></span>
+<span id="annotated-cell-4-7"><a href="#annotated-cell-4-7"></a>}</span>
+<span id="annotated-cell-4-8"><a href="#annotated-cell-4-8"></a></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-4-9" class="code-annotation-target"><a href="#annotated-cell-4-9"></a><span class="kw">transformed data</span> {</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-4-10" class="code-annotation-target"><a href="#annotated-cell-4-10"></a>    <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; N = nA + nAB + nB + nO;</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="6" onclick="event.preventDefault();">6</a><span id="annotated-cell-4-11" class="code-annotation-target"><a href="#annotated-cell-4-11"></a>    <span class="dt">array</span>[<span class="dv">4</span>] <span class="dt">int</span> y = { nA, nAB, nB, nO };</span>
+<span id="annotated-cell-4-12"><a href="#annotated-cell-4-12"></a>}</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-4" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-3" data-code-lines="9,12" data-code-annotation="4"><code>transformed data</code> pre-computes deterministic quantities once (saves work per draw).</span>
+<span data-code-cell="annotated-cell-4" data-code-lines="9,12" data-code-annotation="4"><code>transformed data</code> pre-computes deterministic quantities once</span>
 </dd>
-<dt data-target-cell="annotated-cell-3" data-target-annotation="5">5</dt>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="5">5</dt>
 <dd>
-<span data-code-cell="annotated-cell-3" data-code-lines="10" data-code-annotation="5">Total sample size N used for reference or diagnostics.</span>
+<span data-code-cell="annotated-cell-4" data-code-lines="10" data-code-annotation="5">Total sample size N used for reference or diagnostics</span>
 </dd>
-<dt data-target-cell="annotated-cell-3" data-target-annotation="6">6</dt>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="6">6</dt>
 <dd>
-<span data-code-cell="annotated-cell-3" data-code-lines="11" data-code-annotation="6">Assemble counts into an array to pass to the multinomial.</span>
+<span data-code-cell="annotated-cell-4" data-code-lines="11" data-code-annotation="6">Assemble counts into an array to pass to the multinomial</span>
 </dd>
 </dl>
 </section>
-<section id="stan-model-2" class="slide level2">
+<section id="stan-model-4" class="slide level2">
 <h2>Stan Model</h2>
 <h3 id="step-3-parameters-derived-q">Step 3: Parameters &amp; Derived <code>q</code></h3>
-<div class="sourceCode" id="annotated-cell-4"><pre class="sourceCode numberSource stan code-annotation-code number-lines code-annotated"><code class="sourceCode stan"><button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1">1</button><span id="annotated-cell-4-1" class="code-annotation-target"><a href="#annotated-cell-4-1"></a><span class="kw">parameters</span> {</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2">2</button><span id="annotated-cell-4-2" class="code-annotation-target"><a href="#annotated-cell-4-2"></a>    <span class="dt">simplex</span>[<span class="dv">3</span>] p;  <span class="co"># (pA, pB, pO) on 2-simplex</span></span>
-<span id="annotated-cell-4-3"><a href="#annotated-cell-4-3"></a>}</span>
-<span id="annotated-cell-4-4"><a href="#annotated-cell-4-4"></a></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="3">3</button><span id="annotated-cell-4-5" class="code-annotation-target"><a href="#annotated-cell-4-5"></a><span class="kw">transformed parameters</span> {</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="4">4</button><span id="annotated-cell-4-6" class="code-annotation-target"><a href="#annotated-cell-4-6"></a>    <span class="dt">vector</span>[<span class="dv">4</span>] q = abo_pheno_probs(p);</span>
-<span id="annotated-cell-4-7"><a href="#annotated-cell-4-7"></a>}</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
-<dl class="code-annotation-container-hidden code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-5"><pre class="sourceCode numberSource stan code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode stan"><a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-5-1" class="code-annotation-target"><a href="#annotated-cell-5-1"></a><span class="kw">parameters</span> {</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-5-2" class="code-annotation-target"><a href="#annotated-cell-5-2"></a>    <span class="dt">simplex</span>[<span class="dv">3</span>] p;  <span class="co"># (pA, pB, pO) on 2-simplex</span></span>
+<span id="annotated-cell-5-3"><a href="#annotated-cell-5-3"></a>}</span>
+<span id="annotated-cell-5-4"><a href="#annotated-cell-5-4"></a></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-5-5" class="code-annotation-target"><a href="#annotated-cell-5-5"></a><span class="kw">transformed parameters</span> {</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-5-6" class="code-annotation-target"><a href="#annotated-cell-5-6"></a>    <span class="dt">vector</span>[<span class="dv">4</span>] q = abo_pheno_probs(p);</span>
+<span id="annotated-cell-5-7"><a href="#annotated-cell-5-7"></a>}</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-5" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="1,3" data-code-annotation="1">Declare unknown quantities to infer in <code>parameters</code>.</span>
+<span data-code-cell="annotated-cell-5" data-code-lines="1,3" data-code-annotation="1">Declare unknown quantities to infer in <code>parameters</code></span>
 </dd>
-<dt data-target-cell="annotated-cell-4" data-target-annotation="2">2</dt>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="2" data-code-annotation="2"><code>simplex[3]</code> enforces positivity and sum-to-one constraints automatically.</span>
+<span data-code-cell="annotated-cell-5" data-code-lines="2" data-code-annotation="2"><code>simplex[3]</code> enforces positivity and sum-to-one constraints automatically</span>
 </dd>
-<dt data-target-cell="annotated-cell-4" data-target-annotation="3">3</dt>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="5,7" data-code-annotation="3"><code>transformed parameters</code> recomputes per-draw derived values.</span>
+<span data-code-cell="annotated-cell-5" data-code-lines="5,7" data-code-annotation="3"><code>transformed parameters</code> recomputes per-draw derived values</span>
 </dd>
-<dt data-target-cell="annotated-cell-4" data-target-annotation="4">4</dt>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="6" data-code-annotation="4">Reuse helper to obtain phenotype probabilities from allele frequencies.</span>
+<span data-code-cell="annotated-cell-5" data-code-lines="6" data-code-annotation="4">Reuse helper to obtain phenotype probabilities from allele frequencies</span>
 </dd>
 </dl>
 </section>
 <section id="stan-model-step-4-prior-likelihood" class="slide level2">
 <h2>Stan Model (Step 4: Prior &amp; Likelihood)</h2>
-<div class="sourceCode" id="annotated-cell-5"><pre class="sourceCode numberSource stan code-annotation-code number-lines code-annotated"><code class="sourceCode stan"><button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="1">1</button><span id="annotated-cell-5-1" class="code-annotation-target"><a href="#annotated-cell-5-1"></a><span class="kw">model</span> {</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="2">2</button><span id="annotated-cell-5-2" class="code-annotation-target"><a href="#annotated-cell-5-2"></a>    p ~ dirichlet(alpha);</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="3">3</button><span id="annotated-cell-5-3" class="code-annotation-target"><a href="#annotated-cell-5-3"></a>    y ~ multinomial(q);</span>
-<span id="annotated-cell-5-4"><a href="#annotated-cell-5-4"></a>}</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
-<dl class="code-annotation-container-hidden code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-5" data-target-annotation="1">1</dt>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-6"><pre class="sourceCode numberSource stan code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode stan"><a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-6-1" class="code-annotation-target"><a href="#annotated-cell-6-1"></a><span class="kw">model</span> {</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-6-2" class="code-annotation-target"><a href="#annotated-cell-6-2"></a>    p ~ dirichlet(alpha);</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-6-3" class="code-annotation-target"><a href="#annotated-cell-6-3"></a>    y ~ multinomial(q);</span>
+<span id="annotated-cell-6-4"><a href="#annotated-cell-6-4"></a>}</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-6" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-5" data-code-lines="1,4" data-code-annotation="1">The <code>model</code> block contains all sampling statements contributing to log density.</span>
+<span data-code-cell="annotated-cell-6" data-code-lines="1,4" data-code-annotation="1">The <code>model</code> block contains all sampling statements contributing to log density</span>
 </dd>
-<dt data-target-cell="annotated-cell-5" data-target-annotation="2">2</dt>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-5" data-code-lines="2" data-code-annotation="2">Dirichlet prior supplies pseudo-count style regularization.</span>
+<span data-code-cell="annotated-cell-6" data-code-lines="2" data-code-annotation="2">Dirichlet prior on allele frequencies <code>p</code></span>
 </dd>
-<dt data-target-cell="annotated-cell-5" data-target-annotation="3">3</dt>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-5" data-code-lines="3" data-code-annotation="3">Multinomial likelihood over phenotype counts with probabilities <code>q</code>.</span>
+<span data-code-cell="annotated-cell-6" data-code-lines="3" data-code-annotation="3">Multinomial likelihood over phenotype counts with probabilities <code>q</code>.</span>
 </dd>
 </dl>
 </section>
 <section id="stan-model-step-5-generated-quantities" class="slide level2">
 <h2>Stan Model (Step 5: Generated Quantities)</h2>
-<div class="sourceCode" id="annotated-cell-6"><pre class="sourceCode numberSource stan code-annotation-code number-lines code-annotated"><code class="sourceCode stan"><button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1">1</button><span id="annotated-cell-6-1" class="code-annotation-target"><a href="#annotated-cell-6-1"></a><span class="kw">generated quantities</span> {</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="2">2</button><span id="annotated-cell-6-2" class="code-annotation-target"><a href="#annotated-cell-6-2"></a>    <span class="dt">real</span> log_lik = multinomial_lpmf(y | q);</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="3">3</button><span id="annotated-cell-6-3" class="code-annotation-target"><a href="#annotated-cell-6-3"></a>    <span class="dt">vector</span>[<span class="dv">6</span>] geno_freq;</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="4">4</button><span id="annotated-cell-6-4" class="code-annotation-target"><a href="#annotated-cell-6-4"></a>    <span class="dt">real</span> pA = p[<span class="dv">1</span>];</span>
-<span id="annotated-cell-6-5"><a href="#annotated-cell-6-5"></a>    <span class="dt">real</span> pB = p[<span class="dv">2</span>];</span>
-<span id="annotated-cell-6-6"><a href="#annotated-cell-6-6"></a>    <span class="dt">real</span> pO = p[<span class="dv">3</span>];</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="5">5</button><span id="annotated-cell-6-7" class="code-annotation-target"><a href="#annotated-cell-6-7"></a>    geno_freq[<span class="dv">1</span>] = pA * pA;        <span class="co"># AA</span></span>
-<span id="annotated-cell-6-8"><a href="#annotated-cell-6-8"></a>    geno_freq[<span class="dv">2</span>] = <span class="dv">2</span> * pA * pO;    <span class="co"># AO</span></span>
-<span id="annotated-cell-6-9"><a href="#annotated-cell-6-9"></a>    geno_freq[<span class="dv">3</span>] = pB * pB;        <span class="co"># BB</span></span>
-<span id="annotated-cell-6-10"><a href="#annotated-cell-6-10"></a>    geno_freq[<span class="dv">4</span>] = <span class="dv">2</span> * pB * pO;    <span class="co"># BO</span></span>
-<span id="annotated-cell-6-11"><a href="#annotated-cell-6-11"></a>    geno_freq[<span class="dv">5</span>] = <span class="dv">2</span> * pA * pB;    <span class="co"># AB</span></span>
-<span id="annotated-cell-6-12"><a href="#annotated-cell-6-12"></a>    geno_freq[<span class="dv">6</span>] = pO * pO;        <span class="co"># OO</span></span>
-<span id="annotated-cell-6-13"><a href="#annotated-cell-6-13"></a>}</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
-<dl class="code-annotation-container-hidden code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-6" data-target-annotation="1">1</dt>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-7"><pre class="sourceCode numberSource stan code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode stan"><a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-7-1" class="code-annotation-target"><a href="#annotated-cell-7-1"></a><span class="kw">generated quantities</span> {</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-7-2" class="code-annotation-target"><a href="#annotated-cell-7-2"></a>    <span class="dt">real</span> log_lik = multinomial_lpmf(y | q);</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-7-3" class="code-annotation-target"><a href="#annotated-cell-7-3"></a>    <span class="dt">vector</span>[<span class="dv">6</span>] geno_freq;</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-7-4" class="code-annotation-target"><a href="#annotated-cell-7-4"></a>    <span class="dt">real</span> pA = p[<span class="dv">1</span>]; <span class="dt">real</span> pB = p[<span class="dv">2</span>]; <span class="dt">real</span> pO = p[<span class="dv">3</span>];</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-7-5" class="code-annotation-target"><a href="#annotated-cell-7-5"></a>    geno_freq[<span class="dv">1</span>] = pA * pA;        <span class="co"># AA</span></span>
+<span id="annotated-cell-7-6"><a href="#annotated-cell-7-6"></a>    geno_freq[<span class="dv">2</span>] = <span class="dv">2</span> * pA * pO;    <span class="co"># AO</span></span>
+<span id="annotated-cell-7-7"><a href="#annotated-cell-7-7"></a>    geno_freq[<span class="dv">3</span>] = pB * pB;        <span class="co"># BB</span></span>
+<span id="annotated-cell-7-8"><a href="#annotated-cell-7-8"></a>    geno_freq[<span class="dv">4</span>] = <span class="dv">2</span> * pB * pO;    <span class="co"># BO</span></span>
+<span id="annotated-cell-7-9"><a href="#annotated-cell-7-9"></a>    geno_freq[<span class="dv">5</span>] = <span class="dv">2</span> * pA * pB;    <span class="co"># AB</span></span>
+<span id="annotated-cell-7-10"><a href="#annotated-cell-7-10"></a>    geno_freq[<span class="dv">6</span>] = pO * pO;        <span class="co"># OO</span></span>
+<span id="annotated-cell-7-11"><a href="#annotated-cell-7-11"></a>}</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-7" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-6" data-code-lines="1,13" data-code-annotation="1">Post-processing: quantities saved per posterior draw (no effect on inference math).</span>
+<span data-code-cell="annotated-cell-7" data-code-lines="1,11" data-code-annotation="1">Post-processing: quantities saved per posterior draw</span>
 </dd>
-<dt data-target-cell="annotated-cell-6" data-target-annotation="2">2</dt>
+<dt data-target-cell="annotated-cell-7" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-6" data-code-lines="2" data-code-annotation="2">Store log-likelihood for model comparison / LOO / WAIC.</span>
+<span data-code-cell="annotated-cell-7" data-code-lines="2" data-code-annotation="2">Store log-likelihood for model comparison / LOO / WAIC</span>
 </dd>
-<dt data-target-cell="annotated-cell-6" data-target-annotation="3">3</dt>
+<dt data-target-cell="annotated-cell-7" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-6" data-code-lines="3" data-code-annotation="3">Allocate genotype frequency vector (optional pedagogical output).</span>
+<span data-code-cell="annotated-cell-7" data-code-lines="3" data-code-annotation="3">Allocate genotype frequency vector</span>
 </dd>
-<dt data-target-cell="annotated-cell-6" data-target-annotation="4">4</dt>
+<dt data-target-cell="annotated-cell-7" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-6" data-code-lines="4,5,6" data-code-annotation="4">Local aliases improve clarity when computing genotype frequencies.</span>
+<span data-code-cell="annotated-cell-7" data-code-lines="4" data-code-annotation="4">Local aliases improve clarity when computing genotype frequencies</span>
 </dd>
-<dt data-target-cell="annotated-cell-6" data-target-annotation="5">5</dt>
+<dt data-target-cell="annotated-cell-7" data-target-annotation="5">5</dt>
 <dd>
-<span data-code-cell="annotated-cell-6" data-code-lines="7,8,9,10,11,12" data-code-annotation="5">Hardy–Weinberg genotype probabilities (could be summarized later in R).</span>
+<span data-code-cell="annotated-cell-7" data-code-lines="5,6,7,8,9,10" data-code-annotation="5">Hardy–Weinberg genotype probabilities</span>
 </dd>
 </dl>
 </section>
 <section id="compile-stan-model" class="slide level2">
 <h2>Compile Stan Model</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines"><code class="sourceCode r"><span id="cb3-1"><a></a>mod_path <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">"stan"</span>, <span class="st">"abo_multinomial.stan"</span>)</span>
-<span id="cb3-2"><a></a>abo_mod <span class="ot">&lt;-</span> <span class="fu">cmdstan_model</span>(mod_path)</span></code></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a>mod_path <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">"stan"</span>, <span class="st">"abo_multinomial.stan"</span>)</span>
+<span id="cb1-2"><a></a>abo_mod <span class="ot">&lt;-</span> <span class="fu">cmdstan_model</span>(mod_path)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Stan uses C++ on the backend, so we need to compile the model once before fitting</li>
@@ -800,48 +728,94 @@ $nO
 <section id="fit-weak-prior-dirichlet111" class="slide level2">
 <h2>Fit: Weak Prior (Dirichlet(1,1,1))</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="annotated-cell-8"><pre class="sourceCode numberSource r code-annotation-code number-lines code-annotated"><code class="sourceCode r"><button class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="1">1</button><span id="annotated-cell-8-1" class="code-annotation-target"><a href="#annotated-cell-8-1"></a>fit_weak <span class="ot">&lt;-</span> abo_mod<span class="sc">$</span><span class="fu">sample</span>(</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="2">2</button><span id="annotated-cell-8-2" class="code-annotation-target"><a href="#annotated-cell-8-2"></a>    <span class="at">data =</span> <span class="fu">list</span>(</span>
-<span id="annotated-cell-8-3"><a href="#annotated-cell-8-3"></a>        <span class="at">nA =</span> counts<span class="sc">$</span>nA, <span class="at">nAB =</span> counts<span class="sc">$</span>nAB, <span class="at">nB =</span> counts<span class="sc">$</span>nB, <span class="at">nO =</span> counts<span class="sc">$</span>nO,</span>
-<span id="annotated-cell-8-4"><a href="#annotated-cell-8-4"></a>        <span class="at">alpha =</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">3</span>)</span>
-<span id="annotated-cell-8-5"><a href="#annotated-cell-8-5"></a>    ),</span>
-<span id="annotated-cell-8-6"><a href="#annotated-cell-8-6"></a>    <span class="at">seed =</span> <span class="dv">8878</span>,</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="3">3</button><span id="annotated-cell-8-7" class="code-annotation-target"><a href="#annotated-cell-8-7"></a>    <span class="at">chains =</span> <span class="dv">4</span>, <span class="at">parallel_chains =</span> <span class="dv">4</span>,</span>
-<span id="annotated-cell-8-8"><a href="#annotated-cell-8-8"></a>    <span class="at">iter_warmup =</span> <span class="dv">1000</span>, <span class="at">iter_sampling =</span> <span class="dv">1000</span>,</span>
-<span id="annotated-cell-8-9"><a href="#annotated-cell-8-9"></a>    <span class="at">refresh =</span> <span class="dv">0</span></span>
-<span id="annotated-cell-8-10"><a href="#annotated-cell-8-10"></a>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-9"><pre class="sourceCode numberSource r code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-9-1"><a href="#annotated-cell-9-1"></a>counts <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">nA =</span> <span class="dv">725</span>, <span class="at">nAB =</span> <span class="dv">72</span>, <span class="at">nB =</span> <span class="dv">258</span>, <span class="at">nO =</span> <span class="dv">1073</span>)</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-9" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-9-2" class="code-annotation-target"><a href="#annotated-cell-9-2"></a>fit_weak <span class="ot">&lt;-</span> abo_mod<span class="sc">$</span><span class="fu">sample</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-9" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-9-3" class="code-annotation-target"><a href="#annotated-cell-9-3"></a>    <span class="at">data =</span> <span class="fu">list</span>(</span>
+<span id="annotated-cell-9-4"><a href="#annotated-cell-9-4"></a>        <span class="at">nA =</span> counts<span class="sc">$</span>nA, <span class="at">nAB =</span> counts<span class="sc">$</span>nAB, <span class="at">nB =</span> counts<span class="sc">$</span>nB, <span class="at">nO =</span> counts<span class="sc">$</span>nO,</span>
+<span id="annotated-cell-9-5"><a href="#annotated-cell-9-5"></a>        <span class="at">alpha =</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">3</span>)</span>
+<span id="annotated-cell-9-6"><a href="#annotated-cell-9-6"></a>    ),</span>
+<span id="annotated-cell-9-7"><a href="#annotated-cell-9-7"></a>    <span class="at">seed =</span> <span class="dv">8878</span>,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-9" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-9-8" class="code-annotation-target"><a href="#annotated-cell-9-8"></a>    <span class="at">chains =</span> <span class="dv">4</span>, <span class="at">parallel_chains =</span> <span class="dv">4</span>,</span>
+<span id="annotated-cell-9-9"><a href="#annotated-cell-9-9"></a>    <span class="at">iter_warmup =</span> <span class="dv">1000</span>, <span class="at">iter_sampling =</span> <span class="dv">1000</span>,</span>
+<span id="annotated-cell-9-10"><a href="#annotated-cell-9-10"></a>    <span class="at">refresh =</span> <span class="dv">0</span></span>
+<span id="annotated-cell-9-11"><a href="#annotated-cell-9-11"></a>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-annotation">
-<dl class="code-annotation-container-hidden code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-8" data-target-annotation="1">1</dt>
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-9" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-8" data-code-lines="1" data-code-annotation="1">Execute the MCMC sampler using the <code>sample()</code> method on the compiled model object. This will generate draws from the posterior distribution <span class="math inline">p(\boldsymbol{p} | \boldsymbol{y})</span>.</span>
+<span data-code-cell="annotated-cell-9" data-code-lines="2" data-code-annotation="1">Execute the MCMC sampler using the <code>sample()</code> method on the compiled model object</span>
 </dd>
-<dt data-target-cell="annotated-cell-8" data-target-annotation="2">2</dt>
+<dt data-target-cell="annotated-cell-9" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-8" data-code-lines="2,3,4,5" data-code-annotation="2">Pass data from R to Stan as a named list. The names must match the variables declared in the Stan <code>data</code> block. Here, <code>alpha = rep(1, 3)</code> sets a <code>Dirichlet(1,1,1)</code> prior, which is uniform over the simplex.</span>
+<span data-code-cell="annotated-cell-9" data-code-lines="3,4,5,6" data-code-annotation="2">Pass data from R to Stan as a named list</span>
 </dd>
-<dt data-target-cell="annotated-cell-8" data-target-annotation="3">3</dt>
+<dt data-target-cell="annotated-cell-9" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-8" data-code-lines="7,8,9" data-code-annotation="3">Specify MCMC sampler settings. We run multiple independent <code>chains</code> to diagnose convergence (e.g., via <span class="math inline">\hat{R}</span>). Each chain has a <code>warmup</code> phase (for adaptation, discarded) and a <code>sampling</code> phase (kept for inference).</span>
+<span data-code-cell="annotated-cell-9" data-code-lines="8,9,10" data-code-annotation="3">Specify MCMC sampler settings</span>
 </dd>
 </dl>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Running MCMC with 4 parallel chains...
 
-Chain 1 finished in 0.0 seconds.
-Chain 2 finished in 0.0 seconds.
-Chain 3 finished in 0.0 seconds.
-Chain 4 finished in 0.0 seconds.
+Chain 1 finished in 0.1 seconds.
+Chain 2 finished in 0.1 seconds.
+Chain 3 finished in 0.1 seconds.
+Chain 4 finished in 0.1 seconds.
 
 All 4 chains finished successfully.
-Mean chain execution time: 0.0 seconds.
-Total execution time: 0.2 seconds.</code></pre>
+Mean chain execution time: 0.1 seconds.
+Total execution time: 1.6 seconds.</code></pre>
+</div>
+</div>
+</section>
+<section id="model-diagnostics" class="slide level2">
+<h2>Model Diagnostics</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a>fit_weak<span class="sc">$</span><span class="fu">summary</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 18 × 10
+   variable       mean   median      sd     mad       q5      q95  rhat ess_bulk
+   &lt;chr&gt;         &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;
+ 1 lp__       -2.31e+3 -2.31e+3 9.83e-1 7.26e-1 -2.31e+3 -2.31e+3  1.00    1880.
+ 2 p[1]        2.09e-1  2.09e-1 6.60e-3 6.52e-3  1.99e-1  2.20e-1  1.00    4495.
+ 3 p[2]        8.10e-2  8.09e-2 4.23e-3 4.26e-3  7.41e-2  8.81e-2  1.00    2125.
+ 4 p[3]        7.10e-1  7.10e-1 7.27e-3 7.18e-3  6.98e-1  7.22e-1  1.00    3368.
+ 5 q[1]        3.41e-1  3.41e-1 9.80e-3 9.84e-3  3.25e-1  3.57e-1  1.00    4376.
+ 6 q[2]        3.39e-2  3.39e-2 1.92e-3 1.92e-3  3.08e-2  3.70e-2  1.00    2338.
+ 7 q[3]        1.22e-1  1.21e-1 6.27e-3 6.21e-3  1.11e-1  1.32e-1  1.00    2210.
+ 8 q[4]        5.04e-1  5.04e-1 1.03e-2 1.02e-2  4.87e-1  5.21e-1  1.00    3368.
+ 9 log_lik    -1.16e+1 -1.13e+1 9.81e-1 7.14e-1 -1.36e+1 -1.07e+1  1.00    1867.
+10 geno_freq…  4.38e-2  4.37e-2 2.76e-3 2.73e-3  3.94e-2  4.85e-2  1.00    4495.
+11 geno_freq…  2.97e-1  2.97e-1 7.10e-3 7.08e-3  2.85e-1  3.08e-1  1.00    4242.
+12 geno_freq…  6.58e-3  6.55e-3 6.87e-4 6.90e-4  5.50e-3  7.76e-3  1.00    2125.
+13 geno_freq…  1.15e-1  1.15e-1 5.59e-3 5.53e-3  1.06e-1  1.24e-1  1.00    2225.
+14 geno_freq…  3.39e-2  3.39e-2 1.92e-3 1.92e-3  3.08e-2  3.70e-2  1.00    2338.
+15 geno_freq…  5.04e-1  5.04e-1 1.03e-2 1.02e-2  4.87e-1  5.21e-1  1.00    3368.
+16 pA          2.09e-1  2.09e-1 6.60e-3 6.52e-3  1.99e-1  2.20e-1  1.00    4495.
+17 pB          8.10e-2  8.09e-2 4.23e-3 4.26e-3  7.41e-2  8.81e-2  1.00    2125.
+18 pO          7.10e-1  7.10e-1 7.27e-3 7.18e-3  6.98e-1  7.22e-1  1.00    3368.
+# ℹ 1 more variable: ess_tail &lt;dbl&gt;</code></pre>
 </div>
 </div>
 </section>
 <section id="posterior-summaries-intervals-weak-prior" class="slide level2">
 <h2>Posterior Summaries &amp; Intervals (Weak Prior)</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a>post_weak <span class="ot">&lt;-</span> fit_weak<span class="sc">$</span><span class="fu">draws</span>(<span class="at">variables =</span> <span class="fu">c</span>(<span class="st">"p"</span>)) <span class="sc">|&gt;</span> <span class="fu">as_draws_df</span>()</span>
+<span id="cb5-2"><a></a>weak_summ <span class="ot">&lt;-</span> post_weak <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(</span>
+<span id="cb5-3"><a></a>    <span class="at">mean_pA =</span> <span class="fu">mean</span>(<span class="st">`</span><span class="at">p[1]</span><span class="st">`</span>), <span class="at">mean_pB =</span> <span class="fu">mean</span>(<span class="st">`</span><span class="at">p[2]</span><span class="st">`</span>), <span class="at">mean_pO =</span> <span class="fu">mean</span>(<span class="st">`</span><span class="at">p[3]</span><span class="st">`</span>),</span>
+<span id="cb5-4"><a></a>    <span class="at">sd_pA =</span> <span class="fu">sd</span>(<span class="st">`</span><span class="at">p[1]</span><span class="st">`</span>), <span class="at">sd_pB =</span> <span class="fu">sd</span>(<span class="st">`</span><span class="at">p[2]</span><span class="st">`</span>), <span class="at">sd_pO =</span> <span class="fu">sd</span>(<span class="st">`</span><span class="at">p[3]</span><span class="st">`</span>)</span>
+<span id="cb5-5"><a></a>)</span>
+<span id="cb5-6"><a></a>weak_ci <span class="ot">&lt;-</span> post_weak <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(</span>
+<span id="cb5-7"><a></a>    <span class="at">pA_low =</span> <span class="fu">quantile</span>(<span class="st">`</span><span class="at">p[1]</span><span class="st">`</span>, <span class="fl">0.025</span>), <span class="at">pA_high =</span> <span class="fu">quantile</span>(<span class="st">`</span><span class="at">p[1]</span><span class="st">`</span>, <span class="fl">0.975</span>),</span>
+<span id="cb5-8"><a></a>    <span class="at">pB_low =</span> <span class="fu">quantile</span>(<span class="st">`</span><span class="at">p[2]</span><span class="st">`</span>, <span class="fl">0.025</span>), <span class="at">pB_high =</span> <span class="fu">quantile</span>(<span class="st">`</span><span class="at">p[2]</span><span class="st">`</span>, <span class="fl">0.975</span>),</span>
+<span id="cb5-9"><a></a>    <span class="at">pO_low =</span> <span class="fu">quantile</span>(<span class="st">`</span><span class="at">p[3]</span><span class="st">`</span>, <span class="fl">0.025</span>), <span class="at">pO_high =</span> <span class="fu">quantile</span>(<span class="st">`</span><span class="at">p[3]</span><span class="st">`</span>, <span class="fl">0.975</span>)</span>
+<span id="cb5-10"><a></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="posterior-histograms-weak-prior" class="slide level2">
+<h2>Posterior Histograms (Weak Prior)</h2>
 
 <img data-src="lecture-04_files/figure-revealjs/unnamed-chunk-8-1.png" width="960" class="r-stretch"></section>
 <section id="em-vs-bayesian-point-estimates" class="slide level2">
@@ -855,37 +829,15 @@ Total execution time: 0.2 seconds.</code></pre>
 2 Posterior Mean 0.209 0.0810 0.710    NA </code></pre>
 </div>
 </div>
-<aside class="notes">
-<p>This slide emphasizes calibration: the Bayesian machinery reproduces the frequentist point estimates but adds interval estimates derived from the full posterior. With alternative priors you can incorporate external knowledge or shrink extreme estimates for sparse categories.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="consolidated-posterior-comparison" class="slide level2">
 <h2>Consolidated Posterior Comparison</h2>
-<p>Posterior histograms only (models as rows, alleles as columns). Dashed line marks posterior mean.</p>
 
-<img data-src="lecture-04_files/figure-revealjs/unnamed-chunk-11-1.png" width="960" class="r-stretch"><aside class="notes">
-<p>Removed prior overlay to focus attention on posterior variance contraction across priors without dual-density distraction.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
+<img data-src="lecture-04_files/figure-revealjs/unnamed-chunk-11-1.png" width="960" class="r-stretch"></section></section>
+<section>
+<section id="population-structure" class="title-slide slide level1 center">
+<h1>Population Structure</h1>
+
 </section>
 <section id="population-substructure" class="slide level2">
 <h2>Population Substructure</h2>
@@ -932,72 +884,88 @@ Total execution time: 0.2 seconds.</code></pre>
 <li>Association tests must separate causal signal from ancestry-driven allele frequency differences</li>
 </ul>
 </section>
-<section id="detecting-structure-diagnostics" class="slide level2">
-<h2>Detecting Structure: Diagnostics</h2>
-<ul>
-<li>Inflation factors (<span class="math inline">\lambda_{GC}</span>), QQ plots, and LD score intercepts flag confounding at the genome-wide scale</li>
-<li><span class="math inline">F_{ST}</span>, population differentiation statistics, and heterozygosity contrasts summarize divergence</li>
-<li>Eigen-decomposition of the genotype covariance (PCA) reveals axes of ancestry variation</li>
-</ul>
-</section>
 <section id="principal-components-for-structure" class="slide level2">
 <h2>Principal Components for Structure</h2>
 <ul>
 <li>Construct the standardized genotype matrix <span class="math inline">Z</span> and compute <span class="math inline">Z^T Z / M</span> (with <span class="math inline">M</span> markers)</li>
-<li>Top eigenvectors capture major ancestry gradients; outliers highlight batch or sample swaps</li>
+<li>Top eigenvectors capture major ancestry gradients</li>
 <li>Use the leading PCs as covariates in association tests or to stratify downstream analyses</li>
-<li>Classroom demo: leverage the <code>adegenet::eHGDP</code> microsatellite panel (ships in R) to avoid VCF parsing—convert to CSV and color PCs by continental ancestry</li>
 </ul>
+</section>
+<section id="principal-components-for-structure-1" class="slide level2">
+<h2>Principal Components for Structure</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines"><code class="sourceCode r"><span id="cb6-1"><a></a><span class="co"># Load tidy microsatellite panel (1,350 individuals × 678 loci)</span></span>
-<span id="cb6-2"><a></a><span class="fu">library</span>(adegenet)</span>
-<span id="cb6-3"><a></a><span class="fu">data</span>(<span class="st">"eHGDP"</span>)</span>
-<span id="cb6-4"><a></a>hgdp_df <span class="ot">&lt;-</span> <span class="fu">genind2df</span>(eHGDP, <span class="at">sep =</span> <span class="st">"/"</span>)</span>
-<span id="cb6-5"><a></a><span class="fu">write.csv</span>(hgdp_df, <span class="st">"data/hgdp_microsat.csv"</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb6-6"><a></a></span>
-<span id="cb6-7"><a></a><span class="co"># Convert to allele count matrix, center columns (replace missing with locus means)</span></span>
-<span id="cb6-8"><a></a>geno_mat <span class="ot">&lt;-</span> <span class="fu">scaleGen</span>(eHGDP, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>, <span class="at">NA.method =</span> <span class="st">"mean"</span>)</span>
-<span id="cb6-9"><a></a>pc_fit <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(geno_mat, <span class="at">center =</span> <span class="cn">FALSE</span>, <span class="at">scale. =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb6-10"><a></a></span>
-<span id="cb6-11"><a></a><span class="co"># Map individuals to geographic regions for coloring</span></span>
-<span id="cb6-12"><a></a>pop_info <span class="ot">&lt;-</span> eHGDP<span class="sc">@</span>other<span class="sc">$</span>popInfo</span>
-<span id="cb6-13"><a></a>pop_index <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">pop</span>(eHGDP))</span>
-<span id="cb6-14"><a></a>region <span class="ot">&lt;-</span> pop_info<span class="sc">$</span>Region[pop_index]</span>
-<span id="cb6-15"><a></a></span>
-<span id="cb6-16"><a></a>plot_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">PC1 =</span> pc_fit<span class="sc">$</span>x[, <span class="dv">1</span>], <span class="at">PC2 =</span> pc_fit<span class="sc">$</span>x[, <span class="dv">2</span>], <span class="at">Region =</span> region)</span>
-<span id="cb6-17"><a></a><span class="fu">ggplot</span>(plot_df, <span class="fu">aes</span>(PC1, PC2, <span class="at">color =</span> Region)) <span class="sc">+</span></span>
-<span id="cb6-18"><a></a>    <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">size =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
-<span id="cb6-19"><a></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Population structure diagnostic"</span>, <span class="at">x =</span> <span class="st">"PC1"</span>, <span class="at">y =</span> <span class="st">"PC2"</span>) <span class="sc">+</span></span>
-<span id="cb6-20"><a></a>    <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a></a><span class="fu">data</span>(<span class="st">"eHGDP"</span>)</span>
+<span id="cb7-2"><a></a>eHGDP</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>/// GENIND OBJECT /////////
+
+ // 1,350 individuals; 678 loci; 8,170 alleles; size: 44.1 Mb
+
+ // Basic content
+   @tab:  1350 x 8170 matrix of allele counts
+   @loc.n.all: number of alleles per locus (range: 5-35)
+   @loc.fac: locus factor for the 8170 columns of @tab
+   @all.names: list of allele names for each locus
+   @ploidy: ploidy of each individual  (range: 2-2)
+   @type:  codom
+   @call: read.fstat(file = file, missing = missing, quiet = quiet)
+
+ // Optional content
+   @pop: population of each individual (group size range: 3-50)
+   @other: a list containing: popInfo </code></pre>
+</div>
 </div>
 </section>
-<section id="mixed-models-kinship" class="slide level2">
-<h2>Mixed Models &amp; Kinship</h2>
+<section id="principal-components-for-structure-2" class="slide level2">
+<h2>Principal Components for Structure</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a>hgdp_df <span class="ot">&lt;-</span> <span class="fu">genind2df</span>(eHGDP, <span class="at">sep =</span> <span class="st">"/"</span>)</span>
+<span id="cb9-2"><a></a></span>
+<span id="cb9-3"><a></a><span class="co"># Convert to allele count matrix, center columns (replace missing with locus means)</span></span>
+<span id="cb9-4"><a></a>geno_mat <span class="ot">&lt;-</span> <span class="fu">scaleGen</span>(eHGDP, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>, <span class="at">NA.method =</span> <span class="st">"mean"</span>)</span>
+<span id="cb9-5"><a></a>pc_fit <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(geno_mat, <span class="at">center =</span> <span class="cn">FALSE</span>, <span class="at">scale. =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb9-6"><a></a></span>
+<span id="cb9-7"><a></a><span class="co"># Map individuals to geographic regions for coloring</span></span>
+<span id="cb9-8"><a></a>pop_info <span class="ot">&lt;-</span> eHGDP<span class="sc">@</span>other<span class="sc">$</span>popInfo</span>
+<span id="cb9-9"><a></a>pop_index <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">pop</span>(eHGDP))</span>
+<span id="cb9-10"><a></a>region <span class="ot">&lt;-</span> pop_info<span class="sc">$</span>Region[pop_index]</span>
+<span id="cb9-11"><a></a></span>
+<span id="cb9-12"><a></a>plot_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">PC1 =</span> pc_fit<span class="sc">$</span>x[, <span class="dv">1</span>], <span class="at">PC2 =</span> pc_fit<span class="sc">$</span>x[, <span class="dv">2</span>], <span class="at">Region =</span> region)</span>
+<span id="cb9-13"><a></a><span class="fu">ggplot</span>(plot_df, <span class="fu">aes</span>(PC1, PC2, <span class="at">color =</span> Region)) <span class="sc">+</span></span>
+<span id="cb9-14"><a></a>    <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">size =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb9-15"><a></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Population structure diagnostic"</span>, <span class="at">x =</span> <span class="st">"PC1"</span>, <span class="at">y =</span> <span class="st">"PC2"</span>) <span class="sc">+</span></span>
+<span id="cb9-16"><a></a>    <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="principal-components-for-structure-3" class="slide level2">
+<h2>Principal Components for Structure</h2>
+
+<img data-src="lecture-04_files/figure-revealjs/unnamed-chunk-14-1.png" width="960" class="r-stretch"></section>
+<section id="structure-admixture" class="slide level2">
+<h2>STRUCTURE &amp; ADMIXTURE</h2>
 <ul>
-<li>Genomic Relationship Matrices (GRMs) model polygenic background sharing via linear mixed models (LMMs)</li>
-<li>LMMs decompose phenotypic variance into fixed covariates + random genetic effects, soaking up stratification</li>
-<li>Software: <code>GCTA</code>, <code>BOLT-LMM</code>, <code>SAIGE</code> scale to biobank settings; Bayesian analogues treat GRM variance components as parameters</li>
+<li>Model-based clustering methods for population structure inference</li>
+<li>Assume <span class="math inline">K</span> latent populations with distinct allele frequencies</li>
+<li>Each individual has ancestry proportions <span class="math inline">\boldsymbol{\pi}_i</span> across <span class="math inline">K</span> populations</li>
+<li>Each genotype is drawn from a mixture of population-specific allele frequencies</li>
+<li>Use maximum likelihood (ADMIXTURE) or Bayesian inference (STRUCTURE) to estimate parameters</li>
 </ul>
 </section>
-<section id="correction-toolbox" class="slide level2">
-<h2>Correction Toolbox</h2>
+<section id="assumptions" class="slide level2">
+<h2>Assumptions</h2>
 <ul>
-<li>Include global ancestry covariates (PCs, admixture proportions)</li>
-<li>Calibrate test statistics (genomic control) when residual inflation remains</li>
-<li>Within-ancestry, case-only, or family-based designs remove between-group confounding at the design stage</li>
-<li>Mixed-model association (REML/BLUP or Bayesian) further mitigates subtle relatedness</li>
+<li>Hardy-Weinberg equilibrium within each ancestral population</li>
+<li>Linkage equilibrium between loci within each ancestral population</li>
+<li>Loci are unlinked (or weakly linked)</li>
 </ul>
 </section>
-<section id="when-pca-is-not-enough" class="slide level2">
-<h2>When PCA Is Not Enough</h2>
-<ul>
-<li>Fine-scale substructure (Ashkenazi vs Sephardi, Yoruba vs Igbo) can survive adjustment on a handful of PCs</li>
-<li>Long-range LD, recent relatedness, and batch artefacts violate homoscedastic residual assumptions</li>
-<li>Hierarchical models can borrow strength across loci while preserving uncertainty in latent structure</li>
-</ul>
-</section>
-<section id="bayesian-admixture-structure-style" class="slide level2">
-<h2>Bayesian Admixture (STRUCTURE-Style)</h2>
+<section id="example-output" class="slide level2">
+<h2>Example Output</h2>
+
+<img data-src="https://media.springernature.com/full/springer-static/image/art%3A10.1038%2Fs41437-022-00535-z/MediaObjects/41437_2022_535_Fig4_HTML.png" class="r-stretch"></section>
+<section id="bayesian-admixture" class="slide level2">
+<h2>Bayesian Admixture</h2>
 <ul>
 <li>Latent populations <span class="math inline">k = 1,\ldots,K</span> possess allele frequencies <span class="math inline">\theta_{k\ell}</span> at locus <span class="math inline">\ell</span></li>
 <li>Individual ancestry proportions <span class="math inline">\boldsymbol{\pi}_i \sim \text{Dirichlet}(\boldsymbol{\alpha})</span></li>
@@ -1005,213 +973,367 @@ Total execution time: 0.2 seconds.</code></pre>
 <li>Posterior draws propagate ancestry/allele-frequency uncertainty into association testing, local ancestry, and polygenic prediction</li>
 </ul>
 </section>
+<section id="identifiability-label-switching" class="slide level2">
+<h2>Identifiability &amp; Label Switching</h2>
+<ul>
+<li>Problem: Mixture components are exchangeable → posterior multimodality</li>
+<li>Solution: Anchor loci with informative priors break symmetry
+<ul>
+<li>Populations defined by genetic signatures, not arbitrary labels</li>
+<li>Multiple anchors provide robustness against weak signals</li>
+</ul></li>
+</ul>
+</section>
 <section id="stan-model-data-parameters" class="slide level2">
 <h2>Stan Model: Data &amp; Parameters</h2>
-<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource stan number-lines"><code class="sourceCode stan"><span id="cb7-1"><a></a><span class="kw">data</span> {</span>
-<span id="cb7-2"><a></a>    <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">1</span>&gt; N;                <span class="co">// individuals</span></span>
-<span id="cb7-3"><a></a>    <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">1</span>&gt; L;                <span class="co">// loci</span></span>
-<span id="cb7-4"><a></a>    <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">1</span>&gt; K;                <span class="co">// ancestral pops</span></span>
-<span id="cb7-5"><a></a>    <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>, <span class="kw">upper</span>=<span class="dv">2</span>&gt; y[N, L]; <span class="co">// genotypes</span></span>
-<span id="cb7-6"><a></a>    <span class="dt">vector</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt;[K] alpha;      <span class="co">// ancestry prior</span></span>
-<span id="cb7-7"><a></a>    <span class="dt">real</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; a_theta;</span>
-<span id="cb7-8"><a></a>    <span class="dt">real</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; b_theta;</span>
-<span id="cb7-9"><a></a>}</span>
-<span id="cb7-10"><a></a></span>
-<span id="cb7-11"><a></a><span class="kw">parameters</span> {</span>
-<span id="cb7-12"><a></a>    <span class="dt">array</span>[N] <span class="dt">simplex</span>[K] pi;        <span class="co">// admixture proportions</span></span>
-<span id="cb7-13"><a></a>    <span class="dt">matrix</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>, <span class="kw">upper</span>=<span class="dv">1</span>&gt;[K, L] theta; <span class="co">// allele freqs</span></span>
-<span id="cb7-14"><a></a>}</span>
-<span id="cb7-15"><a></a></span>
-<span id="cb7-16"><a></a><span class="kw">transformed parameters</span> {</span>
-<span id="cb7-17"><a></a>    <span class="dt">matrix</span>[N, L] p_mix;</span>
-<span id="cb7-18"><a></a>    <span class="cf">for</span> (n <span class="cf">in</span> <span class="dv">1</span>:N)</span>
-<span id="cb7-19"><a></a>        <span class="cf">for</span> (l <span class="cf">in</span> <span class="dv">1</span>:L)</span>
-<span id="cb7-20"><a></a>            p_mix[n, l] = dot_product(pi[n], col(theta, l));</span>
-<span id="cb7-21"><a></a>}</span></code></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource stan number-lines code-with-copy"><code class="sourceCode stan"><span id="cb10-1"><a></a><span class="kw">data</span> {</span>
+<span id="cb10-2"><a></a>  <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">1</span>&gt; N;                                <span class="co">// individuals</span></span>
+<span id="cb10-3"><a></a>  <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">1</span>&gt; L;                                <span class="co">// loci</span></span>
+<span id="cb10-4"><a></a>  <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">1</span>&gt; K;                                <span class="co">// ancestral pops</span></span>
+<span id="cb10-5"><a></a>  <span class="dt">array</span>[N, L] <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>, <span class="kw">upper</span>=<span class="dv">2</span>&gt; y;           <span class="co">// genotypes (0,1,2)</span></span>
+<span id="cb10-6"><a></a>  <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; L_soft;</span>
+<span id="cb10-7"><a></a>  <span class="dt">array</span>[L_soft] <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">1</span>, <span class="kw">upper</span>=L&gt; soft_idx;  <span class="co">// e.g., {2}</span></span>
+<span id="cb10-8"><a></a>  <span class="dt">array</span>[K] <span class="dt">real</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; a_theta;                <span class="co">// Beta 'a' for non-anchor loci</span></span>
+<span id="cb10-9"><a></a>  <span class="dt">array</span>[K] <span class="dt">real</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; b_theta;                <span class="co">// Beta 'b' for non-anchor loci</span></span>
+<span id="cb10-10"><a></a>  <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">1</span>, <span class="kw">upper</span>=L&gt; l_star;                  <span class="co">// anchor locus index</span></span>
+<span id="cb10-11"><a></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; conc_pi;                         <span class="co">// shared Dirichlet conc. for pi</span></span>
+<span id="cb10-12"><a></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="stan-model-likelihood-priors" class="slide level2">
-<h2>Stan Model: Likelihood &amp; Priors</h2>
-<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource stan number-lines"><code class="sourceCode stan"><span id="cb8-1"><a></a><span class="kw">model</span> {</span>
-<span id="cb8-2"><a></a>    <span class="cf">for</span> (n <span class="cf">in</span> <span class="dv">1</span>:N)</span>
-<span id="cb8-3"><a></a>        pi[n] ~ dirichlet(alpha);</span>
-<span id="cb8-4"><a></a></span>
-<span id="cb8-5"><a></a>    <span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span>:K)</span>
-<span id="cb8-6"><a></a>        <span class="cf">for</span> (l <span class="cf">in</span> <span class="dv">1</span>:L)</span>
-<span id="cb8-7"><a></a>            theta[k, l] ~ beta(a_theta, b_theta);</span>
-<span id="cb8-8"><a></a></span>
-<span id="cb8-9"><a></a>    <span class="cf">for</span> (n <span class="cf">in</span> <span class="dv">1</span>:N)</span>
-<span id="cb8-10"><a></a>        <span class="cf">for</span> (l <span class="cf">in</span> <span class="dv">1</span>:L)</span>
-<span id="cb8-11"><a></a>            y[n, l] ~ binomial(<span class="dv">2</span>, p_mix[n, l]);</span>
-<span id="cb8-12"><a></a>}</span>
-<span id="cb8-13"><a></a></span>
-<span id="cb8-14"><a></a><span class="kw">generated quantities</span> {</span>
-<span id="cb8-15"><a></a>    <span class="dt">matrix</span>[N, K] logit_pi;</span>
-<span id="cb8-16"><a></a>    <span class="cf">for</span> (n <span class="cf">in</span> <span class="dv">1</span>:N)</span>
-<span id="cb8-17"><a></a>        <span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span>:K)</span>
-<span id="cb8-18"><a></a>            logit_pi[n, k] = logit(pi[n, k]);</span>
-<span id="cb8-19"><a></a>}</span></code></pre></div>
-<aside class="notes">
-<p>Logit-transformed ancestry proportions support diagnostics (ternary plots) and regression models on the real line.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
+<section id="stan-model-parameters-transformed-parameters" class="slide level2">
+<h2>Stan Model: Parameters &amp; Transformed Parameters</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource stan number-lines code-with-copy"><code class="sourceCode stan"><span id="cb11-1"><a></a><span class="kw">parameters</span> {</span>
+<span id="cb11-2"><a></a>  <span class="dt">array</span>[N] <span class="dt">simplex</span>[K] pi;                        <span class="co">// ancestry proportions</span></span>
+<span id="cb11-3"><a></a>  <span class="dt">ordered</span>[K] eta;                                <span class="co">// ordered logits at anchor locus</span></span>
+<span id="cb11-4"><a></a>  <span class="dt">matrix</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>, <span class="kw">upper</span>=<span class="dv">1</span>&gt;[K, L<span class="dv">-1</span>] theta_rest;   <span class="co">// allele freqs for non-anchor loci</span></span>
+<span id="cb11-5"><a></a>}</span>
+<span id="cb11-6"><a></a></span>
+<span id="cb11-7"><a></a></span>
+<span id="cb11-8"><a></a><span class="kw">transformed parameters</span> {</span>
+<span id="cb11-9"><a></a>  <span class="dt">matrix</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>, <span class="kw">upper</span>=<span class="dv">1</span>&gt;[K, L] theta;          <span class="co">// full allele-frequency matrix</span></span>
+<span id="cb11-10"><a></a>  <span class="dt">matrix</span>[N, L] p_mix;                            <span class="co">// mixed allele frequency</span></span>
+<span id="cb11-11"><a></a></span>
+<span id="cb11-12"><a></a>  <span class="co">// anchor column (ordered)</span></span>
+<span id="cb11-13"><a></a>  <span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span>:K) theta[k, l_star] = inv_logit(eta[k]);</span>
+<span id="cb11-14"><a></a></span>
+<span id="cb11-15"><a></a>  <span class="co">// fill remaining columns</span></span>
+<span id="cb11-16"><a></a>  {</span>
+<span id="cb11-17"><a></a>    <span class="dt">int</span> c = <span class="dv">1</span>;</span>
+<span id="cb11-18"><a></a>    <span class="cf">for</span> (l <span class="cf">in</span> <span class="dv">1</span>:L) {</span>
+<span id="cb11-19"><a></a>      <span class="cf">if</span> (l == l_star) <span class="cf">continue</span>;</span>
+<span id="cb11-20"><a></a>      <span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span>:K) theta[k, l] = theta_rest[k, c];</span>
+<span id="cb11-21"><a></a>      c += <span class="dv">1</span>;</span>
+<span id="cb11-22"><a></a>    }</span>
+<span id="cb11-23"><a></a>  }</span>
+<span id="cb11-24"><a></a></span>
+<span id="cb11-25"><a></a>  <span class="co">// mixture expectations</span></span>
+<span id="cb11-26"><a></a>  <span class="cf">for</span> (n <span class="cf">in</span> <span class="dv">1</span>:N)</span>
+<span id="cb11-27"><a></a>    <span class="cf">for</span> (l <span class="cf">in</span> <span class="dv">1</span>:L)</span>
+<span id="cb11-28"><a></a>      p_mix[n, l] = dot_product(pi[n], col(theta, l));</span>
+<span id="cb11-29"><a></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="fitting-the-admixture-model-in-r" class="slide level2">
-<h2>Fitting the Admixture Model in R</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines"><code class="sourceCode r"><span id="cb9-1"><a></a><span class="fu">library</span>(cmdstanr)</span>
-<span id="cb9-2"><a></a><span class="fu">set.seed</span>(<span class="dv">887804</span>)</span>
-<span id="cb9-3"><a></a></span>
-<span id="cb9-4"><a></a>rdirichlet <span class="ot">&lt;-</span> <span class="cf">function</span>(n, alpha) {</span>
-<span id="cb9-5"><a></a>    k <span class="ot">&lt;-</span> <span class="fu">length</span>(alpha)</span>
-<span id="cb9-6"><a></a>    gamma_draws <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rgamma</span>(n <span class="sc">*</span> k, <span class="at">shape =</span> alpha, <span class="at">rate =</span> <span class="dv">1</span>), <span class="at">ncol =</span> k, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb9-7"><a></a>    <span class="fu">sweep</span>(gamma_draws, <span class="dv">1</span>, <span class="fu">rowSums</span>(gamma_draws), <span class="st">"/"</span>)</span>
-<span id="cb9-8"><a></a>}</span>
-<span id="cb9-9"><a></a></span>
-<span id="cb9-10"><a></a>N <span class="ot">&lt;-</span> <span class="dv">180</span>  <span class="co"># individuals</span></span>
-<span id="cb9-11"><a></a>L <span class="ot">&lt;-</span> <span class="dv">60</span>   <span class="co"># loci</span></span>
-<span id="cb9-12"><a></a>K <span class="ot">&lt;-</span> <span class="dv">3</span>    <span class="co"># ancestral populations</span></span>
-<span id="cb9-13"><a></a></span>
-<span id="cb9-14"><a></a>theta_true <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rbeta</span>(K <span class="sc">*</span> L, <span class="at">shape1 =</span> <span class="fl">2.5</span>, <span class="at">shape2 =</span> <span class="dv">5</span>), <span class="at">nrow =</span> K, <span class="at">ncol =</span> L)</span>
-<span id="cb9-15"><a></a>pi_true <span class="ot">&lt;-</span> <span class="fu">rdirichlet</span>(N, <span class="fu">rep</span>(<span class="dv">3</span>, K))</span>
-<span id="cb9-16"><a></a></span>
-<span id="cb9-17"><a></a>y <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>L, <span class="at">nrow =</span> N, <span class="at">ncol =</span> L)</span>
-<span id="cb9-18"><a></a><span class="cf">for</span> (n <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>N) {</span>
-<span id="cb9-19"><a></a>    <span class="cf">for</span> (l <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>L) {</span>
-<span id="cb9-20"><a></a>        p_mix <span class="ot">&lt;-</span> <span class="fu">sum</span>(pi_true[n, ] <span class="sc">*</span> theta_true[, l])</span>
-<span id="cb9-21"><a></a>        y[n, l] <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">1</span>, <span class="at">size =</span> <span class="dv">2</span>, <span class="at">prob =</span> p_mix)</span>
-<span id="cb9-22"><a></a>    }</span>
-<span id="cb9-23"><a></a>}</span>
-<span id="cb9-24"><a></a></span>
-<span id="cb9-25"><a></a>stan_data <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb9-26"><a></a>    <span class="at">N =</span> N,</span>
-<span id="cb9-27"><a></a>    <span class="at">L =</span> L,</span>
-<span id="cb9-28"><a></a>    <span class="at">K =</span> K,</span>
-<span id="cb9-29"><a></a>    <span class="at">y =</span> y,</span>
-<span id="cb9-30"><a></a>    <span class="at">alpha =</span> <span class="fu">rep</span>(<span class="dv">1</span>, K),</span>
-<span id="cb9-31"><a></a>    <span class="at">a_theta =</span> <span class="fl">2.5</span>,</span>
-<span id="cb9-32"><a></a>    <span class="at">b_theta =</span> <span class="dv">5</span></span>
-<span id="cb9-33"><a></a>)</span>
-<span id="cb9-34"><a></a></span>
-<span id="cb9-35"><a></a>admix_mod <span class="ot">&lt;-</span> <span class="fu">cmdstan_model</span>(<span class="fu">file.path</span>(<span class="st">"lectures"</span>, <span class="st">"stan"</span>, <span class="st">"structure_admixture.stan"</span>))</span>
-<span id="cb9-36"><a></a></span>
-<span id="cb9-37"><a></a>admix_fit <span class="ot">&lt;-</span> admix_mod<span class="sc">$</span><span class="fu">sample</span>(</span>
-<span id="cb9-38"><a></a>    <span class="at">data =</span> stan_data,</span>
-<span id="cb9-39"><a></a>    <span class="at">chains =</span> <span class="dv">4</span>,</span>
-<span id="cb9-40"><a></a>    <span class="at">parallel_chains =</span> <span class="dv">4</span>,</span>
-<span id="cb9-41"><a></a>    <span class="at">iter_warmup =</span> <span class="dv">500</span>,</span>
-<span id="cb9-42"><a></a>    <span class="at">iter_sampling =</span> <span class="dv">500</span>,</span>
-<span id="cb9-43"><a></a>    <span class="at">seed =</span> <span class="dv">887804</span>,</span>
-<span id="cb9-44"><a></a>    <span class="at">refresh =</span> <span class="dv">0</span></span>
-<span id="cb9-45"><a></a>)</span>
-<span id="cb9-46"><a></a></span>
-<span id="cb9-47"><a></a>admix_pi_draws <span class="ot">&lt;-</span> admix_fit<span class="sc">$</span><span class="fu">draws</span>(<span class="at">variables =</span> <span class="fu">c</span>(<span class="st">"pi"</span>), <span class="at">format =</span> <span class="st">"draws_array"</span>) </span>
-<span id="cb9-48"><a></a></span>
-<span id="cb9-49"><a></a><span class="fu">mcmc_hist</span>(admix_pi_draws, <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">"pi[1,1]"</span>)) <span class="sc">+</span></span>
-<span id="cb9-50"><a></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> pi_true[<span class="dv">2</span>, <span class="dv">1</span>], <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"red"</span>) </span>
-<span id="cb9-51"><a></a></span>
-<span id="cb9-52"><a></a></span>
-<span id="cb9-53"><a></a>pi_rvar    <span class="ot">&lt;-</span> <span class="fu">as_draws_rvars</span>(admix_fit<span class="sc">$</span><span class="fu">draws</span>(<span class="st">"pi"</span>))<span class="sc">$</span>pi      <span class="co"># N × K matrix of rvars</span></span>
-<span id="cb9-54"><a></a>theta_rvar <span class="ot">&lt;-</span> <span class="fu">as_draws_rvars</span>(admix_fit<span class="sc">$</span><span class="fu">draws</span>(<span class="st">"theta"</span>))<span class="sc">$</span>theta  <span class="co"># K × L matrix of rvars</span></span>
-<span id="cb9-55"><a></a></span>
-<span id="cb9-56"><a></a><span class="co"># Posterior means (and SDs if you need them)</span></span>
-<span id="cb9-57"><a></a>pi_est_mat    <span class="ot">&lt;-</span> <span class="fu">mean</span>(pi_rvar)        <span class="co"># N × K numeric matrix</span></span>
-<span id="cb9-58"><a></a>theta_est_mat <span class="ot">&lt;-</span> <span class="fu">mean</span>(theta_rvar)     <span class="co"># K × L numeric matrix</span></span>
-<span id="cb9-59"><a></a></span>
-<span id="cb9-60"><a></a><span class="co"># Example diagnostics</span></span>
-<span id="cb9-61"><a></a>pi_rmse    <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((pi_est_mat    <span class="sc">-</span> pi_true)<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb9-62"><a></a>theta_rmse <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((theta_est_mat <span class="sc">-</span> theta_true)<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb9-63"><a></a>pi_rmse</span>
-<span id="cb9-64"><a></a>theta_rmse</span></code></pre></div>
-</div>
+<section id="stan-model-priors-likelihood" class="slide level2">
+<h2>Stan Model: Priors &amp; Likelihood</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource stan number-lines code-with-copy"><code class="sourceCode stan"><span id="cb12-1"><a></a><span class="kw">model</span> {</span>
+<span id="cb12-2"><a></a>  <span class="co">// priors</span></span>
+<span id="cb12-3"><a></a>  eta ~ normal(<span class="dv">0</span>, <span class="fl">2.5</span>);                          <span class="co">// weak prior; ordering gives ID</span></span>
+<span id="cb12-4"><a></a>  <span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span>:K)</span>
+<span id="cb12-5"><a></a>    <span class="cf">for</span> (c <span class="cf">in</span> <span class="dv">1</span>:(L - <span class="dv">1</span>))</span>
+<span id="cb12-6"><a></a>      theta_rest[k, c] ~ beta(a_theta[k], b_theta[k]);</span>
+<span id="cb12-7"><a></a></span>
+<span id="cb12-8"><a></a>  <span class="cf">for</span> (n <span class="cf">in</span> <span class="dv">1</span>:N)</span>
+<span id="cb12-9"><a></a>    pi[n] ~ dirichlet(rep_vector(conc_pi, K));</span>
+<span id="cb12-10"><a></a></span>
+<span id="cb12-11"><a></a>  <span class="cf">for</span> (c <span class="cf">in</span> <span class="dv">1</span>:L_soft) {</span>
+<span id="cb12-12"><a></a>  <span class="dt">int</span> l = soft_idx[c];</span>
+<span id="cb12-13"><a></a>  <span class="cf">if</span> (l != l_star) {</span>
+<span id="cb12-14"><a></a>    <span class="co">// comp 1 LOW, comp 2 HIGH at these loci (gentle)</span></span>
+<span id="cb12-15"><a></a>    <span class="kw">target +=</span> beta_lpdf(theta[<span class="dv">1</span>, l] | <span class="dv">2</span>, <span class="dv">8</span>);</span>
+<span id="cb12-16"><a></a>    <span class="kw">target +=</span> beta_lpdf(theta[<span class="dv">2</span>, l] | <span class="dv">8</span>, <span class="dv">2</span>);</span>
+<span id="cb12-17"><a></a>  }</span>
+<span id="cb12-18"><a></a>}</span>
+<span id="cb12-19"><a></a></span>
+<span id="cb12-20"><a></a>  <span class="co">// likelihood</span></span>
+<span id="cb12-21"><a></a>  <span class="cf">for</span> (n <span class="cf">in</span> <span class="dv">1</span>:N)</span>
+<span id="cb12-22"><a></a>    <span class="cf">for</span> (l <span class="cf">in</span> <span class="dv">1</span>:L)</span>
+<span id="cb12-23"><a></a>      y[n, l] ~ binomial(<span class="dv">2</span>, p_mix[n, l]);</span>
+<span id="cb12-24"><a></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="posterior-summaries-admixture" class="slide level2">
-<h2>Posterior Summaries (Admixture)</h2>
+<section id="stan-model-generated-quantities" class="slide level2">
+<h2>Stan Model: Generated Quantities</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource stan number-lines code-with-copy"><code class="sourceCode stan"><span id="cb13-1"><a></a><span class="kw">generated quantities</span> {</span>
+<span id="cb13-2"><a></a>  <span class="dt">matrix</span>[N, K] logit_pi;</span>
+<span id="cb13-3"><a></a>  <span class="dt">array</span>[N, L] <span class="dt">int</span> y_rep;</span>
+<span id="cb13-4"><a></a></span>
+<span id="cb13-5"><a></a>  <span class="cf">for</span> (n <span class="cf">in</span> <span class="dv">1</span>:N)</span>
+<span id="cb13-6"><a></a>    <span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span>:K)</span>
+<span id="cb13-7"><a></a>      logit_pi[n, k] = logit(pi[n, k]);</span>
+<span id="cb13-8"><a></a></span>
+<span id="cb13-9"><a></a>  <span class="cf">for</span> (n <span class="cf">in</span> <span class="dv">1</span>:N)</span>
+<span id="cb13-10"><a></a>    <span class="cf">for</span> (l <span class="cf">in</span> <span class="dv">1</span>:L)</span>
+<span id="cb13-11"><a></a>      y_rep[n, l] = binomial_rng(<span class="dv">2</span>, p_mix[n, l]);</span>
+<span id="cb13-12"><a></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="mathematical-framework" class="slide level2">
+<h2>Mathematical Framework</h2>
+<h3 id="individual-locus-allele-frequency">Individual-Locus Allele Frequency</h3>
+<p>For individual <span class="math inline">i</span> at locus <span class="math inline">\ell</span>, expected allele frequency: <span class="math display">p_{i\ell} = \sum_{k=1}^K \pi_{ik} \theta_{k\ell}</span></p>
+<h3 id="information-borrowing-across-loci">Information Borrowing Across Loci</h3>
+<p><strong>Key insight:</strong> Same <span class="math inline">\boldsymbol{\pi}_i</span> parameters appear in likelihood for all loci</p>
+<p><span class="math display">L(\boldsymbol{\pi}_i, \boldsymbol{\Theta}) = \prod_{\ell=1}^L \text{Binomial}\left(y_{i\ell} \mid 2, \sum_{k=1}^K \pi_{ik} \theta_{k\ell}\right)</span></p>
+</section>
+<section id="mathematical-framework-1" class="slide level2">
+<h2>Mathematical Framework</h2>
+<h3 id="hierarchical-learning">Hierarchical Learning</h3>
 <ul>
-<li>Compare posterior means <span class="math inline">\hat{\pi}_{ik}</span> against the simulated truth to confirm the model recovers ancestry proportions (RMSE reported above)</li>
-<li>Posterior draws for <span class="math inline">\theta_{k\ell}</span> provide credible intervals on population-specific allele frequencies for downstream association</li>
-<li>Posterior predictive checks or replicated phenotypes can diagnose residual stratification before moving to real data</li>
+<li>Anchor loci provide strong identification signal</li>
+<li>Remaining loci contribute cumulative evidence</li>
+<li>Posterior uncertainty propagates through all parameters</li>
 </ul>
 </section>
-<section id="posterior-density-plots" class="slide level2">
-<h2>Posterior Density Plots</h2>
-<ul>
-<li>Convert Stan output to <code>posterior::rvar</code> objects to preserve array shapes automatically</li>
-<li>Density overlays with dashed true values visually confirm the model recovers simulated parameters</li>
-</ul>
+<section id="simulating-admixed-genotypes" class="slide level2">
+<h2>Simulating Admixed Genotypes</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines"><code class="sourceCode r"><span id="cb10-1"><a></a>pi_rvar <span class="ot">&lt;-</span> <span class="fu">as_draws_rvars</span>(admix_fit<span class="sc">$</span><span class="fu">draws</span>(<span class="st">"pi"</span>))<span class="sc">$</span>pi</span>
-<span id="cb10-2"><a></a>theta_rvar <span class="ot">&lt;-</span> <span class="fu">as_draws_rvars</span>(admix_fit<span class="sc">$</span><span class="fu">draws</span>(<span class="st">"theta"</span>))<span class="sc">$</span>theta</span>
-<span id="cb10-3"><a></a></span>
-<span id="cb10-4"><a></a>rvar_to_long <span class="ot">&lt;-</span> <span class="cf">function</span>(x, truth, idx_names) {</span>
-<span id="cb10-5"><a></a>    arr <span class="ot">&lt;-</span> <span class="fu">as.array</span>(x)</span>
-<span id="cb10-6"><a></a>    <span class="fu">dimnames</span>(arr) <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb10-7"><a></a>        <span class="at">draw =</span> <span class="fu">seq_len</span>(<span class="fu">dim</span>(arr)[<span class="dv">1</span>]),</span>
-<span id="cb10-8"><a></a>        <span class="at">idx1 =</span> <span class="fu">seq_len</span>(<span class="fu">dim</span>(arr)[<span class="dv">2</span>]),</span>
-<span id="cb10-9"><a></a>        <span class="at">idx2 =</span> <span class="fu">seq_len</span>(<span class="fu">dim</span>(arr)[<span class="dv">3</span>])</span>
-<span id="cb10-10"><a></a>    )</span>
-<span id="cb10-11"><a></a>    df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">as.table</span>(arr), <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb10-12"><a></a>    <span class="fu">names</span>(df) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"draw"</span>, idx_names, <span class="st">"value"</span>)</span>
-<span id="cb10-13"><a></a>    df[[idx_names[<span class="dv">1</span>]]] <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(df[[idx_names[<span class="dv">1</span>]]])</span>
-<span id="cb10-14"><a></a>    df[[idx_names[<span class="dv">2</span>]]] <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(df[[idx_names[<span class="dv">2</span>]]])</span>
-<span id="cb10-15"><a></a>    df<span class="sc">$</span>true <span class="ot">&lt;-</span> truth[<span class="fu">cbind</span>(df[[idx_names[<span class="dv">1</span>]]], df[[idx_names[<span class="dv">2</span>]]])]</span>
-<span id="cb10-16"><a></a>    df</span>
-<span id="cb10-17"><a></a>}</span>
-<span id="cb10-18"><a></a></span>
-<span id="cb10-19"><a></a>pi_long <span class="ot">&lt;-</span> <span class="fu">rvar_to_long</span>(pi_rvar, pi_true, <span class="fu">c</span>(<span class="st">"individual"</span>, <span class="st">"component"</span>))</span>
-<span id="cb10-20"><a></a>theta_long <span class="ot">&lt;-</span> <span class="fu">rvar_to_long</span>(theta_rvar, theta_true, <span class="fu">c</span>(<span class="st">"population"</span>, <span class="st">"locus"</span>))</span>
-<span id="cb10-21"><a></a></span>
-<span id="cb10-22"><a></a><span class="fu">ggplot</span>(<span class="fu">filter</span>(pi_long, individual <span class="sc">&lt;=</span> <span class="dv">6</span>),</span>
-<span id="cb10-23"><a></a>       <span class="fu">aes</span>(value, <span class="at">colour =</span> <span class="fu">factor</span>(component), <span class="at">fill =</span> <span class="fu">factor</span>(component))) <span class="sc">+</span></span>
-<span id="cb10-24"><a></a>    <span class="fu">geom_density</span>(<span class="at">alpha =</span> <span class="fl">0.25</span>) <span class="sc">+</span></span>
-<span id="cb10-25"><a></a>    <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept =</span> true, <span class="at">colour =</span> <span class="fu">factor</span>(component)),</span>
-<span id="cb10-26"><a></a>               <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">linewidth =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
-<span id="cb10-27"><a></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span> individual, <span class="at">ncol =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb10-28"><a></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Ancestry proportion"</span>, <span class="at">y =</span> <span class="st">"Posterior density"</span>,</span>
-<span id="cb10-29"><a></a>         <span class="at">colour =</span> <span class="st">"Component"</span>, <span class="at">fill =</span> <span class="st">"Component"</span>,</span>
-<span id="cb10-30"><a></a>         <span class="at">title =</span> <span class="st">"Posterior of π (true values dashed)"</span>) <span class="sc">+</span></span>
-<span id="cb10-31"><a></a>    <span class="fu">theme_minimal</span>()</span>
-<span id="cb10-32"><a></a></span>
-<span id="cb10-33"><a></a><span class="fu">ggplot</span>(<span class="fu">filter</span>(theta_long, locus <span class="sc">&lt;=</span> <span class="dv">9</span>),</span>
-<span id="cb10-34"><a></a>       <span class="fu">aes</span>(value, <span class="at">colour =</span> <span class="fu">factor</span>(population), <span class="at">fill =</span> <span class="fu">factor</span>(population))) <span class="sc">+</span></span>
-<span id="cb10-35"><a></a>    <span class="fu">geom_density</span>(<span class="at">alpha =</span> <span class="fl">0.25</span>) <span class="sc">+</span></span>
-<span id="cb10-36"><a></a>    <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept =</span> true, <span class="at">colour =</span> <span class="fu">factor</span>(population)),</span>
-<span id="cb10-37"><a></a>               <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">linewidth =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
-<span id="cb10-38"><a></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span> locus, <span class="at">ncol =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb10-39"><a></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Allele frequency"</span>, <span class="at">y =</span> <span class="st">"Posterior density"</span>,</span>
-<span id="cb10-40"><a></a>         <span class="at">colour =</span> <span class="st">"Population"</span>, <span class="at">fill =</span> <span class="st">"Population"</span>,</span>
-<span id="cb10-41"><a></a>         <span class="at">title =</span> <span class="st">"Posterior of θ (true values dashed)"</span>) <span class="sc">+</span></span>
-<span id="cb10-42"><a></a>    <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-18"><pre class="sourceCode numberSource r code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-18" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-18-1" class="code-annotation-target"><a href="#annotated-cell-18-1"></a><span class="fu">set.seed</span>(<span class="dv">887804</span>)</span>
+<span id="annotated-cell-18-2"><a href="#annotated-cell-18-2"></a></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-18" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-18-3" class="code-annotation-target"><a href="#annotated-cell-18-3"></a>rdirichlet <span class="ot">&lt;-</span> <span class="cf">function</span>(n, alpha) {</span>
+<span id="annotated-cell-18-4"><a href="#annotated-cell-18-4"></a>    k <span class="ot">&lt;-</span> <span class="fu">length</span>(alpha)</span>
+<span id="annotated-cell-18-5"><a href="#annotated-cell-18-5"></a>    gamma_draws <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rgamma</span>(n <span class="sc">*</span> k, <span class="at">shape =</span> alpha, <span class="at">rate =</span> <span class="dv">1</span>),</span>
+<span id="annotated-cell-18-6"><a href="#annotated-cell-18-6"></a>                          <span class="at">ncol =</span> k, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="annotated-cell-18-7"><a href="#annotated-cell-18-7"></a>    <span class="fu">sweep</span>(gamma_draws, <span class="dv">1</span>, <span class="fu">rowSums</span>(gamma_draws), <span class="st">"/"</span>)</span>
+<span id="annotated-cell-18-8"><a href="#annotated-cell-18-8"></a>}</span>
+<span id="annotated-cell-18-9"><a href="#annotated-cell-18-9"></a></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-18" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-18-10" class="code-annotation-target"><a href="#annotated-cell-18-10"></a>N <span class="ot">&lt;-</span> <span class="dv">40</span>   <span class="co"># individuals</span></span>
+<span id="annotated-cell-18-11"><a href="#annotated-cell-18-11"></a>L <span class="ot">&lt;-</span> <span class="dv">20</span>   <span class="co"># loci</span></span>
+<span id="annotated-cell-18-12"><a href="#annotated-cell-18-12"></a>K <span class="ot">&lt;-</span> <span class="dv">2</span>    <span class="co"># ancestral populations</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-18" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-18" data-code-lines="1" data-code-annotation="1">Fixed random seed for consistent results across sessions</span>
+</dd>
+<dt data-target-cell="annotated-cell-18" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-18" data-code-lines="3,7" data-code-annotation="2">Normalized gamma variates generate simplex-constrained ancestry proportions</span>
+</dd>
+<dt data-target-cell="annotated-cell-18" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-18" data-code-lines="10,11,12" data-code-annotation="3">Set simulation parameters</span>
+</dd>
+</dl>
+</div>
 </div>
 </section>
+<section id="simulating-admixed-genotypes-1" class="slide level2">
+<h2>Simulating Admixed Genotypes</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-19"><pre class="sourceCode numberSource r code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-19" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-19-1" class="code-annotation-target"><a href="#annotated-cell-19-1"></a><span class="co"># Create very clear population differentiation</span></span>
+<span id="annotated-cell-19-2"><a href="#annotated-cell-19-2"></a>theta_true <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> K, <span class="at">ncol =</span> L)</span>
+<span id="annotated-cell-19-3"><a href="#annotated-cell-19-3"></a></span>
+<span id="annotated-cell-19-4"><a href="#annotated-cell-19-4"></a><span class="co"># Multiple anchor loci: very strong differentiation</span></span>
+<span id="annotated-cell-19-5"><a href="#annotated-cell-19-5"></a>theta_true[<span class="dv">1</span>, <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fl">0.1</span>  <span class="co"># Pop 1: very low frequency at anchor 1</span></span>
+<span id="annotated-cell-19-6"><a href="#annotated-cell-19-6"></a>theta_true[<span class="dv">2</span>, <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fl">0.9</span>  <span class="co"># Pop 2: very high frequency at anchor 1</span></span>
+<span id="annotated-cell-19-7"><a href="#annotated-cell-19-7"></a>theta_true[<span class="dv">1</span>, <span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fl">0.1</span>  <span class="co"># Pop 1: very low frequency at anchor 2</span></span>
+<span id="annotated-cell-19-8"><a href="#annotated-cell-19-8"></a>theta_true[<span class="dv">2</span>, <span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fl">0.9</span>  <span class="co"># Pop 2: very high frequency at anchor 2</span></span>
+<span id="annotated-cell-19-9"><a href="#annotated-cell-19-9"></a></span>
+<span id="annotated-cell-19-10"><a href="#annotated-cell-19-10"></a><span class="co"># Other loci: strong differentiation </span></span>
+<span id="annotated-cell-19-11"><a href="#annotated-cell-19-11"></a>theta_true[<span class="dv">1</span>, <span class="dv">3</span><span class="sc">:</span>L] <span class="ot">&lt;-</span> <span class="fu">rbeta</span>(L<span class="dv">-2</span>, <span class="dv">2</span>, <span class="dv">8</span>)   <span class="co"># Pop 1: much lower overall</span></span>
+<span id="annotated-cell-19-12"><a href="#annotated-cell-19-12"></a>theta_true[<span class="dv">2</span>, <span class="dv">3</span><span class="sc">:</span>L] <span class="ot">&lt;-</span> <span class="fu">rbeta</span>(L<span class="dv">-2</span>, <span class="dv">8</span>, <span class="dv">2</span>)   <span class="co"># Pop 2: much higher overall</span></span>
+<span id="annotated-cell-19-13"><a href="#annotated-cell-19-13"></a></span>
+<span id="annotated-cell-19-14"><a href="#annotated-cell-19-14"></a></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-19" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-19-15" class="code-annotation-target"><a href="#annotated-cell-19-15"></a>pi_true <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="annotated-cell-19-16"><a href="#annotated-cell-19-16"></a>  <span class="fu">rdirichlet</span>(<span class="dv">12</span>, <span class="fu">c</span>(<span class="dv">90</span>, <span class="dv">10</span>)),  <span class="co"># pop 1</span></span>
+<span id="annotated-cell-19-17"><a href="#annotated-cell-19-17"></a>  <span class="fu">rdirichlet</span>(<span class="dv">12</span>, <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">90</span>)),  <span class="co"># Very pure pop 2</span></span>
+<span id="annotated-cell-19-18"><a href="#annotated-cell-19-18"></a>  <span class="fu">rdirichlet</span>(<span class="dv">16</span>, <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">10</span>))                                    <span class="co"># Admixed individuals</span></span>
+<span id="annotated-cell-19-19"><a href="#annotated-cell-19-19"></a>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-19" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-19" data-code-lines="1" data-code-annotation="4">Strong genetic signatures with multiple anchor loci</span>
+</dd>
+<dt data-target-cell="annotated-cell-19" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-19" data-code-lines="15" data-code-annotation="5">Mix of unadmixed founders and admixed descendants</span>
+</dd>
+</dl>
+</div>
+</div>
+</section>
+<section id="simulating-admixed-genotypes-2" class="slide level2">
+<h2>Simulating Admixed Genotypes</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-20"><pre class="sourceCode numberSource r code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-20" data-target-annotation="6" onclick="event.preventDefault();">6</a><span id="annotated-cell-20-1" class="code-annotation-target"><a href="#annotated-cell-20-1"></a>y <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>L, <span class="at">nrow =</span> N, <span class="at">ncol =</span> L)</span>
+<span id="annotated-cell-20-2"><a href="#annotated-cell-20-2"></a><span class="cf">for</span> (n <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>N) {</span>
+<span id="annotated-cell-20-3"><a href="#annotated-cell-20-3"></a>    <span class="cf">for</span> (l <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>L) {</span>
+<span id="annotated-cell-20-4"><a href="#annotated-cell-20-4"></a>        p_mix <span class="ot">&lt;-</span> <span class="fu">sum</span>(pi_true[n, ] <span class="sc">*</span> theta_true[, l])</span>
+<span id="annotated-cell-20-5"><a href="#annotated-cell-20-5"></a>        y[n, l] <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">1</span>, <span class="at">size =</span> <span class="dv">2</span>, <span class="at">prob =</span> p_mix)</span>
+<span id="annotated-cell-20-6"><a href="#annotated-cell-20-6"></a>    }</span>
+<span id="annotated-cell-20-7"><a href="#annotated-cell-20-7"></a>}</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-20" data-target-annotation="6">6</dt>
+<dd>
+<span data-code-cell="annotated-cell-20" data-code-lines="1,4,5" data-code-annotation="6">Genotypes drawn from Binomial(2, p_mix) per individual and locus</span>
+</dd>
+</dl>
+</div>
+</div>
+</section>
+<section id="pca-on-simulated-genotypes" class="slide level2">
+<h2>PCA On Simulated Genotypes</h2>
+<ul>
+<li>Center genotypes by <span class="math inline">2 \times \hat{p}</span> and scale by <span class="math inline">\sqrt{2 \cdot \hat{p} \cdot (1 - \hat{p})}</span></li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a></a>p_hat <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(y) <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb14-2"><a></a>sd_hat <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">pmax</span>(<span class="fl">1e-6</span>, <span class="dv">2</span> <span class="sc">*</span> p_hat <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat)))</span>
+<span id="cb14-3"><a></a>Z <span class="ot">&lt;-</span> <span class="fu">scale</span>(y, <span class="at">center =</span> <span class="dv">2</span> <span class="sc">*</span> p_hat, <span class="at">scale =</span> sd_hat)</span>
+<span id="cb14-4"><a></a>pc <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(Z, <span class="at">center =</span> <span class="cn">FALSE</span>, <span class="at">scale. =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb14-5"><a></a></span>
+<span id="cb14-6"><a></a>pc_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">PC1 =</span> pc<span class="sc">$</span>x[, <span class="dv">1</span>], <span class="at">PC2 =</span> pc<span class="sc">$</span>x[, <span class="dv">2</span>], <span class="at">pi1 =</span> pi_true[, <span class="dv">1</span>])</span>
+<span id="cb14-7"><a></a><span class="fu">ggplot</span>(pc_df, <span class="fu">aes</span>(PC1, PC2, <span class="at">color =</span> pi1)) <span class="sc">+</span></span>
+<span id="cb14-8"><a></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">size =</span> <span class="fl">1.6</span>) <span class="sc">+</span></span>
+<span id="cb14-9"><a></a>  <span class="fu">scale_color_viridis_c</span>(<span class="at">end =</span> .<span class="dv">8</span>) <span class="sc">+</span></span>
+<span id="cb14-10"><a></a>  <span class="fu">labs</span>(<span class="at">color =</span> <span class="fu">expression</span>(pi[<span class="dv">1</span>]), <span class="at">x =</span> <span class="st">"PC1"</span>, <span class="at">y =</span> <span class="st">"PC2"</span>) <span class="sc">+</span></span>
+<span id="cb14-11"><a></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fl">2.75</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"gray40"</span>, <span class="at">linewidth =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb14-12"><a></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="sc">-</span><span class="fl">2.75</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"gray40"</span>, <span class="at">linewidth =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb14-13"><a></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">4.5</span>, <span class="at">y =</span> <span class="dv">6</span>, <span class="at">label =</span> <span class="st">"Pop 1"</span>, <span class="at">color =</span> <span class="st">"gray20"</span>, <span class="at">size =</span> <span class="dv">6</span>) <span class="sc">+</span></span>
+<span id="cb14-14"><a></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="sc">-</span><span class="fl">4.5</span>, <span class="at">y =</span> <span class="dv">6</span>, <span class="at">label =</span> <span class="st">"Pop 2"</span>, <span class="at">color =</span> <span class="st">"gray20"</span>, <span class="at">size =</span> <span class="dv">6</span>) <span class="sc">+</span></span>
+<span id="cb14-15"><a></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">0</span>, <span class="at">y =</span> <span class="dv">6</span>, <span class="at">label =</span> <span class="st">"Admixed"</span>, <span class="at">color =</span> <span class="st">"gray20"</span>, <span class="at">size =</span> <span class="dv">6</span>) <span class="sc">+</span></span>
+<span id="cb14-16"><a></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">14</span>) <span class="sc">+</span></span>
+<span id="cb14-17"><a></a>  <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>()) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="pca-on-simulated-genotypes-1" class="slide level2">
+<h2>PCA On Simulated Genotypes</h2>
+
+<img data-src="lecture-04_files/figure-revealjs/unnamed-chunk-19-1.png" width="960" class="r-stretch"></section>
+<section id="fitting-the-model" class="slide level2">
+<h2>Fitting the Model</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a></a>admix_mod <span class="ot">&lt;-</span> <span class="fu">cmdstan_model</span>(<span class="fu">file.path</span>(<span class="st">"stan"</span>, <span class="st">"structure_admixture.stan"</span>))</span>
+<span id="cb15-2"><a></a></span>
+<span id="cb15-3"><a></a>l_star <span class="ot">&lt;-</span> <span class="dv">1</span>  <span class="co"># choose your anchor locus (e.g., 1)</span></span>
+<span id="cb15-4"><a></a></span>
+<span id="cb15-5"><a></a>admix_data <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb15-6"><a></a>    <span class="at">N =</span> N, <span class="at">L =</span> L, <span class="at">K =</span> K, <span class="at">y =</span> y,</span>
+<span id="cb15-7"><a></a>    <span class="at">a_theta =</span> <span class="fu">rep</span>(<span class="fl">1.5</span>, K), <span class="at">b_theta =</span> <span class="fu">rep</span>(<span class="fl">1.5</span>, K),</span>
+<span id="cb15-8"><a></a>    <span class="at">l_star =</span> l_star, <span class="at">L_soft =</span> <span class="dv">1</span>, <span class="at">soft_idx =</span> <span class="fu">c</span>(<span class="dv">2</span>),</span>
+<span id="cb15-9"><a></a>    <span class="at">conc_pi =</span> <span class="fl">2.0</span>      </span>
+<span id="cb15-10"><a></a>)</span>
+<span id="cb15-11"><a></a></span>
+<span id="cb15-12"><a></a>admix_fit <span class="ot">&lt;-</span> admix_mod<span class="sc">$</span><span class="fu">sample</span>(</span>
+<span id="cb15-13"><a></a>  <span class="at">data =</span> admix_data,</span>
+<span id="cb15-14"><a></a>  <span class="at">chains =</span> <span class="dv">4</span>, <span class="at">parallel_chains =</span> <span class="dv">4</span>,</span>
+<span id="cb15-15"><a></a>  <span class="at">iter_warmup =</span> <span class="dv">2000</span>, <span class="at">iter_sampling =</span> <span class="dv">2000</span>,</span>
+<span id="cb15-16"><a></a>  <span class="at">seed =</span> <span class="dv">887804</span>, <span class="at">refresh =</span> <span class="dv">0</span></span>
+<span id="cb15-17"><a></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Running MCMC with 4 parallel chains...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Chain 2 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Chain 2 Exception: binomial_lpmf: Probability parameter is 1, but must be in the interval [0, 1] (in '/var/folders/3f/7lk7ddbn19j4f1rzxtlx3z9w0000gn/T/RtmpNcnZ0F/model-176a12d00be28.stan', line 65, column 6 to column 41)</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Chain 2 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Chain 2 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Chain 2 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Chain 4 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Chain 4 Exception: binomial_lpmf: Probability parameter is 1, but must be in the interval [0, 1] (in '/var/folders/3f/7lk7ddbn19j4f1rzxtlx3z9w0000gn/T/RtmpNcnZ0F/model-176a12d00be28.stan', line 65, column 6 to column 41)</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Chain 4 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Chain 4 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Chain 4 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Chain 2 finished in 14.6 seconds.
+Chain 4 finished in 14.6 seconds.
+Chain 1 finished in 14.8 seconds.
+Chain 3 finished in 15.4 seconds.
+
+All 4 chains finished successfully.
+Mean chain execution time: 14.9 seconds.
+Total execution time: 15.5 seconds.</code></pre>
+</div>
+</div>
+</section>
+<section id="stan-output" class="slide level2">
+<h2>Stan Output</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a></a>dm <span class="ot">&lt;-</span> admix_fit<span class="sc">$</span><span class="fu">draws</span>(<span class="at">variables =</span> <span class="fu">c</span>(<span class="st">"theta"</span>,<span class="st">"pi"</span>), <span class="at">format =</span> <span class="st">"draws_df"</span>)</span>
+<span id="cb28-2"><a></a></span>
+<span id="cb28-3"><a></a>lstar <span class="ot">&lt;-</span> admix_data<span class="sc">$</span>l_star</span>
+<span id="cb28-4"><a></a>L <span class="ot">&lt;-</span> <span class="fu">ncol</span>(y)</span>
+<span id="cb28-5"><a></a>non_anchor <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="dv">1</span><span class="sc">:</span>L, lstar)</span>
+<span id="cb28-6"><a></a></span>
+<span id="cb28-7"><a></a><span class="co"># Orientation score per draw: average sign over non-anchor loci</span></span>
+<span id="cb28-8"><a></a>sign_per_draw <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(<span class="fu">sapply</span>(non_anchor, <span class="cf">function</span>(l)</span>
+<span id="cb28-9"><a></a>  <span class="fu">sign</span>(dm[[<span class="fu">sprintf</span>(<span class="st">"theta[2,%d]"</span>, l)]] <span class="sc">-</span> dm[[<span class="fu">sprintf</span>(<span class="st">"theta[1,%d]"</span>, l)]])))</span>
+<span id="cb28-10"><a></a></span>
+<span id="cb28-11"><a></a><span class="co"># Reference orientation: the majority sign across all draws</span></span>
+<span id="cb28-12"><a></a>ref_sign <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(<span class="fu">mean</span>(sign_per_draw) <span class="sc">&gt;=</span> <span class="dv">0</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb28-13"><a></a></span>
+<span id="cb28-14"><a></a><span class="co"># Decide which DRAWS to flip (not just which chains)</span></span>
+<span id="cb28-15"><a></a>flip_draw <span class="ot">&lt;-</span> sign_per_draw <span class="sc">*</span> ref_sign <span class="sc">&lt;</span> <span class="dv">0</span></span>
+<span id="cb28-16"><a></a></span>
+<span id="cb28-17"><a></a><span class="co"># Helper: swap theta rows and pi columns for those draws</span></span>
+<span id="cb28-18"><a></a>swap_block <span class="ot">&lt;-</span> <span class="cf">function</span>(df, pat1, pat2, idx){</span>
+<span id="cb28-19"><a></a>  i1 <span class="ot">&lt;-</span> <span class="fu">grep</span>(pat1, <span class="fu">names</span>(df)); i2 <span class="ot">&lt;-</span> <span class="fu">grep</span>(pat2, <span class="fu">names</span>(df))</span>
+<span id="cb28-20"><a></a>  tmp <span class="ot">&lt;-</span> df[idx, i1, drop<span class="ot">=</span><span class="cn">FALSE</span>]</span>
+<span id="cb28-21"><a></a>  df[idx, i1] <span class="ot">&lt;-</span> df[idx, i2, drop<span class="ot">=</span><span class="cn">FALSE</span>]</span>
+<span id="cb28-22"><a></a>  df[idx, i2] <span class="ot">&lt;-</span> tmp</span>
+<span id="cb28-23"><a></a>  df</span>
+<span id="cb28-24"><a></a>}</span>
+<span id="cb28-25"><a></a></span>
+<span id="cb28-26"><a></a><span class="co"># Swap theta rows</span></span>
+<span id="cb28-27"><a></a>dm <span class="ot">&lt;-</span> <span class="fu">swap_block</span>(dm, <span class="st">"^theta</span><span class="sc">\\</span><span class="st">[1,"</span>, <span class="st">"^theta</span><span class="sc">\\</span><span class="st">[2,"</span>, flip_draw)</span>
+<span id="cb28-28"><a></a><span class="co"># Swap pi columns</span></span>
+<span id="cb28-29"><a></a>dm <span class="ot">&lt;-</span> <span class="fu">swap_block</span>(dm, <span class="st">"^pi</span><span class="sc">\\</span><span class="st">[[0-9]+,1</span><span class="sc">\\</span><span class="st">]$"</span>, <span class="st">"^pi</span><span class="sc">\\</span><span class="st">[[0-9]+,2</span><span class="sc">\\</span><span class="st">]$"</span>, flip_draw)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="aligned-posteriors" class="slide level2">
+<h2>Aligned Posteriors</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a></a><span class="co"># Plot aligned posteriors with true values</span></span>
+<span id="cb29-2"><a></a>true_line <span class="ot">&lt;-</span> <span class="cf">function</span>(pars, truths) <span class="fu">data.frame</span>(<span class="at">variable =</span> pars, <span class="at">truth =</span> truths)</span>
+<span id="cb29-3"><a></a></span>
+<span id="cb29-4"><a></a><span class="fu">mcmc_hist</span>(dm, <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">"pi[1,1]"</span>)) <span class="sc">+</span> </span>
+<span id="cb29-5"><a></a>  <span class="fu">geom_vline</span>(<span class="at">data =</span> <span class="fu">true_line</span>(<span class="fu">c</span>(<span class="st">"pi[1,1]"</span>), <span class="fu">c</span>(pi_true[<span class="dv">1</span>,<span class="dv">1</span>])),</span>
+<span id="cb29-6"><a></a>             <span class="fu">aes</span>(<span class="at">xintercept =</span> truth), <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">colour =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb29-7"><a></a><span class="fu">xlim</span>(<span class="dv">0</span>, <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="lecture-04_files/figure-revealjs/unnamed-chunk-22-1.png" width="960" class="r-stretch"></section>
+<section id="credible-intervals" class="slide level2">
+<h2>Credible Intervals</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a></a><span class="fu">mcmc_intervals</span>(dm, <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">"pi[1,1]"</span>, <span class="st">"pi[3,1]"</span>, <span class="st">"pi[14,1]"</span>, <span class="st">"pi[38,1]"</span>)) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="lecture-04_files/figure-revealjs/unnamed-chunk-23-1.png" width="960" class="r-stretch"></section>
 <section id="summary-next-steps" class="slide level2">
 <h2>Summary &amp; Next Steps</h2>
 <ul>
-<li>Detect and correct stratification with diagnostics (λ<sub>GC</sub>, PCA) and mixed-model adjustments before testing</li>
+<li>Population structure influences genetic analyses</li>
 <li>Bayesian framing exposes prior choices, enables posterior uncertainty on structure (ABO example, admixture Stan model)</li>
-<li>Next: Bayesian association (regression) and hierarchical shrinkage for polygenic traits, building on latent structure posteriors</li>
+<li>Bayesian modeling as attempting to capture the <strong>data-generating process</strong></li>
 </ul>
-<aside class="notes">
-<p>Close with a segue to upcoming material reinforcing how current ideas generalize.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="reference" class="slide level2 smaller scrollable">
 <h2>Reference</h2>
@@ -1237,7 +1359,7 @@ Mourant,A.E. <em>et al.</em> (1976) The distribution of the human blood groups a
 Yamamoto,F. (2012) <a href="https://doi.org/10.1159/000342197">ABO blood groups</a>. <em>Transfusion Medicine and Hemotherapy</em>, <strong>39</strong>, 213–220.
 </div>
 </div>
-</section>
+</section></section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">
@@ -1252,7 +1374,6 @@ Yamamoto,F. (2012) <a href="https://doi.org/10.1159/000342197">ABO blood groups<
   <script src="../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
   <script src="../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
   <script src="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
-  <script src="../site_libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
   <script src="../site_libs/revealjs/plugin/quarto-support/support.js"></script>
   
 
@@ -1273,8 +1394,7 @@ Yamamoto,F. (2012) <a href="https://doi.org/10.1159/000342197">ABO blood groups<
 'autoAnimateDuration': 1,
 'autoAnimateUnmatched': true,
 'jumpToSlide': true,
-'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
-'chalkboard': {"buttons":true},
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
 'smaller': false,
  
         // Display controls in the bottom right corner
@@ -1428,7 +1548,7 @@ Yamamoto,F. (2012) <a href="https://doi.org/10.1159/000342197">ABO blood groups<
         margin: 0.1,
 
         // reveal.js plugins
-        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
 
           RevealNotes,
           RevealSearch,
@@ -1480,6 +1600,68 @@ Yamamoto,F. (2012) <a href="https://doi.org/10.1159/000342197">ABO blood groups<
         tabsets.forEach(function(tabset) {
           const tabby = new Tabby('#' + tabset.id);
         });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
           var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
           var mailtoRegex = new RegExp(/^mailto:/);
             var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -1541,160 +1723,6 @@ Yamamoto,F. (2012) <a href="https://doi.org/10.1159/000342197">ABO blood groups<
             }
           });
         }
-            let selectedAnnoteEl;
-            const selectorForAnnotation = ( cell, annotation) => {
-              let cellAttr = 'data-code-cell="' + cell + '"';
-              let lineAttr = 'data-code-annotation="' +  annotation + '"';
-              const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-              return selector;
-            }
-            const selectCodeLines = (annoteEl) => {
-              const doc = window.document;
-              const targetCell = annoteEl.getAttribute("data-target-cell");
-              const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-              const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-              const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-              const lineIds = lines.map((line) => {
-                return targetCell + "-" + line;
-              })
-              let top = null;
-              let height = null;
-              let parent = null;
-              if (lineIds.length > 0) {
-                  //compute the position of the single el (top and bottom and make a div)
-                  const el = window.document.getElementById(lineIds[0]);
-                  top = el.offsetTop;
-                  height = el.offsetHeight;
-                  parent = el.parentElement.parentElement;
-                if (lineIds.length > 1) {
-                  const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-                  const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-                  height = bottom - top;
-                }
-                if (top !== null && height !== null && parent !== null) {
-                  // cook up a div (if necessary) and position it 
-                  let div = window.document.getElementById("code-annotation-line-highlight");
-                  if (div === null) {
-                    div = window.document.createElement("div");
-                    div.setAttribute("id", "code-annotation-line-highlight");
-                    div.style.position = 'absolute';
-                    parent.appendChild(div);
-                  }
-                  div.style.top = top - 2 + "px";
-                  div.style.height = height + 4 + "px";
-                  div.style.left = 0;
-                  let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-                  if (gutterDiv === null) {
-                    gutterDiv = window.document.createElement("div");
-                    gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-                    gutterDiv.style.position = 'absolute';
-                    const codeCell = window.document.getElementById(targetCell);
-                    const gutter = codeCell.querySelector('.code-annotation-gutter');
-                    gutter.appendChild(gutterDiv);
-                  }
-                  gutterDiv.style.top = top - 2 + "px";
-                  gutterDiv.style.height = height + 4 + "px";
-                }
-                selectedAnnoteEl = annoteEl;
-              }
-            };
-            const unselectCodeLines = () => {
-              const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-              elementsIds.forEach((elId) => {
-                const div = window.document.getElementById(elId);
-                if (div) {
-                  div.remove();
-                }
-              });
-              selectedAnnoteEl = undefined;
-            };
-              // Handle positioning of the toggle
-          window.addEventListener(
-            "resize",
-            throttle(() => {
-              elRect = undefined;
-              if (selectedAnnoteEl) {
-                selectCodeLines(selectedAnnoteEl);
-              }
-            }, 10)
-          );
-          function throttle(fn, ms) {
-          let throttle = false;
-          let timer;
-            return (...args) => {
-              if(!throttle) { // first call gets through
-                  fn.apply(this, args);
-                  throttle = true;
-              } else { // all the others get throttled
-                  if(timer) clearTimeout(timer); // cancel #2
-                  timer = setTimeout(() => {
-                    fn.apply(this, args);
-                    timer = throttle = false;
-                  }, ms);
-              }
-            };
-          }
-            const annoteTargets = window.document.querySelectorAll('.code-annotation-anchor');
-            for (let i=0; i<annoteTargets.length; i++) {
-              const annoteTarget = annoteTargets[i];
-              const targetCell = annoteTarget.getAttribute("data-target-cell");
-              const targetAnnotation = annoteTarget.getAttribute("data-target-annotation");
-              const contentFn = () => {
-                const content = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-                if (content) {
-                  const tipContent = content.cloneNode(true);
-                  tipContent.classList.add("code-annotation-tip-content");
-                  return tipContent.outerHTML;
-                }
-              }
-              const config = {
-                allowHTML: true,
-                content: contentFn,
-                onShow: (instance) => {
-                  selectCodeLines(instance.reference);
-                  instance.reference.classList.add('code-annotation-active');
-                  window.tippy.hideAll();
-                },
-                onHide: (instance) => {
-                  unselectCodeLines();
-                  instance.reference.classList.remove('code-annotation-active');
-                },
-                maxWidth: 300,
-                delay: [50, 0],
-                duration: [200, 0],
-                offset: [5, 10],
-                arrow: true,
-                trigger: 'click',
-                appendTo: function(el) {
-                  return el.parentElement.parentElement.parentElement;
-                },
-                interactive: true,
-                interactiveBorder: 10,
-                theme: 'light-border',
-                placement: 'right',
-                positionFixed: true,
-                popperOptions: {
-                  modifiers: [
-                  {
-                    name: 'flip',
-                    options: {
-                      flipVariations: false, // true by default
-                      allowedAutoPlacements: ['right'],
-                      fallbackPlacements: ['right', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left'],
-                    },
-                  },
-                  {
-                    name: 'preventOverflow',
-                    options: {
-                      mainAxis: false,
-                      altAxis: false
-                    }
-                  }
-                  ]        
-                }      
-              };
-              window.tippy(annoteTarget, config); 
-            }
         const findCites = (el) => {
           const parentEl = el.parentElement;
           if (parentEl) {

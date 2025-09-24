@@ -5,10 +5,7 @@ format:
     revealjs:
         theme: [default, "custom.scss"]
         slide-number: true
-        chalkboard: true
         html-math-method: katex
-        code-annotations: select
-        code-copy: false
 execute:
   freeze: auto
   echo: true
@@ -20,13 +17,12 @@ knitr:
       width: 80
 bibliography: references.bib
 csl: https://www.zotero.org/styles/bioinformatics
-citations-hover: true
-draft: true
 ---
 
 ```{r, message=FALSE, warning=FALSE, include=FALSE}
 library(dplyr)
 library(tidyr)
+library(adegenet)
 library(ggplot2)
 library(cmdstanr)
 library(posterior)
@@ -36,28 +32,34 @@ library(scales)
 options(mc.cores = parallel::detectCores())
 ```
 
+# Intro to Bayesian Methods
 
 ## The Bayesian Paradigm
 
+```{=html}
 <style>
     figcaption, p.caption {
         text-align: center;
     }
 </style>
+```
 
-
-- Let $\theta$ be unknown parameters, $y$ observed data
-- While frequentist methods treat $\theta$ as fixed but unknown, Bayesian methods treat $\theta$ as **random variables**
+-   Let $\theta$ be unknown parameters, $y$ observed data
+-   While frequentist methods treat $\theta$ as fixed but unknown, Bayesian methods treat $\theta$ as **random variables**
 
 ![Sir Thomas Bayes](images/thomas-bayes.png)
 
-## Anatomy of Bayes' Rule
 
-- Uncertainty in $\theta$ is modeled via a **prior distribution** $p(\theta)$
-- Observed data $y$ are modeled via a **likelihood** $p(y|\theta)$
-- Bayes' theorem combines these to yield the **posterior distribution** $p(\theta|y) \propto p(y|\theta)p(\theta)$
+
+## Bayes' Theorem
+
+-   Uncertainty in $\theta$ is modeled via a **prior distribution** $p(\theta)$
+-   Observed data $y$ are modeled via a **likelihood** $p(y|\theta)$
+-   Bayes' theorem combines these to yield the **posterior distribution** $p(\theta|y) \propto p(y|\theta)p(\theta)$
 
 ![](images/bayes-dist.png)
+
+
 
 ## Frequentist vs Bayesian Terminology
 
@@ -70,34 +72,31 @@ data.frame(
     knitr::kable()
 ```
 
+
+
 ## Interpretation of Intervals
 
 Compare statements on intervals
 
-- Frequentist: "Over many repeated samples, 95% of such intervals will contain the true parameter."
-- Bayesian: "Given the observed data and prior, there is a 95% probability that the parameter lies within this interval."
+-   Frequentist: "Over many repeated samples, 95% of such intervals will contain the true parameter."
+-   Bayesian: "Given the observed data and prior, there is a 95% probability that the parameter lies within this interval."
+
 
 ## Bayesian Pros and Cons
 
 ### Pros
 
-- Intuitive: direct probability statements about parameters
-- Flexibility: complex models, hierarchical structures, small-n
-- Incorporate prior knowledge or expert opinion
-- Full uncertainty quantification via posterior distributions
+-   Intuitive: direct probability statements about parameters
+-   Flexibility: complex models, hierarchical structures, small-n
+-   Incorporate prior knowledge or expert opinion
+-   Full uncertainty quantification via posterior distributions
 
 ### Cons
 
-- Computationally intensive: MCMC, variational inference
-- Sensitivity to prior choice
-- Not the status quo in many fields
+-   Computationally intensive: MCMC, variational inference
+-   Sensitivity to prior choice
+-   Not the status quo in many fields
 
-## Bayes vs Frequentist in Genetic Inference
-
-- Frequentist pipelines (logistic regression + PCs, LMMs) offer calibrated $p$-values but often ignore uncertainty in latent structure
-- Bayesian models propagate uncertainty in allele frequencies, effect sizes, and structure into downstream predictions (e.g., polygenic risk scores)
-- Empirical Bayes shrinkage (e.g., LDpred) blurs the line: priors estimated from data approximate Bayesian decisions with frequentist guarantees
-- Debate centers on transparency of priors vs. reliance on asymptotics—highlight assumptions explicitly to compare answers, not ideologies
 
 ## Further Resources
 
@@ -107,24 +106,25 @@ Compare statements on intervals
 ![@gelmanBayesianDataAnalysis2013](https://sites.stat.columbia.edu/gelman/book/bda_cover.png)
 :::
 
+
 ## Conjugacy
 
-- A prior is **conjugate** to a likelihood if the posterior is in the same family as the prior.
-- Example: Beta prior + Binomial likelihood $to$ Beta posterior
+-   A prior is **conjugate** to a likelihood if the posterior is in the same family as the prior.
+-   Example: Beta prior + Binomial likelihood $to$ Beta posterior
 
-### Conjugacy Example
+## Conjugacy Example
 
 Consider the allele-frequency estimation setup introduced in Lecture 1.
 
-- Previous experiment: observed $x_{\text{prev}} = 3$ successes (allele A) out of $n_{\text{prev}} = 20$ trials.
-- Current data: $x = 11$ successes out of $n = 27$ trials.
-- Parameter of interest: allele ("success") frequency $p$.
+-   Previous experiment: observed $x_{\text{prev}} = 3$ successes (allele A) out of $n_{\text{prev}} = 20$ trials.
+-   Current data: $x = 11$ successes out of $n = 27$ trials.
+-   Parameter of interest: allele ("success") frequency $p$.
 
 ## Step 1: Prior
 
 From the previous experiment (3 successes out of 20 trials), we can form a Beta prior:
 
-Interpret $\alpha$ and $\beta$ as pseudo-counts of successes and failures, respectively. (Note that $\text{Beta}(1,1)$ is uniform on [0,1].)
+Interpret $\alpha$ and $\beta$ as pseudo-counts of successes and failures, respectively. (Note that $\text{Beta}(1,1)$ is uniform on $0,1$.)
 
 \begin{gather*}
 p \sim \text{Beta}(\alpha, \beta) \\
@@ -134,10 +134,9 @@ p \sim \text{Beta}(\alpha, \beta) \\
 
 ## Step 2: Likelihood
 
-Current data likelihood (up to proportionality in $p$):
-$$L(p; x,n) \propto p^{x} (1-p)^{n-x} = p^{11}(1-p)^{16}.$$
+Current data likelihood (up to proportionality in $p$): $$L(p; x,n) \propto p^{x} (1-p)^{n-x} = p^{11}(1-p)^{16}.$$
 
-Recognize this kernel as 
+Recognize this kernel as
 
 $$
 \text{Beta}(x+1, n-x+1)=\text{Beta}(12,17)
@@ -146,8 +145,7 @@ $$
 
 ## Step 3: Posterior (Conjugacy)
 
-Multiply prior and likelihood kernels:
-$$p^{\alpha-1}(1-p)^{\beta-1}\times p^{x}(1-p)^{n-x} = p^{(\alpha + x) - 1}(1-p)^{(\beta + n - x) - 1}.$$
+Multiply prior and likelihood kernels: $$p^{\alpha-1}(1-p)^{\beta-1}\times p^{x}(1-p)^{n-x} = p^{(\alpha + x) - 1}(1-p)^{(\beta + n - x) - 1}.$$
 
 Thus
 
@@ -159,112 +157,92 @@ p | x \sim \text{Beta}(\alpha + x,\ \beta + n - x)
 
 ## Posterior Summaries
 
-- Posterior mean: $E[p|x] = \frac{15}{15+34} = 0.306$ (shrinks slightly toward prior mean $\frac{4}{22}=0.182$ relative to MLE $\hat p = 11/27 \approx 0.407$).
+-   Posterior mean: $E[p|x] = \frac{15}{15+34} = 0.306$ (shrinks slightly toward prior mean $\frac{4}{22}=0.182$ relative to MLE $\hat p = 11/27 \approx 0.407$).
 
-- Effective sample size intuition: prior contributes $(\alpha+\beta-2)=20$ pseudo-trials; data contribute 27 real trials.
+-   Effective sample size intuition: prior contributes $(\alpha+\beta-2)=20$ pseudo-trials; data contribute 27 real trials.
+
 
 ## Visualization
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
-p <- seq(0,1,length.out=800)
+```{r viz, echo=FALSE, message=FALSE, warning=FALSE}
+p <- seq(0, 1, length.out = 800)
 prior <- dbeta(p, 4, 18)
-likelihood_kernel <- p^11 * (1-p)^16
+likelihood_kernel <- p^11 * (1 - p)^16
 likelihood <- likelihood_kernel / max(likelihood_kernel) * max(prior) # scaled for overlay
 posterior <- dbeta(p, 15, 34)
 library(ggplot2)
 df <- data.frame(p,
-                                 Prior = prior,
-                                 Scaled_Likelihood = likelihood,
-                                 Posterior = posterior) |>
+    Prior = prior,
+    Scaled_Likelihood = likelihood,
+    Posterior = posterior
+) |>
     tidyr::pivot_longer(-p, names_to = "Curve", values_to = "Density")
 
 ggplot(df, aes(p, Density, color = Curve, linetype = Curve)) +
-    geom_line(linewidth=1.2) +
-    scale_color_manual(values=c(Prior="#1b9e77", Scaled_Likelihood="#7570b3", Posterior="#d95f02")) +
-    labs(title="Beta-Binomial Conjugacy Update", x="Allele Frequency p", y="Density / Scaled Density",
-             subtitle="Prior: Beta(4,18); Likelihood kernel: p^{11}(1-p)^{16}; Posterior: Beta(15,34)") +
+    geom_line(linewidth = 1.2) +
+    scale_color_viridis_d(end = .8) +
+    labs(x = "Allele Frequency", y = "Density / Scaled Density") +
     theme_minimal(base_size = 16) +
-    theme(legend.position="bottom")
+    theme(legend.position = "bottom")
 ```
+
 
 ## Non-Conjugate Models
 
-- Conjugacy is convenient but limited to simple models
-- Many realistic models (e.g., multinomial/Dirichlet with nonlinear transforms) are non-conjugate
-- Bayesian inference in these models typically requires computational methods like MCMC or variational inference
-- Richard McElreath has a great [youtube video](https://www.youtube.com/watch?v=rZk2FqX2XnY) on MCMC
+-   Conjugacy is convenient but limited to simple models
+-   Many realistic models (e.g., multinomial/Dirichlet with nonlinear transforms) are non-conjugate
+-   Bayesian inference in these models typically requires computational methods like MCMC or variational inference
+-   Richard McElreath has a great [youtube video](https://www.youtube.com/watch?v=rZk2FqX2XnY) on MCMC
+
 
 ## Bayesian Revisit: ABO Allele Frequencies
 
-- Goal: Infer allele frequencies `(p_A, p_B, p_O)` given phenotype counts `(n_A, n_AB, n_B, n_O)`.
-- Frequentist (Lecture 03): EM treats latent genotypes for A and B phenotypes.
-- Bayesian: Place a prior on allele frequencies; integrate (average) over uncertainty rather than impute expected counts.
+-   Goal: Infer allele frequencies `(p_A, p_B, p_O)` given phenotype counts `(n_A, n_AB, n_B, n_O)`.
+-   Frequentist (Lecture 03): EM treats latent genotypes for A and B phenotypes.
+-   Bayesian: Place a prior on allele frequencies; integrate (average) over uncertainty rather than impute expected counts.
 
-::: notes
-The EM algorithm gave us point estimates by iteratively reassigning ambiguous A and B phenotypes. In the Bayesian framing we directly place a prior on the simplex and obtain a posterior over allele frequencies that reflects finite-sample uncertainty.
-:::
 
 ## Data & Sufficient Statistics
 
-```{r}
-# Phenotype counts (same as EM slide)
-counts <- list(nA = 725, nAB = 72, nB = 258, nO = 1073)
-N <- sum(unlist(counts))
-counts
-```
+-   From Lecture 03, we have:
+-   $n_A = 725$ individuals with A phenotype
+-   $n_{AB} = 72$ individuals with AB phenotype
+-   $n_{B} = 258$ individuals with B phenotype
+-   $n_{O} = 1073$ individuals with O phenotype
+-   Total sample size: $N = 2128$ individuals
 
-- Total sample size: `r N` individuals.
-- Minimal information for this model are the four phenotype counts.
 
-::: notes
-Placing the data early clarifies what the likelihood conditions on before diving into priors or Stan code.
-:::
+## Model Specification
 
-## Model Specification (Recap)
+-   Allele frequency vector: $\boldsymbol p=(p_A,p_B,p_O)$, $\boldsymbol p\sim\text{Dirichlet}(\boldsymbol\alpha)$.
+-   Under HWE, genotype frequencies: $p_A^2, 2p_A p_O, p_B^2, 2 p_B p_O, 2 p_A p_B, p_O^2$.
+-   Phenotype probabilities (aggregating ambiguous genotypes):
+-   $P(\text{A}) = p_A^2 + 2 p_A p_O$
+-   $P(\text{AB}) = 2 p_A p_B$
+-   $P(\text{B}) = p_B^2 + 2 p_B p_O$
+-   $P(\text{O}) = p_O^2$
+-   Likelihood: $(n_A,n_{AB},n_B,n_O) \sim \text{Multinomial}(N, \boldsymbol q)$ with $\boldsymbol q$ above.
 
-- Allele frequency vector: $\boldsymbol p=(p_A,p_B,p_O)$, $\boldsymbol p\sim\text{Dirichlet}(\boldsymbol\alpha)$.
-- Under HWE, genotype frequencies: $p_A^2, 2p_A p_O, p_B^2, 2 p_B p_O, 2 p_A p_B, p_O^2$.
-- Phenotype probabilities (aggregating ambiguous genotypes):
-  - $P(\text{A}) = p_A^2 + 2 p_A p_O$
-  - $P(\text{AB}) = 2 p_A p_B$
-  - $P(\text{B}) = p_B^2 + 2 p_B p_O$
-  - $P(\text{O}) = p_O^2$
-- Likelihood: $(n_A,n_{AB},n_B,n_O) \sim \text{Multinomial}(N, \boldsymbol q)$ with $\boldsymbol q$ above.
-
-::: notes
-Choosing Dirichlet priors keeps conjugacy partially: not fully conjugate because of the nonlinear mapping from allele to phenotype probabilities, but the prior still supplies soft pseudo-counts that regularize towards symmetry (if all alphas equal) or prior knowledge.
-:::
 
 ## Prior Families
 
-### Weakly Informative
+-   Weak Dirichlet(1,1,1) (uniform over allele simplex)
+-   Mild Dirichlet(2,2,2) (light shrink toward center)
 
-- Weak: Dirichlet(1,1,1) (uniform over allele simplex)
-- Mild: Dirichlet(2,2,2) (light shrink toward center)
 
-::: notes
-Set expectations for how each prior should behave before showing shapes or fits.
-:::
+## Using Historical Data
 
-## Prior Families
+-   Consider global survey means $(p_A = 0.26, p_B = 0.09, p_O = 0.65)$ [@mourant1976; @yamamoto2012abo].
+-   Dirichlet prior: $\mathbf{\alpha} = k (0.26, 0.09, 0.65)$
+-   Effective sample size idea: acts like observing k allele draws before current data (2N alleles in sample).
+-   Relative weight vs data (here total alleles = 2N = 4256):
+-   $k = 200 \to$ prior weight $\approx 4.5\%$ of total information.
+-   $k = 1000 \to$ prior weight $\approx 19.0\%$ of total information.
 
-### Using Historical Data
-
-- Consider global survey means $(p_A = 0.26, p_B = 0.09, p_O = 0.65)$ [@mourant1976; @yamamoto2012abo].
-- Dirichlet prior: $\mathbf{\alpha} = k (0.26, 0.09, 0.65)$
-- Effective sample size idea: acts like observing k allele draws before current data (2N alleles in sample).
-- Relative weight vs data (here total alleles = 2N = `r 2*N`):
-    - k = 200 ⇒ prior weight ≈ `r sprintf("%.1f%%", 200/(2*N+200)*100)` of total information.
-    - k = 1000 ⇒ prior weight ≈ `r sprintf("%.1f%%", 1000/(2*N+1000)*100)`.
-
-::: notes
-Explain that k trades off prior certainty vs flexibility. If study population differs (e.g., ancestry-specific shifts), large k may bias estimates. Showing prior SD table makes the 1/k scaling concrete.
-:::
 
 ## Prior Shapes (Marginal Densities)
 
-```{r, message=FALSE, warning=FALSE, echo =FALSE}
-# Function to sample from a Dirichlet distribution without extra packages
+```{r, warning=FALSE, echo=FALSE}
 rdirichlet <- function(n, alpha) {
     k <- length(alpha)
     M <- matrix(rgamma(n * k, shape = alpha, rate = 1), ncol = k, byrow = TRUE)
@@ -297,31 +275,22 @@ ggplot(prior_long, aes(value, fill = prior)) +
     labs(x = "Allele frequency", y = "Density")
 ```
 
-::: notes
-- Weak priors (Dir(1,1,1), Dir(2,2,2)) are diffuse over the simplex.
-- High-concentration informative priors collapse mass tightly around external means.
-- Marginal densities illustrate shrinkage strength before seeing data.
-
-Showing the priors *alone* helps students distinguish likelihood-driven updates from prior-imposed structure. The near-degenerate appearance for large k reinforces the concept of effective sample size encoded in the concentration.
-:::
 
 ## How to fit these models?
 
 ::: {layout="[80, -1, 20]" layout-valign="top"}
-- So we have our data, likelihood, and priors
-- We can use MCMC to sample from the posterior distribution of allele frequencies
-- There exist many software packages to do this! We will use Stan [@carpenterStanProbabilisticProgramming2017] via the `cmdstanr` R package
+-   So we have our data, likelihood, and priors
+-   We can use MCMC to sample from the posterior distribution of allele frequencies
+-   There exist many software packages to do this! We will use Stan [@carpenterStanProbabilisticProgramming2017] via the `cmdstanr` R package
 
 ![](https://mc-stan.org/img/logo_tm.png)
 :::
-
-
 
 ## Stan Model
 
 ### Step 1: Phenotype Probabilities
 
-```stan
+``` stan
 functions {                                           # <1>
     vector abo_pheno_probs(vector p) {                # <2>
         real pA = p[1];                               # <3>
@@ -336,18 +305,41 @@ functions {                                           # <1>
         }                                            
 }                                                     # <1>
 ```
-1. Declare the `functions` block (optional in Stan, but lets us encapsulate logic).
-2. Define a helper that maps allele frequencies to phenotype probabilities.
-3. Extract components (purely for readability in later expressions).
-4. Allocate a length-4 vector `q` (A, AB, B, O) for phenotype probabilities.
-5. Hardy–Weinberg genotype algebra aggregated into phenotype probabilities.
-6. Return the vector; braces close the function and block.
+
+1.  Declare the `functions` block (optional in Stan, but lets us encapsulate logic)
+2.  Define a helper that maps allele frequencies to phenotype probabilities
+3.  Extract components (for readability in later expressions)
+
+## Stan Model
+
+### Step 1: Phenotype Probabilities
+
+``` stan
+functions {                                           # <1>
+    vector abo_pheno_probs(vector p) {                # <2>
+        real pA = p[1];                               # <3>
+        real pB = p[2];                               # <3>
+        real pO = p[3];                               # <3>
+        vector[4] q;                                   # <4>
+        q[1] = pA * pA + 2 * pA * pO; // A phenotype     # <5>
+        q[2] = 2 * pA * pB;            // AB phenotype   # <5>
+        q[3] = pB * pB + 2 * pB * pO; // B phenotype     # <5>
+        q[4] = pO * pO;               // O phenotype     # <5>
+        return q;                                      # <6>
+        }                                            
+}                                                     # <1>
+```
+
+4.  Allocate a length-4 vector `q` (A, AB, B, O) for phenotype probabilities
+5.  Hardy–Weinberg genotype algebra aggregated into phenotype probabilities
+6.  Return the vector
+
 
 ## Stan Model
 
 ### Step 2: Data & Transforms
 
-```stan
+``` stan
 data {                                              # <1>
     int<lower=0> nA;                                  # <2>
     int<lower=0> nAB;                                 # <2>
@@ -361,19 +353,39 @@ transformed data {                                  # <4>
     array[4] int y = { nA, nAB, nB, nO };             # <6>
 }                                                   # <4>
 ```
-1. Raw observed counts and prior hyperparameters enter in the `data` block.
-2. ABO phenotype counts (non-negative integers) per category.
-3. Dirichlet prior parameters supplied from R (allow different priors via `alpha`).
-4. `transformed data` pre-computes deterministic quantities once (saves work per draw).
-5. Total sample size N used for reference or diagnostics.
-6. Assemble counts into an array to pass to the multinomial.
 
+1.  Raw observed counts and prior hyperparameters enter in the `data` block.
+2.  ABO phenotype counts (non-negative integers) per category.
+3.  Dirichlet prior parameters supplied from R (allow different priors via `alpha`).
+
+## Stan Model
+
+### Step 2: Data & Transforms
+
+``` stan
+data {                                              # <1>
+    int<lower=0> nA;                                  # <2>
+    int<lower=0> nAB;                                 # <2>
+    int<lower=0> nB;                                  # <2>
+    int<lower=0> nO;                                  # <2>
+    vector<lower=0>[3] alpha; # Dirichlet hyperparameters # <3>
+}                                                   # <1>
+
+transformed data {                                  # <4>
+    int<lower=0> N = nA + nAB + nB + nO;              # <5>
+    array[4] int y = { nA, nAB, nB, nO };             # <6>
+}                                                   # <4>
+```
+
+4.  `transformed data` pre-computes deterministic quantities once
+5.  Total sample size N used for reference or diagnostics
+6.  Assemble counts into an array to pass to the multinomial
 
 ## Stan Model
 
 ### Step 3: Parameters & Derived `q`
 
-```stan
+``` stan
 parameters {                                        # <1>
     simplex[3] p;  # (pA, pB, pO) on 2-simplex        # <2>
 }                                                   # <1>
@@ -382,36 +394,34 @@ transformed parameters {                            # <3>
     vector[4] q = abo_pheno_probs(p);                 # <4>
 }                                                   # <3>
 ```
-1. Declare unknown quantities to infer in `parameters`.
-2. `simplex[3]` enforces positivity and sum-to-one constraints automatically.
-3. `transformed parameters` recomputes per-draw derived values.
-4. Reuse helper to obtain phenotype probabilities from allele frequencies.
 
----
+1.  Declare unknown quantities to infer in `parameters`
+2.  `simplex[3]` enforces positivity and sum-to-one constraints automatically
+3.  `transformed parameters` recomputes per-draw derived values
+4.  Reuse helper to obtain phenotype probabilities from allele frequencies
 
 ## Stan Model (Step 4: Prior & Likelihood)
 
-```stan
+``` stan
 model {                                             # <1>
     p ~ dirichlet(alpha);                           # <2>
     y ~ multinomial(q);                             # <3>
 }                                                   # <1>
 ```
-1. The `model` block contains all sampling statements contributing to log density.
-2. Dirichlet prior supplies pseudo-count style regularization.
-3. Multinomial likelihood over phenotype counts with probabilities `q`.
 
----
+1.  The `model` block contains all sampling statements contributing to log density
+2.  Dirichlet prior on allele frequencies `p`
+3.  Multinomial likelihood over phenotype counts with probabilities `q`.
+
+
 
 ## Stan Model (Step 5: Generated Quantities)
 
-```stan
+``` stan
 generated quantities {                              # <1>
     real log_lik = multinomial_lpmf(y | q);           # <2>
     vector[6] geno_freq;                              # <3>
-    real pA = p[1];                                   # <4>
-    real pB = p[2];                                   # <4>
-    real pO = p[3];                                   # <4>
+    real pA = p[1]; real pB = p[2]; real pO = p[3];   # <4>                 
     geno_freq[1] = pA * pA;        # AA               # <5>
     geno_freq[2] = 2 * pA * pO;    # AO               # <5>
     geno_freq[3] = pB * pB;        # BB               # <5>
@@ -420,13 +430,13 @@ generated quantities {                              # <1>
     geno_freq[6] = pO * pO;        # OO               # <5>
 }                                                   # <1>
 ```
-1. Post-processing: quantities saved per posterior draw (no effect on inference math).
-2. Store log-likelihood for model comparison / LOO / WAIC.
-3. Allocate genotype frequency vector (optional pedagogical output).
-4. Local aliases improve clarity when computing genotype frequencies.
-5. Hardy–Weinberg genotype probabilities (could be summarized later in R).
 
----
+1.  Post-processing: quantities saved per posterior draw
+2.  Store log-likelihood for model comparison / LOO / WAIC
+3.  Allocate genotype frequency vector
+4.  Local aliases improve clarity when computing genotype frequencies
+5.  Hardy–Weinberg genotype probabilities
+
 
 ## Compile Stan Model
 
@@ -435,12 +445,13 @@ mod_path <- file.path("stan", "abo_multinomial.stan")
 abo_mod <- cmdstan_model(mod_path)
 ```
 
-- Stan uses C++ on the backend, so we need to compile the model once before fitting
-- `cmdstan_model()` handles compilation and returns a model object for sampling
+-   Stan uses C++ on the backend, so we need to compile the model once before fitting
+-   `cmdstan_model()` handles compilation and returns a model object for sampling
 
 ## Fit: Weak Prior (Dirichlet(1,1,1))
 
 ```{r}
+counts <- list(nA = 725, nAB = 72, nB = 258, nO = 1073)
 fit_weak <- abo_mod$sample(         # <1> 
     data = list( # <2>
         nA = counts$nA, nAB = counts$nAB, nB = counts$nB, nO = counts$nO, # <2> 
@@ -452,13 +463,24 @@ fit_weak <- abo_mod$sample(         # <1>
     refresh = 0 # <3>
 )
 ```
-1. Execute the MCMC sampler using the `sample()` method on the compiled model object. This will generate draws from the posterior distribution $p(\boldsymbol{p} | \boldsymbol{y})$.
-2. Pass data from R to Stan as a named list. The names must match the variables declared in the Stan `data` block. Here, `alpha = rep(1, 3)` sets a `Dirichlet(1,1,1)` prior, which is uniform over the simplex.
-3. Specify MCMC sampler settings. We run multiple independent `chains` to diagnose convergence (e.g., via $\hat{R}$). Each chain has a `warmup` phase (for adaptation, discarded) and a `sampling` phase (kept for inference).
+
+1.  Execute the MCMC sampler using the `sample()` method on the compiled model object
+2.  Pass data from R to Stan as a named list
+3.  Specify MCMC sampler settings
+
+
+
+## Model Diagnostics
+
+```{r, echo = TRUE, warning=FALSE, message=FALSE}
+fit_weak$summary()
+```
+
+
 
 ## Posterior Summaries & Intervals (Weak Prior)
 
-```{r, echo = F, warning=FALSE, message=FALSE}
+```{r, echo = TRUE, warning=FALSE, message=FALSE}
 post_weak <- fit_weak$draws(variables = c("p")) |> as_draws_df()
 weak_summ <- post_weak %>% summarise(
     mean_pA = mean(`p[1]`), mean_pB = mean(`p[2]`), mean_pO = mean(`p[3]`),
@@ -469,8 +491,11 @@ weak_ci <- post_weak %>% summarise(
     pB_low = quantile(`p[2]`, 0.025), pB_high = quantile(`p[2]`, 0.975),
     pO_low = quantile(`p[3]`, 0.025), pO_high = quantile(`p[3]`, 0.975)
 )
+```
 
 ## Posterior Histograms (Weak Prior)
+
+```{r, echo = F, warning=FALSE, message=FALSE}
 post_long <- post_weak %>%
     select(pA = `p[1]`, pB = `p[2]`, pO = `p[3]`) %>%
     tidyr::pivot_longer(everything(), names_to = "allele", values_to = "value")
@@ -564,6 +589,7 @@ em_abo <- function(pA0, pB0, counts, tol = 1e-9, max_iter = 1000) {
 }
 
 # Smart start from Lecture 03
+N <- sum(unlist(counts))
 pO0 <- sqrt(counts$nO / N)
 S <- 1 - pO0
 c_prod <- counts$nAB / (2 * N)
@@ -580,10 +606,6 @@ posterior_means <- post_weak %>%
 bind_rows(mle, posterior_means %>% select(method, pA, pB, pO))
 ```
 
-
-::: notes
-This slide emphasizes calibration: the Bayesian machinery reproduces the frequentist point estimates but adds interval estimates derived from the full posterior. With alternative priors you can incorporate external knowledge or shrink extreme estimates for sparse categories.
-:::
 
 ```{r, echo = F, warning=FALSE, message=FALSE, output=FALSE}
 fit_mild <- abo_mod$sample(
@@ -618,8 +640,6 @@ post_inf_strong <- fit_inf_strong$draws("p") %>% as_draws_df()
 
 ## Consolidated Posterior Comparison
 
-Posterior histograms only (models as rows, alleles as columns). Dashed line marks posterior mean.
-
 ```{r, message=FALSE, warning=FALSE, echo = F}
 posterior_long_all <- bind_rows(
     post_weak  %>% select(pA = `p[1]`, pB = `p[2]`, pO = `p[3]`) %>% mutate(prior = "Dir(1,1,1)"),
@@ -647,70 +667,71 @@ ggplot(posterior_long_all, aes(x = value)) +
         caption = "Dashed line: posterior mean"
     ) +
     theme_minimal(base_size = 14) +
-    theme(strip.text = element_text(face = "bold"), plot.caption = element_text(size = 10))
+theme(strip.text = element_text(face = "bold"), plot.caption = element_text(size = 10))
 ```
 
-::: notes
-Removed prior overlay to focus attention on posterior variance contraction across priors without dual-density distraction.
-:::
+
+# Population Structure
 
 ## Population Substructure
 
-- Features of a population which result from variation of expected allele frequencies across individuals
-- Standard allele counting ($\hat{p} = (2n_{AA} + n_{Aa}/2n)$) will still be unbiased
-- But, not all subjects may have the same probability of being represented in the sample
-- Variance of estimate will be effected
+-   Features of a population which result from variation of expected allele frequencies across individuals
+-   Standard allele counting ($\hat{p} = (2n_{AA} + n_{Aa}/2n)$) will still be unbiased
+-   But, not all subjects may have the same probability of being represented in the sample
+-   Variance of estimate will be effected
 
 ## Population Stratification
 
-- Individuals in a population can be subdivided into mutually exclusive strata
-- Within each strata the allele frequency is the same for all individuals
-- Intuitively, we are partitioning a large dataset into multiple smaller datasets
+-   Individuals in a population can be subdivided into mutually exclusive strata
+-   Within each strata the allele frequency is the same for all individuals
+-   Intuitively, we are partitioning a large dataset into multiple smaller datasets
+
+
 
 ## Population Admixture
 
-- When individuals in a population have a mixture of different genetic ancestries due to prior mixing of two or more populations
-- Often result of migration
+-   When individuals in a population have a mixture of different genetic ancestries due to prior mixing of two or more populations
+-   Often result of migration
+
 
 ## Population Admixture
 
 ![From @korunesHumanGeneticAdmixture2021](images/admixture.png)
 
+
 ## Population Inbreeding
 
-- Occurs when there is a preference for mating among relatives
-in a population or because geographic isolation of subgroups restricts mating choices
-- Possibility that an offspring will inherit two copies of the same ancestral allele
-- Define $F$, the inbreeding coefficient, as the probability that a random individual in the population inherits two copies of the
-same allele from a common ancestor
+-   Occurs when there is a preference for mating among relatives in a population or because geographic isolation of subgroups restricts mating choices
+-   Possibility that an offspring will inherit two copies of the same ancestral allele
+-   Define $F$, the inbreeding coefficient, as the probability that a random individual in the population inherits two copies of the same allele from a common ancestor
+
 
 ## Admixture as a Confounder
 
-- Consider the problem of estimating the effect of a SNP on a disease phenotype: $\beta$ in $P(Y=1) = \text{logit}^{-1}(\alpha + \beta G)$
-- Recent admixture mixes ancestries within individuals: genotype is a convex combination of source populations
-- If phenotype prevalence differs by ancestry, local or global ancestry proportions act like hidden covariates
-- Association tests must separate causal signal from ancestry-driven allele frequency differences
+-   Consider the problem of estimating the effect of a SNP on a disease phenotype: $\beta$ in $P(Y=1) = \text{logit}^{-1}(\alpha + \beta G)$
+-   Recent admixture mixes ancestries within individuals: genotype is a convex combination of source populations
+-   If phenotype prevalence differs by ancestry, local or global ancestry proportions act like hidden covariates
+-   Association tests must separate causal signal from ancestry-driven allele frequency differences
 
-
-## Detecting Structure: Diagnostics
-
-- Inflation factors ($\lambda_{GC}$), QQ plots, and LD score intercepts flag confounding at the genome-wide scale
-- $F_{ST}$, population differentiation statistics, and heterozygosity contrasts summarize divergence
-- Eigen-decomposition of the genotype covariance (PCA) reveals axes of ancestry variation
 
 ## Principal Components for Structure
 
-- Construct the standardized genotype matrix $Z$ and compute $Z^T Z / M$ (with $M$ markers)
-- Top eigenvectors capture major ancestry gradients; outliers highlight batch or sample swaps
-- Use the leading PCs as covariates in association tests or to stratify downstream analyses
-- Classroom demo: leverage the `adegenet::eHGDP` microsatellite panel (ships in R) to avoid VCF parsing—convert to CSV and color PCs by continental ancestry
+-   Construct the standardized genotype matrix $Z$ and compute $Z^T Z / M$ (with $M$ markers)
+-   Top eigenvectors capture major ancestry gradients
+-   Use the leading PCs as covariates in association tests or to stratify downstream analyses
 
-```{r, eval=FALSE}
-# Load tidy microsatellite panel (1,350 individuals × 678 loci)
-library(adegenet)
+## Principal Components for Structure
+
+```{r}
 data("eHGDP")
+eHGDP
+```
+
+
+## Principal Components for Structure
+
+```{r, echo = T, eval = F}
 hgdp_df <- genind2df(eHGDP, sep = "/")
-write.csv(hgdp_df, "data/hgdp_microsat.csv", row.names = FALSE)
 
 # Convert to allele count matrix, center columns (replace missing with locus means)
 geno_mat <- scaleGen(eHGDP, center = TRUE, scale = FALSE, NA.method = "mean")
@@ -728,88 +749,179 @@ ggplot(plot_df, aes(PC1, PC2, color = Region)) +
     theme_minimal()
 ```
 
-## Mixed Models & Kinship
+## Principal Components for Structure
 
-- Genomic Relationship Matrices (GRMs) model polygenic background sharing via linear mixed models (LMMs)
-- LMMs decompose phenotypic variance into fixed covariates + random genetic effects, soaking up stratification
-- Software: `GCTA`, `BOLT-LMM`, `SAIGE` scale to biobank settings; Bayesian analogues treat GRM variance components as parameters
+```{r, echo = F, eval = T}
+hgdp_df <- genind2df(eHGDP, sep = "/")
 
-## Correction Toolbox
+# Convert to allele count matrix, center columns (replace missing with locus means)
+geno_mat <- scaleGen(eHGDP, center = TRUE, scale = FALSE, NA.method = "mean")
+pc_fit <- prcomp(geno_mat, center = FALSE, scale. = FALSE)
 
-- Include global ancestry covariates (PCs, admixture proportions)
-- Calibrate test statistics (genomic control) when residual inflation remains
-- Within-ancestry, case-only, or family-based designs remove between-group confounding at the design stage
-- Mixed-model association (REML/BLUP or Bayesian) further mitigates subtle relatedness
+# Map individuals to geographic regions for coloring
+pop_info <- eHGDP@other$popInfo
+pop_index <- as.integer(pop(eHGDP))
+region <- pop_info$Region[pop_index]
 
-## When PCA Is Not Enough
+plot_df <- data.frame(PC1 = pc_fit$x[, 1], PC2 = pc_fit$x[, 2], Region = region)
+ggplot(plot_df, aes(PC1, PC2, color = Region)) +
+    geom_point(alpha = 0.7, size = 1.5) +
+    labs(title = "Population structure diagnostic", x = "PC1", y = "PC2") +
+theme_minimal()
+```
 
-- Fine-scale substructure (Ashkenazi vs Sephardi, Yoruba vs Igbo) can survive adjustment on a handful of PCs
-- Long-range LD, recent relatedness, and batch artefacts violate homoscedastic residual assumptions
-- Hierarchical models can borrow strength across loci while preserving uncertainty in latent structure
+## STRUCTURE & ADMIXTURE
 
-## Bayesian Admixture (STRUCTURE-Style)
+-   Model-based clustering methods for population structure inference 
+-   Assume $K$ latent populations with distinct allele frequencies
+-   Each individual has ancestry proportions $\boldsymbol{\pi}_i$ across $K$ populations
+-   Each genotype is drawn from a mixture of population-specific allele frequencies
+-   Use maximum likelihood (ADMIXTURE) or Bayesian inference (STRUCTURE) to estimate parameters
 
-- Latent populations $k = 1,\ldots,K$ possess allele frequencies $\theta_{k\ell}$ at locus $\ell$
-- Individual ancestry proportions $\boldsymbol{\pi}_i \sim \text{Dirichlet}(\boldsymbol{\alpha})$
-- Genotype $y_{i\ell} \sim \text{Binomial}\left(2, \sum_{k} \pi_{ik} \theta_{k\ell}\right)$ assuming HWE within each ancestral population
-- Posterior draws propagate ancestry/allele-frequency uncertainty into association testing, local ancestry, and polygenic prediction
+## Assumptions
 
+-   Hardy-Weinberg equilibrium within each ancestral population
+-   Linkage equilibrium between loci within each ancestral population
+-   Loci are unlinked (or weakly linked)
+
+## Example Output
+
+![](https://media.springernature.com/full/springer-static/image/art%3A10.1038%2Fs41437-022-00535-z/MediaObjects/41437_2022_535_Fig4_HTML.png)
+
+## Bayesian Admixture
+
+-   Latent populations $k = 1,\ldots,K$ possess allele frequencies $\theta_{k\ell}$ at locus $\ell$
+-   Individual ancestry proportions $\boldsymbol{\pi}_i \sim \text{Dirichlet}(\boldsymbol{\alpha})$
+-   Genotype $y_{i\ell} \sim \text{Binomial}\left(2, \sum_{k} \pi_{ik} \theta_{k\ell}\right)$ assuming HWE within each ancestral population
+-   Posterior draws propagate ancestry/allele-frequency uncertainty into association testing, local ancestry, and polygenic prediction
+
+## Identifiability & Label Switching
+
+-   Problem: Mixture components are exchangeable → posterior multimodality
+-   Solution: Anchor loci with informative priors break symmetry
+    -   Populations defined by genetic signatures, not arbitrary labels
+    -   Multiple anchors provide robustness against weak signals
 
 ## Stan Model: Data & Parameters
 
-```stan
+``` stan
 data {
-    int<lower=1> N;                // individuals
-    int<lower=1> L;                // loci
-    int<lower=1> K;                // ancestral pops
-    int<lower=0, upper=2> y[N, L]; // genotypes
-    vector<lower=0>[K] alpha;      // ancestry prior
-    real<lower=0> a_theta;
-    real<lower=0> b_theta;
+  int<lower=1> N;                                // individuals
+  int<lower=1> L;                                // loci
+  int<lower=1> K;                                // ancestral pops
+  array[N, L] int<lower=0, upper=2> y;           // genotypes (0,1,2)
+  int<lower=0> L_soft;
+  array[L_soft] int<lower=1, upper=L> soft_idx;  // e.g., {2}
+  array[K] real<lower=0> a_theta;                // Beta 'a' for non-anchor loci
+  array[K] real<lower=0> b_theta;                // Beta 'b' for non-anchor loci
+  int<lower=1, upper=L> l_star;                  // anchor locus index
+  real<lower=0> conc_pi;                         // shared Dirichlet conc. for pi
+}
+```
+
+## Stan Model: Parameters & Transformed Parameters
+
+``` stan
+parameters {
+  array[N] simplex[K] pi;                        // ancestry proportions
+  ordered[K] eta;                                // ordered logits at anchor locus
+  matrix<lower=0, upper=1>[K, L-1] theta_rest;   // allele freqs for non-anchor loci
 }
 
-parameters {
-    array[N] simplex[K] pi;        // admixture proportions
-    matrix<lower=0, upper=1>[K, L] theta; // allele freqs
-}
 
 transformed parameters {
-    matrix[N, L] p_mix;
-    for (n in 1:N)
-        for (l in 1:L)
-            p_mix[n, l] = dot_product(pi[n], col(theta, l));
+  matrix<lower=0, upper=1>[K, L] theta;          // full allele-frequency matrix
+  matrix[N, L] p_mix;                            // mixed allele frequency
+
+  // anchor column (ordered)
+  for (k in 1:K) theta[k, l_star] = inv_logit(eta[k]);
+
+  // fill remaining columns
+  {
+    int c = 1;
+    for (l in 1:L) {
+      if (l == l_star) continue;
+      for (k in 1:K) theta[k, l] = theta_rest[k, c];
+      c += 1;
+    }
+  }
+
+  // mixture expectations
+  for (n in 1:N)
+    for (l in 1:L)
+      p_mix[n, l] = dot_product(pi[n], col(theta, l));
 }
 ```
 
-## Stan Model: Likelihood & Priors
+## Stan Model: Priors & Likelihood
+
+``` stan
+model {
+  // priors
+  eta ~ normal(0, 2.5);                          // weak prior; ordering gives ID
+  for (k in 1:K)
+    for (c in 1:(L - 1))
+      theta_rest[k, c] ~ beta(a_theta[k], b_theta[k]);
+
+  for (n in 1:N)
+    pi[n] ~ dirichlet(rep_vector(conc_pi, K));
+
+  for (c in 1:L_soft) {
+  int l = soft_idx[c];
+  if (l != l_star) {
+    // comp 1 LOW, comp 2 HIGH at these loci (gentle)
+    target += beta_lpdf(theta[1, l] | 2, 8);
+    target += beta_lpdf(theta[2, l] | 8, 2);
+  }
+}
+
+  // likelihood
+  for (n in 1:N)
+    for (l in 1:L)
+      y[n, l] ~ binomial(2, p_mix[n, l]);
+}
+```
+
+
+## Stan Model: Generated Quantities
 
 ```stan
-model {
-    for (n in 1:N)
-        pi[n] ~ dirichlet(alpha);
-
-    for (k in 1:K)
-        for (l in 1:L)
-            theta[k, l] ~ beta(a_theta, b_theta);
-
-    for (n in 1:N)
-        for (l in 1:L)
-            y[n, l] ~ binomial(2, p_mix[n, l]);
-}
-
 generated quantities {
-    matrix[N, K] logit_pi;
-    for (n in 1:N)
-        for (k in 1:K)
-            logit_pi[n, k] = logit(pi[n, k]);
+  matrix[N, K] logit_pi;
+  array[N, L] int y_rep;
+
+  for (n in 1:N)
+    for (k in 1:K)
+      logit_pi[n, k] = logit(pi[n, k]);
+
+  for (n in 1:N)
+    for (l in 1:L)
+      y_rep[n, l] = binomial_rng(2, p_mix[n, l]);
 }
 ```
 
-::: notes
-Logit-transformed ancestry proportions support diagnostics (ternary plots) and regression models on the real line.
-:::
+## Mathematical Framework
 
-## Fitting the Admixture Model in R
+### Individual-Locus Allele Frequency
+
+For individual $i$ at locus $\ell$, expected allele frequency: $$p_{i\ell} = \sum_{k=1}^K \pi_{ik} \theta_{k\ell}$$
+
+### Information Borrowing Across Loci
+
+**Key insight:** Same $\boldsymbol{\pi}_i$ parameters appear in likelihood for all loci
+
+$$L(\boldsymbol{\pi}_i, \boldsymbol{\Theta}) = \prod_{\ell=1}^L \text{Binomial}\left(y_{i\ell} \mid 2, \sum_{k=1}^K \pi_{ik} \theta_{k\ell}\right)$$
+
+
+## Mathematical Framework
+
+### Hierarchical Learning
+
+-   Anchor loci provide strong identification signal
+-   Remaining loci contribute cumulative evidence
+-   Posterior uncertainty propagates through all parameters
+
+## Simulating Admixed Genotypes
 
 ```{r, warning = FALSE, message = FALSE, echo = TRUE}
 set.seed(887804)                                        # <1>
@@ -821,22 +933,47 @@ rdirichlet <- function(n, alpha) {                      # <2>
     sweep(gamma_draws, 1, rowSums(gamma_draws), "/")    # <2>
 }
 
-N <- 200  # individuals                                 # <3>
-L <- 100  # loci                                        # <3>
-K <- 2    # ancestral populations                       # <3>
-
-# Moderate separation: pop1 ~ Beta(8,12), pop2 ~ Beta(12,8)
-theta_true <- rbind(
-  rbeta(L, 8, 12),
-  rbeta(L, 12, 8)
-)                                                     # <4>
-pi_true <- rdirichlet(N, rep(0.3, K))                 # <5>
+N <- 40   # individuals    # <3>
+L <- 20   # loci             # <3>
+K <- 2    # ancestral populations                               # <3>
 ```
-1. Fix seed for reproducibility
-2. Helper that generates Dirichlet samples by normalising Gamma draws
-3. Simulate 200 individuals at 100 loci from 2 ancestral populations
-4. Draw population allele frequencies with moderate separation: Beta(8,12) vs Beta(12,8)
-5. Draw individual ancestry proportions from a sparse Dirichlet(0.3,0.3) (creates anchors)
+
+1.  Fixed random seed for consistent results across sessions
+2.  Normalized gamma variates generate simplex-constrained ancestry proportions
+3.  Set simulation parameters
+
+
+
+## Simulating Admixed Genotypes
+
+```{r}
+# Create very clear population differentiation                   # <4>
+theta_true <- matrix(0, nrow = K, ncol = L)
+
+# Multiple anchor loci: very strong differentiation
+theta_true[1, 1] <- 0.1  # Pop 1: very low frequency at anchor 1
+theta_true[2, 1] <- 0.9  # Pop 2: very high frequency at anchor 1
+theta_true[1, 2] <- 0.1  # Pop 1: very low frequency at anchor 2
+theta_true[2, 2] <- 0.9  # Pop 2: very high frequency at anchor 2
+
+# Other loci: strong differentiation 
+theta_true[1, 3:L] <- rbeta(L-2, 2, 8)   # Pop 1: much lower overall
+theta_true[2, 3:L] <- rbeta(L-2, 8, 2)   # Pop 2: much higher overall
+
+
+pi_true <- rbind(                                            # <5>
+  rdirichlet(12, c(90, 10)),  # pop 1
+  rdirichlet(12, c(10, 90)),  # Very pure pop 2
+  rdirichlet(16, c(10, 10))                                    # Admixed individuals
+)
+```
+
+4.  Strong genetic signatures with multiple anchor loci
+5.  Mix of unadmixed founders and admixed descendants
+
+
+## Simulating Admixed Genotypes
+
 
 ```{r}
 y <- matrix(0L, nrow = N, ncol = L)                     # <6>
@@ -847,12 +984,14 @@ for (n in 1:N) {
     }
 }
 ```
+6.  Genotypes drawn from Binomial(2, p_mix) per individual and locus
+
 
 ## PCA On Simulated Genotypes
 
-- Center genotypes by $2 \times \hat{p}$ and scale by $\sqrt{2 \cdot \hat{p} \cdot (1 - \hat{p})}$
+-   Center genotypes by $2 \times \hat{p}$ and scale by $\sqrt{2 \cdot \hat{p} \cdot (1 - \hat{p})}$
 
-```{r}
+```{r, eval = F}
 p_hat <- colMeans(y) / 2
 sd_hat <- sqrt(pmax(1e-6, 2 * p_hat * (1 - p_hat)))
 Z <- scale(y, center = 2 * p_hat, scale = sd_hat)
@@ -872,300 +1011,112 @@ ggplot(pc_df, aes(PC1, PC2, color = pi1)) +
   theme(panel.grid = element_blank()) 
 ```
 
-## Choosing K (Model Selection)
+## PCA On Simulated Genotypes
 
-- Compare models with $K \in \{1,2,3,4\}$ via approximate LOO-CV
-- Prefer smaller K once predictive fit plateaus
+```{r, echo = F}
+p_hat <- colMeans(y) / 2
+sd_hat <- sqrt(pmax(1e-6, 2 * p_hat * (1 - p_hat)))
+Z <- scale(y, center = 2 * p_hat, scale = sd_hat)
+pc <- prcomp(Z, center = FALSE, scale. = FALSE)
 
-```{r, eval=FALSE}
-admix_mod <- cmdstan_model(file.path("lectures", "stan", "structure_admixture.stan"))
-
-fit_one_K <- function(Kc, iter = 300) {
-  data_c <- list(N = N, L = L, K = Kc, y = y,
-                 alpha = rep(1, Kc), a_theta = 1.5, b_theta = 1.5)
-  fit_c <- admix_mod$sample(data = data_c,
-                            chains = 4, parallel_chains = 4,
-                            iter_warmup = iter, iter_sampling = iter,
-                            adapt_delta = 0.85, refresh = 0)
-  loglik_draws <- fit_c$draws("log_lik", format = "draws_matrix")
-  loo_res <- loo(loglik_draws)
-  tibble(K = Kc,
-         elpd_loo = loo_res$estimates["elpd_loo", "Estimate"],
-         looic    = loo_res$estimates["looic", "Estimate"])
-}
-
-Ks <- 1:3
-loo_tbl <- bind_rows(lapply(Ks, fit_one_K))
-
-ggplot(loo_tbl, aes(K, -elpd_loo)) +
-  geom_line() + geom_point(size = 2) +
-  labs(x = "K", y = "−elpd_loo (lower is better)",
-       title = "Model selection by approximate LOO-CV") +
-  theme_minimal()
-
-stan_data <- list(                                      # <7>
-    N = N,
-    L = L,
-    K = K,
-    y = y,
-    alpha = rep(1, K),
-    a_theta = 1.5,
-    b_theta = 1.5
-)
+pc_df <- data.frame(PC1 = pc$x[, 1], PC2 = pc$x[, 2], pi1 = pi_true[, 1])
+ggplot(pc_df, aes(PC1, PC2, color = pi1)) +
+  geom_point(alpha = 0.7, size = 1.6) +
+  scale_color_viridis_c(end = .8) +
+  labs(color = expression(pi[1]), x = "PC1", y = "PC2") +
+  geom_vline(xintercept = 2.75, linetype = "dashed", color = "gray40", linewidth = 0.6) +
+  geom_vline(xintercept = -2.75, linetype = "dashed", color = "gray40", linewidth = 0.6) +
+  annotate("text", x = 4.5, y = 6, label = "Pop 1", color = "gray20", size = 6) +
+  annotate("text", x = -4.5, y = 6, label = "Pop 2", color = "gray20", size = 6) +
+  annotate("text", x = 0, y = 6, label = "Admixed", color = "gray20", size = 6) +
+  theme_bw(base_size = 14) +
+  theme(panel.grid = element_blank()) 
 ```
+
+
+## Fitting the Model
 
 ```{r}
-admix_mod <- cmdstan_model(file.path("lectures", "stan", "structure_admixture.stan")) # <8>
-admix_fit <- admix_mod$sample(                          # <9>
-    data = stan_data,
-    chains = 4,
-    parallel_chains = 4,
-    iter_warmup = 500,
-    iter_sampling = 500,
-    adapt_delta = 0.85,
-    seed = 887804,
-    refresh = 0
+admix_mod <- cmdstan_model(file.path("stan", "structure_admixture.stan"))
+
+l_star <- 1  # choose your anchor locus (e.g., 1)
+
+admix_data <- list(
+    N = N, L = L, K = K, y = y,
+    a_theta = rep(1.5, K), b_theta = rep(1.5, K),
+    l_star = l_star, L_soft = 1, soft_idx = c(2),
+    conc_pi = 2.0      
+)
+
+admix_fit <- admix_mod$sample(
+  data = admix_data,
+  chains = 4, parallel_chains = 4,
+  iter_warmup = 2000, iter_sampling = 2000,
+  seed = 887804, refresh = 0
 )
 ```
+
+## Stan Output
+
+```{r, warning = FALSE}
+dm <- admix_fit$draws(variables = c("theta","pi"), format = "draws_df")
+
+lstar <- admix_data$l_star
+L <- ncol(y)
+non_anchor <- setdiff(1:L, lstar)
+
+# Orientation score per draw: average sign over non-anchor loci
+sign_per_draw <- rowMeans(sapply(non_anchor, function(l)
+  sign(dm[[sprintf("theta[2,%d]", l)]] - dm[[sprintf("theta[1,%d]", l)]])))
+
+# Reference orientation: the majority sign across all draws
+ref_sign <- ifelse(mean(sign_per_draw) >= 0, -1, 1)
+
+# Decide which DRAWS to flip (not just which chains)
+flip_draw <- sign_per_draw * ref_sign < 0
+
+# Helper: swap theta rows and pi columns for those draws
+swap_block <- function(df, pat1, pat2, idx){
+  i1 <- grep(pat1, names(df)); i2 <- grep(pat2, names(df))
+  tmp <- df[idx, i1, drop=FALSE]
+  df[idx, i1] <- df[idx, i2, drop=FALSE]
+  df[idx, i2] <- tmp
+  df
+}
+
+# Swap theta rows
+dm <- swap_block(dm, "^theta\\[1,", "^theta\\[2,", flip_draw)
+# Swap pi columns
+dm <- swap_block(dm, "^pi\\[[0-9]+,1\\]$", "^pi\\[[0-9]+,2\\]$", flip_draw)
+```
+
+
+## Aligned Posteriors
+
+```{r, message=FALSE, warning=FALSE}
+# Plot aligned posteriors with true values
+true_line <- function(pars, truths) data.frame(variable = pars, truth = truths)
+
+mcmc_hist(dm, pars = c("pi[1,1]")) + 
+  geom_vline(data = true_line(c("pi[1,1]"), c(pi_true[1,1])),
+             aes(xintercept = truth), linetype = "dashed", colour = "red") +
+xlim(0, 1)
+```
+
+
+## Credible Intervals
 
 ```{r}
-theta_draws_array <- admix_fit$draws("theta", format = "draws_array")          # <10>
-mcmc_hist(theta_draws_array, pars = "theta[1,1]") +                              # <10>
-    geom_vline(xintercept = theta_true[1, 1],                                     # <10>
-               linetype = "dashed", color = "red", linewidth = 0.6)
-pi_draws_array <- admix_fit$draws("pi", format = "draws_array")               # <11>
-mcmc_hist(pi_draws_array, pars = "pi[1,1]") +                                  # <12>
-    geom_vline(xintercept = pi_true[1, 1],                                      # <12>
-               linetype = "dashed", color = "red", linewidth = 0.6)
-
-pi_rvar    <- as_draws_rvars(admix_fit$draws("pi"))$pi       # <13>
-theta_rvar <- as_draws_rvars(admix_fit$draws("theta"))$theta # <13>
-
-pi_est_mat    <- mean(pi_rvar)                               # <14>
-theta_est_mat <- mean(theta_rvar)                            # <14>
-
-pi_rmse    <- sqrt(mean((pi_est_mat    - pi_true)^2))        # <15>
-theta_rmse <- sqrt(mean((theta_est_mat - theta_true)^2))     # <15>
-pi_rmse
-theta_rmse
+mcmc_intervals(dm, pars = c("pi[1,1]", "pi[3,1]", "pi[14,1]", "pi[38,1]")) 
 ```
-```{r, eval=FALSE}
-# Align estimated components to the simulated truth (mitigate label switching)
-align_components <- function(theta_est, theta_truth) {
-  K <- nrow(theta_est)
-  # enumerate permutations for small K (<=5)
-  perms <- local({
-    v <- 1:K; out <- list()
-    rec <- function(prefix, rest) {
-      if (!length(rest)) { out[[length(out)+1]] <<- prefix; return() }
-      for (i in seq_along(rest)) rec(c(prefix, rest[i]), rest[-i])
-    }
-    rec(integer(0), v); do.call(rbind, out)
-  })
-  C <- cor(t(theta_est), t(theta_truth))
-  scores <- apply(perms, 1, function(p) sum(diag(C[p, , drop = FALSE])))
-  perms[which.max(scores), ]
-}
-
-perm <- align_components(theta_est_mat, theta_true)
-theta_est_aligned <- theta_est_mat[perm, , drop = FALSE]
-pi_est_aligned    <- pi_est_mat[, perm, drop = FALSE]
-
-pi_rmse_aligned    <- sqrt(mean((pi_est_aligned    - pi_true)^2))
-theta_rmse_aligned <- sqrt(mean((theta_est_aligned - theta_true)^2))
-pi_rmse_aligned
-theta_rmse_aligned
-```
-1. Load modelling, posterior, and plotting libraries required for the Stan fit and diagnostics.
-2. Fix the RNG seed so students reproduce the same simulated cohort and posterior draws.
-3. Tiny helper that generates Dirichlet samples by normalising Gamma draws.
-4. Choose class-friendly sizes for individuals, loci, and ancestral populations.
-5. Draw the “true” population allele frequencies from a concentrated Beta prior.
-6. Draw individual ancestry proportions from a moderately concentrated Dirichlet prior.
-7. Simulate diploid genotypes by binomial sampling around ancestry-weighted allele frequencies.
-8. Package the simulated data and hyperparameters exactly as Stan expects them.
-9. Compile the STRUCTURE-style Stan model housed under `lectures/stan/`.
-10. Run HMC with modest settings—fast enough for class while capturing posterior shape.
-
-## Posterior Summaries (Admixture)
-
-- Compare posterior means $\hat{\pi}_{ik}$ against the simulated truth to confirm the model recovers ancestry proportions (RMSE reported above)
-- Posterior draws for $\theta_{k\ell}$ provide credible intervals on population-specific allele frequencies for downstream association
-- Posterior predictive checks or replicated phenotypes can diagnose residual stratification before moving to real data
-
-## Posterior Density Plots
-
-- Convert Stan output to `posterior::rvar` objects to preserve array shapes automatically
-- Density overlays with dashed true values visually confirm the model recovers simulated parameters
-
-```{r, eval=FALSE}
-pi_rvar <- as_draws_rvars(admix_fit$draws("pi"))$pi
-theta_rvar <- as_draws_rvars(admix_fit$draws("theta"))$theta
-
-rvar_to_long <- function(x, truth, idx_names) {
-    arr <- as.array(x)
-    dimnames(arr) <- list(
-        draw = seq_len(dim(arr)[1]),
-        idx1 = seq_len(dim(arr)[2]),
-        idx2 = seq_len(dim(arr)[3])
-    )
-    df <- as.data.frame(as.table(arr), stringsAsFactors = FALSE)
-    names(df) <- c("draw", idx_names, "value")
-    df[[idx_names[1]]] <- as.integer(df[[idx_names[1]]])
-    df[[idx_names[2]]] <- as.integer(df[[idx_names[2]]])
-    df$true <- truth[cbind(df[[idx_names[1]]], df[[idx_names[2]]])]
-    df
-}
-
-pi_long <- rvar_to_long(pi_rvar, pi_true, c("individual", "component"))
-theta_long <- rvar_to_long(theta_rvar, theta_true, c("population", "locus"))
-
-ggplot(filter(pi_long, individual <= 6),
-       aes(value, colour = factor(component), fill = factor(component))) +
-    geom_density(alpha = 0.25) +
-    geom_vline(aes(xintercept = true, colour = factor(component)),
-               linetype = "dashed", linewidth = 0.4) +
-    facet_wrap(~ individual, ncol = 3) +
-    labs(x = "Ancestry proportion", y = "Posterior density",
-         colour = "Component", fill = "Component",
-         title = "Posterior of π (true values dashed)") +
-    theme_minimal()
-
-ggplot(filter(theta_long, locus <= 9),
-       aes(value, colour = factor(population), fill = factor(population))) +
-    geom_density(alpha = 0.25) +
-    geom_vline(aes(xintercept = true, colour = factor(population)),
-               linetype = "dashed", linewidth = 0.4) +
-    facet_wrap(~ locus, ncol = 3) +
-    labs(x = "Allele frequency", y = "Posterior density",
-         colour = "Population", fill = "Population",
-         title = "Posterior of θ (true values dashed)") +
-    theme_minimal()
-```
-
-## Bayesplot (draws_array) Quick Views
-
-- Use `cmdstanr$draws(..., format = "draws_array")` directly with `bayesplot`
-- Show single-parameter histograms with true values, chain overlap, and intervals for selected panels
-
-```{r, eval=FALSE}
-library(bayesplot)
-color_scheme_set("brightblue")
-
-# helpers for Stan-style names
-par_pi    <- function(i, k) sprintf("pi[%d,%d]", i, k)
-par_theta <- function(k, l) sprintf("theta[%d,%d]", k, l)
-
-pi_arr    <- admix_fit$draws("pi",    format = "draws_array")
-theta_arr <- admix_fit$draws("theta", format = "draws_array")
-
-# 1) Single-parameter histograms + true values
-mcmc_hist(pi_arr,    pars = par_pi(1, 1)) +
-  geom_vline(xintercept = pi_true[1, 1],
-             linetype = "dashed", color = "red", linewidth = 0.6) +
-  labs(title = expression(paste("Posterior of ", pi[1,1])),
-       x = expression(pi[1,1]), y = "Density")
-
-mcmc_hist(theta_arr, pars = par_theta(2, 2)) +
-  geom_vline(xintercept = theta_true[2, 2],
-             linetype = "dashed", color = "red", linewidth = 0.6) +
-  labs(title = expression(paste("Posterior of ", theta[2,2])),
-       x = expression(theta[2,2]), y = "Density")
-
-# 2) Chain overlap for mixing check (π[1,1])
-mcmc_dens_chains(pi_arr, pars = par_pi(1, 1)) +
-  labs(title = expression(paste("Chain densities for ", pi[1,1])),
-       x = expression(pi[1,1]), y = "Density")
-
-# 3) Intervals for small panels
-pi_i1 <- vapply(1:12, \(i) par_pi(i, 1), character(1))
-mcmc_intervals(pi_arr, pars = pi_i1) +
-  labs(title = "Posterior intervals: π[i,1] for i = 1..12",
-       x = "Ancestry proportion", y = NULL)
-
-th_k1 <- vapply(1:12, \(l) par_theta(1, l), character(1))
-mcmc_intervals(theta_arr, pars = th_k1) +
-  labs(title = "Posterior intervals: θ[1,l] for l = 1..12",
-       x = "Allele frequency", y = NULL)
-```
-
-::: notes
-These figures require that the sampling chunk has already run so `admix_fit`, `pi_true`, and `theta_true` exist in the session. Keeping them `eval=FALSE` avoids re-running during knit; run them live in class to discuss calibration and mixing.
-:::
-
-## What “Reference” Means (Admixture)
-
-- “Reference” or “supervised” admixture uses individuals from known populations as anchors. You either fix or strongly constrain their ancestry vectors (e.g., π ≈ e_k) and infer the rest.
-- Why use it? It breaks label symmetry, stabilizes components, and makes interpretation straightforward (e.g., anchoring on 1000G EUR/AFR/EAS panels).
-- Is it standard? Both unsupervised and supervised modes are used. Unsupervised is common for discovery; supervised is common when mapping to known ancestries. The trade-off is potential bias if references aren’t representative of the study data.
-## π Barplots with Credible Intervals (subset)
-
-```{r, eval=FALSE}
-# Summaries via rvar arrays (no string parsing)
-pi_arr <- as.array(pi_rvar)                    # draws × N × K
-pi_mean  <- apply(pi_arr, c(2, 3), mean)
-pi_lo    <- apply(pi_arr, c(2, 3), quantile, 0.025)
-pi_hi    <- apply(pi_arr, c(2, 3), quantile, 0.975)
-
-dom <- apply(pi_mean, 1, which.max)
-ord <- order(dom, decreasing = TRUE)
-keep <- ord[seq_len(min(40, length(ord)))]     # show first 40 for readability
-
-df_bar <- tibble(
-  individual = rep(keep, each = K),
-  component  = factor(rep(1:K, times = length(keep))),
-  mean  = as.vector(pi_mean[keep, ]),
-  lower = as.vector(pi_lo[keep, ]),
-  upper = as.vector(pi_hi[keep, ])
-)
-
-ggplot(df_bar, aes(x = factor(individual), y = mean, fill = component)) +
-  geom_col(width = 0.9, position = "stack") +
-  geom_errorbar(aes(ymin = lower, ymax = upper),
-                position = position_stack(vjust = 0.5), width = 0.3, linewidth = 0.3) +
-  labs(x = "Individual (sorted by dominant component)", y = "Ancestry proportion",
-       fill = "Component", title = "Posterior mean π with 95% intervals (subset)") +
-  theme_minimal() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5))
-```
-
-<!-- Ternary plot omitted in fast 2-ancestry classroom mode -->
-
-## Posterior Predictive Check: Heterozygosity (pooled)
-
-```{r, eval=FALSE}
-het_obs <- colMeans(y == 1)
-S <- 200
-set.seed(887804)
-draw_ids <- sample(dim(as.array(pi_rvar))[1], S, replace = FALSE)
-pi_arr_s    <- as.array(pi_rvar)[draw_ids, , , drop = FALSE]
-theta_arr_s <- as.array(theta_rvar)[draw_ids, , , drop = FALSE]
-het_rep <- matrix(NA_real_, nrow = S, ncol = L)
-for (s in 1:S) {
-  P <- pi_arr_s[s, , ] %*% theta_arr_s[s, , ]
-  het_rep[s, ] <- colMeans(2 * P * (1 - P))
-}
-ppc_df <- tibble(type = rep(c("Observed", "Replicated"), c(L, L * S)),
-                 value = c(het_obs, as.vector(t(het_rep))))
-ggplot(ppc_df, aes(value, fill = type)) +
-  geom_density(alpha = 0.4) +
-  labs(x = "Heterozygosity", y = "Density",
-       title = "Posterior predictive vs observed heterozygosity (across loci)") +
-  theme_minimal()
-```
-
-<!-- FST diagnostics omitted in fast classroom mode -->
-
 
 ## Summary & Next Steps
 
-- Detect and correct stratification with diagnostics (λ<sub>GC</sub>, PCA) and mixed-model adjustments before testing
-- Bayesian framing exposes prior choices, enables posterior uncertainty on structure (ABO example, admixture Stan model)
-- Next: Bayesian association (regression) and hierarchical shrinkage for polygenic traits, building on latent structure posteriors
-
-::: notes
-Close with a segue to upcoming material reinforcing how current ideas generalize.
-:::
+-   Population structure influences genetic analyses
+-   Bayesian framing exposes prior choices, enables posterior uncertainty on structure (ABO example, admixture Stan model)
+- Bayesian modeling as attempting to capture the **data-generating process**
 
 
 
 ## Reference
+
