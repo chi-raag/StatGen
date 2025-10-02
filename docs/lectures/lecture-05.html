@@ -10,7 +10,7 @@
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.8.25">
 
-  <title>Statistical Genetics – Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics</title>
+  <title>Statistical Genetics – Lecture 05: GWAS in R</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -94,7 +94,27 @@
     code span.va { color: #111111; } /* Variable */
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
-  </style>
+    /* CSS for citations */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+      margin-bottom: 0em;
+    }
+    .hanging-indent div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }  </style>
   <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-264c76fdbb68a1a4f90edbec2b556612.css">
   <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
   <script>document.addEventListener("DOMContentLoaded", function () {
@@ -209,7 +229,7 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics</h1>
+  <h1 class="title">Lecture 05: GWAS in R</h1>
   <p class="subtitle">PUBH 8878, Statistical Genetics</p>
 
 <div class="quarto-title-authors">
@@ -538,7 +558,7 @@ Excluding 0 SNP (monomorphic: TRUE, MAF: 0.005, missing rate: 0.05)
     |LD| threshold: 0.316228
     method: R
 Chrom 1: |====================|====================|
-    21.59%, 4,317 / 20,000 (Wed Oct  1 19:24:31 2025)
+    21.59%, 4,317 / 20,000 (Thu Oct  2 11:27:25 2025)
 4,317 markers are selected in total.</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a></a>snps_pruned <span class="ot">&lt;-</span> <span class="fu">unlist</span>(ld_prune, <span class="at">use.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -548,17 +568,30 @@ Chrom 1: |====================|====================|
 <h2>Relatedness</h2>
 <ul>
 <li>We need to account for relatedness to avoid confounding in PCA and association testing</li>
-<li>KING is method for estimating pairwise kinship robust to population structure</li>
+<li>KING (Kinship-based INference for GWAS) is method for estimating pairwise kinship robust to population structure (<span class="citation" data-cites="manichaikulRobustRelationshipInference2010">(<a href="#/wrapup-what-to-record" role="doc-biblioref" onclick="">Manichaikul <em>et al.</em>, 2010</a>)</span></li>
 </ul>
 </section>
 <section id="relatedness-1" class="slide level2">
 <h2>Relatedness</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a></a><span class="co"># KING-robust pairwise relatedness on pruned SNPs</span></span>
-<span id="cb12-2"><a></a>king <span class="ot">&lt;-</span> <span class="fu">snpgdsIBDKING</span>(g, </span>
-<span id="cb12-3"><a></a>                      <span class="at">sample.id =</span> samp.keep.id, </span>
-<span id="cb12-4"><a></a>                      <span class="at">snp.id =</span> snps_pruned, </span>
-<span id="cb12-5"><a></a>                      <span class="at">type =</span> <span class="st">"KING-robust"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-14"><pre class="sourceCode numberSource r code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-14" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-14-1" class="code-annotation-target"><a href="#annotated-cell-14-1"></a>king <span class="ot">&lt;-</span> <span class="fu">snpgdsIBDKING</span>(g,</span>
+<span id="annotated-cell-14-2"><a href="#annotated-cell-14-2"></a>                      <span class="at">sample.id =</span> samp.keep.id,</span>
+<span id="annotated-cell-14-3"><a href="#annotated-cell-14-3"></a>                      <span class="at">snp.id =</span> snps_pruned,</span>
+<span id="annotated-cell-14-4"><a href="#annotated-cell-14-4"></a>                      <span class="at">type =</span> <span class="st">"KING-robust"</span>)</span>
+<span id="annotated-cell-14-5"><a href="#annotated-cell-14-5"></a></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-14" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-14-6" class="code-annotation-target"><a href="#annotated-cell-14-6"></a>KINGmat <span class="ot">&lt;-</span> GENESIS<span class="sc">::</span><span class="fu">kingToMatrix</span>(king)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-14" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-14" data-code-lines="1,2,3,4" data-code-annotation="1">Run KING on our dataset with the filtered samples and SNPs</span>
+</dd>
+<dt data-target-cell="annotated-cell-14" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-14" data-code-lines="6" data-code-annotation="2">Convert into a kinship matrix we can use for downstream tasks</span>
+</dd>
+</dl>
+</div>
 <div class="cell-output cell-output-stdout">
 <pre><code>IBD analysis (KING method of moment) on genotypes:
 Excluding 15,683 SNPs (non-autosomes or non-selection)
@@ -570,70 +603,51 @@ No family is specified, and all individuals are treated as singletons.
 Relationship inference in the presence of population stratification.
 KING IBD:    the sum of all selected genotypes (0,1,2) = 366279
 CPU capabilities:
-Wed Oct  1 19:24:31 2025    (internal increment: 65536)
+Thu Oct  2 11:27:25 2025    (internal increment: 65536)
 
 [..................................................]  0%, ETC: ---        
 [==================================================] 100%, completed, 0s
-Wed Oct  1 19:24:31 2025    Done.</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a></a><span class="co"># Convert to a symmetric kinship matrix for GENESIS</span></span>
-<span id="cb14-2"><a></a>KINGmat <span class="ot">&lt;-</span> GENESIS<span class="sc">::</span><span class="fu">kingToMatrix</span>(king)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section>
-<section id="relatedness-2" class="slide level2">
-<h2>Relatedness</h2>
-<div class="cell">
-<div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: right;">X..0.125..2nd.deg.</th>
-<th style="text-align: right;">X0.0625.0.125..3rd.deg.</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: right;">105</td>
-<td style="text-align: right;">19</td>
-</tr>
-</tbody>
-</table>
+Thu Oct  2 11:27:25 2025    Done.</code></pre>
 </div>
 </div>
 </section>
 <section id="estimated-family-clusters" class="slide level2">
 <h2>Estimated family clusters</h2>
 <ul>
-<li>Build a kinship graph using a threshold (default: 3rd-degree or closer).<br>
-</li>
+<li>Build a kinship graph using a threshold (default: 3rd-degree or closer).</li>
 <li>Connected components approximate families/households; singletons have no relatives above the threshold.</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a></a>kinship_threshold <span class="ot">&lt;-</span> <span class="fl">0.0625</span></span>
-<span id="cb15-2"><a></a></span>
-<span id="cb15-3"><a></a>king_adj <span class="ot">&lt;-</span> KINGmat</span>
-<span id="cb15-4"><a></a><span class="fu">diag</span>(king_adj) <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb15-5"><a></a>king_adj[king_adj <span class="sc">&lt;</span> kinship_threshold] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb15-6"><a></a></span>
-<span id="cb15-7"><a></a>family_graph <span class="ot">&lt;-</span> igraph<span class="sc">::</span><span class="fu">graph_from_adjacency_matrix</span>(king_adj, <span class="at">mode =</span> <span class="st">"undirected"</span>, <span class="at">weighted =</span> <span class="cn">TRUE</span>, <span class="at">diag =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb15-8"><a></a>comp <span class="ot">&lt;-</span> igraph<span class="sc">::</span><span class="fu">components</span>(family_graph)</span>
-<span id="cb15-9"><a></a></span>
-<span id="cb15-10"><a></a>family_map <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
-<span id="cb15-11"><a></a>    <span class="at">scanID =</span> <span class="fu">names</span>(comp<span class="sc">$</span>membership),</span>
-<span id="cb15-12"><a></a>    <span class="at">family_id =</span> <span class="fu">paste0</span>(<span class="st">"fam_"</span>, <span class="fu">sprintf</span>(<span class="st">"%03d"</span>, comp<span class="sc">$</span>membership))</span>
-<span id="cb15-13"><a></a>)</span>
-<span id="cb15-14"><a></a></span>
-<span id="cb15-15"><a></a>family_summary <span class="ot">&lt;-</span> family_map <span class="sc">|&gt;</span></span>
-<span id="cb15-16"><a></a>    dplyr<span class="sc">::</span><span class="fu">group_by</span>(family_id) <span class="sc">|&gt;</span></span>
-<span id="cb15-17"><a></a>    dplyr<span class="sc">::</span><span class="fu">summarise</span>(</span>
-<span id="cb15-18"><a></a>        <span class="at">n_members =</span> dplyr<span class="sc">::</span><span class="fu">n</span>(),</span>
-<span id="cb15-19"><a></a>        <span class="at">members =</span> <span class="fu">paste</span>(scanID, <span class="at">collapse =</span> <span class="st">", "</span>),</span>
-<span id="cb15-20"><a></a>        <span class="at">.groups =</span> <span class="st">"drop"</span></span>
-<span id="cb15-21"><a></a>    ) <span class="sc">|&gt;</span></span>
-<span id="cb15-22"><a></a>    dplyr<span class="sc">::</span><span class="fu">arrange</span>(dplyr<span class="sc">::</span><span class="fu">desc</span>(n_members), family_id)</span>
-<span id="cb15-23"><a></a></span>
-<span id="cb15-24"><a></a><span class="fu">head</span>(family_summary, <span class="dv">10</span>) <span class="sc">|&gt;</span></span>
-<span id="cb15-25"><a></a>    knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Family"</span>, <span class="st">"n"</span>, <span class="st">"Sample IDs"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a></a>kinship_threshold <span class="ot">&lt;-</span> <span class="fl">0.0625</span></span>
+<span id="cb13-2"><a></a></span>
+<span id="cb13-3"><a></a>king_adj <span class="ot">&lt;-</span> KINGmat</span>
+<span id="cb13-4"><a></a><span class="fu">diag</span>(king_adj) <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb13-5"><a></a>king_adj[king_adj <span class="sc">&lt;</span> kinship_threshold] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb13-6"><a></a></span>
+<span id="cb13-7"><a></a>family_graph <span class="ot">&lt;-</span> igraph<span class="sc">::</span><span class="fu">graph_from_adjacency_matrix</span>(king_adj, <span class="at">mode =</span> <span class="st">"undirected"</span>, <span class="at">weighted =</span> <span class="cn">TRUE</span>, <span class="at">diag =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb13-8"><a></a>comp <span class="ot">&lt;-</span> igraph<span class="sc">::</span><span class="fu">components</span>(family_graph)</span>
+<span id="cb13-9"><a></a></span>
+<span id="cb13-10"><a></a>family_map <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
+<span id="cb13-11"><a></a>    <span class="at">scanID =</span> <span class="fu">names</span>(comp<span class="sc">$</span>membership),</span>
+<span id="cb13-12"><a></a>    <span class="at">family_id =</span> <span class="fu">paste0</span>(<span class="st">"fam_"</span>, <span class="fu">sprintf</span>(<span class="st">"%03d"</span>, comp<span class="sc">$</span>membership))</span>
+<span id="cb13-13"><a></a>)</span>
+<span id="cb13-14"><a></a></span>
+<span id="cb13-15"><a></a>family_summary <span class="ot">&lt;-</span> family_map <span class="sc">|&gt;</span></span>
+<span id="cb13-16"><a></a>    dplyr<span class="sc">::</span><span class="fu">group_by</span>(family_id) <span class="sc">|&gt;</span></span>
+<span id="cb13-17"><a></a>    dplyr<span class="sc">::</span><span class="fu">summarise</span>(</span>
+<span id="cb13-18"><a></a>        <span class="at">n_members =</span> dplyr<span class="sc">::</span><span class="fu">n</span>(),</span>
+<span id="cb13-19"><a></a>        <span class="at">members =</span> <span class="fu">paste</span>(scanID, <span class="at">collapse =</span> <span class="st">", "</span>),</span>
+<span id="cb13-20"><a></a>        <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb13-21"><a></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb13-22"><a></a>    dplyr<span class="sc">::</span><span class="fu">arrange</span>(dplyr<span class="sc">::</span><span class="fu">desc</span>(n_members), family_id)</span>
+<span id="cb13-23"><a></a></span>
+<span id="cb13-24"><a></a><span class="fu">head</span>(family_summary, <span class="dv">5</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-25"><a></a>    knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Family"</span>, <span class="st">"n"</span>, <span class="st">"Sample IDs"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="estimated-family-clusters-1" class="slide level2">
+<h2>Estimated family clusters</h2>
+<div class="cell">
 <div class="cell-output-display">
 <table class="caption-top">
 <colgroup>
@@ -674,60 +688,51 @@ Wed Oct  1 19:24:31 2025    Done.</code></pre>
 <td style="text-align: right;">5</td>
 <td style="text-align: left;">NA19713, NA19982, NA19983, NA19714, NA19985</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">fam_044</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: left;">NA20282, NA20301, NA20279, NA20284, NA20302</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">fam_028</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: left;">NA20333, NA20343, NA20332, NA20342</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">fam_052</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: left;">NA20335, NA20337, NA20334, NA20336</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">fam_003</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: left;">NA19657, NA19658, NA19659</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">fam_004</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: left;">NA19719, NA19720, NA19721</td>
-</tr>
 </tbody>
 </table>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Singletons (no relatives above threshold): %d</span><span class="sc">\n</span><span class="st">"</span>, <span class="fu">sum</span>(family_summary<span class="sc">$</span>n_members <span class="sc">==</span> <span class="dv">1</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Singletons (no relatives above threshold): 21</code></pre>
 </div>
 </div>
 </section>
 <section id="ancestry-pcs" class="slide level2">
 <h2>Ancestry PCs</h2>
 <ul>
-<li>We want ancestry PCs for covariates</li>
-<li>Relatedness can confound PCA because family structure can dominate top PCs</li>
-<li><strong>PC‑AiR</strong> (Conomos et al., 2015) computes PCs on unrelateds, then projects relateds</li>
+<li>So we have our kinship matrix</li>
+<li>We now want ancestry PCs for covariates</li>
+<li><strong>PC‑AiR</strong> (Conomos et al., 2015) computes PCs on unrelateds, then projects onto relateds</li>
 <li>Relateds are identified using the KING kinship matrix</li>
 </ul>
 </section>
 <section id="ancestry-pcs-1" class="slide level2">
 <h2>Ancestry PCs</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a></a><span class="fu">snpgdsClose</span>(g)</span>
-<span id="cb18-2"><a></a>geno_reader <span class="ot">&lt;-</span> GWASTools<span class="sc">::</span><span class="fu">GdsGenotypeReader</span>(gdsfile)</span>
-<span id="cb18-3"><a></a>geno_data <span class="ot">&lt;-</span> <span class="fu">GenotypeData</span>(geno_reader)</span>
-<span id="cb18-4"><a></a>pcair_out <span class="ot">&lt;-</span> <span class="fu">pcair</span>(geno_data, </span>
-<span id="cb18-5"><a></a>                   <span class="at">kinobj =</span> KINGmat, </span>
-<span id="cb18-6"><a></a>                   <span class="at">divobj =</span> KINGmat, </span>
-<span id="cb18-7"><a></a>                   <span class="at">snp.include =</span> snps_pruned, </span>
-<span id="cb18-8"><a></a>                   <span class="at">sample.include =</span> samp.keep.id)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-16"><pre class="sourceCode numberSource r code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-16" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-16-1" class="code-annotation-target"><a href="#annotated-cell-16-1"></a><span class="fu">snpgdsClose</span>(g)</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-16" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-16-2" class="code-annotation-target"><a href="#annotated-cell-16-2"></a>geno_reader <span class="ot">&lt;-</span> GWASTools<span class="sc">::</span><span class="fu">GdsGenotypeReader</span>(gdsfile)</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-16" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-16-3" class="code-annotation-target"><a href="#annotated-cell-16-3"></a>geno_data <span class="ot">&lt;-</span> <span class="fu">GenotypeData</span>(geno_reader)</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-16" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-16-4" class="code-annotation-target"><a href="#annotated-cell-16-4"></a>pcair_out <span class="ot">&lt;-</span> <span class="fu">pcair</span>(geno_data,</span>
+<span id="annotated-cell-16-5"><a href="#annotated-cell-16-5"></a>                   <span class="at">kinobj =</span> KINGmat,</span>
+<span id="annotated-cell-16-6"><a href="#annotated-cell-16-6"></a>                   <span class="at">divobj =</span> KINGmat,</span>
+<span id="annotated-cell-16-7"><a href="#annotated-cell-16-7"></a>                   <span class="at">snp.include =</span> snps_pruned,</span>
+<span id="annotated-cell-16-8"><a href="#annotated-cell-16-8"></a>                   <span class="at">sample.include =</span> samp.keep.id)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-16" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-16" data-code-lines="1" data-code-annotation="1">We need to close the SNPRelate connection before opening with GWASTools</span>
+</dd>
+<dt data-target-cell="annotated-cell-16" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-16" data-code-lines="2" data-code-annotation="2">Open the GDS file with GWASTools</span>
+</dd>
+<dt data-target-cell="annotated-cell-16" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-16" data-code-lines="3" data-code-annotation="3">Create a GenotypeData object for analysis</span>
+</dd>
+<dt data-target-cell="annotated-cell-16" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-16" data-code-lines="4,5,6,7,8" data-code-annotation="4">Run PC-AiR using the KING kinship matrix to identify unrelateds and compute PCs</span>
+</dd>
+</dl>
+</div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Principal Component Analysis (PCA) on genotypes:
 Excluding 15,683 SNPs (non-autosomes or non-selection)
@@ -738,96 +743,70 @@ Excluding 0 SNP (monomorphic: TRUE, MAF: NaN, missing rate: NaN)
     # of principal components: 32
 PCA:    the sum of all selected genotypes (0,1,2) = 204226
 CPU capabilities:
-Wed Oct  1 19:24:31 2025    (internal increment: 5284)
+Thu Oct  2 11:27:25 2025    (internal increment: 5284)
 
 [..................................................]  0%, ETC: ---        
 [==================================================] 100%, completed, 0s
-Wed Oct  1 19:24:31 2025    Begin (eigenvalues and eigenvectors)
-Wed Oct  1 19:24:31 2025    Done.</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>SNP Loading:
+Thu Oct  2 11:27:25 2025    Begin (eigenvalues and eigenvectors)
+Thu Oct  2 11:27:25 2025    Done.
+SNP Loading:
     # of samples: 93
     # of SNPs: 4,317
     using 1 thread
     using the top 32 eigenvectors
 SNP Loading:    the sum of all selected genotypes (0,1,2) = 204226
-Wed Oct  1 19:24:31 2025    (internal increment: 42280)
+Thu Oct  2 11:27:25 2025    (internal increment: 42280)
 
 [..................................................]  0%, ETC: ---        
 [==================================================] 100%, completed, 0s
-Wed Oct  1 19:24:31 2025    Done.
+Thu Oct  2 11:27:25 2025    Done.
 Sample Loading:
     # of samples: 74
     # of SNPs: 4,317
     using 1 thread
     using the top 32 eigenvectors
 Sample Loading:    the sum of all selected genotypes (0,1,2) = 162053
-Wed Oct  1 19:24:31 2025    (internal increment: 53136)
+Thu Oct  2 11:27:25 2025    (internal increment: 53136)
 
 [..................................................]  0%, ETC: ---        
 [==================================================] 100%, completed, 0s
-Wed Oct  1 19:24:31 2025    Done.</code></pre>
+Thu Oct  2 11:27:25 2025    Done.</code></pre>
 </div>
 </div>
 </section>
 <section id="ancestry-pcs-2" class="slide level2">
 <h2>Ancestry PCs</h2>
 
-<img data-src="lecture-05_files/figure-revealjs/unnamed-chunk-15-1.png" width="960" class="r-stretch"></section>
-<section id="step-5-ancestry-aware-kinship-pcrelate-code" class="slide level2">
-<h2>Step 5 — Ancestry-aware kinship (PC‑Relate) (code)</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a></a>geno_data <span class="ot">&lt;-</span> <span class="fu">GenotypeBlockIterator</span>(geno_data, <span class="at">snpInclude =</span> snps_pruned)</span>
-<span id="cb21-2"><a></a>pc_relate <span class="ot">&lt;-</span> <span class="fu">pcrelate</span>(geno_data,</span>
-<span id="cb21-3"><a></a>                      <span class="at">pcs =</span> pcair_out<span class="sc">$</span>vectors[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>],</span>
-<span id="cb21-4"><a></a>                      <span class="at">training.set =</span> pcair_out<span class="sc">$</span>unrels,</span>
-<span id="cb21-5"><a></a>                      <span class="at">BPPARAM =</span> BiocParallel<span class="sc">::</span><span class="fu">SerialParam</span>())</span>
-<span id="cb21-6"><a></a>                      </span>
-<span id="cb21-7"><a></a>        </span>
-<span id="cb21-8"><a></a>pcrel <span class="ot">&lt;-</span> GENESIS<span class="sc">::</span><span class="fu">pcrelate</span>(<span class="at">genoData =</span> geno_data, </span>
-<span id="cb21-9"><a></a>                           <span class="at">sample.include =</span> samp.keep.id,</span>
-<span id="cb21-10"><a></a>                           <span class="at">pcs =</span> pcs[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], </span>
-<span id="cb21-11"><a></a>                           <span class="at">training.set =</span> pcair_fit<span class="sc">$</span>unrels)</span>
-<span id="cb21-12"><a></a>K <span class="ot">&lt;-</span> GENESIS<span class="sc">::</span><span class="fu">pcrelateToMatrix</span>(pcrel) <span class="co"># GRM for mixed models</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section>
-<section id="step-5-ancestry-aware-kinship-explain" class="slide level2">
-<h2>Step 5 — Ancestry-aware kinship (explain)</h2>
-<p><strong>PC‑Relate</strong> - Uses <strong>individual‑specific allele frequencies</strong> inferred from PCs.<br>
-- Produces <strong>kinship</strong> and <strong>IBD</strong> estimates robust to stratification.</p>
-<p><strong>Why we need it</strong> - Mixed models require a covariance ( _g^2 K ); <strong>PC‑Relate</strong> gives a (K) that isn’t biased by ancestry differences.</p>
-<p><strong>Deliverable</strong> - <code>K</code>: a GRM to plug into a linear mixed model.</p>
-</section>
-<section id="step-5-ancestry-aware-kinship-output" class="slide level2">
-<h2>Step 5 — Ancestry-aware kinship (output)</h2>
+<img data-src="lecture-05_files/figure-revealjs/unnamed-chunk-13-1.png" width="960" class="r-stretch"></section>
+<section id="ancestry-pcs-3" class="slide level2">
+<h2>Ancestry PCs</h2>
 </section>
 <section id="step-6-phenotype-covariates-code" class="slide level2">
 <h2>Step 6 — Phenotype &amp; covariates (code)</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a></a><span class="co"># Simulate simple covariates</span></span>
-<span id="cb22-2"><a></a><span class="fu">set.seed</span>(<span class="dv">99</span>)</span>
-<span id="cb22-3"><a></a>N <span class="ot">&lt;-</span> <span class="fu">nrow</span>(pcs)</span>
-<span id="cb22-4"><a></a>sex <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"M"</span>, <span class="st">"F"</span>), N, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb22-5"><a></a>age <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">rnorm</span>(N, <span class="dv">50</span>, <span class="dv">10</span>))</span>
-<span id="cb22-6"><a></a></span>
-<span id="cb22-7"><a></a><span class="co"># Choose one moderately frequent SNP and simulate a quantitative trait with a planted effect</span></span>
-<span id="cb22-8"><a></a>maf_full <span class="ot">&lt;-</span> maf</span>
-<span id="cb22-9"><a></a>ix <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="sc">!</span><span class="fu">is.na</span>(maf_full) <span class="sc">&amp;</span> maf_full <span class="sc">&gt;</span> <span class="fl">0.2</span> <span class="sc">&amp;</span> maf_full <span class="sc">&lt;</span> <span class="fl">0.3</span>)[<span class="dv">1</span>]</span>
-<span id="cb22-10"><a></a></span>
-<span id="cb22-11"><a></a>G1 <span class="ot">&lt;-</span> GWASTools<span class="sc">::</span><span class="fu">getGenotypeSelection</span>(geno, <span class="at">snpID =</span> snp.id[ix], <span class="at">scanID =</span> samp.keep.id)</span>
-<span id="cb22-12"><a></a>G1 <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(G1) <span class="co"># 0,1,2 with NAs</span></span>
-<span id="cb22-13"><a></a>G1[<span class="fu">is.na</span>(G1)] <span class="ot">&lt;-</span> <span class="fu">mean</span>(G1, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="co"># quick mean-impute for demo</span></span>
-<span id="cb22-14"><a></a></span>
-<span id="cb22-15"><a></a>y <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fl">0.30</span> <span class="sc">*</span> <span class="fu">scale</span>(G1) <span class="sc">+</span> <span class="fl">0.02</span> <span class="sc">*</span> <span class="fu">scale</span>(age) <span class="sc">+</span> <span class="fl">0.05</span> <span class="sc">*</span> (sex <span class="sc">==</span> <span class="st">"M"</span>) <span class="sc">+</span> <span class="fu">rnorm</span>(N))</span>
-<span id="cb22-16"><a></a></span>
-<span id="cb22-17"><a></a><span class="co"># Assemble scan annotation with covariates and PCs</span></span>
-<span id="cb22-18"><a></a>scanDF <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">scanID =</span> samp.keep.id, <span class="at">y =</span> y, <span class="at">age =</span> age, <span class="at">sex =</span> sex, pcs[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>])</span>
-<span id="cb22-19"><a></a><span class="fu">colnames</span>(scanDF)[<span class="dv">6</span><span class="sc">:</span><span class="dv">9</span>] <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"PC"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)</span>
-<span id="cb22-20"><a></a>scanAnnot2 <span class="ot">&lt;-</span> GWASTools<span class="sc">::</span><span class="fu">ScanAnnotationDataFrame</span>(scanDF)</span>
-<span id="cb22-21"><a></a><span class="co"># Update 'geno' to carry covariates</span></span>
-<span id="cb22-22"><a></a>GWASTools<span class="sc">::</span><span class="fu">close</span>(geno)</span>
-<span id="cb22-23"><a></a>geno <span class="ot">&lt;-</span> GWASTools<span class="sc">::</span><span class="fu">GenotypeData</span>(GWASTools<span class="sc">::</span><span class="fu">GdsGenotypeReader</span>(gdsfile), <span class="at">scanAnnot =</span> scanAnnot2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a></a><span class="co"># Simulate simple covariates</span></span>
+<span id="cb15-2"><a></a><span class="fu">set.seed</span>(<span class="dv">99</span>)</span>
+<span id="cb15-3"><a></a>N <span class="ot">&lt;-</span> <span class="fu">nrow</span>(pcs)</span>
+<span id="cb15-4"><a></a>sex <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"M"</span>, <span class="st">"F"</span>), N, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb15-5"><a></a>age <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">rnorm</span>(N, <span class="dv">50</span>, <span class="dv">10</span>))</span>
+<span id="cb15-6"><a></a></span>
+<span id="cb15-7"><a></a><span class="co"># Choose one moderately frequent SNP and simulate a quantitative trait with a planted effect</span></span>
+<span id="cb15-8"><a></a>maf_full <span class="ot">&lt;-</span> maf</span>
+<span id="cb15-9"><a></a>ix <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="sc">!</span><span class="fu">is.na</span>(maf_full) <span class="sc">&amp;</span> maf_full <span class="sc">&gt;</span> <span class="fl">0.2</span> <span class="sc">&amp;</span> maf_full <span class="sc">&lt;</span> <span class="fl">0.3</span>)[<span class="dv">1</span>]</span>
+<span id="cb15-10"><a></a></span>
+<span id="cb15-11"><a></a>G1 <span class="ot">&lt;-</span> GWASTools<span class="sc">::</span><span class="fu">getGenotypeSelection</span>(geno, <span class="at">snpID =</span> snp.id[ix], <span class="at">scanID =</span> samp.keep.id)</span>
+<span id="cb15-12"><a></a>G1 <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(G1) <span class="co"># 0,1,2 with NAs</span></span>
+<span id="cb15-13"><a></a>G1[<span class="fu">is.na</span>(G1)] <span class="ot">&lt;-</span> <span class="fu">mean</span>(G1, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="co"># quick mean-impute for demo</span></span>
+<span id="cb15-14"><a></a></span>
+<span id="cb15-15"><a></a>y <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fl">0.30</span> <span class="sc">*</span> <span class="fu">scale</span>(G1) <span class="sc">+</span> <span class="fl">0.02</span> <span class="sc">*</span> <span class="fu">scale</span>(age) <span class="sc">+</span> <span class="fl">0.05</span> <span class="sc">*</span> (sex <span class="sc">==</span> <span class="st">"M"</span>) <span class="sc">+</span> <span class="fu">rnorm</span>(N))</span>
+<span id="cb15-16"><a></a></span>
+<span id="cb15-17"><a></a><span class="co"># Assemble scan annotation with covariates and PCs</span></span>
+<span id="cb15-18"><a></a>scanDF <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">scanID =</span> samp.keep.id, <span class="at">y =</span> y, <span class="at">age =</span> age, <span class="at">sex =</span> sex, pcs[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>])</span>
+<span id="cb15-19"><a></a><span class="fu">colnames</span>(scanDF)[<span class="dv">6</span><span class="sc">:</span><span class="dv">9</span>] <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"PC"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)</span>
+<span id="cb15-20"><a></a>scanAnnot2 <span class="ot">&lt;-</span> GWASTools<span class="sc">::</span><span class="fu">ScanAnnotationDataFrame</span>(scanDF)</span>
+<span id="cb15-21"><a></a><span class="co"># Update 'geno' to carry covariates</span></span>
+<span id="cb15-22"><a></a>GWASTools<span class="sc">::</span><span class="fu">close</span>(geno)</span>
+<span id="cb15-23"><a></a>geno <span class="ot">&lt;-</span> GWASTools<span class="sc">::</span><span class="fu">GenotypeData</span>(GWASTools<span class="sc">::</span><span class="fu">GdsGenotypeReader</span>(gdsfile), <span class="at">scanAnnot =</span> scanAnnot2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="step-6-phenotype-covariates-explain" class="slide level2">
@@ -844,20 +823,20 @@ HapMap doesn’t ship with rich traits. We plant a small genotype effect so that
 <section id="step-7-null-model-lmm-code" class="slide level2">
 <h2>Step 7 — Null model (LMM) (code)</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a></a>nullmod <span class="ot">&lt;-</span> GENESIS<span class="sc">::</span><span class="fu">fitNullModel</span>(scanAnnot2,</span>
-<span id="cb23-2"><a></a>    <span class="at">outcome =</span> <span class="st">"y"</span>,</span>
-<span id="cb23-3"><a></a>    <span class="at">covars =</span> <span class="fu">c</span>(<span class="st">"age"</span>, <span class="st">"sex"</span>, <span class="st">"PC1"</span>, <span class="st">"PC2"</span>, <span class="st">"PC3"</span>, <span class="st">"PC4"</span>),</span>
-<span id="cb23-4"><a></a>    <span class="at">cov.mat =</span> K, <span class="at">family =</span> <span class="st">"gaussian"</span></span>
-<span id="cb23-5"><a></a>)</span>
-<span id="cb23-6"><a></a></span>
-<span id="cb23-7"><a></a><span class="co"># Genotype iterator (block-wise scan of all SNPs kept by QC)</span></span>
-<span id="cb23-8"><a></a>it <span class="ot">&lt;-</span> GWASTools<span class="sc">::</span><span class="fu">GenotypeBlockIterator</span>(geno, <span class="at">snpInclude =</span> snp.keep.id, <span class="at">snpBlock =</span> <span class="dv">5000</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a></a>nullmod <span class="ot">&lt;-</span> GENESIS<span class="sc">::</span><span class="fu">fitNullModel</span>(scanAnnot2,</span>
+<span id="cb16-2"><a></a>    <span class="at">outcome =</span> <span class="st">"y"</span>,</span>
+<span id="cb16-3"><a></a>    <span class="at">covars =</span> <span class="fu">c</span>(<span class="st">"age"</span>, <span class="st">"sex"</span>, <span class="st">"PC1"</span>, <span class="st">"PC2"</span>, <span class="st">"PC3"</span>, <span class="st">"PC4"</span>),</span>
+<span id="cb16-4"><a></a>    <span class="at">cov.mat =</span> K, <span class="at">family =</span> <span class="st">"gaussian"</span></span>
+<span id="cb16-5"><a></a>)</span>
+<span id="cb16-6"><a></a></span>
+<span id="cb16-7"><a></a><span class="co"># Genotype iterator (block-wise scan of all SNPs kept by QC)</span></span>
+<span id="cb16-8"><a></a>it <span class="ot">&lt;-</span> GWASTools<span class="sc">::</span><span class="fu">GenotypeBlockIterator</span>(geno, <span class="at">snpInclude =</span> snp.keep.id, <span class="at">snpBlock =</span> <span class="dv">5000</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="step-7-null-model-explain" class="slide level2">
 <h2>Step 7 — Null model (explain)</h2>
 <p><strong>LMM</strong><br>
-[ y = X+ G + u + , u (0,_g^2 K),(0,_e^2 I). ]</p>
+[ y = X+ G + u + ,u (0,_g^2 K),(0,_e^2 I). ]</p>
 <ul>
 <li>We fit variance components under (H_0:) (the <strong>null model</strong>) once.<br>
 </li>
@@ -874,18 +853,18 @@ HapMap doesn’t ship with rich traits. We plant a small genotype effect so that
 <section id="step-8-association-testing-code" class="slide level2">
 <h2>Step 8 — Association testing (code)</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a></a>assoc <span class="ot">&lt;-</span> GENESIS<span class="sc">::</span><span class="fu">assocTestSingle</span>(it, <span class="at">null.model =</span> nullmod, <span class="at">test =</span> <span class="st">"Score"</span>)</span>
-<span id="cb24-2"><a></a><span class="co"># Prepare results for plotting</span></span>
-<span id="cb24-3"><a></a>res <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb24-4"><a></a>    <span class="at">SNP =</span> assoc<span class="sc">$</span>snpID,</span>
-<span id="cb24-5"><a></a>    <span class="at">CHR =</span> <span class="fu">as.integer</span>(assoc<span class="sc">$</span>chr),</span>
-<span id="cb24-6"><a></a>    <span class="at">BP =</span> assoc<span class="sc">$</span>pos,</span>
-<span id="cb24-7"><a></a>    <span class="at">P =</span> assoc<span class="sc">$</span>Score.pval,</span>
-<span id="cb24-8"><a></a>    <span class="at">BETA =</span> assoc<span class="sc">$</span>Est,</span>
-<span id="cb24-9"><a></a>    <span class="at">SE =</span> assoc<span class="sc">$</span>Est.SE</span>
-<span id="cb24-10"><a></a>)</span>
-<span id="cb24-11"><a></a><span class="co"># Genomic control</span></span>
-<span id="cb24-12"><a></a>lambda_gc <span class="ot">&lt;-</span> <span class="fu">median</span>(stats<span class="sc">::</span><span class="fu">qchisq</span>(<span class="dv">1</span> <span class="sc">-</span> res<span class="sc">$</span>P, <span class="at">df =</span> <span class="dv">1</span>), <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">/</span> <span class="fl">0.456</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a></a>assoc <span class="ot">&lt;-</span> GENESIS<span class="sc">::</span><span class="fu">assocTestSingle</span>(it, <span class="at">null.model =</span> nullmod, <span class="at">test =</span> <span class="st">"Score"</span>)</span>
+<span id="cb17-2"><a></a><span class="co"># Prepare results for plotting</span></span>
+<span id="cb17-3"><a></a>res <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb17-4"><a></a>    <span class="at">SNP =</span> assoc<span class="sc">$</span>snpID,</span>
+<span id="cb17-5"><a></a>    <span class="at">CHR =</span> <span class="fu">as.integer</span>(assoc<span class="sc">$</span>chr),</span>
+<span id="cb17-6"><a></a>    <span class="at">BP =</span> assoc<span class="sc">$</span>pos,</span>
+<span id="cb17-7"><a></a>    <span class="at">P =</span> assoc<span class="sc">$</span>Score.pval,</span>
+<span id="cb17-8"><a></a>    <span class="at">BETA =</span> assoc<span class="sc">$</span>Est,</span>
+<span id="cb17-9"><a></a>    <span class="at">SE =</span> assoc<span class="sc">$</span>Est.SE</span>
+<span id="cb17-10"><a></a>)</span>
+<span id="cb17-11"><a></a><span class="co"># Genomic control</span></span>
+<span id="cb17-12"><a></a>lambda_gc <span class="ot">&lt;-</span> <span class="fu">median</span>(stats<span class="sc">::</span><span class="fu">qchisq</span>(<span class="dv">1</span> <span class="sc">-</span> res<span class="sc">$</span>P, <span class="at">df =</span> <span class="dv">1</span>), <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">/</span> <span class="fl">0.456</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="step-8-association-testing-explain" class="slide level2">
@@ -906,15 +885,15 @@ HapMap doesn’t ship with rich traits. We plant a small genotype effect so that
 <section id="step-9-figures-manhattan-qq-code" class="slide level2">
 <h2>Step 9 — Figures: Manhattan &amp; QQ (code)</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a></a><span class="fu">library</span>(qqman)</span>
-<span id="cb25-2"><a></a><span class="co"># Clean CHR for qqman (drop non-autosomes for the plot)</span></span>
-<span id="cb25-3"><a></a>plotdat <span class="ot">&lt;-</span> <span class="fu">subset</span>(res, CHR <span class="sc">%in%</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">22</span> <span class="sc">&amp;</span> <span class="fu">is.finite</span>(P))</span>
-<span id="cb25-4"><a></a><span class="fu">manhattan</span>(plotdat,</span>
-<span id="cb25-5"><a></a>    <span class="at">chr =</span> <span class="st">"CHR"</span>, <span class="at">bp =</span> <span class="st">"BP"</span>, <span class="at">p =</span> <span class="st">"P"</span>, <span class="at">snp =</span> <span class="st">"SNP"</span>,</span>
-<span id="cb25-6"><a></a>    <span class="at">suggestiveline =</span> <span class="sc">-</span><span class="fu">log10</span>(<span class="fl">1e-5</span>), <span class="at">genomewideline =</span> <span class="sc">-</span><span class="fu">log10</span>(<span class="fl">5e-8</span>),</span>
-<span id="cb25-7"><a></a>    <span class="at">main =</span> <span class="st">"GWAS (LMM) — Manhattan"</span></span>
-<span id="cb25-8"><a></a>)</span>
-<span id="cb25-9"><a></a><span class="fu">qq</span>(plotdat<span class="sc">$</span>P, <span class="at">main =</span> <span class="st">"QQ plot"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a></a><span class="fu">library</span>(qqman)</span>
+<span id="cb18-2"><a></a><span class="co"># Clean CHR for qqman (drop non-autosomes for the plot)</span></span>
+<span id="cb18-3"><a></a>plotdat <span class="ot">&lt;-</span> <span class="fu">subset</span>(res, CHR <span class="sc">%in%</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">22</span> <span class="sc">&amp;</span> <span class="fu">is.finite</span>(P))</span>
+<span id="cb18-4"><a></a><span class="fu">manhattan</span>(plotdat,</span>
+<span id="cb18-5"><a></a>    <span class="at">chr =</span> <span class="st">"CHR"</span>, <span class="at">bp =</span> <span class="st">"BP"</span>, <span class="at">p =</span> <span class="st">"P"</span>, <span class="at">snp =</span> <span class="st">"SNP"</span>,</span>
+<span id="cb18-6"><a></a>    <span class="at">suggestiveline =</span> <span class="sc">-</span><span class="fu">log10</span>(<span class="fl">1e-5</span>), <span class="at">genomewideline =</span> <span class="sc">-</span><span class="fu">log10</span>(<span class="fl">5e-8</span>),</span>
+<span id="cb18-7"><a></a>    <span class="at">main =</span> <span class="st">"GWAS (LMM) — Manhattan"</span></span>
+<span id="cb18-8"><a></a>)</span>
+<span id="cb18-9"><a></a><span class="fu">qq</span>(plotdat<span class="sc">$</span>P, <span class="at">main =</span> <span class="st">"QQ plot"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="step-9-figures-manhattan-qq-explain" class="slide level2">
@@ -930,23 +909,23 @@ HapMap doesn’t ship with rich traits. We plant a small genotype effect so that
 <section id="optional-step-10-binary-trait-spa-code" class="slide level2">
 <h2>(Optional) Step 10 — Binary trait &amp; SPA (code)</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a></a><span class="co"># Simulate a low-prevalence binary trait using the same planted SNP</span></span>
-<span id="cb26-2"><a></a>logit_p <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">2.3</span> <span class="sc">+</span> <span class="fl">0.8</span> <span class="sc">*</span> <span class="fu">scale</span>(G1) <span class="sc">+</span> <span class="fl">0.1</span> <span class="sc">*</span> <span class="fu">scale</span>(age) <span class="sc">+</span> <span class="fl">0.1</span> <span class="sc">*</span> (sex <span class="sc">==</span> <span class="st">"M"</span>) <span class="sc">+</span> <span class="fu">as.numeric</span>(pcs[, <span class="dv">1</span>]) <span class="sc">*</span> <span class="fl">0.0</span></span>
-<span id="cb26-3"><a></a>p_case <span class="ot">&lt;-</span> <span class="fu">plogis</span>(logit_p)</span>
-<span id="cb26-4"><a></a>case <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="fu">length</span>(p_case), <span class="dv">1</span>, p_case)</span>
-<span id="cb26-5"><a></a></span>
-<span id="cb26-6"><a></a>scanDF2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">scanID =</span> samp.keep.id, <span class="at">case =</span> case, <span class="at">age =</span> age, <span class="at">sex =</span> sex, pcs[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>])</span>
-<span id="cb26-7"><a></a><span class="fu">colnames</span>(scanDF2)[<span class="dv">4</span><span class="sc">:</span><span class="dv">7</span>] <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"PC"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)</span>
-<span id="cb26-8"><a></a>scanAnnot3 <span class="ot">&lt;-</span> GWASTools<span class="sc">::</span><span class="fu">ScanAnnotationDataFrame</span>(scanDF2)</span>
-<span id="cb26-9"><a></a></span>
-<span id="cb26-10"><a></a>null_cc <span class="ot">&lt;-</span> GENESIS<span class="sc">::</span><span class="fu">fitNullModel</span>(scanAnnot3,</span>
-<span id="cb26-11"><a></a>    <span class="at">outcome =</span> <span class="st">"case"</span>,</span>
-<span id="cb26-12"><a></a>    <span class="at">covars =</span> <span class="fu">c</span>(<span class="st">"age"</span>, <span class="st">"sex"</span>, <span class="st">"PC1"</span>, <span class="st">"PC2"</span>, <span class="st">"PC3"</span>, <span class="st">"PC4"</span>),</span>
-<span id="cb26-13"><a></a>    <span class="at">cov.mat =</span> K, <span class="at">family =</span> <span class="st">"binomial"</span></span>
-<span id="cb26-14"><a></a>)</span>
-<span id="cb26-15"><a></a></span>
-<span id="cb26-16"><a></a>it2 <span class="ot">&lt;-</span> GWASTools<span class="sc">::</span><span class="fu">GenotypeBlockIterator</span>(geno, <span class="at">snpInclude =</span> snp.keep.id, <span class="at">snpBlock =</span> <span class="dv">5000</span>)</span>
-<span id="cb26-17"><a></a>assoc_cc <span class="ot">&lt;-</span> GENESIS<span class="sc">::</span><span class="fu">assocTestSingle</span>(it2, <span class="at">null.model =</span> null_cc, <span class="at">test =</span> <span class="st">"Score.SPA"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a></a><span class="co"># Simulate a low-prevalence binary trait using the same planted SNP</span></span>
+<span id="cb19-2"><a></a>logit_p <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">2.3</span> <span class="sc">+</span> <span class="fl">0.8</span> <span class="sc">*</span> <span class="fu">scale</span>(G1) <span class="sc">+</span> <span class="fl">0.1</span> <span class="sc">*</span> <span class="fu">scale</span>(age) <span class="sc">+</span> <span class="fl">0.1</span> <span class="sc">*</span> (sex <span class="sc">==</span> <span class="st">"M"</span>) <span class="sc">+</span> <span class="fu">as.numeric</span>(pcs[, <span class="dv">1</span>]) <span class="sc">*</span> <span class="fl">0.0</span></span>
+<span id="cb19-3"><a></a>p_case <span class="ot">&lt;-</span> <span class="fu">plogis</span>(logit_p)</span>
+<span id="cb19-4"><a></a>case <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="fu">length</span>(p_case), <span class="dv">1</span>, p_case)</span>
+<span id="cb19-5"><a></a></span>
+<span id="cb19-6"><a></a>scanDF2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">scanID =</span> samp.keep.id, <span class="at">case =</span> case, <span class="at">age =</span> age, <span class="at">sex =</span> sex, pcs[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>])</span>
+<span id="cb19-7"><a></a><span class="fu">colnames</span>(scanDF2)[<span class="dv">4</span><span class="sc">:</span><span class="dv">7</span>] <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"PC"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)</span>
+<span id="cb19-8"><a></a>scanAnnot3 <span class="ot">&lt;-</span> GWASTools<span class="sc">::</span><span class="fu">ScanAnnotationDataFrame</span>(scanDF2)</span>
+<span id="cb19-9"><a></a></span>
+<span id="cb19-10"><a></a>null_cc <span class="ot">&lt;-</span> GENESIS<span class="sc">::</span><span class="fu">fitNullModel</span>(scanAnnot3,</span>
+<span id="cb19-11"><a></a>    <span class="at">outcome =</span> <span class="st">"case"</span>,</span>
+<span id="cb19-12"><a></a>    <span class="at">covars =</span> <span class="fu">c</span>(<span class="st">"age"</span>, <span class="st">"sex"</span>, <span class="st">"PC1"</span>, <span class="st">"PC2"</span>, <span class="st">"PC3"</span>, <span class="st">"PC4"</span>),</span>
+<span id="cb19-13"><a></a>    <span class="at">cov.mat =</span> K, <span class="at">family =</span> <span class="st">"binomial"</span></span>
+<span id="cb19-14"><a></a>)</span>
+<span id="cb19-15"><a></a></span>
+<span id="cb19-16"><a></a>it2 <span class="ot">&lt;-</span> GWASTools<span class="sc">::</span><span class="fu">GenotypeBlockIterator</span>(geno, <span class="at">snpInclude =</span> snp.keep.id, <span class="at">snpBlock =</span> <span class="dv">5000</span>)</span>
+<span id="cb19-17"><a></a>assoc_cc <span class="ot">&lt;-</span> GENESIS<span class="sc">::</span><span class="fu">assocTestSingle</span>(it2, <span class="at">null.model =</span> null_cc, <span class="at">test =</span> <span class="st">"Score.SPA"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="optional-step-10-binary-trait-spa-explain" class="slide level2">
@@ -959,10 +938,10 @@ HapMap doesn’t ship with rich traits. We plant a small genotype effect so that
 <li><code>assocTestSingle(..., test="Score.SPA")</code> invokes SPA within GENESIS.</li>
 </ul>
 </section>
-<section id="wrapup-what-to-record" class="slide level2">
+<section id="wrapup-what-to-record" class="slide level2 smaller scrollable">
 <h2>Wrap‑up &amp; what to record</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a></a>GWASTools<span class="sc">::</span><span class="fu">close</span>(geno_reader)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a></a>GWASTools<span class="sc">::</span><span class="fu">close</span>(geno_reader)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li><strong>Parameters</strong>: thresholds (QC), LD‑prune settings, PCs used, null model family, random effect (K), LOCO (used? no).<br>
@@ -975,6 +954,11 @@ HapMap doesn’t ship with rich traits. We plant a small genotype effect so that
 Install PLINK and reproduce QC + PCs on a small chr22 dataset; compare with R results.</p>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-manichaikulRobustRelationshipInference2010" class="csl-entry" role="listitem">
+Manichaikul,A. <em>et al.</em> (2010) <a href="https://doi.org/10.1093/bioinformatics/btq559">Robust relationship inference in genome-wide association studies</a>. <em>Bioinformatics</em>, <strong>26</strong>, 2867–2873.
+</div>
+</div>
 </section></section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">

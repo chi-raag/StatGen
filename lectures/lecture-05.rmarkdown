@@ -491,93 +491,112 @@ pcair_out <- pcair(geno_data, # <4>
 plot(pcair_out)
 ```
 
+## Ancestry PCs
 
-## Phenotype & covariates 
+```{r, echo=FALSE, eval = T}
+K <- pcair_out$kinship
+hist(K[upper.tri(K)], main = "PC-Relate kinship (off-diagonal)", xlab = "kinship")
+```
 
-- We will simulate a quantitative trait with a known genetic effect
 
-```{r, label="pheno_code"}
+## Step 6 — Phenotype & covariates (code)
+
+```{r, label="pheno_code", eval=FALSE}
+# Simulate simple covariates
 set.seed(99)
-N <- length(samp.keep.id)
+N <- nrow(pcs)
 sex <- sample(c("M", "F"), N, replace = TRUE)
 age <- round(rnorm(N, 50, 10))
 
 # Choose one moderately frequent SNP and simulate a quantitative trait with a planted effect
-maf_pruned <- maf[snps_pruned]
+maf_full <- maf
 ix <- which(!is.na(maf_full) & maf_full > 0.2 & maf_full < 0.3)[1]
-```
 
-## Phenotype & covariates 
-
-```{r}
-G1 <- GWASTools::getGenotypeSelection(geno_data, snpID = snps_pruned[ix], scanID = samp.keep.id)
-G1 <- as.numeric(G1) 
+G1 <- GWASTools::getGenotypeSelection(geno, snpID = snp.id[ix], scanID = samp.keep.id)
+G1 <- as.numeric(G1) # 0,1,2 with NAs
+G1[is.na(G1)] <- mean(G1, na.rm = TRUE) # quick mean-impute for demo
 
 y <- as.numeric(0.30 * scale(G1) + 0.02 * scale(age) + 0.05 * (sex == "M") + rnorm(N))
-```
 
-```{r}
-scanDF <- data.frame(scanID = samp.keep.id, 
-                     y = y, 
-                     age = age, 
-                     sex = sex, 
-                     pcair_out$vectors[, 1:4])
+# Assemble scan annotation with covariates and PCs
+scanDF <- data.frame(scanID = samp.keep.id, y = y, age = age, sex = sex, pcs[, 1:4])
 colnames(scanDF)[6:9] <- paste0("PC", 1:4)
 scanAnnot2 <- GWASTools::ScanAnnotationDataFrame(scanDF)
+# Update 'geno' to carry covariates
 GWASTools::close(geno)
 geno <- GWASTools::GenotypeData(GWASTools::GdsGenotypeReader(gdsfile), scanAnnot = scanAnnot2)
+```
+
+------------------------------------------------------------------------
+
+## Step 6 — Phenotype & covariates (explain)
+
+**Why simulate?**\
+HapMap doesn’t ship with rich traits. We plant a small genotype effect so that the mixed‑model GWAS produces a recognizable signal.
+
+**Model intent** - Covariates: `age`, `sex`, `PC1–PC4` (ancestry).\
+- Genetic effect: \~0.30 SD per minor allele on a standardized SNP.
+
+**Deliverable** - `geno` now contains sample annotations with (y, X), and PCs.
+
+------------------------------------------------------------------------
+
+## Step 6 — Phenotype & covariates (output)
+
+```{r, ref.label="pheno_code", echo=FALSE, eval = F}
 ```
 
 ```{r, echo=FALSE, eval = F}
 head(data.frame(scanID = scanDF$scanID, y = round(scanDF$y, 3), age = scanDF$age, sex = scanDF$sex))
 ```
 
-# Step 3: Modeling
+------------------------------------------------------------------------
 
-## Fitting the null model
-
-- First fit the mixed model under the null hypothesis that each SNP has no effect
-- Null model contains all of the covariates, ancestry representative PCs, random effects such as a polygenic effect due to genetic relatedness
-- It does not include SNP genotype terms as fixed effects
-
-## Fitting the null model
+## Step 7 — Null model (LMM) (code)
 
 ```{r, label="null_code", eval=FALSE}
-nullmod <- GENESIS::fitNullModel(
-    scanAnnot2,
+nullmod <- GENESIS::fitNullModel(scanAnnot2,
     outcome = "y",
     covars = c("age", "sex", "PC1", "PC2", "PC3", "PC4"),
     cov.mat = K, family = "gaussian"
 )
 
 # Genotype iterator (block-wise scan of all SNPs kept by QC)
-it <- GWASTools::GenotypeBlockIterator(
-    geno, 
-    snpInclude = snps_pruned, 
-    snpBlock = 5000
-)
+it <- GWASTools::GenotypeBlockIterator(geno, snpInclude = snp.keep.id, snpBlock = 5000)
 ```
 
-## Fitting the null model
+------------------------------------------------------------------------
+
+## Step 7 — Null model (explain)
+
+**LMM**\
+\[ y = X\beta + \gamma G + u + \varepsilon,\quad u \sim \mathcal{N}(0,\sigma\_g\^2 K),\quad \varepsilon \sim \mathcal{N}(0,\sigma\_e\^2 I). \]
+
+-   We fit variance components under (H_0:\gamma=0) (the **null model**) once.\
+-   Association uses a **Score test**, reusing the null for each SNP.\
+-   PCs adjust for residual structure; (K) captures realized relatedness.
+
+**Deliverables** - `nullmod`: object with (\hat\sigma\_g\^2,\hat\sigma\_e\^2), fixed effects, and residuals.\
+- `it`: a block iterator to stream SNPs without loading them all at once.
+
+------------------------------------------------------------------------
+
+## Step 7 — Null model (output)
+
+```{r, ref.label="null_code", echo=FALSE, eval = F}
+```
 
 ```{r, echo=FALSE, eval = F}
 nullmod$varComp
 ```
 
-## Step 8 — Association testing (explain)
+------------------------------------------------------------------------
 
--   **Score test**: efficient per‑SNP test using derivatives at the null; numerically stable at scale.\
--   With our simulated effect, we expect one clear peak near the planted SNP, modest elsewhere.\
--   **Calibration**: ( \lambda\_{GC} ) near 1 indicates good control; large values suggest stratification, relatedness, or batch effects.
+## Step 8 — Association testing (code)
 
-**Deliverables** - `res`: per‑SNP estimates and p‑values.\
-- `lambda_gc`: quick inflation diagnostic
-
-## Association testing
-
-```{r, label="assoc_code", eval=T}
+```{r, label="assoc_code", eval=FALSE}
 assoc <- GENESIS::assocTestSingle(it, null.model = nullmod, test = "Score")
-
+# Prepare results for plotting
 res <- data.frame(
     SNP = assoc$snpID,
     CHR = as.integer(assoc$chr),
@@ -586,17 +605,34 @@ res <- data.frame(
     BETA = assoc$Est,
     SE = assoc$Est.SE
 )
-
+# Genomic control
 lambda_gc <- median(stats::qchisq(1 - res$P, df = 1), na.rm = TRUE) / 0.456
 ```
 
-## Association testing
+------------------------------------------------------------------------
+
+## Step 8 — Association testing (explain)
+
+-   **Score test**: efficient per‑SNP test using derivatives at the null; numerically stable at scale.\
+-   With our simulated effect, we expect one clear peak near the planted SNP, modest elsewhere.\
+-   **Calibration**: ( \lambda\_{GC} ) near 1 indicates good control; large values suggest stratification, relatedness, or batch effects.
+
+**Deliverables** - `res`: per‑SNP estimates and p‑values.\
+- `lambda_gc`: quick inflation diagnostic.
+
+------------------------------------------------------------------------
+
+## Step 8 — Association testing (output)
+
+```{r, ref.label="assoc_code", echo=FALSE, eval = F}
+```
 
 ```{r, echo=FALSE, eval = F}
 lambda_gc
 head(res[order(res$P), c("SNP", "CHR", "BP", "BETA", "SE", "P")], 10)
 ```
 
+------------------------------------------------------------------------
 
 ## Step 9 — Figures: Manhattan & QQ (code)
 
@@ -612,6 +648,7 @@ manhattan(plotdat,
 qq(plotdat$P, main = "QQ plot")
 ```
 
+------------------------------------------------------------------------
 
 ## Step 9 — Figures: Manhattan & QQ (explain)
 
@@ -621,12 +658,46 @@ qq(plotdat$P, main = "QQ plot")
 
 **Caveats** - Our dataset is **small** and **simulated**; the figures illustrate **method behavior**, not discovery.
 
+------------------------------------------------------------------------
 
 ## Step 9 — Figures: Manhattan & QQ (output)
 
 ```{r, ref.label="plots_code", echo=FALSE, eval = F}
 ```
 
+------------------------------------------------------------------------
+
+## (Optional) Step 10 — Binary trait & SPA (code)
+
+```{r, label="spa_code", eval=FALSE}
+# Simulate a low-prevalence binary trait using the same planted SNP
+logit_p <- -2.3 + 0.8 * scale(G1) + 0.1 * scale(age) + 0.1 * (sex == "M") + as.numeric(pcs[, 1]) * 0.0
+p_case <- plogis(logit_p)
+case <- rbinom(length(p_case), 1, p_case)
+
+scanDF2 <- data.frame(scanID = samp.keep.id, case = case, age = age, sex = sex, pcs[, 1:4])
+colnames(scanDF2)[4:7] <- paste0("PC", 1:4)
+scanAnnot3 <- GWASTools::ScanAnnotationDataFrame(scanDF2)
+
+null_cc <- GENESIS::fitNullModel(scanAnnot3,
+    outcome = "case",
+    covars = c("age", "sex", "PC1", "PC2", "PC3", "PC4"),
+    cov.mat = K, family = "binomial"
+)
+
+it2 <- GWASTools::GenotypeBlockIterator(geno, snpInclude = snp.keep.id, snpBlock = 5000)
+assoc_cc <- GENESIS::assocTestSingle(it2, null.model = null_cc, test = "Score.SPA")
+```
+
+------------------------------------------------------------------------
+
+## (Optional) Step 10 — Binary trait & SPA (explain)
+
+-   Severe **case:control imbalance** and low MAC inflate type‑I error for naive tests.\
+-   **SPA (saddlepoint approximation)** yields accurate p‑values in the tails by correcting score distributions.\
+-   `assocTestSingle(..., test="Score.SPA")` invokes SPA within GENESIS.
+
+------------------------------------------------------------------------
 
 ## Wrap‑up & what to record
 
