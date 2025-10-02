@@ -137,13 +137,13 @@ library(cmdstanr)
 
 stan_beta_binomial <- "
 data {
-  int<lower=0> n;                     
-  int<lower=0, upper=n> x;        
-  real<lower=0> a;                 
-  real<lower=0> b;                
+  int<lower=0> n;
+  int<lower=0, upper=n> x;
+  real<lower=0> a;
+  real<lower=0> b;
 }
 parameters {
-  real<lower=0, upper=1> p;    
+  real<lower=0, upper=1> p;
 }
 model {
   // TODO: prior on p
@@ -152,8 +152,8 @@ model {
   // Example: x ~ binomial(n, p);
 }
 generated quantities {
-  real logit_p = logit(p);            
-  int x_rep = binomial_rng(n, p);   
+  real logit_p = logit(p);
+  int x_rep = binomial_rng(n, p);
 }
 "
 
@@ -163,9 +163,9 @@ set.seed(8878)
 writeLines(stan_beta_binomial, con = "beta_binomial.stan")
 mod_bb <- cmdstan_model("beta_binomial.stan")
 fit_bb <- mod_bb$sample(
-  data = list(n = 27, x = 11, a = 4, b = 18),
-  seed = 8878, chains = 4, parallel_chains = 4,
-  iter_warmup = 1000, iter_sampling = 1000
+    data = list(n = 27, x = 11, a = 4, b = 18),
+    seed = 8878, chains = 4, parallel_chains = 4,
+    iter_warmup = 1000, iter_sampling = 1000
 )
 
 # TODO: check convergence and summarize posterior
@@ -206,14 +206,14 @@ data {
   int<lower=0> n_A;
   int<lower=0> n_B;
   int<lower=0> n_O;
-  vector<lower=0>[3] alpha;             
+  vector<lower=0>[3] alpha;
 }
 transformed data {
   int N = n_A + n_B + n_O;
-  int y[3] = { n_A, n_B, n_O };        
+  int y[3] = { n_A, n_B, n_O };
 }
 parameters {
-  simplex[3] p;                          
+  simplex[3] p;
 }
 transformed parameters {
   // Unconditional phenotype probabilities under HWE:
@@ -247,12 +247,9 @@ set.seed(8878)
 writeLines(stan_abo_missing_ab, con = "abo_missing_ab.stan")
 mod_abo <- cmdstan_model("abo_missing_ab.stan")
 fit_abo <- mod_abo$sample(
-  data = list(n_A = 725, n_B = 258, n_O = 1073, alpha = c(1,1,1)),
-  seed = 8878, chains = 4, parallel_chains = 4,
-  iter_warmup = 1000, iter_sampling = 1000
+    data = list(n_A = 725, n_B = 258, n_O = 1073, alpha = c(1, 1, 1)),
+    seed = 8878, chains = 4, parallel_chains = 4,
+    iter_warmup = 1000, iter_sampling = 1000
 )
 ```
-
-
-
 

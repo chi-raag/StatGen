@@ -1,0 +1,45 @@
+---
+title: "Assignment 05"
+subtitle: "PUBH 8878"
+format:
+  html:
+    html-math-method: katex
+    code-tools: true
+  pdf: default
+  docx: default
+format-links: [pdf, docx]
+bibliography: references.bib
+csl: https://www.zotero.org/styles/biostatistics
+---
+
+**Requirements**
+
+- Show complete mathematical work for any derivations and clearly state assumptions.
+- Submit well-documented R code with informative comments and a fixed seed (`set.seed(8878)`).
+- Interpret quantitative results in a genetic context and relate them back to the modeling assumptions.
+- Submit the rendered PDF only (do not submit the source `.qmd`).
+
+## Problem 1: Minor Allele Frequency and Genotype Clustering (30 pts)
+
+Illumina- and Affymetrix-style SNP arrays infer genotypes from two-channel intensity vectors. Let the target SNP have minor allele frequency $q \in (0, 1/2]$ in a Hardy–Weinberg population of size $N$ diploid individuals. Denote the genotype categories $g \in \{AA, AB, BB\}$ and their sample counts $n_g$. Conditional on genotype $g$, the observed intensity vector $Y \in \mathbb{R}^2$ follows a bivariate Gaussian distribution $Y \mid g \sim \mathcal{N}(\boldsymbol{\mu}_g, \boldsymbol{\Sigma}_g)$ with finite, positive-definite covariance matrices.
+
+Throughout the problem you may assume the regularity conditions needed for the multivariate central limit theorem, and you may cite standard results from Casella & Berger (2002) or equivalent sources without re-derivation.
+
+**(a) (6 pts)** Treat $(n_{AA}, n_{AB}, n_{BB})$ as multinomial with event probabilities implied by $q$. Derive $\mathbb{E}[n_g]$ and $\mathrm{Var}(n_g)$ for each genotype. Show that $\mathrm{Var}(n_{BB}) = N q^2 (1 - q^2)$ and comment on its scaling in $q$ for small minor allele frequencies.
+
+**(b) (8 pts)** Let $\bar{Y}_g$ denote the empirical mean vector within genotype $g$. Using your answer to part (a), derive the sampling distribution of $\bar{Y}_g$ conditional on $n_g$. Show that, marginalizing over $n_g$, the unconditional covariance matrix of $\bar{Y}_g$ is $\mathbb{E}\left[\boldsymbol{\Sigma}_g / n_g\right]$ up to $O(N^{-2})$ terms.
+
+**(c) (8 pts)** Assume $\boldsymbol{\Sigma}_{AB} = \boldsymbol{\Sigma}_{BB} = \boldsymbol{\Sigma}$ and define the Fisher discriminant direction $\mathbf{w} = \boldsymbol{\Sigma}^{-1}(\boldsymbol{\mu}_{AB} - \boldsymbol{\mu}_{BB})$. Show that the one-dimensional signal-to-noise ratio governing the separation of the AB and BB clusters satisfies
+\[
+\mathrm{SNR}_{AB,BB} = \frac{\mathbf{w}^{\top}(\boldsymbol{\mu}_{AB} - \boldsymbol{\mu}_{BB})}{\sqrt{\mathbf{w}^{\top}\left(\frac{\boldsymbol{\Sigma}}{n_{AB}} + \frac{\boldsymbol{\Sigma}}{n_{BB}}\right)\mathbf{w}}} \propto \sqrt{n_{BB}},
+\]
+and rewrite the proportionality purely in terms of $(N, q)$, the Mahalanobis distance $\Delta^2 = (\boldsymbol{\mu}_{AB} - \boldsymbol{\mu}_{BB})^{\top} \boldsymbol{\Sigma}^{-1}(\boldsymbol{\mu}_{AB} - \boldsymbol{\mu}_{BB})$, and lower-order terms that may be neglected in large samples.
+
+**(d) (8 pts)** Many clustering pipelines require $\mathrm{SNR}_{AB,BB} \geq \kappa$ for reliable genotype calling. Using your expression from part (c), derive a large-$N$ approximation for the smallest MAF $q_{\text{min}}(N, \kappa, \Delta)$ that satisfies this inequality. Then, for $N = 10{,}000$, $\kappa = 5$, and $\Delta = 3$, report $q_{\text{min}}$ to three decimal places. Finally, compute $\Pr\{n_{BB} = 0\}$ for $q = 0.01$ and the same $N$, and interpret what this implies for cluster identification.
+
+*Hints:* You may approximate $n_{BB}$ by its expectation when evaluating $\mathrm{SNR}_{AB,BB}$ to first order, and you may treat $n_{BB}$ as $\mathrm{Bin}(N, q^2)$ when computing tail probabilities. When deriving expectations of matrix-valued quantities, it is acceptable to work elementwise.
+
+### Optional computational check (0 pts)
+
+Use the helper `simulate_genotype_df` from Lecture 05 (or your own implementation) with $N = 10{,}000$ and the MAF values considered above to visualize how cluster separation deteriorates as $q$ decreases. Discuss briefly whether the empirical behavior matches your theoretical predictions.
+

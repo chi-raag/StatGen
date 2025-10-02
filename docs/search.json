@@ -1468,5 +1468,544 @@
     "title": "Lecture 02: Heritability, segregation, and the gene-mapping toolkit",
     "section": "Summary & key takeaways",
     "text": "Summary & key takeaways\n\nHeritability: H^2 vs h^2; interpretation is population- and environment-specific.\nVariance components (pedigrees): LMM with A-matrix unifies family estimators; handle boundary tests correctly.\nBinary traits: liability-threshold,\nSegregation: fit penetrance-based likelihoods; condition on ascertainment.\nMethod habit: when unsure, simulate to check intuition and bias under ascertainment."
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-0-setup-data-access",
+    "href": "lectures/lecture-05.html#step-0-setup-data-access",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 0 — Setup & data access",
+    "text": "Step 0 — Setup & data access"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-0-setup-data-access-1",
+    "href": "lectures/lecture-05.html#step-0-setup-data-access-1",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 0 — Setup & data access",
+    "text": "Step 0 — Setup & data access"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-0-setup-data-access-explain",
+    "href": "lectures/lecture-05.html#step-0-setup-data-access-explain",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 0 — Setup & data access (explain)",
+    "text": "Step 0 — Setup & data access (explain)\n\nWe use the HapMap ASW + MXL demo GDS included with GENESIS.\n\nGDS is an on‑disk array format optimized for genotypes; SNPRelate and GENESIS share it.\n\nToday’s goal is to focus on statistical decisions, not tooling: all steps live in R.\n\nObjects we create - g: an open GDS handle (fast random access)\n- samp.id, snp.id, chr, pos: basic vectors for later filtering\n- n_samples, n_snps: quick counts for sanity checks"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-0-setup-data-access-output",
+    "href": "lectures/lecture-05.html#step-0-setup-data-access-output",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 0 — Setup & data access (output)",
+    "text": "Step 0 — Setup & data access (output)\n\n\nSamples: 173\nSNPs: 20000\n\n\n  snp.id chr pos\n1      1   1   1\n2      2   1   2\n3      3   1   3\n4      4   1   4\n5      5   1   5\n6      6   1   6"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#quality-control",
+    "href": "lectures/lecture-05.html#quality-control",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Quality Control",
+    "text": "Quality Control\nHardy-Weinberg Equilibrium (HWE)\n\nDeviations (rejections of H_0) can indicate genotyping errors, population structure, or selection\nTypically tested in controls or unrelateds for case-control studies\n\n\n# HWE p-values (autosomes only for this demo)\nhwe_p &lt;- snpgdsHWE(g, snp.id = snp.id)\nggplot(data.frame(hwe_p = hwe_p), aes(x = hwe_p)) +\n    geom_histogram(binwidth = 0.01) +\n    geom_vline(xintercept = c(1e-6), linetype = \"dashed\", color = \"red\") +\n    theme_minimal()\n\n\n\n# Sample-level missingness\nsamp_miss &lt;- snpgdsSampMissRate(g)\n\n# Sample-level heterozygosity (quick estimate from full genotype matrix; fine for this small demo)\nG &lt;- snpgdsGetGeno(g, with.id = TRUE)\n\nGenotype matrix: 20000 SNPs X 173 samples\n\ngeno_mat &lt;- G$genotype # matrix [variants x samples]\nhet_rate &lt;- colMeans(geno_mat == 1, na.rm = TRUE)\nnames(het_rate) &lt;- G$sample.id\n\n# QC thresholds (teaching defaults — adjust as needed)\nthr_samp_miss &lt;- 0.02\nthr_var_miss &lt;- 0.02\nthr_maf &lt;- 0.01\nthr_hwe &lt;- 1e-6\n\nkeep_sample &lt;- which(samp_miss &lt;= thr_samp_miss & abs(scale(het_rate)) &lt; 3)\nkeep_snp &lt;- which(miss_var &lt;= thr_var_miss & maf &gt;= thr_maf & (is.na(hwe_p) | hwe_p &gt; thr_hwe))\n\n# IDs (not indices) for downstream functions\nsamp.keep.id &lt;- samp.id[keep_sample]\nsnp.keep.id &lt;- snp.id[keep_snp]"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#genotyping-quality",
+    "href": "lectures/lecture-05.html#genotyping-quality",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Genotyping Quality",
+    "text": "Genotyping Quality\n\nFiltering for minor allele frequency\nFiltering SNPs based on violation of HWE"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#filtering-for-minor-allele-frequency-maf",
+    "href": "lectures/lecture-05.html#filtering-for-minor-allele-frequency-maf",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Filtering for minor allele frequency (MAF)",
+    "text": "Filtering for minor allele frequency (MAF)\n\nSNP-chips often determine genotypes based on intensities for each allele\nWhen MAF is low, genotype clusters can overlap, leading to genotyping errors"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#quality-control-1",
+    "href": "lectures/lecture-05.html#quality-control-1",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Quality Control",
+    "text": "Quality Control"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#quality-control-2",
+    "href": "lectures/lecture-05.html#quality-control-2",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Quality Control",
+    "text": "Quality Control\nHardy-Weinberg Equilibrium (HWE)\n\nDeviations (rejections of H_0) can indicate genotyping errors, population structure, or selection\nTypically tested in controls or unrelateds for case-control studies\n\n\n# HWE p-values (autosomes only for this demo)\nhwe_p &lt;- snpgdsHWE(g, snp.id = snp.id)\nggplot(data.frame(hwe_p = hwe_p), aes(x = hwe_p)) +\n    geom_histogram(binwidth = 0.01) +\n    geom_vline(xintercept = c(1e-6), linetype = \"dashed\", color = \"red\") +\n    theme_minimal()\n\n\n\n# Sample-level missingness\nsamp_miss &lt;- snpgdsSampMissRate(g)\n\n# Sample-level heterozygosity (quick estimate from full genotype matrix; fine for this small demo)\nG &lt;- snpgdsGetGeno(g, with.id = TRUE)\n\nGenotype matrix: 20000 SNPs X 173 samples\n\ngeno_mat &lt;- G$genotype # matrix [variants x samples]\nhet_rate &lt;- colMeans(geno_mat == 1, na.rm = TRUE)\nnames(het_rate) &lt;- G$sample.id\n\n# QC thresholds (teaching defaults — adjust as needed)\nthr_samp_miss &lt;- 0.02\nthr_var_miss &lt;- 0.02\nthr_maf &lt;- 0.01\nthr_hwe &lt;- 1e-6\n\nkeep_sample &lt;- which(samp_miss &lt;= thr_samp_miss & abs(scale(het_rate)) &lt; 3)\nkeep_snp &lt;- which(miss_var &lt;= thr_var_miss & maf &gt;= thr_maf & (is.na(hwe_p) | hwe_p &gt; thr_hwe))\n\n# IDs (not indices) for downstream functions\nsamp.keep.id &lt;- samp.id[keep_sample]\nsnp.keep.id &lt;- snp.id[keep_snp]"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#quality-control-3",
+    "href": "lectures/lecture-05.html#quality-control-3",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Quality Control",
+    "text": "Quality Control\nHardy-Weinberg Equilibrium (HWE)\n\nDeviations (rejections of H_0) can indicate genotyping errors, population structure, or selection\nTypically tested in controls or unrelateds for case-control studies\n\n\n# HWE p-values (autosomes only for this demo)\nhwe_p &lt;- snpgdsHWE(g, snp.id = snp.id)\nggplot(data.frame(hwe_p = hwe_p), aes(x = hwe_p)) +\n    geom_histogram(binwidth = 0.01) +\n    geom_vline(xintercept = c(1e-6), linetype = \"dashed\", color = \"red\") +\n    theme_minimal()\n\n\n\n# Sample-level missingness\nsamp_miss &lt;- snpgdsSampMissRate(g)\n\n# Sample-level heterozygosity (quick estimate from full genotype matrix; fine for this small demo)\nG &lt;- snpgdsGetGeno(g, with.id = TRUE)\n\nGenotype matrix: 20000 SNPs X 173 samples\n\ngeno_mat &lt;- G$genotype # matrix [variants x samples]\nhet_rate &lt;- colMeans(geno_mat == 1, na.rm = TRUE)\nnames(het_rate) &lt;- G$sample.id\n\n# QC thresholds (teaching defaults — adjust as needed)\nthr_samp_miss &lt;- 0.02\nthr_var_miss &lt;- 0.02\nthr_maf &lt;- 0.01\nthr_hwe &lt;- 1e-6\n\nkeep_sample &lt;- which(samp_miss &lt;= thr_samp_miss & abs(scale(het_rate)) &lt; 3)\nkeep_snp &lt;- which(miss_var &lt;= thr_var_miss & maf &gt;= thr_maf & (is.na(hwe_p) | hwe_p &gt; thr_hwe))\n\n# IDs (not indices) for downstream functions\nsamp.keep.id &lt;- samp.id[keep_sample]\nsnp.keep.id &lt;- snp.id[keep_snp]"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-1-qc-summaries-explain",
+    "href": "lectures/lecture-05.html#step-1-qc-summaries-explain",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 1 — QC summaries (explain)",
+    "text": "Step 1 — QC summaries (explain)\nWhat & why - Variant filters: call rate (missingness), MAF, and HWE protect against genotyping artifacts.\n- Sample filters: call rate and heterozygosity outliers flag potential contamination or sample swaps.\nTheory highlights - HWE exact test evaluates consistency with random mating; test in controls or in unrelateds for case‑control designs.\n- Heterozygosity ( _i = ); z‑scores flag outliers.\n- Thresholds are contextual; today’s values are classroom defaults.\nDeliverables - samp.keep.id, snp.keep.id: filtered lists used by all subsequent steps."
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-1-qc-summaries-output",
+    "href": "lectures/lecture-05.html#step-1-qc-summaries-output",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 1 — QC summaries (output)",
+    "text": "Step 1 — QC summaries (output)\n\n\n                   metric value\n1            Samples kept   167\n2               SNPs kept 19468\n3 Sample call-rate ≥ 0.98   169\n4    SNP call-rate ≥ 0.98 19503\n5              MAF ≥ 0.01 20000"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-2-ld-pruning-code",
+    "href": "lectures/lecture-05.html#step-2-ld-pruning-code",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 2 — LD pruning (code)",
+    "text": "Step 2 — LD pruning (code)\n\nset.seed(1)\nld_prune &lt;- snpgdsLDpruning(g,\n    sample.id = samp.keep.id, snp.id = snp.keep.id,\n    ld.threshold = 0.2, autosome.only = TRUE\n)\nsnps_pruned &lt;- unlist(ld_prune, use.names = FALSE)"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-2-ld-pruning-explain",
+    "href": "lectures/lecture-05.html#step-2-ld-pruning-explain",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 2 — LD pruning (explain)",
+    "text": "Step 2 — LD pruning (explain)\nWhy prune? - PCA and kinship estimation assume (approx.) independent markers; LD inflates dimensionality and kinship estimates. - We remove SNPs correlated above an (r^2) threshold (here, (r )).\nDeliverable - snps_pruned: a sparse, genome‑wide set for PCA/KING/PC‑Relate."
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-2-ld-pruning-output",
+    "href": "lectures/lecture-05.html#step-2-ld-pruning-output",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 2 — LD pruning (output)",
+    "text": "Step 2 — LD pruning (output)\n\n\nLD-pruned SNPs: 3646 (from 19468 kept)"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-3-relatedness-king-robust-code",
+    "href": "lectures/lecture-05.html#step-3-relatedness-king-robust-code",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 3 — Relatedness (KING-robust) (code)",
+    "text": "Step 3 — Relatedness (KING-robust) (code)\n\n# KING-robust pairwise relatedness on pruned SNPs\nking &lt;- snpgdsIBDKING(g, sample.id = samp.keep.id, snp.id = snps_pruned, type = \"KING-robust\")\n\n# Convert to a symmetric kinship matrix for GENESIS\nKINGmat &lt;- GENESIS::kingToMatrix(king)"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-3-relatedness-explain",
+    "href": "lectures/lecture-05.html#step-3-relatedness-explain",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 3 — Relatedness (explain)",
+    "text": "Step 3 — Relatedness (explain)\nWhat KING-robust estimates - A kinship coefficient per pair, robust to population structure.\n- Thresholds (approx.): 0.5 (MZ twin/duplicate), 0.25 (1st degree), 0.125 (2nd), 0.0625 (3rd).\nWhy we need it - Standard PCA treats relatives as extra “population clusters.”\n- PC‑AiR uses KING to identify an unrelated subset for unbiased ancestry PCs.\nDeliverable - KINGmat: (NN) kinship matrix for PC‑AiR input."
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-3-relatedness-output",
+    "href": "lectures/lecture-05.html#step-3-relatedness-output",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 3 — Relatedness (output)",
+    "text": "Step 3 — Relatedness (output)\n\n\nIBD analysis (KING method of moment) on genotypes:\nExcluding 19,775 SNPs (non-autosomes or non-selection)\nExcluding 0 SNP (monomorphic: TRUE, MAF: NaN, missing rate: NaN)\n    # of samples: 167\n    # of SNPs: 225\n    using 1 thread\nNo family is specified, and all individuals are treated as singletons.\nRelationship inference in the presence of population stratification.\nKING IBD:    the sum of all selected genotypes (0,1,2) = 17067\nCPU capabilities:\nWed Oct  1 15:31:47 2025    (internal increment: 65536)\n\n[..................................................]  0%, ETC: ---        \n[==================================================] 100%, completed, 0s\nWed Oct  1 15:31:47 2025    Done.\n\n\n\n\n  X..0.125..2nd.deg. X..0.0625..3rd.deg.\n1                196                1159\n\n\n\n# Close the SNPRelate handle before opening the same GDS via GWASTools\nsnpgdsClose(g)"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-4-ancestry-pcs-pcair-code",
+    "href": "lectures/lecture-05.html#step-4-ancestry-pcs-pcair-code",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 4 — Ancestry PCs (PC‑AiR) (code)",
+    "text": "Step 4 — Ancestry PCs (PC‑AiR) (code)\n\n# Build GENESIS genotype reader/obj\nscanAnnot &lt;- GWASTools::ScanAnnotationDataFrame(data.frame(scanID = samp.keep.id))\ngeno &lt;- GWASTools::GenotypeData(GWASTools::GdsGenotypeReader(gdsfile), scanAnnot = scanAnnot)\n\n# PC-AiR using KING kinship for both relatedness and divergence\npcair_fit &lt;- GENESIS::pcair(genoData = geno, kinobj = KINGmat, divobj = KINGmat, n.components = 10)\npcs &lt;- pcair_fit$vectors\ncolnames(pcs) &lt;- paste0(\"PC\", 1:ncol(pcs))"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-4-ancestry-pcs-explain",
+    "href": "lectures/lecture-05.html#step-4-ancestry-pcs-explain",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 4 — Ancestry PCs (explain)",
+    "text": "Step 4 — Ancestry PCs (explain)\nWhy PC‑AiR, not plain PCA? - With relatives, plain PCA chases family structure.\n- PC‑AiR computes PCs on unrelateds, then projects related individuals—ancestry signal without family confounding.\nDeliverable - pcs: ancestry PCs (we’ll use PC1–PC4 as covariates)."
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-4-ancestry-pcs-output",
+    "href": "lectures/lecture-05.html#step-4-ancestry-pcs-output",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 4 — Ancestry PCs (output)",
+    "text": "Step 4 — Ancestry PCs (output)"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-5-ancestry-aware-kinship-pcrelate-code",
+    "href": "lectures/lecture-05.html#step-5-ancestry-aware-kinship-pcrelate-code",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 5 — Ancestry-aware kinship (PC‑Relate) (code)",
+    "text": "Step 5 — Ancestry-aware kinship (PC‑Relate) (code)\n\ngeno_data &lt;- GenotypeBlockIterator(geno_data, snpInclude = snps_pruned)\npc_relate &lt;- pcrelate(geno_data,\n                      pcs = pcair_out$vectors[,1:2],\n                      training.set = pcair_out$unrels,\n                      BPPARAM = BiocParallel::SerialParam())\n                      \n        \npcrel &lt;- GENESIS::pcrelate(genoData = geno_data, \n                           sample.include = samp.keep.id,\n                           pcs = pcs[, 1:4], \n                           training.set = pcair_fit$unrels)\nK &lt;- GENESIS::pcrelateToMatrix(pcrel) # GRM for mixed models"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-5-ancestry-aware-kinship-explain",
+    "href": "lectures/lecture-05.html#step-5-ancestry-aware-kinship-explain",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 5 — Ancestry-aware kinship (explain)",
+    "text": "Step 5 — Ancestry-aware kinship (explain)\nPC‑Relate - Uses individual‑specific allele frequencies inferred from PCs.\n- Produces kinship and IBD estimates robust to stratification.\nWhy we need it - Mixed models require a covariance ( _g^2 K ); PC‑Relate gives a (K) that isn’t biased by ancestry differences.\nDeliverable - K: a GRM to plug into a linear mixed model."
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-5-ancestry-aware-kinship-output",
+    "href": "lectures/lecture-05.html#step-5-ancestry-aware-kinship-output",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 5 — Ancestry-aware kinship (output)",
+    "text": "Step 5 — Ancestry-aware kinship (output)"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-6-phenotype-covariates-code",
+    "href": "lectures/lecture-05.html#step-6-phenotype-covariates-code",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 6 — Phenotype & covariates (code)",
+    "text": "Step 6 — Phenotype & covariates (code)\n\n# Simulate simple covariates\nset.seed(99)\nN &lt;- nrow(pcs)\nsex &lt;- sample(c(\"M\", \"F\"), N, replace = TRUE)\nage &lt;- round(rnorm(N, 50, 10))\n\n# Choose one moderately frequent SNP and simulate a quantitative trait with a planted effect\nmaf_full &lt;- maf\nix &lt;- which(!is.na(maf_full) & maf_full &gt; 0.2 & maf_full &lt; 0.3)[1]\n\nG1 &lt;- GWASTools::getGenotypeSelection(geno, snpID = snp.id[ix], scanID = samp.keep.id)\nG1 &lt;- as.numeric(G1) # 0,1,2 with NAs\nG1[is.na(G1)] &lt;- mean(G1, na.rm = TRUE) # quick mean-impute for demo\n\ny &lt;- as.numeric(0.30 * scale(G1) + 0.02 * scale(age) + 0.05 * (sex == \"M\") + rnorm(N))\n\n# Assemble scan annotation with covariates and PCs\nscanDF &lt;- data.frame(scanID = samp.keep.id, y = y, age = age, sex = sex, pcs[, 1:4])\ncolnames(scanDF)[6:9] &lt;- paste0(\"PC\", 1:4)\nscanAnnot2 &lt;- GWASTools::ScanAnnotationDataFrame(scanDF)\n# Update 'geno' to carry covariates\nGWASTools::close(geno)\ngeno &lt;- GWASTools::GenotypeData(GWASTools::GdsGenotypeReader(gdsfile), scanAnnot = scanAnnot2)"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-6-phenotype-covariates-explain",
+    "href": "lectures/lecture-05.html#step-6-phenotype-covariates-explain",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 6 — Phenotype & covariates (explain)",
+    "text": "Step 6 — Phenotype & covariates (explain)\nWhy simulate?\nHapMap doesn’t ship with rich traits. We plant a small genotype effect so that the mixed‑model GWAS produces a recognizable signal.\nModel intent - Covariates: age, sex, PC1–PC4 (ancestry).\n- Genetic effect: ~0.30 SD per minor allele on a standardized SNP.\nDeliverable - geno now contains sample annotations with (y, X), and PCs."
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-6-phenotype-covariates-output",
+    "href": "lectures/lecture-05.html#step-6-phenotype-covariates-output",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 6 — Phenotype & covariates (output)",
+    "text": "Step 6 — Phenotype & covariates (output)"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-7-null-model-lmm-code",
+    "href": "lectures/lecture-05.html#step-7-null-model-lmm-code",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 7 — Null model (LMM) (code)",
+    "text": "Step 7 — Null model (LMM) (code)\n\nnullmod &lt;- GENESIS::fitNullModel(scanAnnot2,\n    outcome = \"y\",\n    covars = c(\"age\", \"sex\", \"PC1\", \"PC2\", \"PC3\", \"PC4\"),\n    cov.mat = K, family = \"gaussian\"\n)\n\n# Genotype iterator (block-wise scan of all SNPs kept by QC)\nit &lt;- GWASTools::GenotypeBlockIterator(geno, snpInclude = snp.keep.id, snpBlock = 5000)"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-7-null-model-explain",
+    "href": "lectures/lecture-05.html#step-7-null-model-explain",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 7 — Null model (explain)",
+    "text": "Step 7 — Null model (explain)\nLMM\n[ y = X+ G + u + , u (0,_g^2 K),(0,_e^2 I). ]\n\nWe fit variance components under (H_0:) (the null model) once.\n\nAssociation uses a Score test, reusing the null for each SNP.\n\nPCs adjust for residual structure; (K) captures realized relatedness.\n\nDeliverables - nullmod: object with (_g^2,_e^2), fixed effects, and residuals.\n- it: a block iterator to stream SNPs without loading them all at once."
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-7-null-model-output",
+    "href": "lectures/lecture-05.html#step-7-null-model-output",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 7 — Null model (output)",
+    "text": "Step 7 — Null model (output)"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-8-association-testing-code",
+    "href": "lectures/lecture-05.html#step-8-association-testing-code",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 8 — Association testing (code)",
+    "text": "Step 8 — Association testing (code)\n\nassoc &lt;- GENESIS::assocTestSingle(it, null.model = nullmod, test = \"Score\")\n# Prepare results for plotting\nres &lt;- data.frame(\n    SNP = assoc$snpID,\n    CHR = as.integer(assoc$chr),\n    BP = assoc$pos,\n    P = assoc$Score.pval,\n    BETA = assoc$Est,\n    SE = assoc$Est.SE\n)\n# Genomic control\nlambda_gc &lt;- median(stats::qchisq(1 - res$P, df = 1), na.rm = TRUE) / 0.456"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-8-association-testing-explain",
+    "href": "lectures/lecture-05.html#step-8-association-testing-explain",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 8 — Association testing (explain)",
+    "text": "Step 8 — Association testing (explain)\n\nScore test: efficient per‑SNP test using derivatives at the null; numerically stable at scale.\n\nWith our simulated effect, we expect one clear peak near the planted SNP, modest elsewhere.\n\nCalibration: ( _{GC} ) near 1 indicates good control; large values suggest stratification, relatedness, or batch effects.\n\nDeliverables - res: per‑SNP estimates and p‑values.\n- lambda_gc: quick inflation diagnostic."
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-8-association-testing-output",
+    "href": "lectures/lecture-05.html#step-8-association-testing-output",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 8 — Association testing (output)",
+    "text": "Step 8 — Association testing (output)"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-9-figures-manhattan-qq-code",
+    "href": "lectures/lecture-05.html#step-9-figures-manhattan-qq-code",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 9 — Figures: Manhattan & QQ (code)",
+    "text": "Step 9 — Figures: Manhattan & QQ (code)\n\nlibrary(qqman)\n# Clean CHR for qqman (drop non-autosomes for the plot)\nplotdat &lt;- subset(res, CHR %in% 1:22 & is.finite(P))\nmanhattan(plotdat,\n    chr = \"CHR\", bp = \"BP\", p = \"P\", snp = \"SNP\",\n    suggestiveline = -log10(1e-5), genomewideline = -log10(5e-8),\n    main = \"GWAS (LMM) — Manhattan\"\n)\nqq(plotdat$P, main = \"QQ plot\")"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-9-figures-manhattan-qq-explain",
+    "href": "lectures/lecture-05.html#step-9-figures-manhattan-qq-explain",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 9 — Figures: Manhattan & QQ (explain)",
+    "text": "Step 9 — Figures: Manhattan & QQ (explain)\nHow to read the plots - Manhattan: look for peaks spanning multiple SNPs in LD; single‑SNP spikes can be artifacts.\n- QQ: early alignment with the diagonal + tail deviation at top hits is typical of a polygenic trait.\n- Show ( _{GC} ) on the figure or caption.\nCaveats - Our dataset is small and simulated; the figures illustrate method behavior, not discovery."
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-9-figures-manhattan-qq-output",
+    "href": "lectures/lecture-05.html#step-9-figures-manhattan-qq-output",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 9 — Figures: Manhattan & QQ (output)",
+    "text": "Step 9 — Figures: Manhattan & QQ (output)"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#optional-step-10-binary-trait-spa-code",
+    "href": "lectures/lecture-05.html#optional-step-10-binary-trait-spa-code",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "(Optional) Step 10 — Binary trait & SPA (code)",
+    "text": "(Optional) Step 10 — Binary trait & SPA (code)\n\n# Simulate a low-prevalence binary trait using the same planted SNP\nlogit_p &lt;- -2.3 + 0.8 * scale(G1) + 0.1 * scale(age) + 0.1 * (sex == \"M\") + as.numeric(pcs[, 1]) * 0.0\np_case &lt;- plogis(logit_p)\ncase &lt;- rbinom(length(p_case), 1, p_case)\n\nscanDF2 &lt;- data.frame(scanID = samp.keep.id, case = case, age = age, sex = sex, pcs[, 1:4])\ncolnames(scanDF2)[4:7] &lt;- paste0(\"PC\", 1:4)\nscanAnnot3 &lt;- GWASTools::ScanAnnotationDataFrame(scanDF2)\n\nnull_cc &lt;- GENESIS::fitNullModel(scanAnnot3,\n    outcome = \"case\",\n    covars = c(\"age\", \"sex\", \"PC1\", \"PC2\", \"PC3\", \"PC4\"),\n    cov.mat = K, family = \"binomial\"\n)\n\nit2 &lt;- GWASTools::GenotypeBlockIterator(geno, snpInclude = snp.keep.id, snpBlock = 5000)\nassoc_cc &lt;- GENESIS::assocTestSingle(it2, null.model = null_cc, test = \"Score.SPA\")"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#optional-step-10-binary-trait-spa-explain",
+    "href": "lectures/lecture-05.html#optional-step-10-binary-trait-spa-explain",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "(Optional) Step 10 — Binary trait & SPA (explain)",
+    "text": "(Optional) Step 10 — Binary trait & SPA (explain)\n\nSevere case:control imbalance and low MAC inflate type‑I error for naive tests.\n\nSPA (saddlepoint approximation) yields accurate p‑values in the tails by correcting score distributions.\n\nassocTestSingle(..., test=\"Score.SPA\") invokes SPA within GENESIS."
+  },
+  {
+    "objectID": "lectures/lecture-05.html#wrapup-what-to-record",
+    "href": "lectures/lecture-05.html#wrapup-what-to-record",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Wrap‑up & what to record",
+    "text": "Wrap‑up & what to record\n\nGWASTools::close(geno_reader)\n\n\nParameters: thresholds (QC), LD‑prune settings, PCs used, null model family, random effect (K), LOCO (used? no).\n\nSoftware: package versions; genome build; random seeds.\n\nDeliverables: annotated code, QQ/Manhattan, top hits table, (_{GC}).\n\nHomework (separate)\nInstall PLINK and reproduce QC + PCs on a small chr22 dataset; compare with R results."
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-1-setup",
+    "href": "lectures/lecture-05.html#step-1-setup",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 1: Setup",
+    "text": "Step 1: Setup\n\n1library(SNPRelate)\n2library(GENESIS)\n3library(GWASTools)\n4library(qqman)\n5library(data.table)\nlibrary(ggplot2)\nlibrary(dplyr)\nset.seed(8878)\n\n\n1\n\nSNPRelate (Zheng et al., 2012) for GDS file handling and genotype data management\n\n2\n\nGENESIS for genome-wide association analysis and relatedness estimation\n\n3\n\nGWASTools for genotype data management and quality control\n\n4\n\nqqman for creating Q-Q and Manhattan plots\n\n5\n\ndata.table for efficient data manipulation"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-1-setup-data-access",
+    "href": "lectures/lecture-05.html#step-1-setup-data-access",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 1: Setup & data access",
+    "text": "Step 1: Setup & data access\n\n1gdsfile &lt;- system.file(\"extdata\", \"HapMap_ASW_MXL_geno.gds\", package = \"GENESIS\")\n\ng &lt;- SNPRelate::snpgdsOpen(gdsfile)\n\nsamp.id &lt;- read.gdsn(index.gdsn(g, \"sample.id\"))\nsnp.id &lt;- read.gdsn(index.gdsn(g, \"snp.id\"))\nchr &lt;- read.gdsn(index.gdsn(g, \"snp.chromosome\"))\npos &lt;- read.gdsn(index.gdsn(g, \"snp.position\"))\n\n\n1\n\nLocate the example GDS file included with the GENESIS package"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-1-setup-data-access-explain",
+    "href": "lectures/lecture-05.html#step-1-setup-data-access-explain",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 1: Setup & data access (explain)",
+    "text": "Step 1: Setup & data access (explain)\n\nWe use the HapMap ASW + MXL demo GDS included with GENESIS.\n\nGDS is an on‑disk array format optimized for genotypes; SNPRelate and GENESIS share it.\n\nToday’s goal is to focus on statistical decisions, not tooling: all steps live in R.\n\nObjects we create - g: an open GDS handle (fast random access)\n- samp.id, snp.id, chr, pos: basic vectors for later filtering\n- n_samples, n_snps: quick counts for sanity checks"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-1-setup-data-access-1",
+    "href": "lectures/lecture-05.html#step-1-setup-data-access-1",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 1: Setup & data access",
+    "text": "Step 1: Setup & data access\n\n1gdsfile &lt;- system.file(\"extdata\", \"HapMap_ASW_MXL_geno.gds\", package = \"GENESIS\")\n\n2g &lt;- SNPRelate::snpgdsOpen(gdsfile)\n\nsamp.id &lt;- read.gdsn(index.gdsn(g, \"sample.id\"))\nsnp.id &lt;- read.gdsn(index.gdsn(g, \"snp.id\"))\nchr &lt;- read.gdsn(index.gdsn(g, \"snp.chromosome\"))\npos &lt;- read.gdsn(index.gdsn(g, \"snp.position\"))\n\n\n1\n\nLocate the example GDS file included with the GENESIS package\n\n2\n\nOpen the GDS file for random access to genotype data"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-1-setup-data-access-2",
+    "href": "lectures/lecture-05.html#step-1-setup-data-access-2",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 1: Setup & data access",
+    "text": "Step 1: Setup & data access\n\n1gdsfile &lt;- system.file(\"extdata\", \"HapMap_ASW_MXL_geno.gds\", package = \"GENESIS\")\n\n2g &lt;- SNPRelate::snpgdsOpen(gdsfile)\n\n3samp.id &lt;- read.gdsn(index.gdsn(g, \"sample.id\"))\nsnp.id &lt;- read.gdsn(index.gdsn(g, \"snp.id\"))\nchr &lt;- read.gdsn(index.gdsn(g, \"snp.chromosome\"))\npos &lt;- read.gdsn(index.gdsn(g, \"snp.position\"))\n\n\n1\n\nLocate the example GDS file included with the GENESIS package\n\n2\n\nOpen the GDS file for random access to genotype data\n\n3\n\nRead sample IDs, SNP IDs, chromosome numbers, and positions from the GDS file"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-2-pre-imputation-quality-control-qc-filtering",
+    "href": "lectures/lecture-05.html#step-2-pre-imputation-quality-control-qc-filtering",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 2: Pre-imputation Quality Control (QC) & filtering",
+    "text": "Step 2: Pre-imputation Quality Control (QC) & filtering\n\nWe have two major axes of filtering: variants and samples\nWe’ll first focus on genotyping quality"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-2-pre-imputation-quality-control-qc-filtering-1",
+    "href": "lectures/lecture-05.html#step-2-pre-imputation-quality-control-qc-filtering-1",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 2: Pre-imputation Quality Control (QC) & filtering",
+    "text": "Step 2: Pre-imputation Quality Control (QC) & filtering\nFiltering for minor allele frequency (MAF)"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-2-pre-imputation-quality-control-qc-filtering-2",
+    "href": "lectures/lecture-05.html#step-2-pre-imputation-quality-control-qc-filtering-2",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 2: Pre-imputation Quality Control (QC) & filtering",
+    "text": "Step 2: Pre-imputation Quality Control (QC) & filtering\nFiltering for minor allele frequency (MAF)\n\nSNP-chips often determine genotypes based on intensities for each allele\nWhen MAF is low, genotype clusters can overlap, leading to genotyping errors"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-2-pre-imputation-quality-control-qc-filtering-3",
+    "href": "lectures/lecture-05.html#step-2-pre-imputation-quality-control-qc-filtering-3",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 2: Pre-imputation Quality Control (QC) & filtering",
+    "text": "Step 2: Pre-imputation Quality Control (QC) & filtering\nFiltering for minor allele frequency (MAF)"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-2-pre-imputation-quality-control-qc-filtering-4",
+    "href": "lectures/lecture-05.html#step-2-pre-imputation-quality-control-qc-filtering-4",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 2: Pre-imputation Quality Control (QC) & filtering",
+    "text": "Step 2: Pre-imputation Quality Control (QC) & filtering\nFiltering for minor allele frequency (MAF)\n\nCompute allele frequencies and missing rates for all SNPs\nExtract minor allele frequencies (MAF)\nExtract variant missingness rates"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-2-pre-imputation-quality-control-qc-filtering-5",
+    "href": "lectures/lecture-05.html#step-2-pre-imputation-quality-control-qc-filtering-5",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 2: Pre-imputation Quality Control (QC) & filtering",
+    "text": "Step 2: Pre-imputation Quality Control (QC) & filtering\nFiltering for minor allele frequency (MAF)"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#genotype-quality-control",
+    "href": "lectures/lecture-05.html#genotype-quality-control",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Genotype quality control",
+    "text": "Genotype quality control\n\nFiltering for minor allele frequency\nFiltering SNPs based on violation of HWE"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#filtering-for-minor-allele-frequency-maf-2",
+    "href": "lectures/lecture-05.html#filtering-for-minor-allele-frequency-maf-2",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Filtering for minor allele frequency (MAF)",
+    "text": "Filtering for minor allele frequency (MAF)\n\n1af &lt;- snpgdsSNPRateFreq(g)\n2maf &lt;- af$MinorFreq\n3miss_var &lt;- af$MissingRate\n\n\n1\n\nCompute allele frequencies and missing rates for all SNPs\n\n2\n\nExtract minor allele frequencies (MAF)\n\n3\n\nExtract variant missingness rates"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#filtering-for-minor-allele-frequency-maf-3",
+    "href": "lectures/lecture-05.html#filtering-for-minor-allele-frequency-maf-3",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Filtering for minor allele frequency (MAF)",
+    "text": "Filtering for minor allele frequency (MAF)"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#variant-missingness",
+    "href": "lectures/lecture-05.html#variant-missingness",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Variant missingness",
+    "text": "Variant missingness\n\nMissingness can indicate genotyping errors or batch effects\nMissingness can be non-random with respect to phenotype or ancestry\nTypically filter variants with &gt;2% missingness"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#filtering-snps-based-on-violation-of-hwe",
+    "href": "lectures/lecture-05.html#filtering-snps-based-on-violation-of-hwe",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Filtering SNPs based on violation of HWE",
+    "text": "Filtering SNPs based on violation of HWE\n\nDeviations (rejections of H_0) can indicate genotyping errors, population structure, or selection\nTypically tested in controls or unrelateds for case-control studies"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#filtering-snps-based-on-violation-of-hwe-1",
+    "href": "lectures/lecture-05.html#filtering-snps-based-on-violation-of-hwe-1",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Filtering SNPs based on violation of HWE",
+    "text": "Filtering SNPs based on violation of HWE\n\nhwe_p &lt;- snpgdsHWE(g, snp.id = snp.id)"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#section",
+    "href": "lectures/lecture-05.html#section",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "",
+    "text": "# Sample-level missingness\nsamp_miss &lt;- snpgdsSampMissRate(g)\n\n# Sample-level heterozygosity (quick estimate from full genotype matrix; fine for this small demo)\nG &lt;- snpgdsGetGeno(g, with.id = TRUE)\n\nGenotype matrix: 20000 SNPs X 173 samples\n\ngeno_mat &lt;- G$genotype # matrix [variants x samples]\nhet_rate &lt;- colMeans(geno_mat == 1, na.rm = TRUE)\nnames(het_rate) &lt;- G$sample.id\n\n# QC thresholds (teaching defaults — adjust as needed)\nthr_samp_miss &lt;- 0.02\nthr_var_miss &lt;- 0.02\nthr_maf &lt;- 0.01\nthr_hwe &lt;- 1e-6\n\nkeep_sample &lt;- which(samp_miss &lt;= thr_samp_miss & abs(scale(het_rate)) &lt; 3)\nkeep_snp &lt;- which(miss_var &lt;= thr_var_miss & maf &gt;= thr_maf & (is.na(hwe_p) | hwe_p &gt; thr_hwe))\n\n# IDs (not indices) for downstream functions\nsamp.keep.id &lt;- samp.id[keep_sample]\nsnp.keep.id &lt;- snp.id[keep_snp]"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#filtering-for-minor-allele-frequency-maf-1",
+    "href": "lectures/lecture-05.html#filtering-for-minor-allele-frequency-maf-1",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Filtering for minor allele frequency (MAF)",
+    "text": "Filtering for minor allele frequency (MAF)"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#variant-missingness-1",
+    "href": "lectures/lecture-05.html#variant-missingness-1",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Variant missingness",
+    "text": "Variant missingness"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#sample-level-missingness-heterozygosity",
+    "href": "lectures/lecture-05.html#sample-level-missingness-heterozygosity",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Sample-level missingness & heterozygosity",
+    "text": "Sample-level missingness & heterozygosity\n\nSamples with high missingness may have poor DNA quality or technical issues\nSamples with extreme heterozygosity rates may be contaminated or mislabelled"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#sample-level-missingness-heterozygosity-1",
+    "href": "lectures/lecture-05.html#sample-level-missingness-heterozygosity-1",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Sample-level missingness & heterozygosity",
+    "text": "Sample-level missingness & heterozygosity\n\nsamp_miss &lt;- snpgdsSampMissRate(g)\n\nG &lt;- snpgdsGetGeno(g, with.id = TRUE)\n\nGenotype matrix: 20000 SNPs X 173 samples\n\ngeno_mat &lt;- G$genotype\ngeno_mat[geno_mat == 3] &lt;- NA_integer_  # SNPRelate encodes missing genotypes as 3\nhet_rate &lt;- colMeans(geno_mat == 1, na.rm = TRUE)"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#sample-level-missingness-heterozygosity-2",
+    "href": "lectures/lecture-05.html#sample-level-missingness-heterozygosity-2",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Sample-level missingness & heterozygosity",
+    "text": "Sample-level missingness & heterozygosity"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#thresholding",
+    "href": "lectures/lecture-05.html#thresholding",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Thresholding",
+    "text": "Thresholding\n\nthr_samp_miss &lt;- 0.02\nthr_var_miss &lt;- 0.02\nthr_maf &lt;- 0.01\nthr_hwe &lt;- 1e-6\nthr_het_z &lt;- 3\n\nkeep_sample &lt;- which(samp_miss &lt;= thr_samp_miss & abs(scale(het_rate)) &lt; thr_het_z)\nkeep_snp &lt;- which(miss_var &lt;= thr_var_miss & maf &gt;= thr_maf & (is.na(hwe_p) | hwe_p &gt; thr_hwe))\n\nsamp.keep.id &lt;- samp.id[keep_sample]\nsnp.keep.id &lt;- snp.id[keep_snp]"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#thresholding-1",
+    "href": "lectures/lecture-05.html#thresholding-1",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Thresholding",
+    "text": "Thresholding\n\n\n\n\n\n\n\n\n\n\nmetric\nBefore filtering\nAfter filtering\n\n\n\n\nSamples (total)\n173\n0\n\n\nSamples meeting call-rate\n169\n0\n\n\nSamples within heterozygosity z-threshold\n171\n0\n\n\nSNPs (total)\n20000\n0\n\n\nSNPs meeting call-rate\n19503\n0\n\n\nSNPs with MAF ≥ threshold\n20000\n0\n\n\nSNPs passing HWE\n19963\n0\n\n\nSamples retained\n0\n167\n\n\nSNPs retained\n0\n19468"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#snp-correlation-structure",
+    "href": "lectures/lecture-05.html#snp-correlation-structure",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "SNP correlation structure",
+    "text": "SNP correlation structure\n\nInspect pairwise SNP correlations (LD) among variants that pass the basic filters before pruning.\n\nWhen many SNPs remain, plot the first few hundred to keep the heatmap interpretable."
+  },
+  {
+    "objectID": "lectures/lecture-05.html#snp-correlation-structure-1",
+    "href": "lectures/lecture-05.html#snp-correlation-structure-1",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "SNP correlation structure",
+    "text": "SNP correlation structure\n\nmax_plot_snps &lt;- 100\nld_snp_ids &lt;- if (length(snp.keep.id) &gt; max_plot_snps) {\n    snp.keep.id[seq_len(max_plot_snps)]\n} else {\n    snp.keep.id\n}\n\nld_mat &lt;- snpgdsLDMat(\n    g,\n    sample.id = samp.keep.id,\n    snp.id = ld_snp_ids,\n    slide = -1,\n    method = \"corr\"\n)\n\nLinkage Disequilibrium (LD) estimation on genotypes:\n    # of samples: 167\n    # of SNPs: 100\n    using 1 thread\n    method: correlation\nLD matrix:    the sum of all selected genotypes (0,1,2) = 9659\n\nld_vals &lt;- ld_mat$LD\ndimnames(ld_vals) &lt;- list(ld_snp_ids, ld_snp_ids)\n\nld_long &lt;- as.data.frame(as.table(ld_vals))\ncolnames(ld_long) &lt;- c(\"snp_i\", \"snp_j\", \"corr\")\n\nggplot(ld_long, aes(x = snp_i, y = snp_j, fill = corr)) +\n    geom_tile() +\n    coord_equal() +\n    scale_fill_gradient2(\n        low = \"#313695\", mid = \"#ffffbf\", high = \"#a50026\",\n        limits = c(-1, 1), midpoint = 0, oob = scales::squish\n    ) +\n    theme_minimal() +\n    theme(\n        axis.text.x = element_blank(),\n        axis.text.y = element_blank(),\n        axis.ticks = element_blank()\n    ) +\n    labs(\n        title = sprintf(\"Pairwise SNP correlation (first %d passing variants)\", length(ld_snp_ids)),\n        x = \"SNP1\",\n        y = \"SNP2\",\n        fill = \"r\"\n    )"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-2-ld-pruning",
+    "href": "lectures/lecture-05.html#step-2-ld-pruning",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Step 2 — LD pruning",
+    "text": "Step 2 — LD pruning\n\nset.seed(1)\nld_prune &lt;- snpgdsLDpruning(g,\n    sample.id = samp.keep.id, \n    snp.id = snp.keep.id,\n    ld.threshold = sqrt(.1), \n    autosome.only = TRUE\n)\n\nSNP pruning based on LD:\nExcluding 532 SNPs (non-autosomes or non-selection)\nExcluding 0 SNP (monomorphic: TRUE, MAF: 0.005, missing rate: 0.05)\n    # of samples: 167\n    # of SNPs: 19,468\n    using 1 thread\n    sliding window: 500,000 basepairs, Inf SNPs\n    |LD| threshold: 0.316228\n    method: composite\nChrom 1: |====================|====================|\n    18.23%, 3,646 / 20,000 (Wed Oct  1 16:45:14 2025)\n3,646 markers are selected in total.\n\nsnps_pruned &lt;- unlist(ld_prune, use.names = FALSE)"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#relatedness",
+    "href": "lectures/lecture-05.html#relatedness",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Relatedness",
+    "text": "Relatedness\n\nWe need to account for relatedness to avoid confounding in PCA and association testing\nKING is method for estimating pairwise kinship robust to population structure"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#relatedness-1",
+    "href": "lectures/lecture-05.html#relatedness-1",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Relatedness",
+    "text": "Relatedness\n\n# KING-robust pairwise relatedness on pruned SNPs\nking &lt;- snpgdsIBDKING(g, \n                      sample.id = samp.keep.id, \n                      snp.id = snps_pruned, \n                      type = \"KING-robust\")\n\nIBD analysis (KING method of moment) on genotypes:\nExcluding 15,683 SNPs (non-autosomes or non-selection)\nExcluding 0 SNP (monomorphic: TRUE, MAF: NaN, missing rate: NaN)\n    # of samples: 167\n    # of SNPs: 4,317\n    using 1 thread\nNo family is specified, and all individuals are treated as singletons.\nRelationship inference in the presence of population stratification.\nKING IBD:    the sum of all selected genotypes (0,1,2) = 366279\nCPU capabilities:\nWed Oct  1 19:24:31 2025    (internal increment: 65536)\n\n[..................................................]  0%, ETC: ---        \n[==================================================] 100%, completed, 0s\nWed Oct  1 19:24:31 2025    Done.\n\n# Convert to a symmetric kinship matrix for GENESIS\nKINGmat &lt;- GENESIS::kingToMatrix(king)"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#ancestry-pcs-pcair",
+    "href": "lectures/lecture-05.html#ancestry-pcs-pcair",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Ancestry PCs (PC‑AiR)",
+    "text": "Ancestry PCs (PC‑AiR)\n\n# Build GENESIS genotype reader/obj\n# Close the SNPRelate handle before opening the same GDS via GWASTools\nsnpgdsClose(g)\nscanAnnot &lt;- GWASTools::ScanAnnotationDataFrame(data.frame(scanID = samp.keep.id))\ngeno &lt;- GWASTools::GenotypeData(GWASTools::GdsGenotypeReader(gdsfile), scanAnnot = scanAnnot)\n\n# PC-AiR using KING kinship for both relatedness and divergence\npcair_fit &lt;- GENESIS::pcair(genoData = geno, kinobj = KINGmat, divobj = KINGmat, n.components = 10)\npcs &lt;- pcair_fit$vectors\ncolnames(pcs) &lt;- paste0(\"PC\", 1:ncol(pcs))"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#relatedness-2",
+    "href": "lectures/lecture-05.html#relatedness-2",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Relatedness",
+    "text": "Relatedness\n\n\n\n\n\nX..0.125..2nd.deg.\nX0.0625.0.125..3rd.deg.\n\n\n\n\n105\n19"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#ld-pruning",
+    "href": "lectures/lecture-05.html#ld-pruning",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "LD pruning",
+    "text": "LD pruning\n\nRandomly select a starting position i (‘start.pos=“random”’), i=1 if ‘start.pos=“first”’, or i=last if ‘start.pos=“last”’; and let the current SNP set S={ i };\nFor each right position j from i+1 to n: if any LD between j and k is greater than ‘ld.threshold’, where k belongs to S, and both of j and k are in the sliding window, then skip j; otherwise, let S be S + { j };\nFor each left position j from i-1 to 1: if any LD between j and k is greater than ‘ld.threshold’, where k belongs to S, and both of j and k are in the sliding window, then skip j; otherwise, let S be S + { j };\nOutput S, the final selection of SNPs."
+  },
+  {
+    "objectID": "lectures/lecture-05.html#ld-pruning-1",
+    "href": "lectures/lecture-05.html#ld-pruning-1",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "LD pruning",
+    "text": "LD pruning\n\nset.seed(1)\nld_prune &lt;- snpgdsLDpruning(g,\n    sample.id = samp.keep.id, \n    snp.id = snp.keep.id,\n    method = \"r\",\n    ld.threshold = sqrt(.1),  \n    autosome.only = TRUE\n)\n\nSNP pruning based on LD:\nExcluding 532 SNPs (non-autosomes or non-selection)\nExcluding 0 SNP (monomorphic: TRUE, MAF: 0.005, missing rate: 0.05)\n    # of samples: 167\n    # of SNPs: 19,468\n    using 1 thread\n    sliding window: 500,000 basepairs, Inf SNPs\n    |LD| threshold: 0.316228\n    method: R\nChrom 1: |====================|====================|\n    21.59%, 4,317 / 20,000 (Wed Oct  1 19:24:31 2025)\n4,317 markers are selected in total.\n\nsnps_pruned &lt;- unlist(ld_prune, use.names = FALSE)"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#estimated-family-clusters",
+    "href": "lectures/lecture-05.html#estimated-family-clusters",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Estimated family clusters",
+    "text": "Estimated family clusters\n\nBuild a kinship graph using a threshold (default: 3rd-degree or closer).\n\nConnected components approximate families/households; singletons have no relatives above the threshold.\n\n\nkinship_threshold &lt;- 0.0625\n\nking_adj &lt;- KINGmat\ndiag(king_adj) &lt;- 0\nking_adj[king_adj &lt; kinship_threshold] &lt;- 0\n\nfamily_graph &lt;- igraph::graph_from_adjacency_matrix(king_adj, mode = \"undirected\", weighted = TRUE, diag = FALSE)\ncomp &lt;- igraph::components(family_graph)\n\nfamily_map &lt;- tibble::tibble(\n    scanID = names(comp$membership),\n    family_id = paste0(\"fam_\", sprintf(\"%03d\", comp$membership))\n)\n\nfamily_summary &lt;- family_map |&gt;\n    dplyr::group_by(family_id) |&gt;\n    dplyr::summarise(\n        n_members = dplyr::n(),\n        members = paste(scanID, collapse = \", \"),\n        .groups = \"drop\"\n    ) |&gt;\n    dplyr::arrange(dplyr::desc(n_members), family_id)\n\nhead(family_summary, 10) |&gt;\n    knitr::kable(col.names = c(\"Family\", \"n\", \"Sample IDs\"))\n\n\n\n\n\n\n\n\n\nFamily\nn\nSample IDs\n\n\n\n\nfam_002\n9\nNA19663, NA19664, NA19665, NA19686, NA19684, NA19661, NA19660, NA19662, NA19685\n\n\nfam_017\n6\nNA19675, NA19676, NA19677, NA19678, NA19680, NA19679\n\n\nfam_024\n6\nNA20346, NA20359, NA20363, NA20360, NA20347, NA20364\n\n\nfam_022\n5\nNA20340, NA20349, NA20344, NA20350, NA20345\n\n\nfam_033\n5\nNA19713, NA19982, NA19983, NA19714, NA19985\n\n\nfam_044\n5\nNA20282, NA20301, NA20279, NA20284, NA20302\n\n\nfam_028\n4\nNA20333, NA20343, NA20332, NA20342\n\n\nfam_052\n4\nNA20335, NA20337, NA20334, NA20336\n\n\nfam_003\n3\nNA19657, NA19658, NA19659\n\n\nfam_004\n3\nNA19719, NA19720, NA19721\n\n\n\n\ncat(sprintf(\"Singletons (no relatives above threshold): %d\\n\", sum(family_summary$n_members == 1)))\n\nSingletons (no relatives above threshold): 21"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#ancestry-pcs",
+    "href": "lectures/lecture-05.html#ancestry-pcs",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Ancestry PCs",
+    "text": "Ancestry PCs\n\nWe want ancestry PCs for covariates\nRelatedness can confound PCA because family structure can dominate top PCs\nPC‑AiR (Conomos et al., 2015) computes PCs on unrelateds, then projects relateds\nRelateds are identified using the KING kinship matrix"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#ancestry-pcs-1",
+    "href": "lectures/lecture-05.html#ancestry-pcs-1",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Ancestry PCs",
+    "text": "Ancestry PCs\n\nsnpgdsClose(g)\ngeno_reader &lt;- GWASTools::GdsGenotypeReader(gdsfile)\ngeno_data &lt;- GenotypeData(geno_reader)\npcair_out &lt;- pcair(geno_data, \n                   kinobj = KINGmat, \n                   divobj = KINGmat, \n                   snp.include = snps_pruned, \n                   sample.include = samp.keep.id)\n\nPrincipal Component Analysis (PCA) on genotypes:\nExcluding 15,683 SNPs (non-autosomes or non-selection)\nExcluding 0 SNP (monomorphic: TRUE, MAF: NaN, missing rate: NaN)\n    # of samples: 93\n    # of SNPs: 4,317\n    using 1 thread\n    # of principal components: 32\nPCA:    the sum of all selected genotypes (0,1,2) = 204226\nCPU capabilities:\nWed Oct  1 19:24:31 2025    (internal increment: 5284)\n\n[..................................................]  0%, ETC: ---        \n[==================================================] 100%, completed, 0s\nWed Oct  1 19:24:31 2025    Begin (eigenvalues and eigenvectors)\nWed Oct  1 19:24:31 2025    Done.\n\n\nSNP Loading:\n    # of samples: 93\n    # of SNPs: 4,317\n    using 1 thread\n    using the top 32 eigenvectors\nSNP Loading:    the sum of all selected genotypes (0,1,2) = 204226\nWed Oct  1 19:24:31 2025    (internal increment: 42280)\n\n[..................................................]  0%, ETC: ---        \n[==================================================] 100%, completed, 0s\nWed Oct  1 19:24:31 2025    Done.\nSample Loading:\n    # of samples: 74\n    # of SNPs: 4,317\n    using 1 thread\n    using the top 32 eigenvectors\nSample Loading:    the sum of all selected genotypes (0,1,2) = 162053\nWed Oct  1 19:24:31 2025    (internal increment: 53136)\n\n[..................................................]  0%, ETC: ---        \n[==================================================] 100%, completed, 0s\nWed Oct  1 19:24:31 2025    Done."
+  },
+  {
+    "objectID": "lectures/lecture-05.html#ancestry-pcs-2",
+    "href": "lectures/lecture-05.html#ancestry-pcs-2",
+    "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
+    "section": "Ancestry PCs",
+    "text": "Ancestry PCs"
   }
 ]
