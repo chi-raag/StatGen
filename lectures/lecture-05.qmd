@@ -504,7 +504,7 @@ age <- round(rnorm(N, 50, 10))
 
 # Choose one moderately frequent SNP and simulate a quantitative trait with a planted effect
 maf_pruned <- maf[snps_pruned]
-ix <- which(!is.na(maf_full) & maf_full > 0.2 & maf_full < 0.3)[1]
+ix <- which(!is.na(maf_pruned) & maf_pruned > 0.2 & maf_pruned < 0.3)[1]
 ```
 
 ## Phenotype & covariates 
@@ -517,18 +517,48 @@ y <- as.numeric(0.30 * scale(G1) + 0.02 * scale(age) + 0.05 * (sex == "M") + rno
 ```
 
 ```{r}
-scanDF <- data.frame(scanID = samp.keep.id, 
-                     y = y, 
-                     age = age, 
-                     sex = sex, 
-                     pcair_out$vectors[, 1:4])
-colnames(scanDF)[6:9] <- paste0("PC", 1:4)
+# Align PCs to scanID order to avoid misalignment
+pcs_df <- data.frame(
+  scanID = pcair_out$sample.id,
+  PC1 = pcair_out$vectors[, 1],
+  PC2 = pcair_out$vectors[, 2],
+  PC3 = pcair_out$vectors[, 3],
+  PC4 = pcair_out$vectors[, 4]
+)
+
+scanDF <- dplyr::left_join(
+  data.frame(scanID = samp.keep.id, y = y, age = age, sex = sex),
+  pcs_df,
+  by = "scanID"
+)
+
 scanAnnot2 <- GWASTools::ScanAnnotationDataFrame(scanDF)
-GWASTools::close(geno)
-geno <- GWASTools::GenotypeData(GWASTools::GdsGenotypeReader(gdsfile), scanAnnot = scanAnnot2)
+
+# Close the earlier reader and open a fresh GenotypeData without attaching scanAnnot.
+# This avoids a length mismatch if the GDS contains samples not in scanAnnot2.
+GWASTools::close(geno_reader)
+geno <- GWASTools::GenotypeData(GWASTools::GdsGenotypeReader(gdsfile))
+
+# Filter the genotype object to the analysis set
+# Prefer creating a filtered view of the genotype object.
+# Be tolerant to potential argument name variants across GWASTools versions.
+filter_geno_safe <- function(g, scan_ids, snp_ids) {
+  argn <- try(names(formals(GWASTools::GenotypeDataFilter)), silent = TRUE)
+  if (inherits(argn, "try-error")) return(g)
+  dots <- list(g, verbose = FALSE)
+  # attach scan include
+  if ("scan.include" %in% argn) dots$`scan.include` <- scan_ids
+  if ("scanInclude" %in% argn)  dots$`scanInclude`  <- scan_ids
+  # attach snp include
+  if ("snp.include" %in% argn)  dots$`snp.include`  <- snp_ids
+  if ("snpInclude" %in% argn)   dots$`snpInclude`   <- snp_ids
+  do.call(GWASTools::GenotypeDataFilter, dots)
+}
+
+geno <- filter_geno_safe(geno, scanDF$scanID, snps_pruned)
 ```
 
-```{r, echo=FALSE, eval = F}
+```{r, echo=FALSE}
 head(data.frame(scanID = scanDF$scanID, y = round(scanDF$y, 3), age = scanDF$age, sex = scanDF$sex))
 ```
 
@@ -542,12 +572,12 @@ head(data.frame(scanID = scanDF$scanID, y = round(scanDF$y, 3), age = scanDF$age
 
 ## Fitting the null model
 
-```{r, label="null_code", eval=FALSE}
+```{r, label="null_code"}
 nullmod <- GENESIS::fitNullModel(
     scanAnnot2,
     outcome = "y",
     covars = c("age", "sex", "PC1", "PC2", "PC3", "PC4"),
-    cov.mat = K, family = "gaussian"
+    cov.mat = KINGmat, family = "gaussian"
 )
 
 # Genotype iterator (block-wise scan of all SNPs kept by QC)
@@ -560,7 +590,7 @@ it <- GWASTools::GenotypeBlockIterator(
 
 ## Fitting the null model
 
-```{r, echo=FALSE, eval = F}
+```{r, echo=FALSE}
 nullmod$varComp
 ```
 
@@ -575,7 +605,7 @@ nullmod$varComp
 
 ## Association testing
 
-```{r, label="assoc_code", eval=T}
+```{r, label="assoc_code"}
 assoc <- GENESIS::assocTestSingle(it, null.model = nullmod, test = "Score")
 
 res <- data.frame(
@@ -631,7 +661,7 @@ qq(plotdat$P, main = "QQ plot")
 ## Wrap‑up & what to record
 
 ```{r, echo = T}
-GWASTools::close(geno_reader)
+GWASTools::close(geno)
 ```
 
 -   **Parameters**: thresholds (QC), LD‑prune settings, PCs used, null model family, random effect (K), LOCO (used? no).\
