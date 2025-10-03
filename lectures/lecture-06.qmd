@@ -13,6 +13,7 @@ execute:
 engine: knitr
 bibliography: references.bib
 csl: https://www.zotero.org/styles/bioinformatics
+draft: true
 ---
 
 ```{r, message=FALSE, warning=FALSE, include=FALSE}
