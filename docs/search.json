@@ -3,8 +3,8 @@
     "objectID": "lectures/lecture-01.html#about-the-instructors",
     "href": "lectures/lecture-01.html#about-the-instructors",
     "title": "Lecture 01: Introduction and Foundations",
-    "section": "About the Instructors",
-    "text": "About the Instructors\n\n\n\n\n\n\nDr. Keith Crandall\n\n\n\n\n\n\n\nDr. Ali Rahnavard\n\n\n\n\n\n\n\nChiraag Gohel"
+    "section": "",
+    "text": "Dr. Keith Crandall\n\n\n\n\n\n\n\nDr. Ali Rahnavard\n\n\n\n\n\n\n\nChiraag Gohel"
   },
   {
     "objectID": "lectures/lecture-01.html#introductions",
@@ -32,7 +32,7 @@
     "href": "lectures/lecture-01.html#course-logistics-and-expectations",
     "title": "Lecture 01: Introduction and Foundations",
     "section": "Course Logistics and Expectations",
-    "text": "Course Logistics and Expectations\nGrading Breakdown\n\n\n\nAssignment Type\n% of Grade\n\n\n\n\nProblem Sets\n60%\n\n\nClass Participation\n20%\n\n\nResearch Project\n20%\n\n\n\nTotal Workload: 112.5 hours (5+ hrs/week independent + 6 hrs/week class/async)"
+    "text": "Course Logistics and Expectations\n\nGrading Breakdown\n\n\n\nAssignment Type\n% of Grade\n\n\n\n\nProblem Sets\n60%\n\n\nClass Participation\n20%\n\n\nResearch Project\n20%\n\n\n\nTotal Workload: 112.5 hours (5+ hrs/week independent + 6 hrs/week class/async)"
   },
   {
     "objectID": "lectures/lecture-01.html#problem-sets-60-of-grade",
@@ -67,14 +67,14 @@
     "href": "lectures/lecture-01.html#technology-setup-requirements",
     "title": "Lecture 01: Introduction and Foundations",
     "section": "Technology Setup Requirements",
-    "text": "Technology Setup Requirements\n\nR (4.5+) and IDE installation\nGit setup and basic commands\nZotero for reference management\nZoom\nOptional: HPC access"
+    "text": "Technology Setup Requirements\n\n\nR (4.5+) and IDE installation\nGit setup and basic commands\nZotero for reference management\nZoom\nOptional: HPC access"
   },
   {
     "objectID": "lectures/lecture-01.html#course-textbook",
     "href": "lectures/lecture-01.html#course-textbook",
     "title": "Lecture 01: Introduction and Foundations",
     "section": "Course Textbook",
-    "text": "Course Textbook\n\nSorensen (2025)"
+    "text": "Course Textbook\n\n\n\nSorensen (2025)"
   },
   {
     "objectID": "lectures/lecture-01.html#what-is-statistical-genetics",
@@ -102,14 +102,14 @@
     "href": "lectures/lecture-01.html#what-does-the-data-look-like",
     "title": "Lecture 01: Introduction and Foundations",
     "section": "What does the data look like?",
-    "text": "What does the data look like?\nFamily/Pedigree Studies\n\nFamily/Pedigree Studies\n\nFamily studies are used to understand the inheritance patterns of traits and diseases within families. They can help identify genetic factors contributing to diseases by analyzing the occurrence of traits in related individuals.\nPedigree charts visually represent family relationships and the transmission of genetic traits across generations. They are useful for tracking the inheritance of specific traits or diseases within a family."
+    "text": "What does the data look like?\nFamily/Pedigree Studies\n\n\n\nFamily/Pedigree Studies\n\n\n\n\nFamily studies are used to understand the inheritance patterns of traits and diseases within families. They can help identify genetic factors contributing to diseases by analyzing the occurrence of traits in related individuals.\nPedigree charts visually represent family relationships and the transmission of genetic traits across generations. They are useful for tracking the inheritance of specific traits or diseases within a family."
   },
   {
     "objectID": "lectures/lecture-01.html#what-does-the-data-look-like-1",
     "href": "lectures/lecture-01.html#what-does-the-data-look-like-1",
     "title": "Lecture 01: Introduction and Foundations",
     "section": "What does the data look like?",
-    "text": "What does the data look like?\nGenome-Wide Association Studies (GWAS)\n\nGenome-Wide Association Studies\n\nGWAS are studies that look for associations between genetic variants across the genome and specific traits or diseases in a large population. They can help identify genetic factors contributing to complex diseases by analyzing the frequency of genetic variants in affected and unaffected individuals.\nManhattan plots are visual representations of GWAS results, where each point represents a genetic variant and its association with the trait of interest. The x-axis represents the genomic position, while the y-axis represents the significance of the association (usually -log10(p-value)). Peaks in the plot indicate regions of the genome that may be associated with the trait."
+    "text": "What does the data look like?\nGenome-Wide Association Studies (GWAS)\n\n\n\nGenome-Wide Association Studies\n\n\n\n\nGWAS are studies that look for associations between genetic variants across the genome and specific traits or diseases in a large population. They can help identify genetic factors contributing to complex diseases by analyzing the frequency of genetic variants in affected and unaffected individuals.\nManhattan plots are visual representations of GWAS results, where each point represents a genetic variant and its association with the trait of interest. The x-axis represents the genomic position, while the y-axis represents the significance of the association (usually -log10(p-value)). Peaks in the plot indicate regions of the genome that may be associated with the trait."
   },
   {
     "objectID": "lectures/lecture-01.html#core-abstractions-for-quantitative-biology",
@@ -179,77 +179,77 @@
     "href": "lectures/lecture-01.html#genetic-variant-example",
     "title": "Lecture 01: Introduction and Foundations",
     "section": "Genetic Variant Example",
-    "text": "Genetic Variant Example\n\nLaird and Lange (2011)"
+    "text": "Genetic Variant Example\n\n\n\nLaird and Lange (2011)"
   },
   {
     "objectID": "lectures/lecture-01.html#probability-refresher",
     "href": "lectures/lecture-01.html#probability-refresher",
     "title": "Lecture 01: Introduction and Foundations",
     "section": "Probability Refresher",
-    "text": "Probability Refresher\nRandom Variables and Distributions\n\nA random variable is a numerical summary of randomness (e.g., the count of (A) alleles in a sample). We will denote random variables with uppercase letters (e.g., X, Y).\nWe use a model (e.g., binomial/multinomial) to describe how data vary from sample to sample.\n\nThis is otherwise known as a probability mass function (pmf) for discrete variables, or a probability density function (pdf) for continuous variables\n\nKey ideas:\n\nExpectation (mean) and variance: long‑run average and spread.\n\nE[X] = \\sum x \\cdot P(X = x) (discrete) or E[X] = \\int x f(x) dx (continuous)\n\\textsf{Var}(X) = E[(X - E[X])^2] = E[X^2] - (E[X])^2\n\nStandard error (SE): typical sampling variability of an estimator.\n\n\\textsf{SE} = \\frac{\\sigma}{\\sqrt{n}} (uncertainty in sample estimates)\n\nCentral Limit Theorem (CLT): averages and proportions are roughly normal for large (n).\n\n\\bar{X} \\sim N\\left(\\mu, \\frac{\\sigma^2}{n}\\right) as n \\to \\infty"
+    "text": "Probability Refresher\n\nRandom Variables and Distributions\n\n\nA random variable is a numerical summary of randomness (e.g., the count of (A) alleles in a sample). We will denote random variables with uppercase letters (e.g., \\(X\\), \\(Y\\)).\nWe use a model (e.g., binomial/multinomial) to describe how data vary from sample to sample.\n\nThis is otherwise known as a probability mass function (pmf) for discrete variables, or a probability density function (pdf) for continuous variables\n\nKey ideas:\n\nExpectation (mean) and variance: long‑run average and spread.\n\n\\(E[X] = \\sum x \\cdot P(X = x)\\) (discrete) or \\(E[X] = \\int x f(x) dx\\) (continuous)\n\\(\\textsf{Var}(X) = E[(X - E[X])^2] = E[X^2] - (E[X])^2\\)\n\nStandard error (SE): typical sampling variability of an estimator.\n\n\\(\\textsf{SE} = \\frac{\\sigma}{\\sqrt{n}}\\) (uncertainty in sample estimates)\n\nCentral Limit Theorem (CLT): averages and proportions are roughly normal for large (n).\n\n\\(\\bar{X} \\sim N\\left(\\mu, \\frac{\\sigma^2}{n}\\right)\\) as \\(n \\to \\infty\\)"
   },
   {
     "objectID": "lectures/lecture-01.html#probability-distributions-vs-sampling-distributions",
     "href": "lectures/lecture-01.html#probability-distributions-vs-sampling-distributions",
     "title": "Lecture 01: Introduction and Foundations",
     "section": "Probability Distributions vs Sampling Distributions",
-    "text": "Probability Distributions vs Sampling Distributions\n\nA probability distribution describes how a random variable behaves in the population.\n\nExample: X \\sim \\textsf{Binomial}(n, p)\n\nA sampling distribution describes how a statistic (e.g., sample mean, sample proportion) behaves across repeated samples from the population.\n\nExample: \\hat{p} \\sim N\\left(p, \\frac{(p(1-p))}{n}\\right) as n \\to \\infty"
+    "text": "Probability Distributions vs Sampling Distributions\n\nA probability distribution describes how a random variable behaves in the population.\n\nExample: \\(X \\sim \\textsf{Binomial}(n, p)\\)\n\nA sampling distribution describes how a statistic (e.g., sample mean, sample proportion) behaves across repeated samples from the population.\n\nExample: \\(\\hat{p} \\sim N\\left(p, \\frac{(p(1-p))}{n}\\right)\\) as \\(n \\to \\infty\\)"
   },
   {
     "objectID": "lectures/lecture-01.html#probability-refresher-1",
     "href": "lectures/lecture-01.html#probability-refresher-1",
     "title": "Lecture 01: Introduction and Foundations",
     "section": "Probability Refresher",
-    "text": "Probability Refresher\nKey Distributions in Statistical Genetics\n\n\n\nBinomial Distribution X \\sim \\textsf{Binomial}(n, p) P(X = k) = \\binom{n}{k} p^k (1-p)^{n-k}\n\n\nUsed for: Allele counts\n\n\n\n\nNormal Distribution X \\sim N(\\mu, \\sigma^2) f(x) = \\frac{1}{\\sqrt{2\\pi\\sigma^2}} e^{-\\frac{(x-\\mu)^2}{2\\sigma^2}}\n\n\nUsed for: Quantitative traits, effect sizes"
+    "text": "Probability Refresher\n\nKey Distributions in Statistical Genetics\n\n\n\nBinomial Distribution \\[X \\sim \\textsf{Binomial}(n, p)\\] \\[P(X = k) = \\binom{n}{k} p^k (1-p)^{n-k}\\]\n\n\nUsed for: Allele counts\n\n\n\n\nNormal Distribution \\[X \\sim N(\\mu, \\sigma^2)\\] \\[f(x) = \\frac{1}{\\sqrt{2\\pi\\sigma^2}} e^{-\\frac{(x-\\mu)^2}{2\\sigma^2}}\\]\n\n\nUsed for: Quantitative traits, effect sizes"
   },
   {
     "objectID": "lectures/lecture-01.html#conditional-probability-and-independence",
     "href": "lectures/lecture-01.html#conditional-probability-and-independence",
     "title": "Lecture 01: Introduction and Foundations",
     "section": "Conditional Probability and Independence",
-    "text": "Conditional Probability and Independence\n\nConditional Probability: P(A|B) = \\frac{P(A \\cap B)}{P(B)}\nBayes’ Theorem: P(A|B) = \\frac{P(B|A)P(A)}{P(B)}\nIndependence: P(A \\cap B) = P(A) \\cdot P(B) \\iff A and B are independent\n\nConditional probability and Bayes’ Theorem are crucial for understanding rare disease genetics! For example, consider a rare disease with a prevalence of 1 in 10,000. If a genetic test has a sensitivity of 99% and a specificity of 99%, we can use Bayes’ Theorem to calculate the probability that an individual has the disease given a positive test result.\n\n\\begin{align*}\nP(Disease|Positive) &= \\frac{P(Positive|Disease)P(Disease)}{P(Positive)} \\\\\n&= \\frac{(0.99)(0.0001)}{(0.99)(0.0001) + (0.01)(0.9999)} \\\\\n&\\approx 0.0098\n\\end{align*}"
+    "text": "Conditional Probability and Independence\n\nConditional Probability: \\(P(A|B) = \\frac{P(A \\cap B)}{P(B)}\\)\nBayes’ Theorem: \\(P(A|B) = \\frac{P(B|A)P(A)}{P(B)}\\)\nIndependence: \\(P(A \\cap B) = P(A) \\cdot P(B)\\) \\(\\iff\\) \\(A\\) and \\(B\\) are independent\n\nConditional probability and Bayes’ Theorem are crucial for understanding rare disease genetics! For example, consider a rare disease with a prevalence of 1 in 10,000. If a genetic test has a sensitivity of 99% and a specificity of 99%, we can use Bayes’ Theorem to calculate the probability that an individual has the disease given a positive test result.\n\n\\[\\begin{align*}\nP(Disease|Positive) &= \\frac{P(Positive|Disease)P(Disease)}{P(Positive)} \\\\\n&= \\frac{(0.99)(0.0001)}{(0.99)(0.0001) + (0.01)(0.9999)} \\\\\n&\\approx 0.0098\n\\end{align*}\\]"
   },
   {
     "objectID": "lectures/lecture-01.html#parameter-estimation",
     "href": "lectures/lecture-01.html#parameter-estimation",
     "title": "Lecture 01: Introduction and Foundations",
     "section": "Parameter Estimation",
-    "text": "Parameter Estimation\n\nImagine a geneticist is studying allele ages (i.e., how many generations ago an allele arose via mutation) under a simplified model where new mutations arise randomly and uniformly over a fixed window — say, the last \\theta generations.\nWe could model X \\sim \\textsf{Uniform}(0, \\theta).\nWe have our observed sample \\{x_1,x_2, \\ldots, x_n\\}, ages in generations of n observed alleles.\n\nFor concreteness, let our sample be \\{0, 1, 8, 4, 3, 7, 7, 6\\}.\n\nHow should we estimate \\theta ?"
+    "text": "Parameter Estimation\n\nImagine a geneticist is studying allele ages (i.e., how many generations ago an allele arose via mutation) under a simplified model where new mutations arise randomly and uniformly over a fixed window — say, the last \\(\\theta\\) generations.\nWe could model \\(X \\sim \\textsf{Uniform}(0, \\theta)\\).\nWe have our observed sample \\(\\{x_1,x_2, \\ldots, x_n\\}\\), ages in generations of \\(n\\) observed alleles.\n\nFor concreteness, let our sample be \\(\\{0, 1, 8, 4, 3, 7, 7, 6\\}\\).\n\nHow should we estimate \\(\\theta\\) ?"
   },
   {
     "objectID": "lectures/lecture-01.html#genetic-models",
     "href": "lectures/lecture-01.html#genetic-models",
     "title": "Lecture 01: Introduction and Foundations",
     "section": "Genetic Models",
-    "text": "Genetic Models\n\nUnderstanding random variables, sampling distributions, and bias/variance of estimators helps motivate biological questions, and understand how they can be answered\nLet y be the expression of a trait, G be the additive contribution of genetic variables, and an environmental value E;\nWhat assumptions do we make via the following models?\n\n\n\n\n\\begin{align}\n\ny &= G + E \\\\\ny &= \\beta_0 + \\beta_1 G + \\beta_2 E + \\epsilon \\\\\ny &= \\beta_0 + \\beta_1 G + \\beta_2 E + \\epsilon, \\quad \\epsilon \\sim N(0, \\sigma^2) \\\\\ny &= \\beta_0 + \\beta_1 G + \\beta_2 E + \\beta_3 \\left(G \\times E\\right) + \\epsilon, \\quad \\epsilon \\sim N(0, \\sigma^2)\n\n\\end{align}"
+    "text": "Genetic Models\n\nUnderstanding random variables, sampling distributions, and bias/variance of estimators helps motivate biological questions, and understand how they can be answered\nLet y be the expression of a trait, G be the additive contribution of genetic variables, and an environmental value E;\nWhat assumptions do we make via the following models?\n\n\n\n\n\\[\\begin{align}\n\ny &= G + E \\\\\ny &= \\beta_0 + \\beta_1 G + \\beta_2 E + \\epsilon \\\\\ny &= \\beta_0 + \\beta_1 G + \\beta_2 E + \\epsilon, \\quad \\epsilon \\sim N(0, \\sigma^2) \\\\\ny &= \\beta_0 + \\beta_1 G + \\beta_2 E + \\beta_3 \\left(G \\times E\\right) + \\epsilon, \\quad \\epsilon \\sim N(0, \\sigma^2)\n\n\\end{align}\\]"
   },
   {
     "objectID": "lectures/lecture-01.html#modeling",
     "href": "lectures/lecture-01.html#modeling",
     "title": "Lecture 01: Introduction and Foundations",
     "section": "Modeling",
-    "text": "Modeling\n\nImagine that we have a sample size of n unrelated haploid individuals from some population\nWe want to estimate allele frequencies for a biallelic SNP, say A/a\nIn our sample, we observe x individuals with allele A and n - x individuals with allele a\nLet p be the frequency of allele A and q = 1 - p be the frequency of allele a\n\nPr(X = x| n, p) = \\binom{n}{x} p^x q^{n - x}\n\nLets say we observe n = 27 and x = 11. How do we estimate p?"
+    "text": "Modeling\n\nImagine that we have a sample size of \\(n\\) unrelated haploid individuals from some population\nWe want to estimate allele frequencies for a biallelic SNP, say A/a\nIn our sample, we observe \\(x\\) individuals with allele A and \\(n - x\\) individuals with allele a\nLet \\(p\\) be the frequency of allele A and \\(q = 1 - p\\) be the frequency of allele a\n\n\\[Pr(X = x| n, p) = \\binom{n}{x} p^x q^{n - x}\\]\n\nLets say we observe \\(n = 27\\) and \\(x = 11\\). How do we estimate \\(p\\)?"
   },
   {
     "objectID": "lectures/lecture-01.html#likelihood-functions",
     "href": "lectures/lecture-01.html#likelihood-functions",
     "title": "Lecture 01: Introduction and Foundations",
     "section": "Likelihood Functions",
-    "text": "Likelihood Functions\n\nThe likelihood function is a function of the parameters of a statistical model, given specific observed data.\nIt represents the plausibility of different parameter values based on the observed data.\nFor a given set of data, the likelihood function is defined as: L(\\theta | data) = P(data | \\theta)\nIn our case, the likelihood function for p is: L(p | x = 11, n = 27) = P(X = 11 | n = 27, p) = \\binom{27}{11} p^{11} (1 - p)^{16}\nWe are asking, “how likely is it that we would observe this data for different values of p?”"
+    "text": "Likelihood Functions\n\nThe likelihood function is a function of the parameters of a statistical model, given specific observed data.\nIt represents the plausibility of different parameter values based on the observed data.\nFor a given set of data, the likelihood function is defined as: \\[L(\\theta | data) = P(data | \\theta)\\]\nIn our case, the likelihood function for \\(p\\) is: \\[L(p | x = 11, n = 27) = P(X = 11 | n = 27, p) = \\binom{27}{11} p^{11} (1 - p)^{16}\\]\nWe are asking, “how likely is it that we would observe this data for different values of \\(p\\)?”"
   },
   {
     "objectID": "lectures/lecture-01.html#maximum-likelihood-estimator",
     "href": "lectures/lecture-01.html#maximum-likelihood-estimator",
     "title": "Lecture 01: Introduction and Foundations",
     "section": "Maximum Likelihood Estimator",
-    "text": "Maximum Likelihood Estimator\nOur likelihood function for p is\nL(P|x = 11, n = 27) = {27 \\choose 11} p^{11} q^{27-11}\n\n\n\nn &lt;- 27\nx &lt;- 11\np_seq &lt;- seq(0, 1, length.out = 200)\nlikelihood &lt;- dbinom(x, n, p_seq)\nplot &lt;- ggplot(\n    data.frame(p = p_seq, likelihood = likelihood),\n    aes(x = p, y = likelihood)\n) +\n    geom_line(linewidth = 1) +\n    labs(\n        x = \"Probability of Success (p)\",\n        y = \"Likelihood\",\n        title = \"Binomial Likelihood Function\"\n    ) +\n    geom_vline(\n        xintercept = x / n,\n        color = \"red\",\n        linetype = \"dashed\"\n    ) +\n    theme_light(base_size = 18) +\n    theme(panel.grid = element_blank())"
+    "text": "Maximum Likelihood Estimator\nOur likelihood function for \\(p\\) is\n\\[L(P|x = 11, n = 27) = {27 \\choose 11} p^{11} q^{27-11}\\]\n\n\n\nn &lt;- 27\nx &lt;- 11\np_seq &lt;- seq(0, 1, length.out = 200)\nlikelihood &lt;- dbinom(x, n, p_seq)\nplot &lt;- ggplot(\n    data.frame(p = p_seq, likelihood = likelihood),\n    aes(x = p, y = likelihood)\n) +\n    geom_line(linewidth = 1) +\n    labs(\n        x = \"Probability of Success (p)\",\n        y = \"Likelihood\",\n        title = \"Binomial Likelihood Function\"\n    ) +\n    geom_vline(\n        xintercept = x / n,\n        color = \"red\",\n        linetype = \"dashed\"\n    ) +\n    theme_light(base_size = 18) +\n    theme(panel.grid = element_blank())"
   },
   {
     "objectID": "lectures/lecture-01.html#modeling-but-make-it-bayesian",
     "href": "lectures/lecture-01.html#modeling-but-make-it-bayesian",
     "title": "Lecture 01: Introduction and Foundations",
     "section": "Modeling, but make it bayesian",
-    "text": "Modeling, but make it bayesian\n\nIn Bayesian statistics, we treat parameters as random variables and use probability distributions to represent our uncertainty about them.\nWe start with a prior distribution that reflects our beliefs about the parameter before seeing the data.\nWe then use the observed data to update our beliefs and obtain a posterior distribution.\nThe posterior distribution combines the information from the prior and the likelihood of the observed data using Bayes’ theorem: P(p | data) = \\frac{P(data | p) P(p)}{P(data)}\nLet’s say we have run a previous experiment and observed n = 20 individuals and x = 3 individuals with allele A (again, bilelic SNP).\nWe can use this information to inform our prior distribution for p"
+    "text": "Modeling, but make it bayesian\n\nIn Bayesian statistics, we treat parameters as random variables and use probability distributions to represent our uncertainty about them.\nWe start with a prior distribution that reflects our beliefs about the parameter before seeing the data.\nWe then use the observed data to update our beliefs and obtain a posterior distribution.\nThe posterior distribution combines the information from the prior and the likelihood of the observed data using Bayes’ theorem: \\[P(p | data) = \\frac{P(data | p) P(p)}{P(data)}\\]\nLet’s say we have run a previous experiment and observed \\(n = 20\\) individuals and \\(x = 3\\) individuals with allele A (again, bilelic SNP).\nWe can use this information to inform our prior distribution for \\(p\\)"
   },
   {
     "objectID": "lectures/lecture-01.html#modeling-but-make-it-bayesian-1",
@@ -270,14 +270,14 @@
     "href": "lectures/lecture-01.html#mendels-laws",
     "title": "Lecture 01: Introduction and Foundations",
     "section": "Mendel’s Laws",
-    "text": "Mendel’s Laws\n\n\nMendel’s First Law (Segregation)\nOne allele of each parent is randomly transmitted, with probability 1/2, to the offspring; the alleles unite randomly to form the offspring’s genotype.\nMendel’s Second Law (Independent Assortment)\nAt different loci, alleles are transmitted independently (when loci are unlinked).\n\n\n\n\n\nMendel’s First Law, the Law of Segregation, states that during the formation of gametes (sperm and egg cells), the two alleles for a given gene separate, so that each gamete receives only one allele. This means that each parent contributes one allele to their offspring, and the combination of these alleles determines the offspring’s genotype.\nMendel’s Second Law, the Law of Independent Assortment, states that alleles for different genes are transmitted independently of one another, provided the genes are located on different chromosomes or are far apart on the same chromosome. This means that the inheritance of one trait does not influence the inheritance of another trait, allowing for a variety of genetic combinations in the offspring."
+    "text": "Mendel’s Laws\n\n\nMendel’s First Law (Segregation)\nOne allele of each parent is randomly transmitted, with probability 1/2, to the offspring; the alleles unite randomly to form the offspring’s genotype.\nMendel’s Second Law (Independent Assortment)\nAt different loci, alleles are transmitted independently (when loci are unlinked).\n\n\n\n\n\n\nMendel’s First Law, the Law of Segregation, states that during the formation of gametes (sperm and egg cells), the two alleles for a given gene separate, so that each gamete receives only one allele. This means that each parent contributes one allele to their offspring, and the combination of these alleles determines the offspring’s genotype.\nMendel’s Second Law, the Law of Independent Assortment, states that alleles for different genes are transmitted independently of one another, provided the genes are located on different chromosomes or are far apart on the same chromosome. This means that the inheritance of one trait does not influence the inheritance of another trait, allowing for a variety of genetic combinations in the offspring."
   },
   {
     "objectID": "lectures/lecture-01.html#worked-example-segregation-31-ratio",
     "href": "lectures/lecture-01.html#worked-example-segregation-31-ratio",
     "title": "Lecture 01: Introduction and Foundations",
     "section": "Worked Example: Segregation (3:1 Ratio)",
-    "text": "Worked Example: Segregation (3:1 Ratio)\nCross: Aa × Aa\n\n\n\nPunnett Square\n\n\n\n\n\n\nA\na\n\n\n\n\nA\nAA\nAa\n\n\na\nAa\naa\n\n\n\n\n\n\n\nExpected Ratios\n\n\n\nGenotypic: 1 AA : 2 Aa : 1 aa\nPhenotypic: 3 dominant : 1 recessive\nProbabilities: P(AA)=\\frac14, P(Aa)=\\frac12, P(aa)=\\frac14"
+    "text": "Worked Example: Segregation (3:1 Ratio)\n\nCross: Aa × Aa\n\n\n\nPunnett Square\n\n\n\n\n\n\nA\na\n\n\n\n\nA\nAA\nAa\n\n\na\nAa\naa\n\n\n\n\n\n\n\nExpected Ratios\n\n\n\nGenotypic: 1 AA : 2 Aa : 1 aa\nPhenotypic: 3 dominant : 1 recessive\nProbabilities: \\(P(AA)=\\frac14, P(Aa)=\\frac12, P(aa)=\\frac14\\)"
   },
   {
     "objectID": "lectures/lecture-01.html#test-cross-example",
@@ -305,28 +305,28 @@
     "href": "lectures/lecture-01.html#on-simulations",
     "title": "Lecture 01: Introduction and Foundations",
     "section": "On Simulations",
-    "text": "On Simulations\n\nDowney (2015)"
+    "text": "On Simulations\n\n\n\nDowney (2015)"
   },
   {
     "objectID": "lectures/lecture-01.html#estimation-of-allele-frequencies",
     "href": "lectures/lecture-01.html#estimation-of-allele-frequencies",
     "title": "Lecture 01: Introduction and Foundations",
     "section": "Estimation of Allele Frequencies",
-    "text": "Estimation of Allele Frequencies\nn_{AA} = Number of individuals with genotype AA n_{Aa} = Number of individuals with genotype Aa n_{aa} = Number of individuals with genotype aa\nwhere, n = n_{AA} + n_{Aa} + n_{aa} = N.\nThe sample proportions of allele A is:\n\n\\hat{p} = \\frac{2n_{AA} + n_{Aa}}{2n}\n\nThe usual standard error for a proportion is \\sqrt{\\hat{p}(1 - \\hat{p})/2n}, but this assumes independence of the 2n sampled chromosomes."
+    "text": "Estimation of Allele Frequencies\n\\(n_{AA}\\) = Number of individuals with genotype AA \\(n_{Aa}\\) = Number of individuals with genotype Aa \\(n_{aa}\\) = Number of individuals with genotype aa\nwhere, \\(n = n_{AA} + n_{Aa} + n_{aa} = N\\).\nThe sample proportions of allele \\(A\\) is:\n\\[\n\\hat{p} = \\frac{2n_{AA} + n_{Aa}}{2n}\n\\]\nThe usual standard error for a proportion is \\(\\sqrt{\\hat{p}(1 - \\hat{p})/2n}\\), but this assumes independence of the \\(2n\\) sampled chromosomes."
   },
   {
     "objectID": "lectures/lecture-01.html#hardyweinberg-equilibrium-hwe-assumptions",
     "href": "lectures/lecture-01.html#hardyweinberg-equilibrium-hwe-assumptions",
     "title": "Lecture 01: Introduction and Foundations",
     "section": "Hardy–Weinberg Equilibrium (HWE): Assumptions",
-    "text": "Hardy–Weinberg Equilibrium (HWE): Assumptions\nLet’s reframe the problem in terms of genotype frequencies. First, some assumptions:\n\nRandom mating\nLarge population (no strong drift in one generation)\nNo selection, no migration, no mutation (in the generation under study)\nAccurate genotypes (no systematic genotyping error)\n\nIf these hold, and the allele frequency of A is p (so q = 1-p), we say that the population is in Hardy-Weinberg Equilibrium (HWE). The population genotype probabilities are:\n\nP(AA)=p^2 \\quad P(Aa)=2pq \\quad P(aa)=q^2\n\nAs a consequence, the genotype frequencies in a random sample of n individuals are approximately multinomially distributed with cell probabilities (p^2, 2pq, q^2). Thus, the sampling error of \\hat{p} is approximately \\sqrt{p(1-p)/2n}.\nThis confidence interval is known as a Wald confidence interval."
+    "text": "Hardy–Weinberg Equilibrium (HWE): Assumptions\nLet’s reframe the problem in terms of genotype frequencies. First, some assumptions:\n\nRandom mating\nLarge population (no strong drift in one generation)\nNo selection, no migration, no mutation (in the generation under study)\nAccurate genotypes (no systematic genotyping error)\n\nIf these hold, and the allele frequency of \\(A\\) is \\(p\\) (so \\(q = 1-p\\)), we say that the population is in Hardy-Weinberg Equilibrium (HWE). The population genotype probabilities are:\n\\[\nP(AA)=p^2 \\quad P(Aa)=2pq \\quad P(aa)=q^2\n\\]\nAs a consequence, the genotype frequencies in a random sample of \\(n\\) individuals are approximately multinomially distributed with cell probabilities \\((p^2, 2pq, q^2)\\). Thus, the sampling error of \\(\\hat{p}\\) is approximately \\(\\sqrt{p(1-p)/2n}\\).\nThis confidence interval is known as a Wald confidence interval."
   },
   {
     "objectID": "lectures/lecture-01.html#testing-for-hwe",
     "href": "lectures/lecture-01.html#testing-for-hwe",
     "title": "Lecture 01: Introduction and Foundations",
     "section": "Testing for HWE",
-    "text": "Testing for HWE\n\nWith large samples, we can test for HWE using a chi-squared goodness-of-fit test.\n\n\nLaird and Lange (2011)"
+    "text": "Testing for HWE\n\nWith large samples, we can test for HWE using a chi-squared goodness-of-fit test.\n\n\n\n\nLaird and Lange (2011)"
   },
   {
     "objectID": "lectures/lecture-01.html#hwe-worked-example",
@@ -1538,5 +1538,102 @@
     "title": "Lecture 02: Heritability, segregation, and the gene-mapping toolkit",
     "section": "Summary & key takeaways",
     "text": "Summary & key takeaways\n\nHeritability: H^2 vs h^2; interpretation is population- and environment-specific.\nVariance components (pedigrees): LMM with A-matrix unifies family estimators; handle boundary tests correctly.\nBinary traits: liability-threshold,\nSegregation: fit penetrance-based likelihoods; condition on ascertainment.\nMethod habit: when unsure, simulate to check intuition and bias under ascertainment."
+  },
+  {
+    "objectID": "lectures/lecture-01.html",
+    "href": "lectures/lecture-01.html",
+    "title": "Lecture 01: Introduction and Foundations",
+    "section": "",
+    "text": "Dr. Keith Crandall\n\n\n\n\n\n\n\nDr. Ali Rahnavard\n\n\n\n\n\n\n\nChiraag Gohel"
+  },
+  {
+    "objectID": "assignments/final-project.html",
+    "href": "assignments/final-project.html",
+    "title": "Final Project",
+    "section": "",
+    "text": "Analyze real genetic data using methods from the course. Choose one of the tracks below (or propose your own) and produce a succinct, reproducible analysis using a public dataset.\nThis project emphasizes scientific reasoning, correct statistical practice, clear communication, and reproducible code. It is intentionally open‑ended: depth &gt; breadth.",
+    "crumbs": [
+      "Final Project"
+    ]
+  },
+  {
+    "objectID": "assignments/final-project.html#purpose",
+    "href": "assignments/final-project.html#purpose",
+    "title": "Final Project",
+    "section": "",
+    "text": "Analyze real genetic data using methods from the course. Choose one of the tracks below (or propose your own) and produce a succinct, reproducible analysis using a public dataset.\nThis project emphasizes scientific reasoning, correct statistical practice, clear communication, and reproducible code. It is intentionally open‑ended: depth &gt; breadth.",
+    "crumbs": [
+      "Final Project"
+    ]
+  },
+  {
+    "objectID": "assignments/final-project.html#deliverables",
+    "href": "assignments/final-project.html#deliverables",
+    "title": "Final Project",
+    "section": "Deliverables",
+    "text": "Deliverables\n\nProject proposal (approx. 1 page): question(s), dataset(s), methods, risks/mitigations, expected outputs. Due: Wednesday, October 15th by 11:59pm.\n\nEnsure that you are able to access/download your proposed dataset(s)\n\nFinal report (8–12 pages, PDF only): format details below. Due: Wednesday, November 12th by 11:59pm.\n\nReproducible materials: a self‑contained folder or repo with your .qmd/R scripts, environment notes, and seeds. Include a README with run instructions.\n\n8–10 minute in‑class presentation of key results on Wednesday, November 12th",
+    "crumbs": [
+      "Final Project"
+    ]
+  },
+  {
+    "objectID": "assignments/final-project.html#format",
+    "href": "assignments/final-project.html#format",
+    "title": "Final Project",
+    "section": "Format",
+    "text": "Format\nWe will follow the format of the journal Genetics. An Overleaf template can be found here. The paper should adhere to the following:\n\nBegin the paper with an original title, followed by your name, the course, and the date\nThe paper should have the following sections:\n\nIntroduction: state the general problem or issue you are addressing.\nMaterials and Methods: describe the methods used to obtain data, analyze data, and to test hypotheses associated with the data.\nResults: describe the results of the data analysis and hypothesis testing.\nDiscussion: here you draw conclusions about the problem you studied; this section should include a synthesis of ideas.\nReferences: List the relevant literature you have read and used to support your arguments/analyze your data. The literature cited should be in the format of the journal Genetics.",
+    "crumbs": [
+      "Final Project"
+    ]
+  },
+  {
+    "objectID": "assignments/final-project.html#evaluation-20-of-course-grade",
+    "href": "assignments/final-project.html#evaluation-20-of-course-grade",
+    "title": "Final Project",
+    "section": "Evaluation (20% of course grade)",
+    "text": "Evaluation (20% of course grade)\n\nClarity and scope (20%): well‑posed question, appropriate scope for time/resources.\nMethods and correctness (35%): sound statistical modeling, assumptions stated, correct inference, sensible QC.\nInterpretation and communication (25%): figures/tables support claims, limitations, ethical awareness.\nReproducibility (20%): organized code, seeds, instructions, figures regenerate.",
+    "crumbs": [
+      "Final Project"
+    ]
+  },
+  {
+    "objectID": "assignments/final-project.html#example-topics",
+    "href": "assignments/final-project.html#example-topics",
+    "title": "Final Project",
+    "section": "Example Topics",
+    "text": "Example Topics\n\nPrimary GWAS analysis (individual-level data): perform QC, PCA, GWAS, and post-GWAS analyses. Data is typically available for non-human model organisms.\nSecondary GWAS analysis (summary statistics): pick one trait and perform quality checks, Manhattan plot, locus zoom(s), gene/annotation enrichment, and short literature triangulation, SNP‑heritability via LD Score Regression, cross‑trait genetic correlation.\nPopulation structure and diversity: PCA/UMAP on a reference genotype panel, compute F_{ST} between populations, visualize allele frequency spectra, explore LD decay, ADMIXTURE/LEA ancestry components.\nCausal inference with two‑sample Mendelian randomization: select a well‑powered exposure/outcome with strong instruments, run multiple MR estimators, perform sensitivity and heterogeneity checks, discuss assumptions and violations.\nFine‑mapping or colocalization: focus on 1–2 loci, use LD from a reference panel, apply SuSiE/FINEMAP, test GWAS–eQTL colocalization for a tissue of interest.\nSimulation with real LD: simulate phenotypes on a real genotype panel (e.g., chromosome 22) to study power, inflation, or PRS performance under different architectures.",
+    "crumbs": [
+      "Final Project"
+    ]
+  },
+  {
+    "objectID": "assignments/final-project.html#ethics-responsible-use",
+    "href": "assignments/final-project.html#ethics-responsible-use",
+    "title": "Final Project",
+    "section": "Ethics & Responsible Use",
+    "text": "Ethics & Responsible Use\n\nUse population labels with care\nAvoid essentialist interpretations\nDiscuss portability and fairness when comparing groups\nDo not attempt re‑identification\nRespect each dataset’s license/terms.",
+    "crumbs": [
+      "Final Project"
+    ]
+  },
+  {
+    "objectID": "assignments/final-project.html#data-sources-curated",
+    "href": "assignments/final-project.html#data-sources-curated",
+    "title": "Final Project",
+    "section": "Data Sources (curated)",
+    "text": "Data Sources (curated)\n\nGWAS Catalog (NHGRI–EBI): comprehensive registry of GWAS with summary statistics where available; good for trait curation and downloading per‑study results.\nOpenGWAS (MRC IEU): programmatic access to &gt;40k GWAS summary-stat datasets; integrates well with R packages ieugwasr and TwoSampleMR.\nPan-UK Biobank (Broad): pan‑ancestry GWAS results across thousands of phenotypes with interactive PheWeb and bulk download.\nFinnGen: large disease‑focused GWAS summary stats and phenotype documentation.\nBiobank Japan: GWAS results across many traits; multi‑ancestry comparison opportunities.\nGIANT Consortium: anthropometric trait GWAS (e.g., height, BMI) — classic, clean testbeds.\nPsychiatric Genomics Consortium (PGC): summary stats for psychiatric disorders; read and follow data use terms.\n1000 Genomes Project (IGSR): open, phased whole‑genome reference panel with population labels; ideal for PCA, F_ST, LD, and as an LD reference.\nHGDP + 1000G combined callset (gnomAD): harmonized WGS panel for global structure analyses (VCF/PLINK).\ngnomAD v4: aggregated exome/genome allele frequencies; excellent for frequency‑based analyses and QC (not individual‑level genotypes).\nGTEx/eQTL resources and GTEx v8 summary statistics for colocalization.\nLD reference (for LDSC/fine‑mapping) and baseline annotations: precomputed 1000G LD scores.\n\n\nModel‑organism data sources (genotypes + phenotypes where noted)\n\n(Mouse) Mouse Phenome Database (MPD): strain, Collaborative Cross (CC), and Diversity Outbred (DO) resources with extensive phenotypes. Måany datasets include genotypes or QTL‑ready files. Good for GWAS/QTL and replication.\n(Mouse) International Mouse Phenotyping Consortium (IMPC): high‑throughput knockout phenotypes with rich metadata. Best for functional interpretation.\n(Mouse) MGI (Mouse Genome Informatics): curated QTL/phenotype annotations and cross references.\n(Mouse/Rat) GeneNetwork: genotypes and thousands of phenotypes for reference panels (e.g., BXD, LXS, HXB/BXH). Interactive QTL mapping and downloads.\n(Rat) Rat Genome Database (RGD) and PhenoMiner: strain genotypes/variants with curated phenotypes, supports QTL/GWAS in rat panels.\n(Drosophila) Drosophila Genetic Reference Panel (DGRP): fully inbred lines with whole‑genome genotypes and many published phenotypes, designed for GWAS across lines.\n(Drosophila) FlyBase: genome and phenotype annotations, links to population panels and datasets.\n(C. elegans) CeNDR: natural isolates with genotypes and trait data, built‑in GWAS and download portal.\n(C. elegans) WormBase: phenotype and functional annotations, pairs well with CeNDR for interpretation.\n(Arabidopsis) AraGWAS Catalog and AraPheno: GWAS results, phenotypes, and links to 1001 Genomes genotypes, GWAS‑ready.",
+    "crumbs": [
+      "Final Project"
+    ]
+  },
+  {
+    "objectID": "assignments/final-project.html#helpful-resources-by-topic",
+    "href": "assignments/final-project.html#helpful-resources-by-topic",
+    "title": "Final Project",
+    "section": "Helpful Resources by Topic",
+    "text": "Helpful Resources by Topic\nHere are some resources for topics that we will not cover in depth in this course, if you choose to explore them for this project.\n\nCausal inference (Mendelian randomization)\n\nTwoSampleMR documentation and ieugwasr: end‑to‑end two‑sample MR from OpenGWAS, with instrument selection, Steiger filtering, heterogeneity, and sensitivity analyses.\nMendelianRandomization (CRAN): MR‑Egger, IVW, weighted median/mode, useful for triangulation.\nMR‑PRESSO (CRAN): outlier detection/correction to assess horizontal pleiotropy.\nCAUSE: robust MR under correlated pleiotropy, helpful when standard assumptions are doubtful.\n\n\n\nFine‑mapping and colocalization\n\nsusieR: Bayesian variable selection and credible sets for fine‑mapping; works with in‑sample or reference LD.\nFINEMAP: summary‑stat fine‑mapping with shotgun stochastic search, supports multiple causal variants per locus.\ncoloc: Bayesian colocalization testing for two traits (e.g., GWAS–eQTL), simple priors, clear summaries.\neCAVIAR: probabilistic colocalization allowing multiple causal variants, requires LD and summary stats.\n\n\n\nSimulation with real LD\n\nGCTA — simulate phenotypes: --simu-qt/--simu-cc generate traits on top of real genotype panels (e.g., chr22 PLINK files) using specified architectures.\nbigsnpr: R tooling for large genotype matrices. Simulate phenotypes with real LD and evaluate polygenic methods efficiently.\nHAPGEN2: simulate new genotypes from reference haplotypes (1000G/UKBB) to preserve realistic LD patterns.\nmsprime/stdpopsim and stdpopsim: coalescent simulations with recombination and demographic models, combine with empirical LD panels for hybrid designs.",
+    "crumbs": [
+      "Final Project"
+    ]
   }
 ]

@@ -36,6 +36,9 @@ website:
         text: "Zotero Library"
         icon: book
         target: _blank
+      - href: assignments/final-project.qmd
+        text: "Final Project"
+        icon: file
 format:
   html:
     grid:
