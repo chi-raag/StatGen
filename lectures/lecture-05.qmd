@@ -1,72 +1,61 @@
 ---
 title: "Lecture 05: GWAS in R"
 subtitle: PUBH 8878, Statistical Genetics
-format: 
-    revealjs:
-        theme: [default, "custom.scss"]
-        slide-number: true
-        html-math-method: katex
+format:
+  html:
+    toc: true
+    html-math-method: katex
 execute:
-    echo: TRUE
+  echo: true
 engine: knitr
 bibliography: references.bib
 csl: https://www.zotero.org/styles/bioinformatics
-draft: true
 ---
 
-## Step 1: Setup
+## Overview
+
+This session walks through a minimal GWAS workflow in R using `SNPRelate` and `GENESIS`. There exist many tools for GWAS, including `PLINK`, `BOLT-LMM`, `REGENIE`, `SAIGE`, and others. Here, we focus on `GENESIS` to illustrate the key steps. 
+
+We work with a small example `GDS` bundled with GENESIS to keep runtime short while illustrating the full pipeline:
+
+1. Quality control (variant- and sample‑level)
+2. LD pruning for structure/relatedness tasks
+3. Relatedness (KING‑robust) and population structure (PC‑AiR)
+4. Null model fitting (linear mixed model)
+5. Single‑variant association and diagnostics (QQ, λGC)
+
+
+## Setup
 
 ```{r, echo=T, label="libraries", message = F}
-library(SNPRelate) # <1>
-library(GENESIS) # <2>
-library(GWASTools) # <3>
-library(qqman) # <4>
-library(data.table) # <5>
+library(SNPRelate)  # <1>
+library(GENESIS)    # <2>
+library(GWASTools)  # <3>
+library(qqman)      # <4>
 library(ggplot2)
 library(dplyr)
+library(readr)
 set.seed(8878)
 ```
 
-1.  SNPRelate (Zheng et al., 2012) for GDS file handling and genotype data management
-2.  GENESIS for genome-wide association analysis and relatedness estimation
-3.  GWASTools for genotype data management and quality control
-4.  qqman for creating Q-Q and Manhattan plots
-5.  data.table for efficient data manipulation
+1.  `SNPRelate` (Zheng et al., 2012) for GDS file handling and genotype data management [@zhengHighperformanceComputingToolset2012]
+2.  `GENESIS` for genome-wide association analysis and relatedness estimation [@manichaikulRobustRelationshipInference2010; @conomosPCAiR2015]
+3.  `GWASTools` for genotype data management and quality control
+4.  `qqman` for creating Q-Q and Manhattan plots
 
-## Step 1: Setup & data access
-
-```{r, eval = FALSE}
-#| code-line-numbers: "1"
-gdsfile <- system.file("extdata", "HapMap_ASW_MXL_geno.gds", package = "GENESIS") # <1>
-
-g <- SNPRelate::snpgdsOpen(gdsfile)
-
-samp.id <- read.gdsn(index.gdsn(g, "sample.id"))
-snp.id <- read.gdsn(index.gdsn(g, "snp.id"))
-chr <- read.gdsn(index.gdsn(g, "snp.chromosome"))
-pos <- read.gdsn(index.gdsn(g, "snp.position"))
+```{r, echo = F}
+theme_set(theme_minimal())
+theme_update(panel.grid.major = element_blank(),
+             panel.grid.minor = element_blank())
 ```
 
-1.  Locate the example GDS file included with the GENESIS package
+## Step 1: Accessing and Loading Data
 
-## Step 1: Setup & data access
+### HapMap 3
 
-```{r, eval = FALSE}
-#| code-line-numbers: "1-3"
-gdsfile <- system.file("extdata", "HapMap_ASW_MXL_geno.gds", package = "GENESIS") # <1>
-
-g <- SNPRelate::snpgdsOpen(gdsfile) # <2>
-
-samp.id <- read.gdsn(index.gdsn(g, "sample.id"))
-snp.id <- read.gdsn(index.gdsn(g, "snp.id"))
-chr <- read.gdsn(index.gdsn(g, "snp.chromosome"))
-pos <- read.gdsn(index.gdsn(g, "snp.position"))
-```
-
-1.  Locate the example GDS file included with the GENESIS package
-2.  Open the GDS file for random access to genotype data
-
-## Step 1: Setup & data access
+- HapMap3 is an integrated reference of common and low-frequency alleles. The project genotyped 1.6 million common SNPs in 1,184 reference individuals from 11 global populations. [@hapmap3IntegratingCommonRare2010]
+- The project mapped linkage disequilibrium (LD) patterns used for tag‑SNP selection and served as an early imputation reference. [@hapmap3IntegratingCommonRare2010; @internationalHapMapConsortium2005]
+- Here, we will use a small subset from ASW (African ancestry in the Southwest USA) and MXL (Mexican ancestry in Los Angeles) samples
 
 ```{r}
 gdsfile <- system.file("extdata", "HapMap_ASW_MXL_geno.gds", package = "GENESIS") # <1>
@@ -83,14 +72,24 @@ pos <- read.gdsn(index.gdsn(g, "snp.position")) # <3>
 2.  Open the GDS file for random access to genotype data
 3.  Read sample IDs, SNP IDs, chromosome numbers, and positions from the GDS file
 
-# Step 2: Pre-imputation Quality Control (QC) & filtering
+We can also download the associated metadata
 
-## Genotype quality control
+```{r}
+metadata <- readr::read_tsv("https://ftp.ncbi.nlm.nih.gov/hapmap/genotypes/hapmap3_r3/relationships_w_pops_041510.txt", show_col_types = FALSE)
+head(metadata)
+```
 
-1.  Filtering for minor allele frequency
-2.  Filtering SNPs based on violation of HWE
+```{r}
+metadata |>
+    mutate(population = case_when(population == "MEX" ~ "MXL", 
+    TRUE ~ population))
+```
 
-## Filtering for minor allele frequency (MAF)
+## Step 2: Pre-Modeling QC
+
+### Genotype quality control
+
+#### Filtering for minor allele frequency (MAF)
 
 -   SNP-chips often determine genotypes based on intensities for each allele
 -   When MAF is low, genotype clusters can overlap, leading to genotyping errors
@@ -184,11 +183,7 @@ poor_df <- simulate_genotype_df(
     maf = 0.05,
     sample_genotypes = TRUE
 )
-```
 
-## Filtering for minor allele frequency (MAF)
-
-```{r, echo = FALSE}
 p1 <- ggplot(good_df, aes(allele1, allele2, color = genotype)) +
     geom_point(alpha = 0.7, size = 1.5) +
     labs(
@@ -214,21 +209,16 @@ p2 <- ggplot(poor_df, aes(allele1, allele2, color = genotype)) +
 cowplot::plot_grid(p1, p2, ncol = 2)
 ```
 
-## Filtering for minor allele frequency (MAF)
-
+We can compute various statistics regarding allele frequency using `snpgdsSNPRateFreq`
 ```{r, echo = T}
 af <- snpgdsSNPRateFreq(g) # <1>
+str(af)
 maf <- af$MinorFreq # <2>
-miss_var <- af$MissingRate # <3>
 ```
 
-1.  Compute allele frequencies and missing rates for all SNPs
-2.  Extract minor allele frequencies (MAF)
-3.  Extract variant missingness rates
+We can see that `af` contains both minor allele frequency and missing rate per SNP. 
 
-## Filtering for minor allele frequency (MAF)
-
-```{r, echo = F}
+```{r, echo = T}
 data.frame(maf = maf) |>
     mutate(maf_le05 = maf < 0.05) |>
     ggplot(aes(x = maf, fill = maf_le05)) +
@@ -239,71 +229,73 @@ data.frame(maf = maf) |>
     labs(fill = "MAF < .05")
 ```
 
-## Variant missingness
+#### Variant missingness
 
 -   Missingness can indicate genotyping errors or batch effects
 -   Missingness can be non-random with respect to phenotype or ancestry
--   Typically filter variants with \>2% missingness
+-   Typically filter variants with $> 2%$ missingness
+-   We can use the missingness results from our `af` object
+-   Additionally, we can retrieve the genotype matrix itself, and manually compute the rate per SNP
 
-## Variant missingness
+```{r, echo = T}
+G <- snpgdsGetGeno(g, with.id = TRUE)
+geno_mat <- G$genotype
+dim(geno_mat)
+```
 
-```{r, echo = F}
+Indexing in `R` goes rows-by-columns. So, For `geno_mat`, the SNPs are rows and the samples are columns. We can inspect subset of the matrix: 
+
+```{r}
+geno_mat[10:20, 1:10]
+```
+
+`SNPRelate` allows for four possible values stored in the genotype matrix: 0, 1, 2, 3. Consider a bi-allelic SNP site with possible alleles $A$ and $B$. 
+
+- 0 indicates $BB$
+- 1 indicates $AB$
+- 2 indicates $AA$
+- 3 indicates a missing genotype
+
+For multi-allelic sites, it is a count of the reference allele.
+
+```{r}
+miss_var_manual <- rowMeans(is.na(geno_mat))
+miss_var <- af$MissingRate 
+identical(miss_var, miss_var_manual)
+```
+
+```{r, echo = T}
 data.frame(miss_var = miss_var) |>
     mutate(miss_var_gt02 = miss_var > 0.02) |>
     ggplot(aes(x = miss_var, fill = miss_var_gt02)) +
-    geom_histogram(binwidth = 0.01, color = "black") +
+    geom_histogram(binwidth = 0.001, color = "black") +
     geom_vline(xintercept = c(0.02), linetype = "dashed", color = "red") +
     theme_minimal() +
     viridis::scale_fill_viridis(discrete = TRUE, end = .9, begin = .2) +
     labs(fill = "Missing > .02")
 ```
 
-## Filtering SNPs based on violation of HWE
-
--   Deviations (rejections of $H_0$) can indicate genotyping errors, population structure, or selection
--   Typically tested in controls or unrelateds for case-control studies
-
-## Filtering SNPs based on violation of HWE
-
-```{r hwe-code, echo = T}
-hwe_p <- snpgdsHWE(g, snp.id = snp.id)
-```
-
-```{r hwe-plot, echo = F}
-ggplot(data.frame(hwe_p = hwe_p), aes(x = hwe_p)) +
-    geom_histogram(binwidth = 0.01) +
-    geom_vline(xintercept = c(1e-6), linetype = "dashed", color = "red") +
-    theme_minimal()
-```
-
-## Sample-level missingness & heterozygosity
+### Sample-level missingness & heterozygosity
 
 -   Samples with high missingness may have poor DNA quality or technical issues
 -   Samples with extreme heterozygosity rates may be contaminated or mislabelled
 
-## Sample-level missingness & heterozygosity
-
 ```{r, echo = T}
 samp_miss <- snpgdsSampMissRate(g)
 
-G <- snpgdsGetGeno(g, with.id = TRUE)
-geno_mat <- G$genotype
-geno_mat[geno_mat == 3] <- NA_integer_  # SNPRelate encodes missing genotypes as 3
-het_rate <- colMeans(geno_mat == 1, na.rm = TRUE)
-```
-
-## Sample-level missingness & heterozygosity
-
-```{r, echo = F}
-p1 <- data.frame(samp_miss = samp_miss) |>
+data.frame(samp_miss = samp_miss) |>
     mutate(samp_outlier = samp_miss > 0.02) |>
     ggplot(aes(x = samp_miss, fill = samp_outlier)) +
     geom_histogram(binwidth = 0.01, color = "black") +
     geom_vline(xintercept = c(0.02), linetype = "dashed", color = "red") +
     theme_minimal() +
     labs(title = "Sample missingness", x = "Missing rate")
+```
 
-p2 <- data.frame(het_rate = het_rate) |>
+```{r}
+het_rate <- colMeans(geno_mat == 1, na.rm = TRUE)
+
+data.frame(het_rate = het_rate) |>
     mutate(het_outlier = abs(scale(het_rate)) > 3) |>
     ggplot(aes(x = het_rate, fill = het_outlier)) +
     geom_histogram(binwidth = 0.01, color = "black") +
@@ -312,40 +304,31 @@ p2 <- data.frame(het_rate = het_rate) |>
                linetype = "dashed", color = "red") +
     theme_minimal() +
     labs(title = "Heterozygosity rate", x = "Heterozygosity rate")
-
-cowplot::plot_grid(p1, p2, ncol = 2)
 ```
 
-## Thresholding
+### Thresholding
+
+Putting it together: below we (i) filter samples on missingness/heterozygosity, (ii) apply preliminary variant filters (missingness + MAF), (iii) LD‑prune and estimate relatedness (KING) on that prelim set, and later (iv) compute HWE within ancestry‑homogeneous unrelated subsets using the metadata to finalize variant inclusion. This order avoids false HWE failures from population mixture/relatedness. [@andersonQC2010]
 
 ```{r}
 thr_samp_miss <- 0.02
 thr_var_miss <- 0.02
-thr_maf <- 0.01
-thr_hwe <- 1e-6
+thr_maf <- 0.05
 thr_het_z <- 3
 
 keep_sample <- which(samp_miss <= thr_samp_miss & abs(scale(het_rate)) < thr_het_z)
-keep_snp <- which(miss_var <= thr_var_miss & maf >= thr_maf & (is.na(hwe_p) | hwe_p > thr_hwe))
-
 samp.keep.id <- samp.id[keep_sample]
-snp.keep.id <- snp.id[keep_snp]
+
+keep_snp_prelim <- which(miss_var <= thr_var_miss & maf >= thr_maf)
+snp.prelim.id <- snp.id[keep_snp_prelim]
+length(snp.prelim.id)
 ```
 
-## SNP correlation structure
-
--   Inspect pairwise SNP correlations (LD) among variants that pass the basic filters before pruning.\
--   When many SNPs remain, plot the first few hundred to keep the heatmap interpretable.
-
-## SNP correlation structure
+### SNP correlation structure
 
 ```{r, warning=FALSE, message=FALSE}
 max_plot_snps <- 100
-ld_snp_ids <- if (length(snp.keep.id) > max_plot_snps) {
-    snp.keep.id[seq_len(max_plot_snps)]
-} else {
-    snp.keep.id
-}
+ld_snp_ids <- snp.prelim.id[seq_len(max_plot_snps)]
 
 ld_mat <- snpgdsLDMat(
     g,
@@ -354,7 +337,9 @@ ld_mat <- snpgdsLDMat(
     slide = -1,
     method = "corr"
 )
+```
 
+```{r, echo = F}
 ld_vals <- ld_mat$LD
 dimnames(ld_vals) <- list(ld_snp_ids, ld_snp_ids)
 
@@ -382,94 +367,102 @@ ggplot(ld_long, aes(x = snp_i, y = snp_j, fill = corr)) +
     )
 ```
 
-## LD pruning
+### LD pruning
 
-1.  Randomly select a starting position i (‘start.pos="random"’), i=1 if ‘start.pos="first"’, or i=last if ‘start.pos="last"’; and let the current SNP set S={ i };
-2.  For each right position j from i+1 to n: if any LD between j and k is greater than ‘ld.threshold’, where k belongs to S, and both of j and k are in the sliding window, then skip j; otherwise, let S be S + { j };
-3.  For each left position j from i-1 to 1: if any LD between j and k is greater than ‘ld.threshold’, where k belongs to S, and both of j and k are in the sliding window, then skip j; otherwise, let S be S + { j };
-4.  Output S, the final selection of SNPs.
+LD pruning removes variants in high LD to yield a subset of approximately independent variants. This is useful for population structure and relatedness estimation, which can be distorted by large blocks of correlated SNPs.
 
-## LD pruning
+The algorithm works as follows [@zhengHighperformanceComputingToolset2012]:
+
+1.  Randomly select a starting position i (`start.pos="random"`), i=1 if `start.pos="first"`, or i=last if `start.pos="last"`; and let the current SNP set S={ i };
+2.  For each right position j from i+1 to n: if any LD between j and k is greater than `ld.threshold`, where k belongs to S, and both of j and k are in the sliding window, then skip j; otherwise, let S be S + { j };
+3.  For each left position j from i-1 to 1: if any LD between j and k is greater than `ld.threshold`, where k belongs to S, and both of j and k are in the sliding window, then skip j; otherwise, let S be S + { j };
+4.  Output S, the final selection of SNPs. 
 
 ```{r, label="ld_code"}
 set.seed(1)
 ld_prune <- snpgdsLDpruning(g,
     sample.id = samp.keep.id, 
-    snp.id = snp.keep.id,
+    snp.id = snp.prelim.id,
+    autosome.only = TRUE,
     method = "r",
-    ld.threshold = sqrt(.1),  
-    autosome.only = TRUE
+    slide.max.bp = 500000,
+    ld.threshold = sqrt(.1)
 )
 snps_pruned <- unlist(ld_prune, use.names = FALSE)
 ```
 
-## Relatedness
+### Relatedness
 
--   We need to account for relatedness to avoid confounding in PCA and association testing
--   KING (Kinship-based INference for GWAS) is method for estimating pairwise kinship robust to population structure ([@manichaikulRobustRelationshipInference2010]
-
-## Relatedness
+We need to account for relatedness to avoid confounding in PCA and association testing. KING (Kinship‑based INference for GWAS) estimates pairwise kinship robust to population structure [@manichaikulRobustRelationshipInference2010].
 
 ```{r, label="king_code", echo = T}
 king <- snpgdsIBDKING(g, # <1>
                       sample.id = samp.keep.id,  # <1>
                       snp.id = snps_pruned,  # <1>
-                      type = "KING-robust") # <1>
+                      type = "KING-robust",
+                      family.id = metadata$FID[match(samp.keep.id, metadata$IID)]) # <2>
 
-KINGmat <- GENESIS::kingToMatrix(king) # <2>
+KINGmat <- GENESIS::kingToMatrix(king) # <3>
 ```
 
-1. Run KING on our dataset with the filtered samples and SNPs
-2. Convert into a kinship matrix we can use for downstream tasks
+1. Run KING on our dataset with the filtered samples and LD‑pruned SNPs.
+2. Model is robust to misspecifications in population structure.
+3. Convert into a kinship matrix we can use for downstream tasks.
 
-## Estimated family clusters
+### HWE within ancestry groups (metadata + unrelateds)
 
--   Build a kinship graph using a threshold (default: 3rd-degree or closer).
--   Connected components approximate families/households; singletons have no relatives above the threshold.
+Under random mating and no technical artifacts, genotype frequencies should follow the familiar proportions under HWE for allele frequency p. A simple check is whether observed counts depart more than sampling noise would predict. In GWAS array data, notable departures often flag lab/array problems rather than biology. Common culprits are poor clustering for one allele, batch effects, or plate swaps (all of which distort heterozygote vs. homozygote balance).
 
-```{r kin-clusters, eval = F}
-kinship_threshold <- 0.0625
+For case-control studies, we compute HWE in controls. True disease associations can produce real departures in cases (e.g., risk allele homozygotes enriched), so filtering on cases risks discarding biological signal. [@andersonQC2010]
 
-king_adj <- KINGmat
-diag(king_adj) <- 0
-king_adj[king_adj < kinship_threshold] <- 0
+We will use an exact test for bi‑allelic SNPs. Asymptotic chi‑square tests can mis‑calibrate at low genotype counts or low MAF, while exact tests keep Type I error in check across MAF ranges. [@wiggintonExactHWE2005; @guoThompson1992]
 
-family_graph <- igraph::graph_from_adjacency_matrix(king_adj, mode = "undirected", weighted = TRUE, diag = FALSE)
-comp <- igraph::components(family_graph)
+Regarding a specific threshold, large studies typically use $p < 10^{−6} as a conservative filter. Smaller studies sometimes use $p < 10^{-4}$. Because power to detect departures depends on MAF we can consider MAF‑stratified thresholds to avoid over‑penalizing rare variants. [@andersonQC2010]
 
-family_map <- tibble::tibble(
-    scanID = names(comp$membership),
-    family_id = paste0("fam_", sprintf("%03d", comp$membership))
-)
+X/sex chromosomes require specific sex‑aware tests (not used here; single autosome). [@andersonQC2010]
 
-family_summary <- family_map |>
-    dplyr::group_by(family_id) |>
-    dplyr::summarise(
-        n_members = dplyr::n(),
-        members = paste(scanID, collapse = ", "),
-        .groups = "drop"
-    ) |>
-    dplyr::arrange(dplyr::desc(n_members), family_id)
+To avoid the Wahlund effect (heterozygote deficit from pooling distinct ancestries) and non‑independence from relatives, we compute HWE within ancestry‑homogeneous, unrelated subsets. We use KING to define unrelateds and the metadata population labels (ASW, MXL) for grouping.
 
-head(family_summary, 5) |>
-    knitr::kable(col.names = c("Family", "n", "Sample IDs"))
+```{r}
+# Identify unrelateds (3rd‑degree or closer considered related)
+km <- KINGmat |> as.matrix()
+diag(km) <- 0 
+unrel_ids <- rownames(km)[rowSums(km >= 0.0442, na.rm = TRUE) == 0] # <1>
+unrel_ids <- intersect(unrel_ids, samp.keep.id)
+
+grp <- split(unrel_ids, metadata$population[match(unrel_ids, metadata$IID)]) # <2> 
+
+# Exact HWE p-values per group on prelim variants
+p_by_grp <- lapply(grp, function(ids) { # <3>
+  snpgdsHWE(g, snp.id = snp.prelim.id, sample.id = ids)
+})
+p_mat <- do.call(cbind, p_by_grp)
+
+thr_hwe <- 1e-6 # <4> 
+
+# Conservative rule: pass only if all groups pass
+pass_all <- apply(p_mat, 1, function(p) all(is.na(p) | p > thr_hwe)) # <5> 
+
+# Final variant set after HWE
+keep_snp <- which(pass_all)
+snp.keep.id <- snp.prelim.id[keep_snp]
+length(snp.prelim.id)
+length(snp.keep.id)
 ```
 
-## Estimated family clusters
+1. Define unrelateds as those with kinship < 0.0442 (3rd-degree or closer) to any other sample.
+2. Split unrelateds by population using metadata
+3. Compute exact HWE p-values for each group on the preliminary variant set
+4. Set a stringent HWE p-value threshold
+5. Retain variants that pass HWE in all groups
 
-```{r kin-clusters, echo = F}
-```
+Note that we end up not filtering any variants with this dataset.
 
-## Ancestry PCs
+### Ancestry PCs
 
--   So we have our kinship matrix
--   We now want ancestry PCs for covariates
--   **PC‑AiR** (Conomos et al., 2015) computes PCs on unrelateds, then projects onto relateds
--   Relateds are identified using the KING kinship matrix
+With a kinship matrix in hand, we estimate ancestry PCs to use as covariates. PC‑AiR computes PCs on a subset of unrelated individuals and projects relateds onto that space, providing robust structure estimates in the presence of relatedness [@conomosPCAiR2015].
 
-## Ancestry PCs
-
-```{r, label="pcair_code", output="false"}
+```{r}
 snpgdsClose(g) # <1>
 geno_reader <- GWASTools::GdsGenotypeReader(gdsfile) # <2>
 geno_data <- GenotypeData(geno_reader) # <3>
@@ -485,188 +478,226 @@ pcair_out <- pcair(geno_data, # <4>
 3. Create a GenotypeData object for analysis
 4. Run PC-AiR using the KING kinship matrix to identify unrelateds and compute PCs
 
-## Ancestry PCs
+```{r, warning = FALSE}
+pcair_tb <- pcair_out$vectors |>
+    as_tibble() |>
+    bind_cols("IID" = pcair_out$sample.id) |>
+    left_join(metadata, by = "IID")
 
-```{r, echo=FALSE}
-plot(pcair_out)
+pcair_tb |>
+    ggplot(aes(V1, V2, col = population)) +
+    geom_point()
+```
+
+We can use a screeplot to visualize the variance explained by each PC. Depending on where we see an "elbow" in the screeplot, we might choose to include the corresponding PCs in our model.
+
+```{r}
+pcair_out$values |>
+    as_tibble() |>
+    mutate(PC = row_number()) |>
+    ggplot(aes(PC, value)) +
+    geom_point() +
+    geom_line() +
+    scale_x_continuous(breaks = seq(1, 10, by = 1)) +
+    labs(title = "Screeplot of PC-AiR eigenvalues", x = "Principal Component", y = "Eigenvalue")
 ```
 
 
-## Phenotype & covariates 
+### Ancestry‑adjusted relatedness
 
-- We will simulate a quantitative trait with a known genetic effect
+Now that we have ancestry PCs, we estimate relatedness adjusted for ancestry using PC‑Relate and convert it to a GRM suitable for the null model. Training on the unrelated set stabilizes estimates. [@conomosPCRelate2016]
+
+```{r}
+genodata_iter <- GenotypeBlockIterator(geno_data, snpInclude=snps_pruned)
+
+pcrel <- GENESIS::pcrelate(
+  gdsobj = genodata_iter,
+  pcs = pcair_out$vectors[,1:3],
+  training.set = intersect(unrel_ids, pcair_out$sample.id),
+  sample.include = samp.keep.id,
+)
+
+pcrelMat <- GENESIS::pcrelateToMatrix(pcrel, scaleKin = 2)
+```
+
+### Construct phenotype and merge covariates
+
+For the sake of this demo, we will simulate a quantitative trait with a known genetic effect
 
 ```{r, label="pheno_code"}
 set.seed(99)
 N <- length(samp.keep.id)
-sex <- sample(c("M", "F"), N, replace = TRUE)
-age <- round(rnorm(N, 50, 10))
+# Use recorded sex from metadata for covariates (single chromosome: no sex-chr analysis needed)
+sex <- metadata |>
+    filter(IID %in% samp.keep.id) |>
+    mutate(sex = case_when(sex == 1 ~ "M",
+                           TRUE ~ "F")) |>
+    pull(sex)
 
 # Choose one moderately frequent SNP and simulate a quantitative trait with a planted effect
-maf_pruned <- maf[snps_pruned]
-ix <- which(!is.na(maf_pruned) & maf_pruned > 0.2 & maf_pruned < 0.3)[1]
-```
+maf_keep <- maf[snp.keep.id]
+ix <- which(!is.na(maf_keep) & maf_keep > 0.2 & maf_keep < 0.3)[1]
 
-## Phenotype & covariates 
-
-```{r}
-G1 <- GWASTools::getGenotypeSelection(geno_data, snpID = snps_pruned[ix], scanID = samp.keep.id)
+G1 <- GWASTools::getGenotypeSelection(geno_data, snpID = snp.keep.id[ix], scanID = samp.keep.id)
 G1 <- as.numeric(G1) 
-
-y <- as.numeric(0.30 * scale(G1) + 0.02 * scale(age) + 0.05 * (sex == "M") + rnorm(N))
+y <- as.numeric(0.4* scale(G1) + 0.05 * (sex == "M") + rnorm(N))
 ```
 
+We now have a phenotype vector `y` and covariates. We need to construct a `ScanAnnotationDataFrame` object for the null model fitting.
+
 ```{r}
-# Align PCs to scanID order to avoid misalignment
 pcs_df <- data.frame(
   scanID = pcair_out$sample.id,
   PC1 = pcair_out$vectors[, 1],
   PC2 = pcair_out$vectors[, 2],
-  PC3 = pcair_out$vectors[, 3],
-  PC4 = pcair_out$vectors[, 4]
+  PC3 = pcair_out$vectors[, 3]
 )
 
 scanDF <- dplyr::left_join(
-  data.frame(scanID = samp.keep.id, y = y, age = age, sex = sex),
+  data.frame(scanID = samp.keep.id, y = y, sex = sex),
   pcs_df,
   by = "scanID"
 )
 
 scanAnnot2 <- GWASTools::ScanAnnotationDataFrame(scanDF)
-
-# Close the earlier reader and open a fresh GenotypeData without attaching scanAnnot.
-# This avoids a length mismatch if the GDS contains samples not in scanAnnot2.
-GWASTools::close(geno_reader)
-geno <- GWASTools::GenotypeData(GWASTools::GdsGenotypeReader(gdsfile))
-
-# Filter the genotype object to the analysis set
-# Prefer creating a filtered view of the genotype object.
-# Be tolerant to potential argument name variants across GWASTools versions.
-filter_geno_safe <- function(g, scan_ids, snp_ids) {
-  argn <- try(names(formals(GWASTools::GenotypeDataFilter)), silent = TRUE)
-  if (inherits(argn, "try-error")) return(g)
-  dots <- list(g, verbose = FALSE)
-  # attach scan include
-  if ("scan.include" %in% argn) dots$`scan.include` <- scan_ids
-  if ("scanInclude" %in% argn)  dots$`scanInclude`  <- scan_ids
-  # attach snp include
-  if ("snp.include" %in% argn)  dots$`snp.include`  <- snp_ids
-  if ("snpInclude" %in% argn)   dots$`snpInclude`   <- snp_ids
-  do.call(GWASTools::GenotypeDataFilter, dots)
-}
-
-geno <- filter_geno_safe(geno, scanDF$scanID, snps_pruned)
 ```
 
-```{r, echo=FALSE}
-head(data.frame(scanID = scanDF$scanID, y = round(scanDF$y, 3), age = scanDF$age, sex = scanDF$sex))
-```
+## Step 3: Modeling
 
-# Step 3: Modeling
+### Null model
 
-## Fitting the null model
+We first fit the mixed model under the null hypothesis that each SNP has no effect. The null includes covariates (age, sex, ancestry PCs) and a random genetic effect capturing relatedness; it does not include per‑SNP fixed effects.
 
-- First fit the mixed model under the null hypothesis that each SNP has no effect
-- Null model contains all of the covariates, ancestry representative PCs, random effects such as a polygenic effect due to genetic relatedness
-- It does not include SNP genotype terms as fixed effects
+The model:
 
-## Fitting the null model
+$$
+y = X\beta + g + \epsilon
+$$
+
+Where $y$ is the phenotype, $X\beta$ are fixed‑effect covariates, $g \sim \mathcal{N}(0, \sigma^2_g K)$ is the random genetic effect with relatedness matrix $K$, and $\epsilon \sim \mathcal{N}(0, \sigma^2_e I)$ is residual error.
+
+#### Notes on estimation
+
+- Covariance under the null: $\operatorname{Var}(y) = V = \sigma^2_e I + \sigma^2_g K$.
+- We pass an ancestry‑adjusted GRM from PC‑Relate
+    - This yields diagonals near 1 (via `pcrelateToMatrix(scaleKin=2)`) and controls for population structure in kinship estimation
+- Fixed effects (GLS) estimator given variance components: $\hat{\beta} = (X^\top V^{-1} X)^{-1} X^\top V^{-1} y$.
+- Variance components for Gaussian outcomes are estimated by REML.
+- Heritability estimate: $h^2 = \sigma^2_g/(\sigma^2_g + \sigma^2_e)$.
 
 ```{r, label="null_code"}
 nullmod <- GENESIS::fitNullModel(
     scanAnnot2,
     outcome = "y",
-    covars = c("age", "sex", "PC1", "PC2", "PC3", "PC4"),
-    cov.mat = KINGmat, family = "gaussian"
+    covars = c("sex", "PC1", "PC2", "PC3"),
+    cov.mat = pcrelMat, family = "gaussian"
 )
-
-# Genotype iterator (block-wise scan of all SNPs kept by QC)
-it <- GWASTools::GenotypeBlockIterator(
-    geno, 
-    snpInclude = snps_pruned, 
-    snpBlock = 5000
-)
-```
-
-## Fitting the null model
-
-```{r, echo=FALSE}
 nullmod$varComp
 ```
 
-## Step 8 — Association testing (explain)
+`varComp` reports the variance components from the mixed model. The entry `V_A` is the additive‑genetic variance captured by our GRM (PC‑Relate), and `V_resid.var` is the residual variance after adjusting for age, sex, and ancestry PCs. A convenient summary is the mixed‑model heritability on this working scale,
+$$h^2 = \frac{V_A}{V_A + V_{resid}}$$
 
--   **Score test**: efficient per‑SNP test using derivatives at the null; numerically stable at scale.\
--   With our simulated effect, we expect one clear peak near the planted SNP, modest elsewhere.\
--   **Calibration**: ( \lambda\_{GC} ) near 1 indicates good control; large values suggest stratification, relatedness, or batch effects.
+```{r}
+varc <- nullmod$varComp
+h2 <- unname(varc["V_A"] / sum(varc))
 
-**Deliverables** - `res`: per‑SNP estimates and p‑values.\
-- `lambda_gc`: quick inflation diagnostic
+tibble::tibble(
+  component = c("V_A", "V_resid", "h2_mixed_model"),
+  value = c(varc["V_A"], varc["V_resid.var"], h2)
+)
+```
 
-## Association testing
+### Association testing
+
+We now test each SNP for association with the phenotype using a score test. The score test is computationally efficient because it only requires fitting the null model once, rather than refitting for each SNP as in a Wald or likelihood ratio test. 
 
 ```{r, label="assoc_code"}
+# Genotype iterator (block-wise scan of all SNPs kept by QC)
+it <- GWASTools::GenotypeBlockIterator(
+    geno_data, 
+    snpInclude = snp.keep.id, 
+    snpBlock = 5000
+)
 assoc <- GENESIS::assocTestSingle(it, null.model = nullmod, test = "Score")
 
 res <- data.frame(
-    SNP = assoc$snpID,
-    CHR = as.integer(assoc$chr),
+    SNP = assoc$variant.id,
+    CHR = as.numeric(assoc$chr),
     BP = assoc$pos,
     P = assoc$Score.pval,
     BETA = assoc$Est,
     SE = assoc$Est.SE
 )
-
-lambda_gc <- median(stats::qchisq(1 - res$P, df = 1), na.rm = TRUE) / 0.456
 ```
 
-## Association testing
+## Step 4: Post‑GWAS
 
-```{r, echo=FALSE, eval = F}
-lambda_gc
-head(res[order(res$P), c("SNP", "CHR", "BP", "BETA", "SE", "P")], 10)
+### Extracting results
+
+```{r, echo=FALSE, eval = T}
+head(res[order(res$P), c("SNP", "BP", "BETA", "SE", "P")], 5)
+snp.keep.id[ix]
 ```
 
+Note that our top SNP is the one we simulated to have an effect.
 
-## Step 9 — Figures: Manhattan & QQ (code)
+### Manhattan plot
 
-```{r, label="plots_code", eval=FALSE}
-library(qqman)
-# Clean CHR for qqman (drop non-autosomes for the plot)
-plotdat <- subset(res, CHR %in% 1:22 & is.finite(P))
-manhattan(plotdat,
-    chr = "CHR", bp = "BP", p = "P", snp = "SNP",
-    suggestiveline = -log10(1e-5), genomewideline = -log10(5e-8),
-    main = "GWAS (LMM) — Manhattan"
+We visualize the genome‑wide p-values using a Manhattan plot. The blue line indicates a $p$-value threshold of $1 \times 10^{-5}$. Note that this is equivalent to a Bonferroni correction for 5,000 independent tests. The red line at $5 \times 10^{-8}$ is a common genome‑wide significance threshold for GWAS, though it is conservative for smaller studies or those with fewer variants.
+
+```{r, echo=TRUE}
+# qqman expects columns named: CHR, BP, SNP, P
+qqman::manhattan(
+  res,
+  chr = "CHR", bp = "BP", snp = "SNP", p = "P",
+  suggestiveline = -log10(1e-5)
 )
-qq(plotdat$P, main = "QQ plot")
 ```
 
+### QQ Plot
 
-## Step 9 — Figures: Manhattan & QQ (explain)
+We compare observed p‑values to the null expectation to assess calibration. Few true signals should deviate strongly.
 
-**How to read the plots** - **Manhattan**: look for peaks spanning multiple SNPs in LD; single‑SNP spikes can be artifacts.\
-- **QQ**: early alignment with the diagonal + tail deviation at top hits is typical of a polygenic trait.\
-- Show ( \lambda\_{GC} ) on the figure or caption.
-
-**Caveats** - Our dataset is **small** and **simulated**; the figures illustrate **method behavior**, not discovery.
-
-
-## Step 9 — Figures: Manhattan & QQ (output)
-
-```{r, ref.label="plots_code", echo=FALSE, eval = F}
+```{r}
+qqman::qq(res$P)
 ```
 
+### Genomic-control inflation factor
 
-## Wrap‑up & what to record
+The genomic-control inflation factor is a single-number summary ($\lambda_{GC}$) of how inflated or conservative the genome‑wide test statistics are relative to the null. Values near 1 indicate well‑calibrated tests, >1 suggests inflation (e.g., population structure, relatedness, batch), <1 suggests conservative/underpowered tests
+
+For 1‑df tests, the null statistic follows $\chi^2_1$, whose median is $qchisq(0.5, 1) \approx 0.456$. We will convert our $p$‑values to $\chi^2$ statistics $T_i = \texttt{qchisq}(1 − p_i, df = 1)$. Then $\lambda_{GC} = \text{median}(T_i) / m_0$.
+
+```{r}
+lambda_gc <- median(stats::qchisq(1 - res$P, df = 1), na.rm = TRUE) / 0.456
+lambda_gc
+```
+
+### Cleanup
+
+When done, close the GDS connection
 
 ```{r, echo = T}
-GWASTools::close(geno)
+GWASTools::close(geno_reader)
 ```
 
--   **Parameters**: thresholds (QC), LD‑prune settings, PCs used, null model family, random effect (K), LOCO (used? no).\
--   **Software**: package versions; genome build; random seeds.\
--   **Deliverables**: annotated code, QQ/Manhattan, top hits table, (\lambda\_{GC}).
+## When to use a different tool?
 
-**Homework (separate)**\
-Install PLINK and reproduce QC + PCs on a small chr22 dataset; compare with R results.
+-   For very large datasets (e.g., UK Biobank), specialized tools like `BOLT-LMM`, `REGENIE`, or `SAIGE` may be more efficient
+-   For binary traits, consider tools that handle case-control imbalance and relatedness effectively, such as `SAIGE`
+-   For rare variant analysis, consider burden tests or SKAT implemented in packages like `SKAT` or `seqMeta`
+
+## Further reading
+
+- [Population Structure and Relatedness Inference using the GENESIS Package](https://www.bioconductor.org/packages/devel/bioc/vignettes/GENESIS/inst/doc/pcair.html)
+- [Genetic Association Testing using the GENESIS Package](https://bioconductor.org/packages/release/bioc/vignettes/GENESIS/inst/doc/assoc_test.html#output)
+- [Using PLINK for GWAS](https://plink.readthedocs.io/en/latest/GWAS/)
+
+## Session Info
+
+```{r}
+sessionInfo()
+```
+
+## References

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.24">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -72,7 +72,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-8991b0faf62225856095ff2fe360da1f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -370,13 +370,13 @@ r=\frac{\mathrm{Cov}(X,X_c)}{\sqrt{\mathrm{Var}(X)\,\mathrm{Var}(X_c)}},
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>stan_beta_binomial <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; n;                     </span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0, upper=n&gt; x;        </span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; a;                 </span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; b;                </span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; n;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0, upper=n&gt; x;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; a;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; b;</span></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0, upper=1&gt; p;    </span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0, upper=1&gt; p;</span></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="st">model {</span></span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="st">  // TODO: prior on p</span></span>
@@ -385,8 +385,8 @@ r=\frac{\mathrm{Cov}(X,X_c)}{\sqrt{\mathrm{Var}(X)\,\mathrm{Var}(X_c)}},
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="st">  // Example: x ~ binomial(n, p);</span></span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="st">generated quantities {</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="st">  real logit_p = logit(p);            </span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="st">  int x_rep = binomial_rng(n, p);   </span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="st">  real logit_p = logit(p);</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="st">  int x_rep = binomial_rng(n, p);</span></span>
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
 <span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
@@ -396,9 +396,9 @@ r=\frac{\mathrm{Cov}(X,X_c)}{\sqrt{\mathrm{Var}(X)\,\mathrm{Var}(X_c)}},
 <span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(stan_beta_binomial, <span class="at">con =</span> <span class="st">"beta_binomial.stan"</span>)</span>
 <span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>mod_bb <span class="ot">&lt;-</span> <span class="fu">cmdstan_model</span>(<span class="st">"beta_binomial.stan"</span>)</span>
 <span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>fit_bb <span class="ot">&lt;-</span> mod_bb<span class="sc">$</span><span class="fu">sample</span>(</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> <span class="fu">list</span>(<span class="at">n =</span> <span class="dv">27</span>, <span class="at">x =</span> <span class="dv">11</span>, <span class="at">a =</span> <span class="dv">4</span>, <span class="at">b =</span> <span class="dv">18</span>),</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> <span class="dv">8878</span>, <span class="at">chains =</span> <span class="dv">4</span>, <span class="at">parallel_chains =</span> <span class="dv">4</span>,</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_warmup =</span> <span class="dv">1000</span>, <span class="at">iter_sampling =</span> <span class="dv">1000</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">list</span>(<span class="at">n =</span> <span class="dv">27</span>, <span class="at">x =</span> <span class="dv">11</span>, <span class="at">a =</span> <span class="dv">4</span>, <span class="at">b =</span> <span class="dv">18</span>),</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">seed =</span> <span class="dv">8878</span>, <span class="at">chains =</span> <span class="dv">4</span>, <span class="at">parallel_chains =</span> <span class="dv">4</span>,</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">iter_warmup =</span> <span class="dv">1000</span>, <span class="at">iter_sampling =</span> <span class="dv">1000</span></span>
 <span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: check convergence and summarize posterior</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -439,14 +439,14 @@ q_O=\frac{\Pr(O)}{1-\Pr(AB)}.
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; n_A;</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; n_B;</span></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; n_O;</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="st">  vector&lt;lower=0&gt;[3] alpha;             </span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="st">  vector&lt;lower=0&gt;[3] alpha;</span></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="st">transformed data {</span></span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="st">  int N = n_A + n_B + n_O;</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="st">  int y[3] = { n_A, n_B, n_O };        </span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="st">  int y[3] = { n_A, n_B, n_O };</span></span>
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="st">  simplex[3] p;                          </span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="st">  simplex[3] p;</span></span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="st">transformed parameters {</span></span>
 <span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="st">  // Unconditional phenotype probabilities under HWE:</span></span>
@@ -480,9 +480,9 @@ q_O=\frac{\Pr(O)}{1-\Pr(AB)}.
 <span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(stan_abo_missing_ab, <span class="at">con =</span> <span class="st">"abo_missing_ab.stan"</span>)</span>
 <span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>mod_abo <span class="ot">&lt;-</span> <span class="fu">cmdstan_model</span>(<span class="st">"abo_missing_ab.stan"</span>)</span>
 <span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>fit_abo <span class="ot">&lt;-</span> mod_abo<span class="sc">$</span><span class="fu">sample</span>(</span>
-<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> <span class="fu">list</span>(<span class="at">n_A =</span> <span class="dv">725</span>, <span class="at">n_B =</span> <span class="dv">258</span>, <span class="at">n_O =</span> <span class="dv">1073</span>, <span class="at">alpha =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>)),</span>
-<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> <span class="dv">8878</span>, <span class="at">chains =</span> <span class="dv">4</span>, <span class="at">parallel_chains =</span> <span class="dv">4</span>,</span>
-<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_warmup =</span> <span class="dv">1000</span>, <span class="at">iter_sampling =</span> <span class="dv">1000</span></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">list</span>(<span class="at">n_A =</span> <span class="dv">725</span>, <span class="at">n_B =</span> <span class="dv">258</span>, <span class="at">n_O =</span> <span class="dv">1073</span>, <span class="at">alpha =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>)),</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">seed =</span> <span class="dv">8878</span>, <span class="at">chains =</span> <span class="dv">4</span>, <span class="at">parallel_chains =</span> <span class="dv">4</span>,</span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">iter_warmup =</span> <span class="dv">1000</span>, <span class="at">iter_sampling =</span> <span class="dv">1000</span></span>
 <span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 
@@ -1083,13 +1083,13 @@ q_O=\frac{\Pr(O)}{1-\Pr(AB)}.
 <span id="cb3-139"><a href="#cb3-139" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-140"><a href="#cb3-140" aria-hidden="true" tabindex="-1"></a>stan_beta_binomial <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb3-141"><a href="#cb3-141" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
-<span id="cb3-142"><a href="#cb3-142" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; n;                     </span></span>
-<span id="cb3-143"><a href="#cb3-143" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0, upper=n&gt; x;        </span></span>
-<span id="cb3-144"><a href="#cb3-144" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; a;                 </span></span>
-<span id="cb3-145"><a href="#cb3-145" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; b;                </span></span>
+<span id="cb3-142"><a href="#cb3-142" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; n;</span></span>
+<span id="cb3-143"><a href="#cb3-143" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0, upper=n&gt; x;</span></span>
+<span id="cb3-144"><a href="#cb3-144" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; a;</span></span>
+<span id="cb3-145"><a href="#cb3-145" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; b;</span></span>
 <span id="cb3-146"><a href="#cb3-146" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
 <span id="cb3-147"><a href="#cb3-147" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
-<span id="cb3-148"><a href="#cb3-148" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0, upper=1&gt; p;    </span></span>
+<span id="cb3-148"><a href="#cb3-148" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0, upper=1&gt; p;</span></span>
 <span id="cb3-149"><a href="#cb3-149" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
 <span id="cb3-150"><a href="#cb3-150" aria-hidden="true" tabindex="-1"></a><span class="st">model {</span></span>
 <span id="cb3-151"><a href="#cb3-151" aria-hidden="true" tabindex="-1"></a><span class="st">  // TODO: prior on p</span></span>
@@ -1098,8 +1098,8 @@ q_O=\frac{\Pr(O)}{1-\Pr(AB)}.
 <span id="cb3-154"><a href="#cb3-154" aria-hidden="true" tabindex="-1"></a><span class="st">  // Example: x ~ binomial(n, p);</span></span>
 <span id="cb3-155"><a href="#cb3-155" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
 <span id="cb3-156"><a href="#cb3-156" aria-hidden="true" tabindex="-1"></a><span class="st">generated quantities {</span></span>
-<span id="cb3-157"><a href="#cb3-157" aria-hidden="true" tabindex="-1"></a><span class="st">  real logit_p = logit(p);            </span></span>
-<span id="cb3-158"><a href="#cb3-158" aria-hidden="true" tabindex="-1"></a><span class="st">  int x_rep = binomial_rng(n, p);   </span></span>
+<span id="cb3-157"><a href="#cb3-157" aria-hidden="true" tabindex="-1"></a><span class="st">  real logit_p = logit(p);</span></span>
+<span id="cb3-158"><a href="#cb3-158" aria-hidden="true" tabindex="-1"></a><span class="st">  int x_rep = binomial_rng(n, p);</span></span>
 <span id="cb3-159"><a href="#cb3-159" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
 <span id="cb3-160"><a href="#cb3-160" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
 <span id="cb3-161"><a href="#cb3-161" aria-hidden="true" tabindex="-1"></a></span>
@@ -1109,9 +1109,9 @@ q_O=\frac{\Pr(O)}{1-\Pr(AB)}.
 <span id="cb3-165"><a href="#cb3-165" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(stan_beta_binomial, <span class="at">con =</span> <span class="st">"beta_binomial.stan"</span>)</span>
 <span id="cb3-166"><a href="#cb3-166" aria-hidden="true" tabindex="-1"></a>mod_bb <span class="ot">&lt;-</span> <span class="fu">cmdstan_model</span>(<span class="st">"beta_binomial.stan"</span>)</span>
 <span id="cb3-167"><a href="#cb3-167" aria-hidden="true" tabindex="-1"></a>fit_bb <span class="ot">&lt;-</span> mod_bb<span class="sc">$</span><span class="fu">sample</span>(</span>
-<span id="cb3-168"><a href="#cb3-168" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> <span class="fu">list</span>(<span class="at">n =</span> <span class="dv">27</span>, <span class="at">x =</span> <span class="dv">11</span>, <span class="at">a =</span> <span class="dv">4</span>, <span class="at">b =</span> <span class="dv">18</span>),</span>
-<span id="cb3-169"><a href="#cb3-169" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> <span class="dv">8878</span>, <span class="at">chains =</span> <span class="dv">4</span>, <span class="at">parallel_chains =</span> <span class="dv">4</span>,</span>
-<span id="cb3-170"><a href="#cb3-170" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_warmup =</span> <span class="dv">1000</span>, <span class="at">iter_sampling =</span> <span class="dv">1000</span></span>
+<span id="cb3-168"><a href="#cb3-168" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">list</span>(<span class="at">n =</span> <span class="dv">27</span>, <span class="at">x =</span> <span class="dv">11</span>, <span class="at">a =</span> <span class="dv">4</span>, <span class="at">b =</span> <span class="dv">18</span>),</span>
+<span id="cb3-169"><a href="#cb3-169" aria-hidden="true" tabindex="-1"></a>    <span class="at">seed =</span> <span class="dv">8878</span>, <span class="at">chains =</span> <span class="dv">4</span>, <span class="at">parallel_chains =</span> <span class="dv">4</span>,</span>
+<span id="cb3-170"><a href="#cb3-170" aria-hidden="true" tabindex="-1"></a>    <span class="at">iter_warmup =</span> <span class="dv">1000</span>, <span class="at">iter_sampling =</span> <span class="dv">1000</span></span>
 <span id="cb3-171"><a href="#cb3-171" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb3-172"><a href="#cb3-172" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-173"><a href="#cb3-173" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: check convergence and summarize posterior</span></span>
@@ -1152,14 +1152,14 @@ q_O=\frac{\Pr(O)}{1-\Pr(AB)}.
 <span id="cb3-208"><a href="#cb3-208" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; n_A;</span></span>
 <span id="cb3-209"><a href="#cb3-209" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; n_B;</span></span>
 <span id="cb3-210"><a href="#cb3-210" aria-hidden="true" tabindex="-1"></a><span class="st">  int&lt;lower=0&gt; n_O;</span></span>
-<span id="cb3-211"><a href="#cb3-211" aria-hidden="true" tabindex="-1"></a><span class="st">  vector&lt;lower=0&gt;[3] alpha;             </span></span>
+<span id="cb3-211"><a href="#cb3-211" aria-hidden="true" tabindex="-1"></a><span class="st">  vector&lt;lower=0&gt;[3] alpha;</span></span>
 <span id="cb3-212"><a href="#cb3-212" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
 <span id="cb3-213"><a href="#cb3-213" aria-hidden="true" tabindex="-1"></a><span class="st">transformed data {</span></span>
 <span id="cb3-214"><a href="#cb3-214" aria-hidden="true" tabindex="-1"></a><span class="st">  int N = n_A + n_B + n_O;</span></span>
-<span id="cb3-215"><a href="#cb3-215" aria-hidden="true" tabindex="-1"></a><span class="st">  int y[3] = { n_A, n_B, n_O };        </span></span>
+<span id="cb3-215"><a href="#cb3-215" aria-hidden="true" tabindex="-1"></a><span class="st">  int y[3] = { n_A, n_B, n_O };</span></span>
 <span id="cb3-216"><a href="#cb3-216" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
 <span id="cb3-217"><a href="#cb3-217" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
-<span id="cb3-218"><a href="#cb3-218" aria-hidden="true" tabindex="-1"></a><span class="st">  simplex[3] p;                          </span></span>
+<span id="cb3-218"><a href="#cb3-218" aria-hidden="true" tabindex="-1"></a><span class="st">  simplex[3] p;</span></span>
 <span id="cb3-219"><a href="#cb3-219" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
 <span id="cb3-220"><a href="#cb3-220" aria-hidden="true" tabindex="-1"></a><span class="st">transformed parameters {</span></span>
 <span id="cb3-221"><a href="#cb3-221" aria-hidden="true" tabindex="-1"></a><span class="st">  // Unconditional phenotype probabilities under HWE:</span></span>
@@ -1193,14 +1193,11 @@ q_O=\frac{\Pr(O)}{1-\Pr(AB)}.
 <span id="cb3-249"><a href="#cb3-249" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(stan_abo_missing_ab, <span class="at">con =</span> <span class="st">"abo_missing_ab.stan"</span>)</span>
 <span id="cb3-250"><a href="#cb3-250" aria-hidden="true" tabindex="-1"></a>mod_abo <span class="ot">&lt;-</span> <span class="fu">cmdstan_model</span>(<span class="st">"abo_missing_ab.stan"</span>)</span>
 <span id="cb3-251"><a href="#cb3-251" aria-hidden="true" tabindex="-1"></a>fit_abo <span class="ot">&lt;-</span> mod_abo<span class="sc">$</span><span class="fu">sample</span>(</span>
-<span id="cb3-252"><a href="#cb3-252" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> <span class="fu">list</span>(<span class="at">n_A =</span> <span class="dv">725</span>, <span class="at">n_B =</span> <span class="dv">258</span>, <span class="at">n_O =</span> <span class="dv">1073</span>, <span class="at">alpha =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>)),</span>
-<span id="cb3-253"><a href="#cb3-253" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> <span class="dv">8878</span>, <span class="at">chains =</span> <span class="dv">4</span>, <span class="at">parallel_chains =</span> <span class="dv">4</span>,</span>
-<span id="cb3-254"><a href="#cb3-254" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter_warmup =</span> <span class="dv">1000</span>, <span class="at">iter_sampling =</span> <span class="dv">1000</span></span>
+<span id="cb3-252"><a href="#cb3-252" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">list</span>(<span class="at">n_A =</span> <span class="dv">725</span>, <span class="at">n_B =</span> <span class="dv">258</span>, <span class="at">n_O =</span> <span class="dv">1073</span>, <span class="at">alpha =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>)),</span>
+<span id="cb3-253"><a href="#cb3-253" aria-hidden="true" tabindex="-1"></a>    <span class="at">seed =</span> <span class="dv">8878</span>, <span class="at">chains =</span> <span class="dv">4</span>, <span class="at">parallel_chains =</span> <span class="dv">4</span>,</span>
+<span id="cb3-254"><a href="#cb3-254" aria-hidden="true" tabindex="-1"></a>    <span class="at">iter_warmup =</span> <span class="dv">1000</span>, <span class="at">iter_sampling =</span> <span class="dv">1000</span></span>
 <span id="cb3-255"><a href="#cb3-255" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb3-256"><a href="#cb3-256" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb3-257"><a href="#cb3-257" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-258"><a href="#cb3-258" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-259"><a href="#cb3-259" aria-hidden="true" tabindex="-1"></a></span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

@@ -74,7 +74,7 @@
     "href": "lectures/lecture-01.html#course-textbook",
     "title": "Lecture 01: Introduction and Foundations",
     "section": "Course Textbook",
-    "text": "Course Textbook\n\nSörensen (2025)"
+    "text": "Course Textbook\n\nSorensen (2025)"
   },
   {
     "objectID": "lectures/lecture-01.html#what-is-statistical-genetics",
@@ -305,7 +305,7 @@
     "href": "lectures/lecture-01.html#on-simulations",
     "title": "Lecture 01: Introduction and Foundations",
     "section": "On Simulations",
-    "text": "On Simulations\n\nDowney (2016)"
+    "text": "On Simulations\n\nDowney (2015)"
   },
   {
     "objectID": "lectures/lecture-01.html#estimation-of-allele-frequencies",
@@ -361,7 +361,7 @@
     "href": "lectures/lecture-01.html#references",
     "title": "Lecture 01: Introduction and Foundations",
     "section": "References",
-    "text": "References\n\n\n\n\nDowney,A. (2016) Probably overthinking it: There is still only one test.\n\n\nLaird,N.M. and Lange,C. (2011) The fundamentals of modern statistical genetics Springer Science, New York.\n\n\nSörensen,D. (2025) Statistical Learning in Genetics: An Introduction Using R 2nd ed. 2025. Springer Nature Switzerland, Cham."
+    "text": "References\n\n\n\n\nDowney,A.B. (2015) Think stats: Exploratory data analysis in python 2nd ed. O’Reilly Media, Sebastopol, CA.\n\n\nLaird,N.M. and Lange,C. (2011) The fundamentals of modern statistical genetics Springer, New York, NY.\n\n\nSorensen,D. (2025) Statistical learning in genetics: An introduction using r 2nd ed. Springer, Cham."
   },
   {
     "objectID": "lectures/lecture-03.html#review-likelihood-function-basics",
@@ -637,244 +637,6 @@
     "text": "Hands-On: Lab 03 (Applied)\n\nImplement ABO EM and compare starts; plot log-likelihood gap.\nTwo-point linkage: LOD grid search + EM with unknown phase.\nTwo-SNP haplotype EM; compute LD (D, r^2).\nMini association demo: linear regression + HWE QC in controls.\n\nSee labs/unsolved/lab-03.R for the scaffold (with TODOs) and labs/solved/lab-03.R for a worked solution.\n\nScript:\n“For the lab: keep a log of starting values and attained log‑likelihoods—this is good hygiene with EM. In the two‑point EM, verify that ambiguous transmissions are being split sensibly as \\(\\theta\\) and \\(w\\) update. In the haplotype EM, watch for boundary estimates at very low MAFs. And in the association mini‑demo, confirm that including PCs meaningfully reduces ancestry structure before you trust the p‑values.”"
   },
   {
-    "objectID": "links.html",
-    "href": "links.html",
-    "title": "Helpful Links",
-    "section": "",
-    "text": "Linear Algebra Primer\nProbability Primer\nStatistical Inference Primer\nStatistics Cheatsheet\nEM Algorithm Video",
-    "crumbs": [
-      "Useful Links"
-    ]
-  },
-  {
-    "objectID": "links.html#mathematical-resources",
-    "href": "links.html#mathematical-resources",
-    "title": "Helpful Links",
-    "section": "",
-    "text": "Linear Algebra Primer\nProbability Primer\nStatistical Inference Primer\nStatistics Cheatsheet\nEM Algorithm Video",
-    "crumbs": [
-      "Useful Links"
-    ]
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Schedule",
-    "section": "",
-    "text": "Article links direct to files hosted on the Zotero group library\n\n\n\nWeek\nLecture\nReadings\nAssignment\n\n\n\n\n1\nFoundations: Mendelian genetics & statistical basics\nMendel’s laws, Hardy–Weinberg equilibrium, \\(\\chi^2\\)goodness‑of‑fit. Sampling distributions; linking population parameters to sample estimates. One‑locus likelihood: building and interpreting likelihood functions.\n\nSorensen Chapter 1\nEdwards, A. W. F. (2008), “G. H. Hardy (1908) and Hardy–Weinberg Equilibrium,” Genetics.\nIntroduction to Probability Theory\n\nProblem Set 01\n\n\n2\nHeritability, segregation, and the gene-mapping toolkit\nNarrow and broad sense heritability; variance-component interpretation. Segregation analysis and modelling genetic inheritance without marker data.\n\nSorensen Chapter 2.1-2.2, 2.4, 2.8\nVisscher, P. M., et al., (2008), “Heritability in the genomics era — concepts and misconceptions,” Nature Reviews Genetics.\n\nProblem Set 02\n\n\n3\nLikelihood algorithms & practical gene mapping\nNewton-Raphson, EM, and stochastic gradient algorithms for complex likelihoods. Pedigree linkage analysis, LOD-score calculation, and missing-data EM steps. Single-marker and haplotype association tests with basic quality control\n\nSorensen, Chapter 3\nLander, E. S., and Green, P. (1987), “Construction of multilocus genetic linkage maps in humans.,” Proceedings of the National Academy of Sciences of the United States of America.\n\nProblem Set 03\n\n\n4\nPopulation structure & Bayesian fundamentals\nDetecting and correcting for population stratification and admixture confounding. Priors, posteriors, and the Bayes-frequentist debate in genetic inference. Bayesian admixture/STRUCTURE-style modelling implemented in Stan.\n\nSorensen 4.1-4.5, 4.7-4.8, 5.1\nPorras-Hurtado, L. et al., (2013), “An overview of STRUCTURE: applications, parameter settings, and supporting software,” Frontiers in Genetics.\nLawson, D. J. et al., (2018), “A tutorial on how not to over-interpret STRUCTURE and ADMIXTURE bar plots,” Nature Communications.\n\nProblem Set 04\n\n\n5\nGWAS at Scale – design, LMMs, and meta-analysis\nEnd to end GWAS workflow: sample QC, variant QC, power, pitfalls. Linear mixed models (BOLT LMM/REML concepts) and SAIGE for imbalance/relatedness. Fixed/random effects meta-analysis; genomic inflation and calibration.\n\nLoh, P.-R. et al., (2015), “Efficient Bayesian mixed model analysis increases association power in large cohorts,” Nature Genetics.\n\nProblem Set 05\n\n\n6\nPrediction models in genetics\n\nSorensen Chapters 6, 7.1-7.2, 10.1, 10.5, 11.3-11.5\nWu, T. T., Chen, Y. F., Hastie, T., Sobel, E., and Lange, K. (2009), “Genome-wide association analysis by lasso penalized logistic regression,” Bioinformatics, 25, 714–721. https://doi.org/10.1093/bioinformatics/btp041.\n\n\n\n\n7\nMultiple testing & false-discovery control\n\nSorensen Chapter 8\nOtani, T., Noma, H., Nishino, J., and Matsui, S. (2018), “Re-assessment of multiple testing strategies for more efficient genome-wide association studies,” European Journal of Human Genetics, Nature Publishing Group, 26, 1038–1048. https://doi.org/10.1038/s41431-018-0125-3.\n\n\n\n\n8\nBinary traits and family-based association tests\n\nSorensen Chapter 9\nZhou, W., Bi, W., Zhao, Z., Dey, K. K., Jagadeesh, K. A., Karczewski, K. J., Daly, M. J., Neale, B. M., and Lee, S. (2022), “SAIGE-GENE+ improves the efficiency and accuracy of set-based rare variant association tests,” Nature Genetics, Nature Publishing Group, 54, 1466–1469. https://doi.org/10.1038/s41588-022-01178-w.\n\n\n\n\n9\nCausal inference & functional integration (Mendelian randomization)\n\nSanderson, E., Glymour, M. M., Holmes, M. V., Kang, H., Morrison, J., Munafò, M. R., Palmer, T., Schooling, C. M., Wallace, C., Zhao, Q., and Davey Smith, G. (2022), “Mendelian randomization,” Nature Reviews Methods Primers, 2, 1–21. https://doi.org/10.1038/s43586-021-00092-5.\n\n\n\n\n10\nAdvanced AI Topics in Statistical Genetics: Language Models for Genomics\nRecommended:\n\nJi et al., 2021\nAvsec et al., 2021\nCheng et al., 2023\nBaghbanzadeh et al., 2025\nMollerus et al., 2025",
-    "crumbs": [
-      "Schedule"
-    ]
-  },
-  {
-    "objectID": "assignments/assignment-02.html",
-    "href": "assignments/assignment-02.html",
-    "title": "Assignment 02",
-    "section": "",
-    "text": "Due before class on Wednesday, September 10th.\nRequirements:"
-  },
-  {
-    "objectID": "assignments/assignment-02.html#problem-1-missing-heritability-and-rare-variants-40-pts",
-    "href": "assignments/assignment-02.html#problem-1-missing-heritability-and-rare-variants-40-pts",
-    "title": "Assignment 02",
-    "section": "Problem 1: Missing Heritability and Rare Variants (40 pts)",
-    "text": "Problem 1: Missing Heritability and Rare Variants (40 pts)\nRecall (Young 2019): “The first challenge is one of precision. The information used to estimate heritability from rare variants by GREML-WGS comes from the variation in sharing of rare variants among distantly related pairs of individuals. However, distantly related individuals typically do not share any particular rare variant, so the variation in rare variant sharing is low. This means that large samples with high quality WGS data are required to obtain precise estimates, and such samples are not common yet. Based on the only existing application of GREML-WGS, a sample size of ~40,000 would produce estimates precise enough to be statistically distinguished from other heritability estimates. It is likely that this challenge will be overcome shortly, since samples of similar magnitude already exist.”\n\nAssume the probability that two distantly related individuals share a rare variant is p=0.001. Assume a sample size of n=40,000 individuals.\n\nCalculate the expected number of pairs of individuals in this sample who share a rare variant. How many total pairs of individuals exist in the sample?\nIf we estimate that rare variants contribute h^2_{\\text{rare}}=0.10 to heritability, calculate the standard error of this estimate given the sample size. Use the formula \\text{SE}(h^2) \\approx \\frac{2}{\\sqrt{n_{\\text{eff}}}}, where n_{\\text{eff}} is the effective number of independent observations (approximately the number of pairs sharing rare variants).\nCalculate a 95% confidence interval for the heritability estimate. Does this confidence interval allow us to distinguish between h^2_{\\text{rare}}=0.10 and h^2_{\\text{common}}=0.25\n\nBriefly explain in 2-3 sentences how the “missing heritability” problem relates to rare variants, and why larger samples with whole-genome sequencing may be needed to resolve this question."
-  },
-  {
-    "objectID": "assignments/assignment-02.html#problem-2-parentoffspring-regression-with-assortative-mating-40-pts",
-    "href": "assignments/assignment-02.html#problem-2-parentoffspring-regression-with-assortative-mating-40-pts",
-    "title": "Assignment 02",
-    "section": "Problem 2: Parent–offspring regression with assortative mating (40 pts)",
-    "text": "Problem 2: Parent–offspring regression with assortative mating (40 pts)\nLet Y=A+E with \\operatorname{Var}(A)=\\sigma_A^2, \\operatorname{Var}(E)=\\sigma_E^2, random environments, and phenotypic mate correlation \\operatorname{corr}(Y_{\\text{father}},Y_{\\text{mother}})=r_m.\n\nShow that \\operatorname{Var}(Y_{\\text{mid-parent}})=\\frac{1}{2}(1+r_m)\\operatorname{Var}(Y).\nGiven the regression slope \\beta=\\frac{\\operatorname{Cov}(Y_o,Y_{mp})}{\\operatorname{Var}(Y_{mp})}, show that \\beta \\;=\\; \\frac{\\sigma_A^2}{\\sigma_A^2+\\sigma_E^2}\\cdot\\frac{1}{1+r_m} \\;=\\; \\frac{h^2}{1+r_m}. Interpret the direction of bias in \\beta for r_m&gt;0.\nFor h^2=0.5, compute \\beta for r_m=0,0.1,0.3,0.5. Comment on the practical impact of assortative mating on parent–offspring regression."
-  },
-  {
-    "objectID": "assignments/assignment-02.html#problem-3-derivation-of-falconers-formula-from-the-ace-model-20-pts",
-    "href": "assignments/assignment-02.html#problem-3-derivation-of-falconers-formula-from-the-ace-model-20-pts",
-    "title": "Assignment 02",
-    "section": "Problem 3: Derivation of Falconer’s Formula from the ACE Model (20 pts)",
-    "text": "Problem 3: Derivation of Falconer’s Formula from the ACE Model (20 pts)\nBackground: The ACE model is a foundational tool in quantitative genetics for partitioning phenotypic variance (V_P) into three components: additive genetic effects (A), common or shared environmental effects (C), and unique or non-shared environmental effects (E). Under this model, the total variance is given by V_P = V_A + V_C + V_E.\nThe intraclass correlations for a trait between monozygotic (MZ) and dizygotic (DZ) twins are given by:\nr_{\\text{MZ}} = \\frac{\\operatorname{Cov}(Y_1, Y_2 \\mid \\text{MZ})}{V_P}\nr_{\\text{DZ}} = \\frac{\\operatorname{Cov}(Y_1, Y_2 \\mid \\text{DZ})}{V_P}\nAssume that:\n\nMating is random (no assortative mating).\nThere are no gene-environment interactions or correlations.\nThe equal environments assumption holds (MZ and DZ twins experience their shared environments to a similar degree).\nGenetic effects are purely additive (no dominance or epistasis).\n\nAssuming the ACE model, demonstrate that the narrow-sense heritability (h^2 = V_A/V_P) can be estimated as twice the difference between the MZ and DZ twin correlations.\nShow that:\nh^2 = 2(r_{\\text{MZ}} - r_{\\text{DZ}})"
-  },
-  {
-    "objectID": "assignments/assignment-04.html",
-    "href": "assignments/assignment-04.html",
-    "title": "Assignment 04",
-    "section": "",
-    "text": "Requirements\nA helpful vignette on using cmdstanr is available at https://mc-stan.org/cmdstanr/articles/cmdstanr.html."
-  },
-  {
-    "objectID": "assignments/assignment-04.html#problem-1-population-substructure-and-allele-frequency-estimation-30-pts",
-    "href": "assignments/assignment-04.html#problem-1-population-substructure-and-allele-frequency-estimation-30-pts",
-    "title": "Assignment 04",
-    "section": "Problem 1: Population Substructure and Allele Frequency Estimation (30 pts)",
-    "text": "Problem 1: Population Substructure and Allele Frequency Estimation (30 pts)\nLet there be n diploid individuals sampled at random from a population made of subpopulations k=1,\\dots,K. In subpopulation k, the allele A frequency is p_k, and let w_k be the fraction of sampled individuals from subpopulation k (\\sum_k w_k=1). The “global” allele frequency we want to estimate is the mixture average \np \\;=\\; \\sum_k w_k p_k.\n\nLet n_{AA}, n_{Aa}, n_{aa} be the counts of genotypes AA, Aa, aa in the sample of size n. The standard estimator of the allele frequency is \n\\hat{p} \\;=\\; \\frac{2n_{AA} + n_{Aa}}{2n}.\n\n(a) Show that in the presence of population substructure, \\hat{p} is unbiased.\nHint: Let D_i be the A-dosage for individual i (D_i\\in\\{0,1,2\\}). Under HWE within k, D_i\\mid Z_i=k\\sim \\mathrm{Bin}(2,p_k). Use LOTUS: \\mathbb E[D_i]=\\sum_k w_k\\mathbb E[D_i\\mid Z_i=k].\n(b) What is \\mathrm{Var}(\\hat{p}) under random mixture sampling (i.i.d. individuals from the mixture)? Assume each subpopulation is in HWE. Compare to the case with no substructure (K=1).\nHint: Use the law of total variance on D_i:\n\\mathrm{Var}(D_i)=\\mathbb E\\{\\mathrm{Var}(D_i\\mid Z)\\}+\\mathrm{Var}\\{\\mathbb E(D_i\\mid Z)\\}, with \\mathrm{Var}(D_i\\mid Z=k)=2p_k(1-p_k) and \\mathbb E(D_i\\mid Z=k)=2p_k.\nDefine\n\\begin{gather}\n\\bar p=\\sum_k w_k p_k \\\\\n\\mathrm{Var}_w(p_k)=\\sum_k w_k(p_k-\\bar p)^2,\n\\end{gather}\nand note \\mathbb E[p_k(1-p_k)]=\\bar p(1-\\bar p)-\\mathrm{Var}_w(p_k).\n(c) Now consider a stratified sample: take exactly n_k individuals from subpopulation k (\\sum_k n_k=n; write w_k=n_k/n). Maintain HWE within subpopulations. Derive \\mathrm{Var}(\\hat p) under this design and compare it to your answer in (b). State which design yields the larger variance, and by how much, in terms of \\mathrm{Var}_w(p_k).\nHint: Write \\hat p=\\sum_k w_k \\hat p_k with \\hat p_k=\\frac{1}{2n_k}\\sum_{i:Z_i=k} D_i. Use independence across strata and \\mathrm{Var}(\\hat p_k)=\\frac{p_k(1-p_k)}{2n_k}."
-  },
-  {
-    "objectID": "assignments/assignment-04.html#problem-2-population-substructure-ld-and-association-testing-40-pts",
-    "href": "assignments/assignment-04.html#problem-2-population-substructure-ld-and-association-testing-40-pts",
-    "title": "Assignment 04",
-    "section": "Problem 2: Population Substructure, LD, and Association Testing (40 pts)",
-    "text": "Problem 2: Population Substructure, LD, and Association Testing (40 pts)\nLet X be the genotype dosage (0/1/2 copies of the effect allele) at a tag SNP and X_c at a causal SNP. The causal SNP has effect size \\beta_c on quantitative trait Y. The observed effect from simple regression of Y on X is \\beta_{\\text{obs}}.\nConvenience (scaling): Work with standardized genotypes \n\\tilde X=\\frac{X-\\mathbb E[X]}{\\sqrt{\\mathrm{Var}(X)}},\\qquad\n\\tilde X_c=\\frac{X_c-\\mathbb E[X_c]}{\\sqrt{\\mathrm{Var}(X_c)}}.\n With this scaling, \\beta_{\\text{obs}}=r\\,\\beta_c exactly, where r=\\mathrm{Corr}(\\tilde X,\\tilde X_c)=\\mathrm{Corr}(X,X_c).\nAssume individuals are sampled i.i.d. from a mixture with \\Pr(Z=k)=w_k, \\sum_k w_k=1. Within each subpopulation k: - HWE holds at each locus, - LE (no within-k LD) holds between X and X_c.\nDefine\n\\begin{gather}\n\\bar p=\\sum_k w_k p_k,\\quad \\bar p_c=\\sum_k w_k p_{c,k} \\\\\n\\mathrm{Var}_w(p_k)=\\sum_k w_k(p_k-\\bar p)^2 \\\\\n\\mathrm{Cov}_w(p_k,p_{c,k})=\\sum_k w_k (p_k-\\bar p)(p_{c,k}-\\bar p_c)\n\\end{gather}\n\nPart A (10 pts): Correlation induced by population structure\nLet the allele frequencies at the tag and causal SNPs be p_k and p_{c,k} in subpopulation k. Show that \nr=\\frac{\\mathrm{Cov}(X,X_c)}{\\sqrt{\\mathrm{Var}(X)\\,\\mathrm{Var}(X_c)}},\n and express \\mathrm{Cov}(X,X_c), \\mathrm{Var}(X), and \\mathrm{Var}(X_c) in terms of \\{w_k,p_k,p_{c,k}\\}.\nHint: Law of total covariance:\n\\mathrm{Cov}(X,X_c)=\\mathbb E[\\mathrm{Cov}(X,X_c\\mid Z)]+\\mathrm{Cov}(\\mathbb E[X\\mid Z],\\mathbb E[X_c\\mid Z]). Under LE, the first term is 0. Use \\mathbb E[X\\mid Z=k]=2p_k.\n\n\nPart B (10 pts): Bias from ignoring structure in the trait\nSuppose population structure also affects the trait mean: \\mathbb E[Y\\mid Z=k]=\\mu_k. Consider the model Y=\\mu_Z+\\beta_c X_c+\\varepsilon with \\mathbb E[\\varepsilon]=0. Show that the naïve regression of Y on X (without structure covariates) is biased: \n\\hat\\beta_{\\text{naïve}}\n\\approx \\frac{\\beta_c\\,\\mathrm{Cov}(X,X_c)+\\mathrm{Cov}(X,\\mu_Z)}{\\mathrm{Var}(X)}\n= r\\,\\beta_c + \\underbrace{\\frac{\\mathrm{Cov}(X,\\mu_Z)}{\\mathrm{Var}(X)}}_{\\text{bias}}.\n Under the assumptions above, prove that \\mathrm{Cov}(X,\\mu_Z)=2\\,\\mathrm{Cov}_w(p_k,\\mu_k), and give the bias in terms of w_k,p_k,\\mu_k.\nHint: \\mathrm{Cov}(X,\\mu_Z)=\\mathrm{Cov}(\\mathbb E[X\\mid Z],\\mu_Z)=\\mathrm{Cov}(2p_Z,\\mu_Z).\n\n\nPart C (20 pts): Brief interpretation\nIn a few sentences each:\n\nExplain why r\\neq 0 can arise even if within each subpopulation there is no LD. What feature of the mixture induces it?\n\nGive a sign‑consistent example: if subpopulations with larger p_k also have larger \\mu_k, what is the expected direction of the naïve bias?\n\nName two standard strategies to mitigate both components of bias (structure‑induced r and trait mean differences) in practice."
-  },
-  {
-    "objectID": "assignments/assignment-04.html#problem-3-bayesian-analysis-30-pts",
-    "href": "assignments/assignment-04.html#problem-3-bayesian-analysis-30-pts",
-    "title": "Assignment 04",
-    "section": "Problem 3: Bayesian Analysis (30 pts)",
-    "text": "Problem 3: Bayesian Analysis (30 pts)\n\nPart A (10 pts): Beta–Binomial conjugacy\n\nWith prior \\mathrm{Beta}(4,18) and data x=11 successes out of n=27, write the posterior distribution for p.\n\nCompute the posterior mean and a central 95% credible interval in R using qbeta. Compare to the MLE \\hat p=11/27. Briefly interpret the shrinkage.\n\nSensitivity: repeat with priors \\mathrm{Beta}(1,1) and \\mathrm{Beta}(8,32). Summarize how the posterior mean and width change across priors, and why.\n\n\n\nPart B (10 pts): Beta–Binomial in Stan\n\nWrite a Stan model to estimate the allele frequency p from Binomial data with a \\mathrm{Beta}(4,18) prior. Use x=11, n=27.\n\nRun the model in R using cmdstanr. Check convergence and effective sample size; report \\hat R and bulk ESS for p.\n\nSummarize the posterior mean and a central 95% credible interval. Compare to your analytical result from Part A.\n\nYou will need to install cmdstanr and cmdstan if you haven’t already. Please follow installation instructions at https://mc-stan.org/cmdstanr/\nBoilerplate is provided below. You will need to set eval to TRUE to run the code when knitting the final document:\n\nlibrary(cmdstanr)\n\nstan_beta_binomial &lt;- \"\ndata {\n  int&lt;lower=0&gt; n;                     \n  int&lt;lower=0, upper=n&gt; x;        \n  real&lt;lower=0&gt; a;                 \n  real&lt;lower=0&gt; b;                \n}\nparameters {\n  real&lt;lower=0, upper=1&gt; p;    \n}\nmodel {\n  // TODO: prior on p\n  // Example: p ~ beta(a, b);\n  // TODO: likelihood\n  // Example: x ~ binomial(n, p);\n}\ngenerated quantities {\n  real logit_p = logit(p);            \n  int x_rep = binomial_rng(n, p);   \n}\n\"\n\nlibrary(cmdstanr)\nset.seed(8878)\n\nwriteLines(stan_beta_binomial, con = \"beta_binomial.stan\")\nmod_bb &lt;- cmdstan_model(\"beta_binomial.stan\")\nfit_bb &lt;- mod_bb$sample(\n  data = list(n = 27, x = 11, a = 4, b = 18),\n  seed = 8878, chains = 4, parallel_chains = 4,\n  iter_warmup = 1000, iter_sampling = 1000\n)\n\n# TODO: check convergence and summarize posterior\n\n\n\nPart C (10 pts): ABO blood group frequencies in Stan (missing AB phenotype)\nWe observe phenotype counts in a population sample where AB individuals are not sampled:\n\nn_A = 725\n\nn_B = 258\n\nn_O = 1073\n\nUnder HWE with allele frequencies \\mathbf p=(p_A,p_B,p_O), the unconditional phenotype probabilities are \n\\Pr(A)=p_A^2 + 2p_A p_O,\\quad\n\\Pr(B)=p_B^2 + 2p_B p_O,\\quad\n\\Pr(AB)=2p_A p_B,\\quad\n\\Pr(O)=p_O^2.\n\nBecause AB is missing, the observed category probabilities are the renormalized values \nq_A=\\frac{\\Pr(A)}{1-\\Pr(AB)},\\quad\nq_B=\\frac{\\Pr(B)}{1-\\Pr(AB)},\\quad\nq_O=\\frac{\\Pr(O)}{1-\\Pr(AB)}.\n\n\nWrite a Stan model that estimates (p_A,p_B,p_O) with prior \\mathrm{Dirichlet}(1,1,1) and a Multinomial likelihood on (n_A,n_B,n_O) using (q_A,q_B,q_O).\n\nRun the model and check convergence (report \\hat R and ESS).\n\nPrior sensitivity: re‑run with \\boldsymbol\\alpha = k\\,(0.26,0.09,0.65) for k\\in\\{1,10,100\\}. Summarize how posterior means and credible intervals change with k, and why.\n\nBoilerplate is provided below:\n\nstan_abo_missing_ab &lt;- \"\ndata {\n  int&lt;lower=0&gt; n_A;\n  int&lt;lower=0&gt; n_B;\n  int&lt;lower=0&gt; n_O;\n  vector&lt;lower=0&gt;[3] alpha;             \n}\ntransformed data {\n  int N = n_A + n_B + n_O;\n  int y[3] = { n_A, n_B, n_O };        \n}\nparameters {\n  simplex[3] p;                          \n}\ntransformed parameters {\n  // Unconditional phenotype probabilities under HWE:\n  real PrA  = square(p[1]) + 2 * p[1] * p[3];\n  real PrB  = square(p[2]) + 2 * p[2] * p[3];\n  real PrAB = 2 * p[1] * p[2];\n  real PrO  = square(p[3]);\n\n  // Observed (AB excluded): renormalize by (1 - PrAB)\n  simplex[3] q;\n  {\n    real denom = 1 - PrAB;\n    q[1] = PrA / denom;\n    q[2] = PrB / denom;\n    q[3] = PrO / denom;\n  }\n}\nmodel {\n  // TODO: prior on allele frequencies\n  // Example: p ~ dirichlet(alpha);\n  // TODO: likelihood for observed counts\n  // Example: y ~ multinomial(q);\n}\ngenerated quantities {\n  // Unconditional phenotype probabilities (optional checks)\n  vector[4] phen_prob = [PrA, PrB, PrAB, PrO]';\n}\n\"\n\nset.seed(8878)\nwriteLines(stan_abo_missing_ab, con = \"abo_missing_ab.stan\")\nmod_abo &lt;- cmdstan_model(\"abo_missing_ab.stan\")\nfit_abo &lt;- mod_abo$sample(\n  data = list(n_A = 725, n_B = 258, n_O = 1073, alpha = c(1,1,1)),\n  seed = 8878, chains = 4, parallel_chains = 4,\n  iter_warmup = 1000, iter_sampling = 1000\n)"
-  },
-  {
-    "objectID": "assignments/assignment-03.html",
-    "href": "assignments/assignment-03.html",
-    "title": "Assignment 03",
-    "section": "",
-    "text": "Requirements:"
-  },
-  {
-    "objectID": "assignments/assignment-03.html#problem-1-em-for-abo-gene-frequencies-derivation-inference-and-sensitivity-25-pts",
-    "href": "assignments/assignment-03.html#problem-1-em-for-abo-gene-frequencies-derivation-inference-and-sensitivity-25-pts",
-    "title": "Assignment 03",
-    "section": "Problem 1: EM for ABO gene frequencies; derivation, inference, and sensitivity (25 pts)",
-    "text": "Problem 1: EM for ABO gene frequencies; derivation, inference, and sensitivity (25 pts)\n\nPart A (15 pts)\nConsider phenotype counts from the ABO system under Hardy–Weinberg equilibrium (HWE): n_A, n_{AB}, n_B, n_O with total N. Let genotype frequencies be p_A^2, 2p_Ap_O, 2p_Ap_B, p_B^2, 2p_Bp_O, p_O^2 and p_O = 1 - p_A - p_B.\nDerive the EM updates shown in lecture. Specifically, show that the E‑step allocations for A and B phenotypes are\n\n\\tilde n_{AA} = n_A \\dfrac{p_A^2}{p_A^2 + 2p_Ap_O}\n\n\n\\tilde n_{AO} = n_A \\dfrac{2p_Ap_O}{p_A^2 + 2p_Ap_O}\n\nand similarly for BB, BO, and that the M‑step is \np_A^{(t+1)}=\\frac{2\\tilde n_{AA}+\\tilde n_{AO}+n_{AB}}{2N}\n \np_B^{(t+1)}=\\frac{2\\tilde n_{BB}+\\tilde n_{BO}+n_{AB}}{2N}\n \np_O^{(t+1)}=1-p_A^{(t+1)}-p_B^{(t+1)}\n\nHint (how to derive EM generally):\n\nChoose latent variables so the complete data are simple. Here, treat latent genotype counts, \n(n_{AA}, n_{AO}, n_{AB}, n_{BB}, n_{BO}, n_{OO})\n\n\nas missing, with only phenotype totals observed.\n\nWrite the complete‑data log‑likelihood\n\n\\begin{align*}\n\\ell_c(p_A,p_B) =\n& n_{AA}\\log p_A^2 + n_{AO}\\log(2p_Ap_O) + n_{AB}\\log(2p_Ap_B) + \\\\\n& n_{BB}\\log p_B^2 + n_{BO}\\log(2p_Bp_O) + n_{OO}\\log p_O^2\n\\end{align*}\nusing p_O=1-p_A-p_B.\n\nE‑step: replace latent counts by their conditional expectations given the observed phenotypes under current parameters, e.g., for phenotype A, and form Q(p\\,|\\,p^{(t)}) = \\mathbb E[\\ell_c(p)\\mid\\text{data}, p^{(t)}].\nM‑step: M-step: Maximize Q(p|p^{(t)}) subject to p_A + p_B + p_O = 1. Hint: Consider rewriting the objective in terms of allele counts rather than genotype counts.\n\n\n\nPart B (10 pts)\nConsider two biallelic SNPs with haplotypes \\{ab, aB, Ab, AB\\} under HWE and unphased genotypes (g_1,g_2)\\in\\{0,1,2\\}^2. Note that (ab, ab) yields (0,0), (ab, aB) or (ab, Ab) yields (0,1), (AB, AB) yields (2,2), etc.\nShow that if every observed genotype is (1,1), then P\\{(1,1)\\}=2\\,\\big(p_{ab}p_{AB}+p_{aB}p_{Ab}\\big) and the likelihood depends only on the cross‑sum S=p_{ab}p_{AB}+p_{aB}p_{Ab} (a ridge; parameters not identifiable)."
-  },
-  {
-    "objectID": "assignments/assignment-03.html#problem-2-twopoint-linkage-lod-and-support-intervals-25-pts",
-    "href": "assignments/assignment-03.html#problem-2-twopoint-linkage-lod-and-support-intervals-25-pts",
-    "title": "Assignment 03",
-    "section": "Problem 2: Two‑point linkage — LOD and support intervals (25 pts)",
-    "text": "Problem 2: Two‑point linkage — LOD and support intervals (25 pts)\nSuppose one heterozygous transmitting parent (A/a and B/b) is crossed to an aabb mate, yielding child haplotype counts (n_{AB}, n_{Ab}, n_{aB}, n_{ab}). Let n_{\\text{NR}}=n_{AB}+n_{ab} and n_{\\text{R}}=n_{Ab}+n_{aB}.\n\nPart A: LOD from counts (10 pts).\nShow that for a given recombination fraction \\theta\\in(0,0.5) the two‑point LOD relative to independence (\\theta=0.5) is \n\\mathrm{LOD}(\\theta)\n= \\log_{10}\\!\\left\\{ \\frac{\\theta^{\\,n_{\\text{R}}} (1-\\theta)^{\\,n_{\\text{NR}}}}{0.5^{\\,n_{\\text{R}}+n_{\\text{NR}}}} \\right\\}.\n\nDerive the MLE \\hat\\theta and show it equals n_{\\text{R}}/(n_{\\text{R}}+n_{\\text{NR}}) when 0&lt;\\hat\\theta&lt;0.5.\n\n\nPart B: Unknown phase and LD‑informed LOD (15 pts)\nA heterozygous transmitting parent (A/a,\\;B/b) has unknown phase: either coupling (AB/ab) or repulsion (Ab/aB). Let \nn_{\\mathrm{NR}} = n_{AB}+n_{ab},\\qquad\nn_{\\mathrm{R}}  = n_{Ab}+n_{aB},\\qquad\nN=n_{\\mathrm{NR}}+n_{\\mathrm{R}}.\n\nLet w=\\Pr\\{\\text{coupling }(AB/ab)\\} and 1-w=\\Pr\\{\\text{repulsion }(Ab/aB)\\}.\n(i) Mixture likelihood (5 pts).\nShow that with unknown phase the observed‑data likelihood is a mixture of the two phase‑specific binomial likelihoods: \nL(\\theta; w)\n= w\\,(1-\\theta)^{\\,n_{\\mathrm{NR}}}\\,\\theta^{\\,n_{\\mathrm{R}}}\n\\;+\\;\n(1-w)\\,(1-\\theta)^{\\,n_{\\mathrm{R}}}\\,\\theta^{\\,n_{\\mathrm{NR}}}.\n Hence the two‑point LOD relative to independence (\\theta=0.5) is \n\\mathrm{LOD}(\\theta; w)\n= \\log_{10}\\!\\left\\{\n\\frac{w\\,(1-\\theta)^{\\,n_{\\mathrm{NR}}}\\theta^{\\,n_{\\mathrm{R}}}\n+(1-w)\\,(1-\\theta)^{\\,n_{\\mathrm{R}}}\\theta^{\\,n_{\\mathrm{NR}}}}\n{0.5^{\\,N}}\n\\right\\}.\n\n(ii) Linking LD to w (5 pts).\nLet population haplotype frequencies be p=(p_{ab}, p_{aB}, p_{Ab}, p_{AB}) (sum to 1).\nCondition on the parent being the double heterozygote (g_1,g_2)=(1,1). Use Bayes’ rule to show \nw\n= \\Pr\\{(ab,AB)\\mid(1,1)\\}\n= \\frac{p_{ab}\\,p_{AB}}{p_{ab}\\,p_{AB}+p_{aB}\\,p_{Ab}},\n\n\n1-w\n= \\frac{p_{aB}\\,p_{Ab}}{p_{ab}\\,p_{AB}+p_{aB}\\,p_{Ab}}.\n\nDefine D = p_{ab}p_{AB}-p_{aB}p_{Ab} and note that \\operatorname{sign}(D) indicates whether coupling (D&gt;0) or repulsion (D&lt;0) phase is a priori more likely.\n(iii) Quick numerical check (5 pts).\nTake p^\\star=(0.40,\\,0.10,\\,0.25,\\,0.25).\nCompute w and 1-w. Then, using the example counts (n_{AB}, n_{Ab}, n_{aB}, n_{ab})=(18, 5, 4, 17) (so N=44, n_{\\mathrm{R}}=9, n_{\\mathrm{NR}}=35), evaluate and compare \\mathrm{LOD}(\\hat\\theta; w=\\tfrac12) versus \\mathrm{LOD}(\\hat\\theta; w) at \\hat\\theta = n_{\\mathrm{R}}/N.\nBriefly explain (one sentence) how LD information (w\\neq\\tfrac12) can increase or decrease the peak LOD when phase is unknown."
-  },
-  {
-    "objectID": "assignments/assignment-03.html#problem-3-twosnp-haplotype-em-and-ld-measures-25-pts",
-    "href": "assignments/assignment-03.html#problem-3-twosnp-haplotype-em-and-ld-measures-25-pts",
-    "title": "Assignment 03",
-    "section": "Problem 3: Two‑SNP haplotype EM and LD measures (25 pts)",
-    "text": "Problem 3: Two‑SNP haplotype EM and LD measures (25 pts)\n\nPart A (10 pts)\nFor two biallelic SNPs with haplotypes \\{ab, aB, Ab, AB\\} at frequencies \\{p_{ab},p_{aB},p_{Ab},p_{AB}\\} (summing to 1), enumerate the possible haplotype pairs consistent with each unphased genotype (g_1,g_2)\\in\\{0,1,2\\}^2.\nShow that only (g_1,g_2)=(1,1) is ambiguous with two possible pairs: (ab,AB) and (aB,Ab).\n\n\nPart B (10 pts)\nSimulate N=1000 individuals from true haplotype frequencies p^{\\star}=(0.40,0.10,0.25,0.25) and estimate \\hat p via EM from a uniform start. Report \\hat p and absolute errors |\\hat p - p^{\\star}|.\nNote that the E‑step weights for (1,1) are proportional to p_{ab}p_{AB} and p_{aB}p_{Ab}, and the M‑step update is p^{(t+1)}=\\text{(expected hap counts)}/(2N).\nHere is a sample R code snippet to get you started:\n\nset.seed(8878)\n\nN &lt;- 1000\np_true &lt;- c(ab = 0.40, aB = 0.10, Ab = 0.25, AB = 0.25)\n\n# helper: draw N unordered haplotype pairs, then make unphased genotypes (g1,g2)\ndraw_genotypes &lt;- function(N, p) {\n    # code haplotypes to allele counts (B allele) at SNP1, SNP2\n    H &lt;- rbind(ab = c(0, 0), aB = c(0, 1), Ab = c(1, 0), AB = c(1, 1))\n    hap1 &lt;- sample(rownames(H), size = N, replace = TRUE, prob = p)\n    hap2 &lt;- sample(rownames(H), size = N, replace = TRUE, prob = p)\n    G &lt;- H[hap1, ] + H[hap2, ] # N x 2 matrix with entries in {0,1,2}\n    as.data.frame(G) |&gt;\n        setNames(c(\"g1\", \"g2\"))\n}\n\n# simulate data\ndat &lt;- draw_genotypes(N, p_true)\n\n\n\nPart C (5 pts)\nCompute D = p_{11} - p_{B1}p_{B2} with p_{11}=p_{AB}, p_{B1}=p_{Ab}+p_{AB}, p_{B2}=p_{aB}+p_{AB}. Report D and r^2 = D^2/(p_{B1}(1-p_{B1})p_{B2}(1-p_{B2})). Comment on how LD would affect single‑marker association at either SNP."
-  },
-  {
-    "objectID": "assignments/assignment-03.html#problem-4-singlemarker-association-with-qc-and-ld-attenuation-25-pts",
-    "href": "assignments/assignment-03.html#problem-4-singlemarker-association-with-qc-and-ld-attenuation-25-pts",
-    "title": "Assignment 03",
-    "section": "Problem 4: Single‑marker association with QC and LD attenuation (25 pts)",
-    "text": "Problem 4: Single‑marker association with QC and LD attenuation (25 pts)\nSimulate n=2000 unrelated individuals. Let a causal biallelic SNP C have MAF 0.30 and generate a quantitative trait Y with additive effect size \\beta_C=0.50 (per allele) and noise \\epsilon\\sim\\mathcal N(0,1). Let a tag SNP T be in LD with C such that r=\\operatorname{corr}(G_C,G_T)=0.8 and both are in HWE. Let T have MAF 0.30.\n\nPart A (15 pts)\nGenerate (G_C,G_T,Y) by first simulating haplotypes for (C,T) with a chosen LD structure that yields r\\approx 0.8, then form genotypes and Y=\\beta_C G_C + \\epsilon. Fit simple linear models Y\\sim G_C and Y\\sim G_T and report \\hat\\beta_C and \\hat\\beta_T, alongside their 95\\% confidence intervals.\n\n\nPart B (10 pts)\nIntroduce a basic QC step: test HWE in the controls of a case–control subsample formed by thresholding Y at its 80th percentile to define cases (cases are the top 20% of Y). Compute an exact or \\chi^2 HWE p‑value in controls for T; state whether you would flag T using a threshold of 10^{-6} and why QC is typically done in controls only."
-  },
-  {
-    "objectID": "assignments/assignment-01.html",
-    "href": "assignments/assignment-01.html",
-    "title": "Assignment 01",
-    "section": "",
-    "text": "Make a Zotero account using the guide here. Make sure you use your GW email address, as this will provide unlimited cloud storage for PDFs. Once you have created your account, email chiraaggohel@gwu.edu your username.\n(Laird, 2.4) How many genotypes are possible with a 3-allele marker? With K alleles?\n(Laird, 2.6) Consider a recessive Mendelian disease, where in the population, P(\\text{an individual has 2 disease variants}) = 0.000001.\n\nWhat is the probability that a randomly selected person is affected? Suppose that the randomly selected person is affected. What does that imply about the probability that their sibling is also affected (you can assume that having either one or two parents with two variants is so rare that you can ignore them)?\nNow answer both of these questions assuming the penetrance is only \\frac{1}{2}, i.e., P(\\text{disease} | 2 \\text{ variants}) = \\frac{1}{2}, but the phenocopy rate is still zero.\n\nConsider a sample size of n of unrelated haploid individuals is obtained from some population with the objective of estimating allele frequency at a biallelic locus. The sample contains x copies of A, and n-x copies of a.\n\nPlot the probability distribution of X given n = 30, and \\theta = .1. Plot the probability distribution of X given n = 1000, and \\theta = .1.\nLets say we observed 30 samples, with 10 copies of allele A. Plot the likelihood function for \\theta\nWhat is the MLE of \\theta?\nLet’s say n = 1000, and x = 100. What is the sampling variance of \\hat{\\theta}?\nLet’s say n = 100, and x = 10. What is the sampling variance of \\hat{\\theta}? Why is this different than the result above?\n\nRefer to equations (1.3) and (1.5) in Sorensen. Say you observe 8 individuals, and 1 copies of genotype X. Assume that X \\sim \\textsf{Binom}(n, \\theta).\n\n\nCompute \\hat{\\theta}\nCompute \\hat{\\text{Var}}(\\hat{\\theta})\nProvide a 95% Wald confidence interval for \\theta\nWrite an interpretation of this confidence interval. What problem does this reveal about the Wald confidence interval?\nCompute a 95% Wilson confidence interval for \\theta. Documentation for this can be found here. Hint: you will need the fastR2 package.\n\n\nRefer to slides 13 and 14 in lecture 1. Write a one to two sentence answer for how a researcher would try to answer each question.\nWhat is your math background? What is your programming background?"
-  },
-  {
-    "objectID": "faq.html",
-    "href": "faq.html",
-    "title": "Frequently Asked Questions",
-    "section": "",
-    "text": "Office hours are held on Friday’s from 10am-12pm. You can book a 30 minute slot using this link. If you need to meet outside of these hours, please email me at chiraaggohel@gwu.edu.",
-    "crumbs": [
-      "FAQ"
-    ]
-  },
-  {
-    "objectID": "faq.html#office-hours",
-    "href": "faq.html#office-hours",
-    "title": "Frequently Asked Questions",
-    "section": "",
-    "text": "Office hours are held on Friday’s from 10am-12pm. You can book a 30 minute slot using this link. If you need to meet outside of these hours, please email me at chiraaggohel@gwu.edu.",
-    "crumbs": [
-      "FAQ"
-    ]
-  },
-  {
-    "objectID": "faq.html#course-location",
-    "href": "faq.html#course-location",
-    "title": "Frequently Asked Questions",
-    "section": "Course Location",
-    "text": "Course Location\nMilken SPH, 300C. The zoom link is available on Blackboard, and the Google Calendar invite.",
-    "crumbs": [
-      "FAQ"
-    ]
-  },
-  {
-    "objectID": "faq.html#the-required-paper-is-not-open-source-how-do-i-access-it",
-    "href": "faq.html#the-required-paper-is-not-open-source-how-do-i-access-it",
-    "title": "Frequently Asked Questions",
-    "section": "The required paper is not open source, how do I access it?",
-    "text": "The required paper is not open source, how do I access it?\nVia our shared Zotero library. If you don’t have access, please email chiraaggohel@gwu.edu to be added.",
-    "crumbs": [
-      "FAQ"
-    ]
-  },
-  {
-    "objectID": "syllabus.html",
-    "href": "syllabus.html",
-    "title": "Syllabus",
-    "section": "",
-    "text": "This graduate-level course builds a cohesive toolkit for analyzing complex genetic data, weaving together Mendelian and population-genetic principles, likelihood theory, and Bayesian inference with MCMC. Lectures progress from pedigree linkage and genome-wide association study (GWAS) design to population-structure correction, multiple-testing control, and genomic prediction using BLUP, penalized regressions, and non-parametric learners such as random forests and neural networks. Binary-trait modelling introduces logistic mixed models, AUC evaluation, and family-based tests, while hands-on R/Bioconductor labs guide students from Hardy–Weinberg simulations to full GWAS and polygenic-score pipelines. Weekly problem sets blend mathematical derivations with coding; a capstone project requires analyzing public whole-genome or single-cell data and presenting findings in a conference-style talk. By course end, participants can translate biological questions into formal statistical models, implement inference algorithms on high-dimensional data, control error rates in large-scale studies, and critically evaluate predictive models and their uncertainties.",
-    "crumbs": [
-      "Syllabus"
-    ]
-  },
-  {
-    "objectID": "syllabus.html#course-description",
-    "href": "syllabus.html#course-description",
-    "title": "Syllabus",
-    "section": "",
-    "text": "This graduate-level course builds a cohesive toolkit for analyzing complex genetic data, weaving together Mendelian and population-genetic principles, likelihood theory, and Bayesian inference with MCMC. Lectures progress from pedigree linkage and genome-wide association study (GWAS) design to population-structure correction, multiple-testing control, and genomic prediction using BLUP, penalized regressions, and non-parametric learners such as random forests and neural networks. Binary-trait modelling introduces logistic mixed models, AUC evaluation, and family-based tests, while hands-on R/Bioconductor labs guide students from Hardy–Weinberg simulations to full GWAS and polygenic-score pipelines. Weekly problem sets blend mathematical derivations with coding; a capstone project requires analyzing public whole-genome or single-cell data and presenting findings in a conference-style talk. By course end, participants can translate biological questions into formal statistical models, implement inference algorithms on high-dimensional data, control error rates in large-scale studies, and critically evaluate predictive models and their uncertainties.",
-    "crumbs": [
-      "Syllabus"
-    ]
-  },
-  {
-    "objectID": "syllabus.html#course-prerequisites",
-    "href": "syllabus.html#course-prerequisites",
-    "title": "Syllabus",
-    "section": "Course Prerequisites",
-    "text": "Course Prerequisites\n\nPUBH 6860: Principles of Bioinformatics",
-    "crumbs": [
-      "Syllabus"
-    ]
-  },
-  {
-    "objectID": "syllabus.html#course-learning-objectives",
-    "href": "syllabus.html#course-learning-objectives",
-    "title": "Syllabus",
-    "section": "Course Learning Objectives",
-    "text": "Course Learning Objectives\n\nAnalyze Mendelian, population-genetic, and demographic models to quantify inheritance patterns, linkage, association, and population structure in diverse organisms.\nApply likelihood, Bayesian, and Markov-chain Monte Carlo techniques to estimate parameters and test hypotheses in genome-scale datasets.\nEvaluate genome-wide association studies and genomic-prediction pipelines, controlling false-discovery rates and assessing prediction bias, variance, and uncertainty.\nSynthesize multi-source genomic, phenotypic, and environmental data into reproducible R/Bioconductor workflows that meet FAIR and open-science standards.\nDesign and implement statistical learning models-shrinkage regressions, mixed models, and non-parametric methods-to predict complex traits and interpret model performance in a biological context.",
-    "crumbs": [
-      "Syllabus"
-    ]
-  },
-  {
-    "objectID": "syllabus.html#textbooks",
-    "href": "syllabus.html#textbooks",
-    "title": "Syllabus",
-    "section": "Textbooks",
-    "text": "Textbooks\n\nRequired\n\nStatistical Learning in Genetics: An Introduction Using R, Daniel Sorensen, 2nd Edition (Available via the GWU Library)\n\n\n\nRecommended\n\nHandbook of Statistical Genomics, David J. Balding, Ida Moltke, John Marioni, 4th Edition (Available via the GWU Library)\nThe Fundamentals of Modern Statistical Genetics, Nan M. Laird and Christoph Lange, 1st Edition (Available via the GWU Library)",
-    "crumbs": [
-      "Syllabus"
-    ]
-  },
-  {
-    "objectID": "syllabus.html#technology-requirements",
-    "href": "syllabus.html#technology-requirements",
-    "title": "Syllabus",
-    "section": "Technology Requirements",
-    "text": "Technology Requirements\nStudents should have a desktop or laptop (Windows, macOS, or Linux) with at least 8 GB RAM, 20 GB free disk space, a reliable broadband connection (≥ 10 Mbps), and working webcam, microphone, and speakers or headphones for synchronous Zoom sessions. They must be able to navigate the university’s LMS through a modern web browser to download readings, submit assignments, and join discussion boards; install and update R (4.5 or newer), RStudio (or VS Code with the R extension), Bioconductor packages, Git, and Zoom; and use basic Git commands (clone, commit, push) to submit version-controlled lab work. We will use Zotero for file sharing and collaboration. Familiarity with screen sharing, breakout rooms, captioning, and recording in Zoom is expected. Optional but recommended tools include an SSH client or VPN for connecting to campus HPC resources and a PDF reader that supports annotation. All course materials follow WCAG 2.1 guidelines, and RStudio offers high-contrast and screen-reader modes; students who require further accommodations should contact Disability Services before the first week.",
-    "crumbs": [
-      "Syllabus"
-    ]
-  },
-  {
-    "objectID": "syllabus.html#assignments-and-descriptions",
-    "href": "syllabus.html#assignments-and-descriptions",
-    "title": "Syllabus",
-    "section": "Assignments and Descriptions",
-    "text": "Assignments and Descriptions\n\n\n\nAssignment Type\n% of total grade\n\n\n\n\nProblem Sets\n60\n\n\nClass participation (defined below)\n20\n\n\nResearch Project (Final Exam)\n20\n\n\n\n\nStandard SPH Graduate Grading Scale\n\nA: 94-100%\nA-: 90-93%\nB+: 87-89%\nB: 84-86%\nB-: 80-83%\nC+: 77-79%\nC: 73-76%\nC-: 70-72%\nF: Below 70%\n\n\n\nProblem Sets\nProblem sets are key to exploring the concepts introduced both in class and in the textbook. These are meant to provide an opportunity to more deeply understand concepts and put them into practice and provide an opportunity for data manipulation. This is part of the ‘lab’ component of the course and you will be given time in class to work on assignments and collaborate. However, these problem sets will take substantial time outside of class to complete, so please plan accordingly.\n\n\nResearch Project\nStudents will choose a unique project to work on for the final third of the semester. At the end of the semester, students will submit a written project report in the form of a scientific research paper. Students are strongly encouraged to work in groups of up to three on their projects, however such groups will be expected to make proportionally more substantial contributions with clearly delineated responsibilities for each member’s contributions. Projects should be based on a research topic related to statistical genetics, but can be computational, methodological, or applied in nature. The Lab write-ups will follow the standard form of a scientific paper to gain experience in writing. Specifically, we will follow the format of the journal Genetics, the leading journal in the field. The paper MUST BE BASED ON THE PRIMARY LITERATURE IN THE APPROPRIATE REFEREED SCIENTIFIC JOURNALS, and it should adhere to the following format:\n\nBegin the paper with an original title, followed by your name, the course, and the date. All papers should be typed, single-spaced, and in 12 pt. font.\nThe paper should have the following sections:\n\nIntroduction – here you state the general problem or issue you are addressing.\nMaterials and Methods – describe the methods used to obtain data, analyze data, and test hypotheses associated with the data.\nResults – describe the results of the data analysis and hypothesis testing.\nDiscussion – here you draw conclusions about the problem you studied; this section should include a synthesis of ideas.\nLiterature Cited – List the relevant literature you have read and used to support your arguments/analyze your data. The literature cited should be in the format of the journal Genetics.\n\n\nAspects of the project will be required throughout the course with a final research project submitted in the form of a research paper during finals. See course outline for due dates for each part of project.\n\n\nWorkload\nIn this course, you will be expected to spend 5 or more hours per week in independent learning which can include reviewing assigned material, preparing for class discussions, working on assignments, and group work. In addition, 1.5 hours per week will be spent in class computational lab and 4.5 hours working on asynchronous materials provided online. The total workload for this course will be at least 112.5 hours.\n\n\nClass Policy: Statistical Genetics is Interdisciplinary and Quantitative\nThis course is highly interdisciplinary, quantitative, and technical. We will discuss algorithms, concepts, and methods from biology, computer science, and statistics. You will be asked to learn about and apply technical concepts in areas that you may have limited familiarity with. In our experience, to succeed in this class, you will have to commit to repeatedly engaging with concepts to build understanding and refine your understanding through class discussions, outside reading, and homework assignments. Willingness to think quantitatively/probabilistically is required to succeed in this course. There are a diversity of talent sets in this class and you each bring something unique to the table. Collaborate and find someone with the skills they might share if you are lacking in a particular area. Building effective teams with broad skillsets is a hallmark of effective statistical genetics.\n\n\nClass Policy: Participation and Discussion\nTeaching and learning require a team effort. We expect you to show up to synchronous sessions (on time) and be prepared for discussions. This means, you have gone through the asynchronous material and started on the homework assignment (problem sets) and come to the synchronous session with questions. You are strongly encouraged to ask questions during synchronous session to help complete your homework assignments and share thoughts and progress on a research project. Statistical genetics is an exciting and broad area with no shortage of ethical and societal implications. We welcome your points of view and respectful discussion. We also strongly encourage cooperation among students to help in each other’s understanding of the material, but homework assignments must be your own work. We would greatly appreciate any feedback on any aspects of this course, both positive and negative!\n20% of your grade is ‘Participation’. This is both a quantitative assessment of your responses to asynchronous materials as well as participation in the live synchronous sessions. Statistical Genetics is a demanding discipline that requires students to think critically and utilize high-level analytical skills regarding complex issues. The discipline requires such mastery not only in well-articulated written work, but also in thoughtful discussions between and among students and instructors. Receiving full points for participation is not simply a matter of showing up and turning work in on time. Outstanding participation grades require truly thoughtful, insightful, and well-argued contributions and leadership in class and in asynchronous prompts that demonstrate a high level of mastery of the course material.\n\n\nClass Policy: Late Work\nLate work will be accepted but with a 1% deduction per hour for the first 5 hours up to 5% deduction per day for unexcused late homework submission. All homework will be due at 11:59 pm on the designated due date unless otherwise specified. Homework assignments (Problem Sets) will typically be distributed via blackboard with a week to complete each assignment.\n\n\nClass Policy: Make-up Work/Make-up Exams\nAny student who experiences significant family or personal illness or emergency after the final withdrawal date and is unable to complete course work should ask the instructor for an incomplete for the course. Each case will be managed on an individual basis. The Incomplete Policy must be followed as outlined in the GWSPH Student Handbook.\n\n\nClass Policy: Generative Artificial Intelligence (GAI)\nStudents are permitted to use GAI tools to generate outlines of scripts and papers to help get started, but we expect heavy editing (and commenting in code) subsequently done by the student to verify functionality and understanding of code and implications of research results. Students are permitted to use GAI for coding assignments to get started but must further comment, edit, and validate their code. Any use of GAI must be acknowledged in each assignment with details on the distinction between the GAI material and the student contribution for any given assignment along with details of the prompts supplied to the GAI tool, acknowledgement of the GAI tool including tool name and version. Note also the GW University Policy on GAI.",
-    "crumbs": [
-      "Syllabus"
-    ]
-  },
-  {
     "objectID": "lectures/lecture-04.html#the-bayesian-paradigm",
     "href": "lectures/lecture-04.html#the-bayesian-paradigm",
     "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
@@ -914,7 +676,7 @@
     "href": "lectures/lecture-04.html#further-resources",
     "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
     "section": "Further Resources",
-    "text": "Further Resources\n\n\n\n\n\n\nMcElreath (2020)\n\n\n\n\n\n\n\nGelman (2013)"
+    "text": "Further Resources\n\n\n\n\n\n\nMcElreath (2020)\n\n\n\n\n\n\n\nGelman et al. (2013)"
   },
   {
     "objectID": "lectures/lecture-04.html#conjugacy",
@@ -1005,7 +767,7 @@
     "href": "lectures/lecture-04.html#using-historical-data",
     "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
     "section": "Using Historical Data",
-    "text": "Using Historical Data\n\nConsider global survey means (p_A = 0.26, p_B = 0.09, p_O = 0.65) (Mourant et al., 1976; Yamamoto, 2012).\nDirichlet prior: \\mathbf{\\alpha} = k (0.26, 0.09, 0.65)\nEffective sample size idea: acts like observing k allele draws before current data (2N alleles in sample).\nRelative weight vs data (here total alleles = 2N = 4256):\nk = 200 \\to prior weight \\approx 4.5\\% of total information.\nk = 1000 \\to prior weight \\approx 19.0\\% of total information."
+    "text": "Using Historical Data\n\nConsider global survey means (p_A = 0.26, p_B = 0.09, p_O = 0.65) (Mourant et al., 1976; Yamamoto et al., 2012).\nDirichlet prior: \\mathbf{\\alpha} = k (0.26, 0.09, 0.65)\nEffective sample size idea: acts like observing k allele draws before current data (2N alleles in sample).\nRelative weight vs data (here total alleles = 2N = 4256):\nk = 200 \\to prior weight \\approx 4.5\\% of total information.\nk = 1000 \\to prior weight \\approx 19.0\\% of total information."
   },
   {
     "objectID": "lectures/lecture-04.html#prior-shapes-marginal-densities",
@@ -1341,7 +1103,483 @@
     "href": "lectures/lecture-04.html#reference",
     "title": "Lecture 04: Population Structure and Bayesian Methods in Statistical Genetics",
     "section": "Reference",
-    "text": "Reference\n\n\n\n\nCarpenter,B. et al. (2017) Stan: A Probabilistic Programming Language. Journal of Statistical Software, 76, 1–32.\n\n\nGelman,A. (2013) Bayesian Data Analysis 3rd ed. CRC Press.\n\n\nKorunes,K.L. and Goldberg,A. (2021) Human genetic admixture. PLOS Genetics, 17, e1009374.\n\n\nMcElreath,R. (2020) Statistical rethinking: A Bayesian course with examples in R and Stan Second edition. CRC Press, Boca Raton.\n\n\nMourant,A.E. et al. (1976) The distribution of the human blood groups and other polymorphisms 2nd ed. Oxford University Press, London.\n\n\nYamamoto,F. (2012) ABO blood groups. Transfusion Medicine and Hemotherapy, 39, 213–220."
+    "text": "Reference\n\n\n\n\nCarpenter,B. et al. (2017) Stan: A probabilistic programming language. Journal of Statistical Software, 76, 1–32.\n\n\nGelman,A. et al. (2013) Bayesian data analysis 3rd ed. Chapman; Hall/CRC, Boca Raton, FL.\n\n\nKorunes,K.L. and Goldberg,A. (2021) Human genetic admixture. PLOS Genetics, 17, e1009374.\n\n\nMcElreath,R. (2020) Statistical rethinking: A bayesian course with examples in r and stan 2nd ed. Chapman; Hall/CRC, Boca Raton, FL.\n\n\nMourant,A.E. et al. (1976) The distribution of the human blood groups and other polymorphisms 2nd ed. Oxford University Press, London.\n\n\nYamamoto,F. et al. (2012) ABO research in the modern era of genomics. Transfusion Medicine Reviews, 26, 103–118."
+  },
+  {
+    "objectID": "syllabus.html",
+    "href": "syllabus.html",
+    "title": "Syllabus",
+    "section": "",
+    "text": "This graduate-level course builds a cohesive toolkit for analyzing complex genetic data, weaving together Mendelian and population-genetic principles, likelihood theory, and Bayesian inference with MCMC. Lectures progress from pedigree linkage and genome-wide association study (GWAS) design to population-structure correction, multiple-testing control, and genomic prediction using BLUP, penalized regressions, and non-parametric learners such as random forests and neural networks. Binary-trait modelling introduces logistic mixed models, AUC evaluation, and family-based tests, while hands-on R/Bioconductor labs guide students from Hardy–Weinberg simulations to full GWAS and polygenic-score pipelines. Weekly problem sets blend mathematical derivations with coding; a capstone project requires analyzing public whole-genome or single-cell data and presenting findings in a conference-style talk. By course end, participants can translate biological questions into formal statistical models, implement inference algorithms on high-dimensional data, control error rates in large-scale studies, and critically evaluate predictive models and their uncertainties.",
+    "crumbs": [
+      "Syllabus"
+    ]
+  },
+  {
+    "objectID": "syllabus.html#course-description",
+    "href": "syllabus.html#course-description",
+    "title": "Syllabus",
+    "section": "",
+    "text": "This graduate-level course builds a cohesive toolkit for analyzing complex genetic data, weaving together Mendelian and population-genetic principles, likelihood theory, and Bayesian inference with MCMC. Lectures progress from pedigree linkage and genome-wide association study (GWAS) design to population-structure correction, multiple-testing control, and genomic prediction using BLUP, penalized regressions, and non-parametric learners such as random forests and neural networks. Binary-trait modelling introduces logistic mixed models, AUC evaluation, and family-based tests, while hands-on R/Bioconductor labs guide students from Hardy–Weinberg simulations to full GWAS and polygenic-score pipelines. Weekly problem sets blend mathematical derivations with coding; a capstone project requires analyzing public whole-genome or single-cell data and presenting findings in a conference-style talk. By course end, participants can translate biological questions into formal statistical models, implement inference algorithms on high-dimensional data, control error rates in large-scale studies, and critically evaluate predictive models and their uncertainties.",
+    "crumbs": [
+      "Syllabus"
+    ]
+  },
+  {
+    "objectID": "syllabus.html#course-prerequisites",
+    "href": "syllabus.html#course-prerequisites",
+    "title": "Syllabus",
+    "section": "Course Prerequisites",
+    "text": "Course Prerequisites\n\nPUBH 6860: Principles of Bioinformatics",
+    "crumbs": [
+      "Syllabus"
+    ]
+  },
+  {
+    "objectID": "syllabus.html#course-learning-objectives",
+    "href": "syllabus.html#course-learning-objectives",
+    "title": "Syllabus",
+    "section": "Course Learning Objectives",
+    "text": "Course Learning Objectives\n\nAnalyze Mendelian, population-genetic, and demographic models to quantify inheritance patterns, linkage, association, and population structure in diverse organisms.\nApply likelihood, Bayesian, and Markov-chain Monte Carlo techniques to estimate parameters and test hypotheses in genome-scale datasets.\nEvaluate genome-wide association studies and genomic-prediction pipelines, controlling false-discovery rates and assessing prediction bias, variance, and uncertainty.\nSynthesize multi-source genomic, phenotypic, and environmental data into reproducible R/Bioconductor workflows that meet FAIR and open-science standards.\nDesign and implement statistical learning models-shrinkage regressions, mixed models, and non-parametric methods-to predict complex traits and interpret model performance in a biological context.",
+    "crumbs": [
+      "Syllabus"
+    ]
+  },
+  {
+    "objectID": "syllabus.html#textbooks",
+    "href": "syllabus.html#textbooks",
+    "title": "Syllabus",
+    "section": "Textbooks",
+    "text": "Textbooks\n\nRequired\n\nStatistical Learning in Genetics: An Introduction Using R, Daniel Sorensen, 2nd Edition (Available via the GWU Library)\n\n\n\nRecommended\n\nHandbook of Statistical Genomics, David J. Balding, Ida Moltke, John Marioni, 4th Edition (Available via the GWU Library)\nThe Fundamentals of Modern Statistical Genetics, Nan M. Laird and Christoph Lange, 1st Edition (Available via the GWU Library)",
+    "crumbs": [
+      "Syllabus"
+    ]
+  },
+  {
+    "objectID": "syllabus.html#technology-requirements",
+    "href": "syllabus.html#technology-requirements",
+    "title": "Syllabus",
+    "section": "Technology Requirements",
+    "text": "Technology Requirements\nStudents should have a desktop or laptop (Windows, macOS, or Linux) with at least 8 GB RAM, 20 GB free disk space, a reliable broadband connection (≥ 10 Mbps), and working webcam, microphone, and speakers or headphones for synchronous Zoom sessions. They must be able to navigate the university’s LMS through a modern web browser to download readings, submit assignments, and join discussion boards; install and update R (4.5 or newer), RStudio (or VS Code with the R extension), Bioconductor packages, Git, and Zoom; and use basic Git commands (clone, commit, push) to submit version-controlled lab work. We will use Zotero for file sharing and collaboration. Familiarity with screen sharing, breakout rooms, captioning, and recording in Zoom is expected. Optional but recommended tools include an SSH client or VPN for connecting to campus HPC resources and a PDF reader that supports annotation. All course materials follow WCAG 2.1 guidelines, and RStudio offers high-contrast and screen-reader modes; students who require further accommodations should contact Disability Services before the first week.",
+    "crumbs": [
+      "Syllabus"
+    ]
+  },
+  {
+    "objectID": "syllabus.html#assignments-and-descriptions",
+    "href": "syllabus.html#assignments-and-descriptions",
+    "title": "Syllabus",
+    "section": "Assignments and Descriptions",
+    "text": "Assignments and Descriptions\n\n\n\nAssignment Type\n% of total grade\n\n\n\n\nProblem Sets\n60\n\n\nClass participation (defined below)\n20\n\n\nResearch Project (Final Exam)\n20\n\n\n\n\nStandard SPH Graduate Grading Scale\n\nA: 94-100%\nA-: 90-93%\nB+: 87-89%\nB: 84-86%\nB-: 80-83%\nC+: 77-79%\nC: 73-76%\nC-: 70-72%\nF: Below 70%\n\n\n\nProblem Sets\nProblem sets are key to exploring the concepts introduced both in class and in the textbook. These are meant to provide an opportunity to more deeply understand concepts and put them into practice and provide an opportunity for data manipulation. This is part of the ‘lab’ component of the course and you will be given time in class to work on assignments and collaborate. However, these problem sets will take substantial time outside of class to complete, so please plan accordingly.\n\n\nResearch Project\nStudents will choose a unique project to work on for the final third of the semester. At the end of the semester, students will submit a written project report in the form of a scientific research paper. Students are strongly encouraged to work in groups of up to three on their projects, however such groups will be expected to make proportionally more substantial contributions with clearly delineated responsibilities for each member’s contributions. Projects should be based on a research topic related to statistical genetics, but can be computational, methodological, or applied in nature. The Lab write-ups will follow the standard form of a scientific paper to gain experience in writing. Specifically, we will follow the format of the journal Genetics, the leading journal in the field. The paper MUST BE BASED ON THE PRIMARY LITERATURE IN THE APPROPRIATE REFEREED SCIENTIFIC JOURNALS, and it should adhere to the following format:\n\nBegin the paper with an original title, followed by your name, the course, and the date. All papers should be typed, single-spaced, and in 12 pt. font.\nThe paper should have the following sections:\n\nIntroduction – here you state the general problem or issue you are addressing.\nMaterials and Methods – describe the methods used to obtain data, analyze data, and test hypotheses associated with the data.\nResults – describe the results of the data analysis and hypothesis testing.\nDiscussion – here you draw conclusions about the problem you studied; this section should include a synthesis of ideas.\nLiterature Cited – List the relevant literature you have read and used to support your arguments/analyze your data. The literature cited should be in the format of the journal Genetics.\n\n\nAspects of the project will be required throughout the course with a final research project submitted in the form of a research paper during finals. See course outline for due dates for each part of project.\n\n\nWorkload\nIn this course, you will be expected to spend 5 or more hours per week in independent learning which can include reviewing assigned material, preparing for class discussions, working on assignments, and group work. In addition, 1.5 hours per week will be spent in class computational lab and 4.5 hours working on asynchronous materials provided online. The total workload for this course will be at least 112.5 hours.\n\n\nClass Policy: Statistical Genetics is Interdisciplinary and Quantitative\nThis course is highly interdisciplinary, quantitative, and technical. We will discuss algorithms, concepts, and methods from biology, computer science, and statistics. You will be asked to learn about and apply technical concepts in areas that you may have limited familiarity with. In our experience, to succeed in this class, you will have to commit to repeatedly engaging with concepts to build understanding and refine your understanding through class discussions, outside reading, and homework assignments. Willingness to think quantitatively/probabilistically is required to succeed in this course. There are a diversity of talent sets in this class and you each bring something unique to the table. Collaborate and find someone with the skills they might share if you are lacking in a particular area. Building effective teams with broad skillsets is a hallmark of effective statistical genetics.\n\n\nClass Policy: Participation and Discussion\nTeaching and learning require a team effort. We expect you to show up to synchronous sessions (on time) and be prepared for discussions. This means, you have gone through the asynchronous material and started on the homework assignment (problem sets) and come to the synchronous session with questions. You are strongly encouraged to ask questions during synchronous session to help complete your homework assignments and share thoughts and progress on a research project. Statistical genetics is an exciting and broad area with no shortage of ethical and societal implications. We welcome your points of view and respectful discussion. We also strongly encourage cooperation among students to help in each other’s understanding of the material, but homework assignments must be your own work. We would greatly appreciate any feedback on any aspects of this course, both positive and negative!\n20% of your grade is ‘Participation’. This is both a quantitative assessment of your responses to asynchronous materials as well as participation in the live synchronous sessions. Statistical Genetics is a demanding discipline that requires students to think critically and utilize high-level analytical skills regarding complex issues. The discipline requires such mastery not only in well-articulated written work, but also in thoughtful discussions between and among students and instructors. Receiving full points for participation is not simply a matter of showing up and turning work in on time. Outstanding participation grades require truly thoughtful, insightful, and well-argued contributions and leadership in class and in asynchronous prompts that demonstrate a high level of mastery of the course material.\n\n\nClass Policy: Late Work\nLate work will be accepted but with a 1% deduction per hour for the first 5 hours up to 5% deduction per day for unexcused late homework submission. All homework will be due at 11:59 pm on the designated due date unless otherwise specified. Homework assignments (Problem Sets) will typically be distributed via blackboard with a week to complete each assignment.\n\n\nClass Policy: Make-up Work/Make-up Exams\nAny student who experiences significant family or personal illness or emergency after the final withdrawal date and is unable to complete course work should ask the instructor for an incomplete for the course. Each case will be managed on an individual basis. The Incomplete Policy must be followed as outlined in the GWSPH Student Handbook.\n\n\nClass Policy: Generative Artificial Intelligence (GAI)\nStudents are permitted to use GAI tools to generate outlines of scripts and papers to help get started, but we expect heavy editing (and commenting in code) subsequently done by the student to verify functionality and understanding of code and implications of research results. Students are permitted to use GAI for coding assignments to get started but must further comment, edit, and validate their code. Any use of GAI must be acknowledged in each assignment with details on the distinction between the GAI material and the student contribution for any given assignment along with details of the prompts supplied to the GAI tool, acknowledgement of the GAI tool including tool name and version. Note also the GW University Policy on GAI.",
+    "crumbs": [
+      "Syllabus"
+    ]
+  },
+  {
+    "objectID": "faq.html",
+    "href": "faq.html",
+    "title": "Frequently Asked Questions",
+    "section": "",
+    "text": "Office hours are held on Friday’s from 10am-12pm. You can book a 30 minute slot using this link. If you need to meet outside of these hours, please email me at chiraaggohel@gwu.edu.",
+    "crumbs": [
+      "FAQ"
+    ]
+  },
+  {
+    "objectID": "faq.html#office-hours",
+    "href": "faq.html#office-hours",
+    "title": "Frequently Asked Questions",
+    "section": "",
+    "text": "Office hours are held on Friday’s from 10am-12pm. You can book a 30 minute slot using this link. If you need to meet outside of these hours, please email me at chiraaggohel@gwu.edu.",
+    "crumbs": [
+      "FAQ"
+    ]
+  },
+  {
+    "objectID": "faq.html#course-location",
+    "href": "faq.html#course-location",
+    "title": "Frequently Asked Questions",
+    "section": "Course Location",
+    "text": "Course Location\nMilken SPH, 300C. The zoom link is available on Blackboard, and the Google Calendar invite.",
+    "crumbs": [
+      "FAQ"
+    ]
+  },
+  {
+    "objectID": "faq.html#the-required-paper-is-not-open-source-how-do-i-access-it",
+    "href": "faq.html#the-required-paper-is-not-open-source-how-do-i-access-it",
+    "title": "Frequently Asked Questions",
+    "section": "The required paper is not open source, how do I access it?",
+    "text": "The required paper is not open source, how do I access it?\nVia our shared Zotero library. If you don’t have access, please email chiraaggohel@gwu.edu to be added.",
+    "crumbs": [
+      "FAQ"
+    ]
+  },
+  {
+    "objectID": "assignments/assignment-02.html",
+    "href": "assignments/assignment-02.html",
+    "title": "Assignment 02",
+    "section": "",
+    "text": "Due before class on Wednesday, September 10th.\nRequirements:"
+  },
+  {
+    "objectID": "assignments/assignment-02.html#problem-1-missing-heritability-and-rare-variants-40-pts",
+    "href": "assignments/assignment-02.html#problem-1-missing-heritability-and-rare-variants-40-pts",
+    "title": "Assignment 02",
+    "section": "Problem 1: Missing Heritability and Rare Variants (40 pts)",
+    "text": "Problem 1: Missing Heritability and Rare Variants (40 pts)\nRecall (Young 2019): “The first challenge is one of precision. The information used to estimate heritability from rare variants by GREML-WGS comes from the variation in sharing of rare variants among distantly related pairs of individuals. However, distantly related individuals typically do not share any particular rare variant, so the variation in rare variant sharing is low. This means that large samples with high quality WGS data are required to obtain precise estimates, and such samples are not common yet. Based on the only existing application of GREML-WGS, a sample size of ~40,000 would produce estimates precise enough to be statistically distinguished from other heritability estimates. It is likely that this challenge will be overcome shortly, since samples of similar magnitude already exist.”\n\nAssume the probability that two distantly related individuals share a rare variant is p=0.001. Assume a sample size of n=40,000 individuals.\n\nCalculate the expected number of pairs of individuals in this sample who share a rare variant. How many total pairs of individuals exist in the sample?\nIf we estimate that rare variants contribute h^2_{\\text{rare}}=0.10 to heritability, calculate the standard error of this estimate given the sample size. Use the formula \\text{SE}(h^2) \\approx \\frac{2}{\\sqrt{n_{\\text{eff}}}}, where n_{\\text{eff}} is the effective number of independent observations (approximately the number of pairs sharing rare variants).\nCalculate a 95% confidence interval for the heritability estimate. Does this confidence interval allow us to distinguish between h^2_{\\text{rare}}=0.10 and h^2_{\\text{common}}=0.25\n\nBriefly explain in 2-3 sentences how the “missing heritability” problem relates to rare variants, and why larger samples with whole-genome sequencing may be needed to resolve this question."
+  },
+  {
+    "objectID": "assignments/assignment-02.html#problem-2-parentoffspring-regression-with-assortative-mating-40-pts",
+    "href": "assignments/assignment-02.html#problem-2-parentoffspring-regression-with-assortative-mating-40-pts",
+    "title": "Assignment 02",
+    "section": "Problem 2: Parent–offspring regression with assortative mating (40 pts)",
+    "text": "Problem 2: Parent–offspring regression with assortative mating (40 pts)\nLet Y=A+E with \\operatorname{Var}(A)=\\sigma_A^2, \\operatorname{Var}(E)=\\sigma_E^2, random environments, and phenotypic mate correlation \\operatorname{corr}(Y_{\\text{father}},Y_{\\text{mother}})=r_m.\n\nShow that \\operatorname{Var}(Y_{\\text{mid-parent}})=\\frac{1}{2}(1+r_m)\\operatorname{Var}(Y).\nGiven the regression slope \\beta=\\frac{\\operatorname{Cov}(Y_o,Y_{mp})}{\\operatorname{Var}(Y_{mp})}, show that \\beta \\;=\\; \\frac{\\sigma_A^2}{\\sigma_A^2+\\sigma_E^2}\\cdot\\frac{1}{1+r_m} \\;=\\; \\frac{h^2}{1+r_m}. Interpret the direction of bias in \\beta for r_m&gt;0.\nFor h^2=0.5, compute \\beta for r_m=0,0.1,0.3,0.5. Comment on the practical impact of assortative mating on parent–offspring regression."
+  },
+  {
+    "objectID": "assignments/assignment-02.html#problem-3-derivation-of-falconers-formula-from-the-ace-model-20-pts",
+    "href": "assignments/assignment-02.html#problem-3-derivation-of-falconers-formula-from-the-ace-model-20-pts",
+    "title": "Assignment 02",
+    "section": "Problem 3: Derivation of Falconer’s Formula from the ACE Model (20 pts)",
+    "text": "Problem 3: Derivation of Falconer’s Formula from the ACE Model (20 pts)\nBackground: The ACE model is a foundational tool in quantitative genetics for partitioning phenotypic variance (V_P) into three components: additive genetic effects (A), common or shared environmental effects (C), and unique or non-shared environmental effects (E). Under this model, the total variance is given by V_P = V_A + V_C + V_E.\nThe intraclass correlations for a trait between monozygotic (MZ) and dizygotic (DZ) twins are given by:\nr_{\\text{MZ}} = \\frac{\\operatorname{Cov}(Y_1, Y_2 \\mid \\text{MZ})}{V_P}\nr_{\\text{DZ}} = \\frac{\\operatorname{Cov}(Y_1, Y_2 \\mid \\text{DZ})}{V_P}\nAssume that:\n\nMating is random (no assortative mating).\nThere are no gene-environment interactions or correlations.\nThe equal environments assumption holds (MZ and DZ twins experience their shared environments to a similar degree).\nGenetic effects are purely additive (no dominance or epistasis).\n\nAssuming the ACE model, demonstrate that the narrow-sense heritability (h^2 = V_A/V_P) can be estimated as twice the difference between the MZ and DZ twin correlations.\nShow that:\nh^2 = 2(r_{\\text{MZ}} - r_{\\text{DZ}})"
+  },
+  {
+    "objectID": "assignments/assignment-04.html",
+    "href": "assignments/assignment-04.html",
+    "title": "Assignment 04",
+    "section": "",
+    "text": "Requirements\nA helpful vignette on using cmdstanr is available at https://mc-stan.org/cmdstanr/articles/cmdstanr.html."
+  },
+  {
+    "objectID": "assignments/assignment-04.html#problem-1-population-substructure-and-allele-frequency-estimation-30-pts",
+    "href": "assignments/assignment-04.html#problem-1-population-substructure-and-allele-frequency-estimation-30-pts",
+    "title": "Assignment 04",
+    "section": "Problem 1: Population Substructure and Allele Frequency Estimation (30 pts)",
+    "text": "Problem 1: Population Substructure and Allele Frequency Estimation (30 pts)\nLet there be n diploid individuals sampled at random from a population made of subpopulations k=1,\\dots,K. In subpopulation k, the allele A frequency is p_k, and let w_k be the fraction of sampled individuals from subpopulation k (\\sum_k w_k=1). The “global” allele frequency we want to estimate is the mixture average \np \\;=\\; \\sum_k w_k p_k.\n\nLet n_{AA}, n_{Aa}, n_{aa} be the counts of genotypes AA, Aa, aa in the sample of size n. The standard estimator of the allele frequency is \n\\hat{p} \\;=\\; \\frac{2n_{AA} + n_{Aa}}{2n}.\n\n(a) Show that in the presence of population substructure, \\hat{p} is unbiased.\nHint: Let D_i be the A-dosage for individual i (D_i\\in\\{0,1,2\\}). Under HWE within k, D_i\\mid Z_i=k\\sim \\mathrm{Bin}(2,p_k). Use LOTUS: \\mathbb E[D_i]=\\sum_k w_k\\mathbb E[D_i\\mid Z_i=k].\n(b) What is \\mathrm{Var}(\\hat{p}) under random mixture sampling (i.i.d. individuals from the mixture)? Assume each subpopulation is in HWE. Compare to the case with no substructure (K=1).\nHint: Use the law of total variance on D_i:\n\\mathrm{Var}(D_i)=\\mathbb E\\{\\mathrm{Var}(D_i\\mid Z)\\}+\\mathrm{Var}\\{\\mathbb E(D_i\\mid Z)\\}, with \\mathrm{Var}(D_i\\mid Z=k)=2p_k(1-p_k) and \\mathbb E(D_i\\mid Z=k)=2p_k.\nDefine\n\\begin{gather}\n\\bar p=\\sum_k w_k p_k \\\\\n\\mathrm{Var}_w(p_k)=\\sum_k w_k(p_k-\\bar p)^2,\n\\end{gather}\nand note \\mathbb E[p_k(1-p_k)]=\\bar p(1-\\bar p)-\\mathrm{Var}_w(p_k).\n(c) Now consider a stratified sample: take exactly n_k individuals from subpopulation k (\\sum_k n_k=n; write w_k=n_k/n). Maintain HWE within subpopulations. Derive \\mathrm{Var}(\\hat p) under this design and compare it to your answer in (b). State which design yields the larger variance, and by how much, in terms of \\mathrm{Var}_w(p_k).\nHint: Write \\hat p=\\sum_k w_k \\hat p_k with \\hat p_k=\\frac{1}{2n_k}\\sum_{i:Z_i=k} D_i. Use independence across strata and \\mathrm{Var}(\\hat p_k)=\\frac{p_k(1-p_k)}{2n_k}."
+  },
+  {
+    "objectID": "assignments/assignment-04.html#problem-2-population-substructure-ld-and-association-testing-40-pts",
+    "href": "assignments/assignment-04.html#problem-2-population-substructure-ld-and-association-testing-40-pts",
+    "title": "Assignment 04",
+    "section": "Problem 2: Population Substructure, LD, and Association Testing (40 pts)",
+    "text": "Problem 2: Population Substructure, LD, and Association Testing (40 pts)\nLet X be the genotype dosage (0/1/2 copies of the effect allele) at a tag SNP and X_c at a causal SNP. The causal SNP has effect size \\beta_c on quantitative trait Y. The observed effect from simple regression of Y on X is \\beta_{\\text{obs}}.\nConvenience (scaling): Work with standardized genotypes \n\\tilde X=\\frac{X-\\mathbb E[X]}{\\sqrt{\\mathrm{Var}(X)}},\\qquad\n\\tilde X_c=\\frac{X_c-\\mathbb E[X_c]}{\\sqrt{\\mathrm{Var}(X_c)}}.\n With this scaling, \\beta_{\\text{obs}}=r\\,\\beta_c exactly, where r=\\mathrm{Corr}(\\tilde X,\\tilde X_c)=\\mathrm{Corr}(X,X_c).\nAssume individuals are sampled i.i.d. from a mixture with \\Pr(Z=k)=w_k, \\sum_k w_k=1. Within each subpopulation k: - HWE holds at each locus, - LE (no within-k LD) holds between X and X_c.\nDefine\n\\begin{gather}\n\\bar p=\\sum_k w_k p_k,\\quad \\bar p_c=\\sum_k w_k p_{c,k} \\\\\n\\mathrm{Var}_w(p_k)=\\sum_k w_k(p_k-\\bar p)^2 \\\\\n\\mathrm{Cov}_w(p_k,p_{c,k})=\\sum_k w_k (p_k-\\bar p)(p_{c,k}-\\bar p_c)\n\\end{gather}\n\nPart A (10 pts): Correlation induced by population structure\nLet the allele frequencies at the tag and causal SNPs be p_k and p_{c,k} in subpopulation k. Show that \nr=\\frac{\\mathrm{Cov}(X,X_c)}{\\sqrt{\\mathrm{Var}(X)\\,\\mathrm{Var}(X_c)}},\n and express \\mathrm{Cov}(X,X_c), \\mathrm{Var}(X), and \\mathrm{Var}(X_c) in terms of \\{w_k,p_k,p_{c,k}\\}.\nHint: Law of total covariance:\n\\mathrm{Cov}(X,X_c)=\\mathbb E[\\mathrm{Cov}(X,X_c\\mid Z)]+\\mathrm{Cov}(\\mathbb E[X\\mid Z],\\mathbb E[X_c\\mid Z]). Under LE, the first term is 0. Use \\mathbb E[X\\mid Z=k]=2p_k.\n\n\nPart B (10 pts): Bias from ignoring structure in the trait\nSuppose population structure also affects the trait mean: \\mathbb E[Y\\mid Z=k]=\\mu_k. Consider the model Y=\\mu_Z+\\beta_c X_c+\\varepsilon with \\mathbb E[\\varepsilon]=0. Show that the naïve regression of Y on X (without structure covariates) is biased: \n\\hat\\beta_{\\text{naïve}}\n\\approx \\frac{\\beta_c\\,\\mathrm{Cov}(X,X_c)+\\mathrm{Cov}(X,\\mu_Z)}{\\mathrm{Var}(X)}\n= r\\,\\beta_c + \\underbrace{\\frac{\\mathrm{Cov}(X,\\mu_Z)}{\\mathrm{Var}(X)}}_{\\text{bias}}.\n Under the assumptions above, prove that \\mathrm{Cov}(X,\\mu_Z)=2\\,\\mathrm{Cov}_w(p_k,\\mu_k), and give the bias in terms of w_k,p_k,\\mu_k.\nHint: \\mathrm{Cov}(X,\\mu_Z)=\\mathrm{Cov}(\\mathbb E[X\\mid Z],\\mu_Z)=\\mathrm{Cov}(2p_Z,\\mu_Z).\n\n\nPart C (20 pts): Brief interpretation\nIn a few sentences each:\n\nExplain why r\\neq 0 can arise even if within each subpopulation there is no LD. What feature of the mixture induces it?\n\nGive a sign‑consistent example: if subpopulations with larger p_k also have larger \\mu_k, what is the expected direction of the naïve bias?\n\nName two standard strategies to mitigate both components of bias (structure‑induced r and trait mean differences) in practice."
+  },
+  {
+    "objectID": "assignments/assignment-04.html#problem-3-bayesian-analysis-30-pts",
+    "href": "assignments/assignment-04.html#problem-3-bayesian-analysis-30-pts",
+    "title": "Assignment 04",
+    "section": "Problem 3: Bayesian Analysis (30 pts)",
+    "text": "Problem 3: Bayesian Analysis (30 pts)\n\nPart A (10 pts): Beta–Binomial conjugacy\n\nWith prior \\mathrm{Beta}(4,18) and data x=11 successes out of n=27, write the posterior distribution for p.\n\nCompute the posterior mean and a central 95% credible interval in R using qbeta. Compare to the MLE \\hat p=11/27. Briefly interpret the shrinkage.\n\nSensitivity: repeat with priors \\mathrm{Beta}(1,1) and \\mathrm{Beta}(8,32). Summarize how the posterior mean and width change across priors, and why.\n\n\n\nPart B (10 pts): Beta–Binomial in Stan\n\nWrite a Stan model to estimate the allele frequency p from Binomial data with a \\mathrm{Beta}(4,18) prior. Use x=11, n=27.\n\nRun the model in R using cmdstanr. Check convergence and effective sample size; report \\hat R and bulk ESS for p.\n\nSummarize the posterior mean and a central 95% credible interval. Compare to your analytical result from Part A.\n\nYou will need to install cmdstanr and cmdstan if you haven’t already. Please follow installation instructions at https://mc-stan.org/cmdstanr/\nBoilerplate is provided below. You will need to set eval to TRUE to run the code when knitting the final document:\n\nlibrary(cmdstanr)\n\nstan_beta_binomial &lt;- \"\ndata {\n  int&lt;lower=0&gt; n;\n  int&lt;lower=0, upper=n&gt; x;\n  real&lt;lower=0&gt; a;\n  real&lt;lower=0&gt; b;\n}\nparameters {\n  real&lt;lower=0, upper=1&gt; p;\n}\nmodel {\n  // TODO: prior on p\n  // Example: p ~ beta(a, b);\n  // TODO: likelihood\n  // Example: x ~ binomial(n, p);\n}\ngenerated quantities {\n  real logit_p = logit(p);\n  int x_rep = binomial_rng(n, p);\n}\n\"\n\nlibrary(cmdstanr)\nset.seed(8878)\n\nwriteLines(stan_beta_binomial, con = \"beta_binomial.stan\")\nmod_bb &lt;- cmdstan_model(\"beta_binomial.stan\")\nfit_bb &lt;- mod_bb$sample(\n    data = list(n = 27, x = 11, a = 4, b = 18),\n    seed = 8878, chains = 4, parallel_chains = 4,\n    iter_warmup = 1000, iter_sampling = 1000\n)\n\n# TODO: check convergence and summarize posterior\n\n\n\nPart C (10 pts): ABO blood group frequencies in Stan (missing AB phenotype)\nWe observe phenotype counts in a population sample where AB individuals are not sampled:\n\nn_A = 725\n\nn_B = 258\n\nn_O = 1073\n\nUnder HWE with allele frequencies \\mathbf p=(p_A,p_B,p_O), the unconditional phenotype probabilities are \n\\Pr(A)=p_A^2 + 2p_A p_O,\\quad\n\\Pr(B)=p_B^2 + 2p_B p_O,\\quad\n\\Pr(AB)=2p_A p_B,\\quad\n\\Pr(O)=p_O^2.\n\nBecause AB is missing, the observed category probabilities are the renormalized values \nq_A=\\frac{\\Pr(A)}{1-\\Pr(AB)},\\quad\nq_B=\\frac{\\Pr(B)}{1-\\Pr(AB)},\\quad\nq_O=\\frac{\\Pr(O)}{1-\\Pr(AB)}.\n\n\nWrite a Stan model that estimates (p_A,p_B,p_O) with prior \\mathrm{Dirichlet}(1,1,1) and a Multinomial likelihood on (n_A,n_B,n_O) using (q_A,q_B,q_O).\n\nRun the model and check convergence (report \\hat R and ESS).\n\nPrior sensitivity: re‑run with \\boldsymbol\\alpha = k\\,(0.26,0.09,0.65) for k\\in\\{1,10,100\\}. Summarize how posterior means and credible intervals change with k, and why.\n\nBoilerplate is provided below:\n\nstan_abo_missing_ab &lt;- \"\ndata {\n  int&lt;lower=0&gt; n_A;\n  int&lt;lower=0&gt; n_B;\n  int&lt;lower=0&gt; n_O;\n  vector&lt;lower=0&gt;[3] alpha;\n}\ntransformed data {\n  int N = n_A + n_B + n_O;\n  int y[3] = { n_A, n_B, n_O };\n}\nparameters {\n  simplex[3] p;\n}\ntransformed parameters {\n  // Unconditional phenotype probabilities under HWE:\n  real PrA  = square(p[1]) + 2 * p[1] * p[3];\n  real PrB  = square(p[2]) + 2 * p[2] * p[3];\n  real PrAB = 2 * p[1] * p[2];\n  real PrO  = square(p[3]);\n\n  // Observed (AB excluded): renormalize by (1 - PrAB)\n  simplex[3] q;\n  {\n    real denom = 1 - PrAB;\n    q[1] = PrA / denom;\n    q[2] = PrB / denom;\n    q[3] = PrO / denom;\n  }\n}\nmodel {\n  // TODO: prior on allele frequencies\n  // Example: p ~ dirichlet(alpha);\n  // TODO: likelihood for observed counts\n  // Example: y ~ multinomial(q);\n}\ngenerated quantities {\n  // Unconditional phenotype probabilities (optional checks)\n  vector[4] phen_prob = [PrA, PrB, PrAB, PrO]';\n}\n\"\n\nset.seed(8878)\nwriteLines(stan_abo_missing_ab, con = \"abo_missing_ab.stan\")\nmod_abo &lt;- cmdstan_model(\"abo_missing_ab.stan\")\nfit_abo &lt;- mod_abo$sample(\n    data = list(n_A = 725, n_B = 258, n_O = 1073, alpha = c(1, 1, 1)),\n    seed = 8878, chains = 4, parallel_chains = 4,\n    iter_warmup = 1000, iter_sampling = 1000\n)"
+  },
+  {
+    "objectID": "assignments/assignment-03.html",
+    "href": "assignments/assignment-03.html",
+    "title": "Assignment 03",
+    "section": "",
+    "text": "Requirements:"
+  },
+  {
+    "objectID": "assignments/assignment-03.html#problem-1-em-for-abo-gene-frequencies-derivation-inference-and-sensitivity-25-pts",
+    "href": "assignments/assignment-03.html#problem-1-em-for-abo-gene-frequencies-derivation-inference-and-sensitivity-25-pts",
+    "title": "Assignment 03",
+    "section": "Problem 1: EM for ABO gene frequencies; derivation, inference, and sensitivity (25 pts)",
+    "text": "Problem 1: EM for ABO gene frequencies; derivation, inference, and sensitivity (25 pts)\n\nPart A (15 pts)\nConsider phenotype counts from the ABO system under Hardy–Weinberg equilibrium (HWE): n_A, n_{AB}, n_B, n_O with total N. Let genotype frequencies be p_A^2, 2p_Ap_O, 2p_Ap_B, p_B^2, 2p_Bp_O, p_O^2 and p_O = 1 - p_A - p_B.\nDerive the EM updates shown in lecture. Specifically, show that the E‑step allocations for A and B phenotypes are\n\n\\tilde n_{AA} = n_A \\dfrac{p_A^2}{p_A^2 + 2p_Ap_O}\n\n\n\\tilde n_{AO} = n_A \\dfrac{2p_Ap_O}{p_A^2 + 2p_Ap_O}\n\nand similarly for BB, BO, and that the M‑step is \np_A^{(t+1)}=\\frac{2\\tilde n_{AA}+\\tilde n_{AO}+n_{AB}}{2N}\n \np_B^{(t+1)}=\\frac{2\\tilde n_{BB}+\\tilde n_{BO}+n_{AB}}{2N}\n \np_O^{(t+1)}=1-p_A^{(t+1)}-p_B^{(t+1)}\n\nHint (how to derive EM generally):\n\nChoose latent variables so the complete data are simple. Here, treat latent genotype counts, \n(n_{AA}, n_{AO}, n_{AB}, n_{BB}, n_{BO}, n_{OO})\n\n\nas missing, with only phenotype totals observed.\n\nWrite the complete‑data log‑likelihood\n\n\\begin{align*}\n\\ell_c(p_A,p_B) =\n& n_{AA}\\log p_A^2 + n_{AO}\\log(2p_Ap_O) + n_{AB}\\log(2p_Ap_B) + \\\\\n& n_{BB}\\log p_B^2 + n_{BO}\\log(2p_Bp_O) + n_{OO}\\log p_O^2\n\\end{align*}\nusing p_O=1-p_A-p_B.\n\nE‑step: replace latent counts by their conditional expectations given the observed phenotypes under current parameters, e.g., for phenotype A, and form Q(p\\,|\\,p^{(t)}) = \\mathbb E[\\ell_c(p)\\mid\\text{data}, p^{(t)}].\nM‑step: M-step: Maximize Q(p|p^{(t)}) subject to p_A + p_B + p_O = 1. Hint: Consider rewriting the objective in terms of allele counts rather than genotype counts.\n\n\n\nPart B (10 pts)\nConsider two biallelic SNPs with haplotypes \\{ab, aB, Ab, AB\\} under HWE and unphased genotypes (g_1,g_2)\\in\\{0,1,2\\}^2. Note that (ab, ab) yields (0,0), (ab, aB) or (ab, Ab) yields (0,1), (AB, AB) yields (2,2), etc.\nShow that if every observed genotype is (1,1), then P\\{(1,1)\\}=2\\,\\big(p_{ab}p_{AB}+p_{aB}p_{Ab}\\big) and the likelihood depends only on the cross‑sum S=p_{ab}p_{AB}+p_{aB}p_{Ab} (a ridge; parameters not identifiable)."
+  },
+  {
+    "objectID": "assignments/assignment-03.html#problem-2-twopoint-linkage-lod-and-support-intervals-25-pts",
+    "href": "assignments/assignment-03.html#problem-2-twopoint-linkage-lod-and-support-intervals-25-pts",
+    "title": "Assignment 03",
+    "section": "Problem 2: Two‑point linkage — LOD and support intervals (25 pts)",
+    "text": "Problem 2: Two‑point linkage — LOD and support intervals (25 pts)\nSuppose one heterozygous transmitting parent (A/a and B/b) is crossed to an aabb mate, yielding child haplotype counts (n_{AB}, n_{Ab}, n_{aB}, n_{ab}). Let n_{\\text{NR}}=n_{AB}+n_{ab} and n_{\\text{R}}=n_{Ab}+n_{aB}.\n\nPart A: LOD from counts (10 pts).\nShow that for a given recombination fraction \\theta\\in(0,0.5) the two‑point LOD relative to independence (\\theta=0.5) is \n\\mathrm{LOD}(\\theta)\n= \\log_{10}\\!\\left\\{ \\frac{\\theta^{\\,n_{\\text{R}}} (1-\\theta)^{\\,n_{\\text{NR}}}}{0.5^{\\,n_{\\text{R}}+n_{\\text{NR}}}} \\right\\}.\n\nDerive the MLE \\hat\\theta and show it equals n_{\\text{R}}/(n_{\\text{R}}+n_{\\text{NR}}) when 0&lt;\\hat\\theta&lt;0.5.\n\n\nPart B: Unknown phase and LD‑informed LOD (15 pts)\nA heterozygous transmitting parent (A/a,\\;B/b) has unknown phase: either coupling (AB/ab) or repulsion (Ab/aB). Let \nn_{\\mathrm{NR}} = n_{AB}+n_{ab},\\qquad\nn_{\\mathrm{R}}  = n_{Ab}+n_{aB},\\qquad\nN=n_{\\mathrm{NR}}+n_{\\mathrm{R}}.\n\nLet w=\\Pr\\{\\text{coupling }(AB/ab)\\} and 1-w=\\Pr\\{\\text{repulsion }(Ab/aB)\\}.\n(i) Mixture likelihood (5 pts).\nShow that with unknown phase the observed‑data likelihood is a mixture of the two phase‑specific binomial likelihoods: \nL(\\theta; w)\n= w\\,(1-\\theta)^{\\,n_{\\mathrm{NR}}}\\,\\theta^{\\,n_{\\mathrm{R}}}\n\\;+\\;\n(1-w)\\,(1-\\theta)^{\\,n_{\\mathrm{R}}}\\,\\theta^{\\,n_{\\mathrm{NR}}}.\n Hence the two‑point LOD relative to independence (\\theta=0.5) is \n\\mathrm{LOD}(\\theta; w)\n= \\log_{10}\\!\\left\\{\n\\frac{w\\,(1-\\theta)^{\\,n_{\\mathrm{NR}}}\\theta^{\\,n_{\\mathrm{R}}}\n+(1-w)\\,(1-\\theta)^{\\,n_{\\mathrm{R}}}\\theta^{\\,n_{\\mathrm{NR}}}}\n{0.5^{\\,N}}\n\\right\\}.\n\n(ii) Linking LD to w (5 pts).\nLet population haplotype frequencies be p=(p_{ab}, p_{aB}, p_{Ab}, p_{AB}) (sum to 1).\nCondition on the parent being the double heterozygote (g_1,g_2)=(1,1). Use Bayes’ rule to show \nw\n= \\Pr\\{(ab,AB)\\mid(1,1)\\}\n= \\frac{p_{ab}\\,p_{AB}}{p_{ab}\\,p_{AB}+p_{aB}\\,p_{Ab}},\n\n\n1-w\n= \\frac{p_{aB}\\,p_{Ab}}{p_{ab}\\,p_{AB}+p_{aB}\\,p_{Ab}}.\n\nDefine D = p_{ab}p_{AB}-p_{aB}p_{Ab} and note that \\operatorname{sign}(D) indicates whether coupling (D&gt;0) or repulsion (D&lt;0) phase is a priori more likely.\n(iii) Quick numerical check (5 pts).\nTake p^\\star=(0.40,\\,0.10,\\,0.25,\\,0.25).\nCompute w and 1-w. Then, using the example counts (n_{AB}, n_{Ab}, n_{aB}, n_{ab})=(18, 5, 4, 17) (so N=44, n_{\\mathrm{R}}=9, n_{\\mathrm{NR}}=35), evaluate and compare \\mathrm{LOD}(\\hat\\theta; w=\\tfrac12) versus \\mathrm{LOD}(\\hat\\theta; w) at \\hat\\theta = n_{\\mathrm{R}}/N.\nBriefly explain (one sentence) how LD information (w\\neq\\tfrac12) can increase or decrease the peak LOD when phase is unknown."
+  },
+  {
+    "objectID": "assignments/assignment-03.html#problem-3-twosnp-haplotype-em-and-ld-measures-25-pts",
+    "href": "assignments/assignment-03.html#problem-3-twosnp-haplotype-em-and-ld-measures-25-pts",
+    "title": "Assignment 03",
+    "section": "Problem 3: Two‑SNP haplotype EM and LD measures (25 pts)",
+    "text": "Problem 3: Two‑SNP haplotype EM and LD measures (25 pts)\n\nPart A (10 pts)\nFor two biallelic SNPs with haplotypes \\{ab, aB, Ab, AB\\} at frequencies \\{p_{ab},p_{aB},p_{Ab},p_{AB}\\} (summing to 1), enumerate the possible haplotype pairs consistent with each unphased genotype (g_1,g_2)\\in\\{0,1,2\\}^2.\nShow that only (g_1,g_2)=(1,1) is ambiguous with two possible pairs: (ab,AB) and (aB,Ab).\n\n\nPart B (10 pts)\nSimulate N=1000 individuals from true haplotype frequencies p^{\\star}=(0.40,0.10,0.25,0.25) and estimate \\hat p via EM from a uniform start. Report \\hat p and absolute errors |\\hat p - p^{\\star}|.\nNote that the E‑step weights for (1,1) are proportional to p_{ab}p_{AB} and p_{aB}p_{Ab}, and the M‑step update is p^{(t+1)}=\\text{(expected hap counts)}/(2N).\nHere is a sample R code snippet to get you started:\n\nset.seed(8878)\n\nN &lt;- 1000\np_true &lt;- c(ab = 0.40, aB = 0.10, Ab = 0.25, AB = 0.25)\n\n# helper: draw N unordered haplotype pairs, then make unphased genotypes (g1,g2)\ndraw_genotypes &lt;- function(N, p) {\n    # code haplotypes to allele counts (B allele) at SNP1, SNP2\n    H &lt;- rbind(ab = c(0, 0), aB = c(0, 1), Ab = c(1, 0), AB = c(1, 1))\n    hap1 &lt;- sample(rownames(H), size = N, replace = TRUE, prob = p)\n    hap2 &lt;- sample(rownames(H), size = N, replace = TRUE, prob = p)\n    G &lt;- H[hap1, ] + H[hap2, ] # N x 2 matrix with entries in {0,1,2}\n    as.data.frame(G) |&gt;\n        setNames(c(\"g1\", \"g2\"))\n}\n\n# simulate data\ndat &lt;- draw_genotypes(N, p_true)\n\n\n\nPart C (5 pts)\nCompute D = p_{11} - p_{B1}p_{B2} with p_{11}=p_{AB}, p_{B1}=p_{Ab}+p_{AB}, p_{B2}=p_{aB}+p_{AB}. Report D and r^2 = D^2/(p_{B1}(1-p_{B1})p_{B2}(1-p_{B2})). Comment on how LD would affect single‑marker association at either SNP."
+  },
+  {
+    "objectID": "assignments/assignment-03.html#problem-4-singlemarker-association-with-qc-and-ld-attenuation-25-pts",
+    "href": "assignments/assignment-03.html#problem-4-singlemarker-association-with-qc-and-ld-attenuation-25-pts",
+    "title": "Assignment 03",
+    "section": "Problem 4: Single‑marker association with QC and LD attenuation (25 pts)",
+    "text": "Problem 4: Single‑marker association with QC and LD attenuation (25 pts)\nSimulate n=2000 unrelated individuals. Let a causal biallelic SNP C have MAF 0.30 and generate a quantitative trait Y with additive effect size \\beta_C=0.50 (per allele) and noise \\epsilon\\sim\\mathcal N(0,1). Let a tag SNP T be in LD with C such that r=\\operatorname{corr}(G_C,G_T)=0.8 and both are in HWE. Let T have MAF 0.30.\n\nPart A (15 pts)\nGenerate (G_C,G_T,Y) by first simulating haplotypes for (C,T) with a chosen LD structure that yields r\\approx 0.8, then form genotypes and Y=\\beta_C G_C + \\epsilon. Fit simple linear models Y\\sim G_C and Y\\sim G_T and report \\hat\\beta_C and \\hat\\beta_T, alongside their 95\\% confidence intervals.\n\n\nPart B (10 pts)\nIntroduce a basic QC step: test HWE in the controls of a case–control subsample formed by thresholding Y at its 80th percentile to define cases (cases are the top 20% of Y). Compute an exact or \\chi^2 HWE p‑value in controls for T; state whether you would flag T using a threshold of 10^{-6} and why QC is typically done in controls only."
+  },
+  {
+    "objectID": "assignments/assignment-01.html",
+    "href": "assignments/assignment-01.html",
+    "title": "Assignment 01",
+    "section": "",
+    "text": "Make a Zotero account using the guide here. Make sure you use your GW email address, as this will provide unlimited cloud storage for PDFs. Once you have created your account, email chiraaggohel@gwu.edu your username.\n(Laird, 2.4) How many genotypes are possible with a 3-allele marker? With K alleles?\n(Laird, 2.6) Consider a recessive Mendelian disease, where in the population, P(\\text{an individual has 2 disease variants}) = 0.000001.\n\nWhat is the probability that a randomly selected person is affected? Suppose that the randomly selected person is affected. What does that imply about the probability that their sibling is also affected (you can assume that having either one or two parents with two variants is so rare that you can ignore them)?\nNow answer both of these questions assuming the penetrance is only \\frac{1}{2}, i.e., P(\\text{disease} | 2 \\text{ variants}) = \\frac{1}{2}, but the phenocopy rate is still zero.\n\nConsider a sample size of n of unrelated haploid individuals is obtained from some population with the objective of estimating allele frequency at a biallelic locus. The sample contains x copies of A, and n-x copies of a.\n\nPlot the probability distribution of X given n = 30, and \\theta = .1. Plot the probability distribution of X given n = 1000, and \\theta = .1.\nLets say we observed 30 samples, with 10 copies of allele A. Plot the likelihood function for \\theta\nWhat is the MLE of \\theta?\nLet’s say n = 1000, and x = 100. What is the sampling variance of \\hat{\\theta}?\nLet’s say n = 100, and x = 10. What is the sampling variance of \\hat{\\theta}? Why is this different than the result above?\n\nRefer to equations (1.3) and (1.5) in Sorensen. Say you observe 8 individuals, and 1 copies of genotype X. Assume that X \\sim \\textsf{Binom}(n, \\theta).\n\n\nCompute \\hat{\\theta}\nCompute \\hat{\\text{Var}}(\\hat{\\theta})\nProvide a 95% Wald confidence interval for \\theta\nWrite an interpretation of this confidence interval. What problem does this reveal about the Wald confidence interval?\nCompute a 95% Wilson confidence interval for \\theta. Documentation for this can be found here. Hint: you will need the fastR2 package.\n\n\nRefer to slides 13 and 14 in lecture 1. Write a one to two sentence answer for how a researcher would try to answer each question.\nWhat is your math background? What is your programming background?"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Schedule",
+    "section": "",
+    "text": "Article links direct to files hosted on the Zotero group library\n\n\n\nWeek\nLecture\nReadings\nAssignment\n\n\n\n\n1\nFoundations: Mendelian genetics & statistical basics\nMendel’s laws, Hardy–Weinberg equilibrium, \\(\\chi^2\\)goodness‑of‑fit. Sampling distributions; linking population parameters to sample estimates. One‑locus likelihood: building and interpreting likelihood functions.\n\nSorensen Chapter 1\nEdwards, A. W. F. (2008), “G. H. Hardy (1908) and Hardy–Weinberg Equilibrium,” Genetics.\nIntroduction to Probability Theory\n\nProblem Set 01\n\n\n2\nHeritability, segregation, and the gene-mapping toolkit\nNarrow and broad sense heritability; variance-component interpretation. Segregation analysis and modelling genetic inheritance without marker data.\n\nSorensen Chapter 2.1-2.2, 2.4, 2.8\nVisscher, P. M., et al., (2008), “Heritability in the genomics era — concepts and misconceptions,” Nature Reviews Genetics.\n\nProblem Set 02\n\n\n3\nLikelihood algorithms & practical gene mapping\nNewton-Raphson, EM, and stochastic gradient algorithms for complex likelihoods. Pedigree linkage analysis, LOD-score calculation, and missing-data EM steps. Single-marker and haplotype association tests with basic quality control\n\nSorensen, Chapter 3\nLander, E. S., and Green, P. (1987), “Construction of multilocus genetic linkage maps in humans.,” Proceedings of the National Academy of Sciences of the United States of America.\n\nProblem Set 03\n\n\n4\nPopulation structure & Bayesian fundamentals\nDetecting and correcting for population stratification and admixture confounding. Priors, posteriors, and the Bayes-frequentist debate in genetic inference. Bayesian admixture/STRUCTURE-style modelling implemented in Stan.\n\nSorensen 4.1-4.5, 4.7-4.8, 5.1\nPorras-Hurtado, L. et al., (2013), “An overview of STRUCTURE: applications, parameter settings, and supporting software,” Frontiers in Genetics.\nLawson, D. J. et al., (2018), “A tutorial on how not to over-interpret STRUCTURE and ADMIXTURE bar plots,” Nature Communications.\n\nProblem Set 04\n\n\n5\nGWAS at Scale\nEnd to end GWAS workflow: sample QC, variant QC, power, pitfalls. Linear mixed models (BOLT LMM/REML concepts) and SAIGE for imbalance/relatedness. Fixed/random effects meta-analysis; genomic inflation and calibration.\n\nLoh, P.-R. et al., (2015), “Efficient Bayesian mixed model analysis increases association power in large cohorts,” Nature Genetics.\n\n\n\n\n6\nPrediction models in genetics\n\nSorensen Chapters 6, 7.1-7.2, 10.1, 10.5, 11.3-11.5\nWu, T. T., Chen, Y. F., Hastie, T., Sobel, E., and Lange, K. (2009), “Genome-wide association analysis by lasso penalized logistic regression,” Bioinformatics, 25, 714–721. https://doi.org/10.1093/bioinformatics/btp041.\n\n\n\n\n7\nMultiple testing & false-discovery control\n\nSorensen Chapter 8\nOtani, T., Noma, H., Nishino, J., and Matsui, S. (2018), “Re-assessment of multiple testing strategies for more efficient genome-wide association studies,” European Journal of Human Genetics, Nature Publishing Group, 26, 1038–1048. https://doi.org/10.1038/s41431-018-0125-3.\n\n\n\n\n8\nBinary traits and family-based association tests\n\nSorensen Chapter 9\nZhou, W., Bi, W., Zhao, Z., Dey, K. K., Jagadeesh, K. A., Karczewski, K. J., Daly, M. J., Neale, B. M., and Lee, S. (2022), “SAIGE-GENE+ improves the efficiency and accuracy of set-based rare variant association tests,” Nature Genetics, Nature Publishing Group, 54, 1466–1469. https://doi.org/10.1038/s41588-022-01178-w.\n\n\n\n\n9\nCausal inference & functional integration (Mendelian randomization)\n\nSanderson, E., Glymour, M. M., Holmes, M. V., Kang, H., Morrison, J., Munafò, M. R., Palmer, T., Schooling, C. M., Wallace, C., Zhao, Q., and Davey Smith, G. (2022), “Mendelian randomization,” Nature Reviews Methods Primers, 2, 1–21. https://doi.org/10.1038/s43586-021-00092-5.\n\n\n\n\n10\nAdvanced AI Topics in Statistical Genetics: Language Models for Genomics\nRecommended:\n\nJi et al., 2021\nAvsec et al., 2021\nCheng et al., 2023\nBaghbanzadeh et al., 2025\nMollerus et al., 2025",
+    "crumbs": [
+      "Schedule"
+    ]
+  },
+  {
+    "objectID": "links.html",
+    "href": "links.html",
+    "title": "Helpful Links",
+    "section": "",
+    "text": "Linear Algebra Primer\nProbability Primer\nStatistical Inference Primer\nStatistics Cheatsheet\nEM Algorithm Video",
+    "crumbs": [
+      "Useful Links"
+    ]
+  },
+  {
+    "objectID": "links.html#mathematical-resources",
+    "href": "links.html#mathematical-resources",
+    "title": "Helpful Links",
+    "section": "",
+    "text": "Linear Algebra Primer\nProbability Primer\nStatistical Inference Primer\nStatistics Cheatsheet\nEM Algorithm Video",
+    "crumbs": [
+      "Useful Links"
+    ]
+  },
+  {
+    "objectID": "lectures/lecture-05.html",
+    "href": "lectures/lecture-05.html",
+    "title": "Lecture 05: GWAS in R",
+    "section": "",
+    "text": "This session walks through a minimal GWAS workflow in R using SNPRelate and GENESIS. There exist many tools for GWAS, including PLINK, BOLT-LMM, REGENIE, SAIGE, and others. Here, we focus on GENESIS to illustrate the key steps.\nWe work with a small example GDS bundled with GENESIS to keep runtime short while illustrating the full pipeline:\n\nQuality control (variant- and sample‑level)\nLD pruning for structure/relatedness tasks\nRelatedness (KING‑robust) and population structure (PC‑AiR)\nNull model fitting (linear mixed model)\nSingle‑variant association and diagnostics (QQ, λGC)"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#overview",
+    "href": "lectures/lecture-05.html#overview",
+    "title": "Lecture 05: GWAS in R",
+    "section": "",
+    "text": "This session walks through a minimal GWAS workflow in R using SNPRelate and GENESIS. There exist many tools for GWAS, including PLINK, BOLT-LMM, REGENIE, SAIGE, and others. Here, we focus on GENESIS to illustrate the key steps.\nWe work with a small example GDS bundled with GENESIS to keep runtime short while illustrating the full pipeline:\n\nQuality control (variant- and sample‑level)\nLD pruning for structure/relatedness tasks\nRelatedness (KING‑robust) and population structure (PC‑AiR)\nNull model fitting (linear mixed model)\nSingle‑variant association and diagnostics (QQ, λGC)"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#setup",
+    "href": "lectures/lecture-05.html#setup",
+    "title": "Lecture 05: GWAS in R",
+    "section": "Setup",
+    "text": "Setup\n\n1library(SNPRelate)\n2library(GENESIS)\n3library(GWASTools)\n4library(qqman)\nlibrary(ggplot2)\nlibrary(dplyr)\nlibrary(readr)\nset.seed(8878)\n\n\n1\n\nSNPRelate (Zheng et al., 2012) for GDS file handling and genotype data management (Zheng et al., 2012)\n\n2\n\nGENESIS for genome-wide association analysis and relatedness estimation (Manichaikul et al., 2010; Conomos et al., 2015)\n\n3\n\nGWASTools for genotype data management and quality control\n\n4\n\nqqman for creating Q-Q and Manhattan plots"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-1-accessing-and-loading-data",
+    "href": "lectures/lecture-05.html#step-1-accessing-and-loading-data",
+    "title": "Lecture 05: GWAS in R",
+    "section": "Step 1: Accessing and Loading Data",
+    "text": "Step 1: Accessing and Loading Data\n\nHapMap 3\n\nHapMap3 is an integrated reference of common and low-frequency alleles. The project genotyped 1.6 million common SNPs in 1,184 reference individuals from 11 global populations. (The International HapMap 3 Consortium, 2010)\nThe project mapped linkage disequilibrium (LD) patterns used for tag‑SNP selection and served as an early imputation reference. (The International HapMap 3 Consortium, 2010; The International HapMap Consortium, 2005)\nHere, we will use a small subset from ASW (African ancestry in the Southwest USA) and MXL (Mexican ancestry in Los Angeles) samples\n\n\n1gdsfile &lt;- system.file(\"extdata\", \"HapMap_ASW_MXL_geno.gds\", package = \"GENESIS\")\n\n2g &lt;- SNPRelate::snpgdsOpen(gdsfile)\n\n3samp.id &lt;- read.gdsn(index.gdsn(g, \"sample.id\"))\nsnp.id &lt;- read.gdsn(index.gdsn(g, \"snp.id\"))\nchr &lt;- read.gdsn(index.gdsn(g, \"snp.chromosome\"))\npos &lt;- read.gdsn(index.gdsn(g, \"snp.position\"))\n\n\n1\n\nLocate the example GDS file included with the GENESIS package\n\n2\n\nOpen the GDS file for random access to genotype data\n\n3\n\nRead sample IDs, SNP IDs, chromosome numbers, and positions from the GDS file\n\n\n\n\nWe can also download the associated metadata\n\nmetadata &lt;- readr::read_tsv(\"https://ftp.ncbi.nlm.nih.gov/hapmap/genotypes/hapmap3_r3/relationships_w_pops_041510.txt\", show_col_types = FALSE)\nhead(metadata)\n\n# A tibble: 6 × 7\n  FID   IID     dad     mom       sex pheno population\n  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;     \n1 2427  NA19919 NA19908 NA19909     1     0 ASW       \n2 2431  NA19916 0       0           1     0 ASW       \n3 2424  NA19835 0       0           2     0 ASW       \n4 2469  NA20282 0       0           2     0 ASW       \n5 2368  NA19703 0       0           1     0 ASW       \n6 2425  NA19902 NA19900 NA19901     2     0 ASW       \n\n\n\nmetadata |&gt;\n    mutate(population = case_when(population == \"MEX\" ~ \"MXL\", \n    TRUE ~ population))\n\n# A tibble: 1,397 × 7\n   FID   IID     dad     mom       sex pheno population\n   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;     \n 1 2427  NA19919 NA19908 NA19909     1     0 ASW       \n 2 2431  NA19916 0       0           1     0 ASW       \n 3 2424  NA19835 0       0           2     0 ASW       \n 4 2469  NA20282 0       0           2     0 ASW       \n 5 2368  NA19703 0       0           1     0 ASW       \n 6 2425  NA19902 NA19900 NA19901     2     0 ASW       \n 7 2425  NA19901 0       0           2     0 ASW       \n 8 2427  NA19908 0       0           1     0 ASW       \n 9 2430  NA19914 0       0           2     0 ASW       \n10 2470  NA20287 0       0           2     0 ASW       \n# ℹ 1,387 more rows"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-2-pre-modeling-qc",
+    "href": "lectures/lecture-05.html#step-2-pre-modeling-qc",
+    "title": "Lecture 05: GWAS in R",
+    "section": "Step 2: Pre-Modeling QC",
+    "text": "Step 2: Pre-Modeling QC\n\nGenotype quality control\n\nFiltering for minor allele frequency (MAF)\n\nSNP-chips often determine genotypes based on intensities for each allele\nWhen MAF is low, genotype clusters can overlap, leading to genotyping errors\n\n\n\n\n\n\n\n\n\n\nWe can compute various statistics regarding allele frequency using snpgdsSNPRateFreq\n\naf &lt;- snpgdsSNPRateFreq(g)\nstr(af)\nmaf &lt;- af$MinorFreq\n\nList of 3\n $ AlleleFreq : num [1:20000] 0.39 0.494 0.101 0.486 0.445 ...\n $ MinorFreq  : num [1:20000] 0.39 0.494 0.101 0.486 0.445 ...\n $ MissingRate: num [1:20000] 0 0 0 0 0.00578 ...\n\n\nWe can see that af contains both minor allele frequency and missing rate per SNP.\n\ndata.frame(maf = maf) |&gt;\n    mutate(maf_le05 = maf &lt; 0.05) |&gt;\n    ggplot(aes(x = maf, fill = maf_le05)) +\n    geom_histogram(binwidth = 0.01, color = \"black\") +\n    geom_vline(xintercept = c(0.05), linetype = \"dashed\", color = \"red\") +\n    theme_minimal() +\n    viridis::scale_fill_viridis(discrete = TRUE, end = .9, begin = .2) +\n    labs(fill = \"MAF &lt; .05\")\n\n\n\n\n\n\n\n\n\n\nVariant missingness\n\nMissingness can indicate genotyping errors or batch effects\nMissingness can be non-random with respect to phenotype or ancestry\nTypically filter variants with &gt; 2% missingness\nWe can use the missingness results from our af object\nAdditionally, we can retrieve the genotype matrix itself, and manually compute the rate per SNP\n\n\nG &lt;- snpgdsGetGeno(g, with.id = TRUE)\n\nGenotype matrix: 20000 SNPs X 173 samples\n\ngeno_mat &lt;- G$genotype\ndim(geno_mat)\n\n[1] 20000   173\n\n\nIndexing in R goes rows-by-columns. So, For geno_mat, the SNPs are rows and the samples are columns. We can inspect subset of the matrix:\n\ngeno_mat[10:20, 1:10]\n\n      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]\n [1,]    2    0    0    1    0    1    0    1    2     0\n [2,]    0    1    1    1    1    0    0    0    2     0\n [3,]    1    1    1    1    0    0    1    0    2     1\n [4,]    0    0    0    0    0    0    0    0    0     1\n [5,]    0    0    0    0    0    0    0    0    0     0\n [6,]    1    0    1    1    0    0    0    2    1     0\n [7,]    2    1    1    1    0    0    0    2    0     1\n [8,]    0    0    0    0    1    1    0    0    2     0\n [9,]    1    0    0   NA    0    1    0    2    0     0\n[10,]    1    1    0    1    1    1    1    0    0     0\n[11,]    1    0    1    0    1    1    0    2    1     0\n\n\nSNPRelate allows for four possible values stored in the genotype matrix: 0, 1, 2, 3. Consider a bi-allelic SNP site with possible alleles A and B.\n\n0 indicates BB\n1 indicates AB\n2 indicates AA\n3 indicates a missing genotype\n\nFor multi-allelic sites, it is a count of the reference allele.\n\nmiss_var_manual &lt;- rowMeans(is.na(geno_mat))\nmiss_var &lt;- af$MissingRate \nidentical(miss_var, miss_var_manual)\n\n[1] TRUE\n\n\n\ndata.frame(miss_var = miss_var) |&gt;\n    mutate(miss_var_gt02 = miss_var &gt; 0.02) |&gt;\n    ggplot(aes(x = miss_var, fill = miss_var_gt02)) +\n    geom_histogram(binwidth = 0.001, color = \"black\") +\n    geom_vline(xintercept = c(0.02), linetype = \"dashed\", color = \"red\") +\n    theme_minimal() +\n    viridis::scale_fill_viridis(discrete = TRUE, end = .9, begin = .2) +\n    labs(fill = \"Missing &gt; .02\")\n\n\n\n\n\n\n\n\n\n\n\nSample-level missingness & heterozygosity\n\nSamples with high missingness may have poor DNA quality or technical issues\nSamples with extreme heterozygosity rates may be contaminated or mislabelled\n\n\nsamp_miss &lt;- snpgdsSampMissRate(g)\n\ndata.frame(samp_miss = samp_miss) |&gt;\n    mutate(samp_outlier = samp_miss &gt; 0.02) |&gt;\n    ggplot(aes(x = samp_miss, fill = samp_outlier)) +\n    geom_histogram(binwidth = 0.01, color = \"black\") +\n    geom_vline(xintercept = c(0.02), linetype = \"dashed\", color = \"red\") +\n    theme_minimal() +\n    labs(title = \"Sample missingness\", x = \"Missing rate\")\n\n\n\n\n\n\n\n\n\nhet_rate &lt;- colMeans(geno_mat == 1, na.rm = TRUE)\n\ndata.frame(het_rate = het_rate) |&gt;\n    mutate(het_outlier = abs(scale(het_rate)) &gt; 3) |&gt;\n    ggplot(aes(x = het_rate, fill = het_outlier)) +\n    geom_histogram(binwidth = 0.01, color = \"black\") +\n    geom_vline(xintercept = c(mean(het_rate) + 3 * sd(het_rate),\n                              mean(het_rate) - 3 * sd(het_rate)),\n               linetype = \"dashed\", color = \"red\") +\n    theme_minimal() +\n    labs(title = \"Heterozygosity rate\", x = \"Heterozygosity rate\")\n\n\n\n\n\n\n\n\n\n\nThresholding\nPutting it together: below we (i) filter samples on missingness/heterozygosity, (ii) apply preliminary variant filters (missingness + MAF), (iii) LD‑prune and estimate relatedness (KING) on that prelim set, and later (iv) compute HWE within ancestry‑homogeneous unrelated subsets using the metadata to finalize variant inclusion. This order avoids false HWE failures from population mixture/relatedness. (Anderson et al., 2010)\n\nthr_samp_miss &lt;- 0.02\nthr_var_miss &lt;- 0.02\nthr_maf &lt;- 0.05\nthr_het_z &lt;- 3\n\nkeep_sample &lt;- which(samp_miss &lt;= thr_samp_miss & abs(scale(het_rate)) &lt; thr_het_z)\nsamp.keep.id &lt;- samp.id[keep_sample]\n\nkeep_snp_prelim &lt;- which(miss_var &lt;= thr_var_miss & maf &gt;= thr_maf)\nsnp.prelim.id &lt;- snp.id[keep_snp_prelim]\nlength(snp.prelim.id)\n\n[1] 18960\n\n\n\n\nSNP correlation structure\n\nmax_plot_snps &lt;- 100\nld_snp_ids &lt;- snp.prelim.id[seq_len(max_plot_snps)]\n\nld_mat &lt;- snpgdsLDMat(\n    g,\n    sample.id = samp.keep.id,\n    snp.id = ld_snp_ids,\n    slide = -1,\n    method = \"corr\"\n)\n\nLinkage Disequilibrium (LD) estimation on genotypes:\n    # of samples: 167\n    # of SNPs: 100\n    using 1 thread\n    method: correlation\nLD matrix:    the sum of all selected genotypes (0,1,2) = 9659\n\n\n\n\n\n\n\n\n\n\n\n\n\nLD pruning\nLD pruning removes variants in high LD to yield a subset of approximately independent variants. This is useful for population structure and relatedness estimation, which can be distorted by large blocks of correlated SNPs.\nThe algorithm works as follows (Zheng et al., 2012):\n\nRandomly select a starting position i (start.pos=\"random\"), i=1 if start.pos=\"first\", or i=last if start.pos=\"last\"; and let the current SNP set S={ i };\nFor each right position j from i+1 to n: if any LD between j and k is greater than ld.threshold, where k belongs to S, and both of j and k are in the sliding window, then skip j; otherwise, let S be S + { j };\nFor each left position j from i-1 to 1: if any LD between j and k is greater than ld.threshold, where k belongs to S, and both of j and k are in the sliding window, then skip j; otherwise, let S be S + { j };\nOutput S, the final selection of SNPs.\n\n\nset.seed(1)\nld_prune &lt;- snpgdsLDpruning(g,\n    sample.id = samp.keep.id, \n    snp.id = snp.prelim.id,\n    autosome.only = TRUE,\n    method = \"r\",\n    slide.max.bp = 500000,\n    ld.threshold = sqrt(.1)\n)\n\nSNP pruning based on LD:\nExcluding 1,040 SNPs (non-autosomes or non-selection)\nExcluding 0 SNP (monomorphic: TRUE, MAF: 0.005, missing rate: 0.05)\n    # of samples: 167\n    # of SNPs: 18,960\n    using 1 thread\n    sliding window: 500,000 basepairs, Inf SNPs\n    |LD| threshold: 0.316228\n    method: R\nChrom 1: |====================|====================|\n    21.27%, 4,255 / 20,000 (Fri Oct  3 16:11:37 2025)\n4,255 markers are selected in total.\n\nsnps_pruned &lt;- unlist(ld_prune, use.names = FALSE)\n\n\n\nRelatedness\nWe need to account for relatedness to avoid confounding in PCA and association testing. KING (Kinship‑based INference for GWAS) estimates pairwise kinship robust to population structure (Manichaikul et al., 2010).\n\n1king &lt;- snpgdsIBDKING(g,\n                      sample.id = samp.keep.id,\n                      snp.id = snps_pruned,\n                      type = \"KING-robust\",\n2                      family.id = metadata$FID[match(samp.keep.id, metadata$IID)])\n\n3KINGmat &lt;- GENESIS::kingToMatrix(king)\n\n\n1\n\nRun KING on our dataset with the filtered samples and LD‑pruned SNPs.\n\n2\n\nModel is robust to misspecifications in population structure.\n\n3\n\nConvert into a kinship matrix we can use for downstream tasks.\n\n\n\n\nUsing 167 samples provided\n\n\nIdentifying clusters of relatives...\n\n\n    154 relatives in 29 clusters; largest cluster = 49\n\n\nCreating block matrices for clusters...\n\n\n13 samples with no relatives included\n\n\nPutting all samples together into one block diagonal matrix\n\n\nIBD analysis (KING method of moment) on genotypes:\nExcluding 15,745 SNPs (non-autosomes or non-selection)\nExcluding 0 SNP (monomorphic: TRUE, MAF: NaN, missing rate: NaN)\n    # of samples: 167\n    # of SNPs: 4,255\n    using 1 thread\n# of families: 73, and within- and between-family relationship are estimated differently.\nRelationship inference in the presence of population stratification.\nKING IBD:    the sum of all selected genotypes (0,1,2) = 365234\nCPU capabilities:\nFri Oct  3 16:11:37 2025    (internal increment: 65536)\n\n[..................................................]  0%, ETC: ---        \n[==================================================] 100%, completed, 0s\nFri Oct  3 16:11:37 2025    Done.\n\n\n\n\nHWE within ancestry groups (metadata + unrelateds)\nUnder random mating and no technical artifacts, genotype frequencies should follow the familiar proportions under HWE for allele frequency p. A simple check is whether observed counts depart more than sampling noise would predict. In GWAS array data, notable departures often flag lab/array problems rather than biology. Common culprits are poor clustering for one allele, batch effects, or plate swaps (all of which distort heterozygote vs. homozygote balance).\nFor case-control studies, we compute HWE in controls. True disease associations can produce real departures in cases (e.g., risk allele homozygotes enriched), so filtering on cases risks discarding biological signal. (Anderson et al., 2010)\nWe will use an exact test for bi‑allelic SNPs. Asymptotic chi‑square tests can mis‑calibrate at low genotype counts or low MAF, while exact tests keep Type I error in check across MAF ranges. (Wigginton et al., 2005; Guo and Thompson, 1992)\nRegarding a specific threshold, large studies typically use $p &lt; 10^{−6} as a conservative filter. Smaller studies sometimes use p &lt; 10^{-4}. Because power to detect departures depends on MAF we can consider MAF‑stratified thresholds to avoid over‑penalizing rare variants. (Anderson et al., 2010)\nX/sex chromosomes require specific sex‑aware tests (not used here; single autosome). (Anderson et al., 2010)\nTo avoid the Wahlund effect (heterozygote deficit from pooling distinct ancestries) and non‑independence from relatives, we compute HWE within ancestry‑homogeneous, unrelated subsets. We use KING to define unrelateds and the metadata population labels (ASW, MXL) for grouping.\n\n# Identify unrelateds (3rd‑degree or closer considered related)\nkm &lt;- KINGmat |&gt; as.matrix()\ndiag(km) &lt;- 0 \n1unrel_ids &lt;- rownames(km)[rowSums(km &gt;= 0.0442, na.rm = TRUE) == 0]\nunrel_ids &lt;- intersect(unrel_ids, samp.keep.id)\n\n2grp &lt;- split(unrel_ids, metadata$population[match(unrel_ids, metadata$IID)])\n\n# Exact HWE p-values per group on prelim variants\n3p_by_grp &lt;- lapply(grp, function(ids) {\n  snpgdsHWE(g, snp.id = snp.prelim.id, sample.id = ids)\n})\np_mat &lt;- do.call(cbind, p_by_grp)\n\n4thr_hwe &lt;- 1e-6\n\n# Conservative rule: pass only if all groups pass\n5pass_all &lt;- apply(p_mat, 1, function(p) all(is.na(p) | p &gt; thr_hwe))\n\n# Final variant set after HWE\nkeep_snp &lt;- which(pass_all)\nsnp.keep.id &lt;- snp.prelim.id[keep_snp]\nlength(snp.prelim.id)\nlength(snp.keep.id)\n\n\n1\n\nDefine unrelateds as those with kinship &lt; 0.0442 (3rd-degree or closer) to any other sample.\n\n2\n\nSplit unrelateds by population using metadata\n\n3\n\nCompute exact HWE p-values for each group on the preliminary variant set\n\n4\n\nSet a stringent HWE p-value threshold\n\n5\n\nRetain variants that pass HWE in all groups\n\n\n\n\n[1] 18960\n[1] 18960\n\n\nNote that we end up not filtering any variants with this dataset.\n\n\nAncestry PCs\nWith a kinship matrix in hand, we estimate ancestry PCs to use as covariates. PC‑AiR computes PCs on a subset of unrelated individuals and projects relateds onto that space, providing robust structure estimates in the presence of relatedness (Conomos et al., 2015).\n\n1snpgdsClose(g)\n2geno_reader &lt;- GWASTools::GdsGenotypeReader(gdsfile)\n3geno_data &lt;- GenotypeData(geno_reader)\n4pcair_out &lt;- pcair(geno_data,\n                   kinobj = KINGmat,\n                   divobj = KINGmat,\n                   snp.include = snps_pruned,\n                   sample.include = samp.keep.id)\n\n\n1\n\nWe need to close the SNPRelate connection before opening with GWASTools\n\n2\n\nOpen the GDS file with GWASTools\n\n3\n\nCreate a GenotypeData object for analysis\n\n4\n\nRun PC-AiR using the KING kinship matrix to identify unrelateds and compute PCs\n\n\n\n\nUsing kinobj and divobj to partition samples into unrelated and related sets\n\n\nWorking with 167 samples\n\n\nIdentifying relatives for each sample using kinship threshold 0.0220970869120796\n\n\nIdentifying pairs of divergent samples using divergence threshold -0.0220970869120796\n\n\nPartitioning samples into unrelated and related sets...\n\n\nUnrelated Set: 92 Samples \nRelated Set: 75 Samples\n\n\nPerforming PCA on the Unrelated Set...\n\n\nPredicting PC Values for the Related Set...\n\n\nPrincipal Component Analysis (PCA) on genotypes:\nExcluding 15,745 SNPs (non-autosomes or non-selection)\nExcluding 0 SNP (monomorphic: TRUE, MAF: NaN, missing rate: NaN)\n    # of samples: 92\n    # of SNPs: 4,255\n    using 1 thread\n    # of principal components: 32\nPCA:    the sum of all selected genotypes (0,1,2) = 201672\nCPU capabilities:\nFri Oct  3 16:11:37 2025    (internal increment: 5340)\n\n[..................................................]  0%, ETC: ---        \n[==================================================] 100%, completed, 0s\nFri Oct  3 16:11:37 2025    Begin (eigenvalues and eigenvectors)\nFri Oct  3 16:11:37 2025    Done.\nSNP Loading:\n    # of samples: 92\n    # of SNPs: 4,255\n    using 1 thread\n    using the top 32 eigenvectors\nSNP Loading:    the sum of all selected genotypes (0,1,2) = 201672\nFri Oct  3 16:11:37 2025    (internal increment: 42740)\n\n[..................................................]  0%, ETC: ---        \n[==================================================] 100%, completed, 0s\nFri Oct  3 16:11:37 2025    Done.\nSample Loading:\n    # of samples: 75\n    # of SNPs: 4,255\n    using 1 thread\n    using the top 32 eigenvectors\nSample Loading:    the sum of all selected genotypes (0,1,2) = 163562\nFri Oct  3 16:11:37 2025    (internal increment: 52428)\n\n[..................................................]  0%, ETC: ---        \n[==================================================] 100%, completed, 0s\nFri Oct  3 16:11:37 2025    Done.\n\n\n\npcair_tb &lt;- pcair_out$vectors |&gt;\n    as_tibble() |&gt;\n    bind_cols(\"IID\" = pcair_out$sample.id) |&gt;\n    left_join(metadata, by = \"IID\")\n\npcair_tb |&gt;\n    ggplot(aes(V1, V2, col = population)) +\n    geom_point()\n\n\n\n\n\n\n\n\nWe can use a screeplot to visualize the variance explained by each PC. Depending on where we see an “elbow” in the screeplot, we might choose to include the corresponding PCs in our model.\n\npcair_out$values |&gt;\n    as_tibble() |&gt;\n    mutate(PC = row_number()) |&gt;\n    ggplot(aes(PC, value)) +\n    geom_point() +\n    geom_line() +\n    scale_x_continuous(breaks = seq(1, 10, by = 1)) +\n    labs(title = \"Screeplot of PC-AiR eigenvalues\", x = \"Principal Component\", y = \"Eigenvalue\")\n\n\n\n\n\n\n\n\n\n\nAncestry‑adjusted relatedness\nNow that we have ancestry PCs, we estimate relatedness adjusted for ancestry using PC‑Relate and convert it to a GRM suitable for the null model. Training on the unrelated set stabilizes estimates. (Conomos et al., 2016)\n\ngenodata_iter &lt;- GenotypeBlockIterator(geno_data, snpInclude=snps_pruned)\n\npcrel &lt;- GENESIS::pcrelate(\n  gdsobj = genodata_iter,\n  pcs = pcair_out$vectors[,1:3],\n  training.set = intersect(unrel_ids, pcair_out$sample.id),\n  sample.include = samp.keep.id,\n)\n\nUsing 6 CPU cores\n\n\n167 samples to be included in the analysis...\n\n\nBetas for 3 PC(s) will be calculated using 20 samples in training.set...\n\n\nRunning PC-Relate analysis for 167 samples using 4255 SNPs in 1 blocks...\n\n\nPerforming Small Sample Correction...\n\npcrelMat &lt;- GENESIS::pcrelateToMatrix(pcrel, scaleKin = 2)\n\nUsing 167 samples provided\n\n\nIdentifying clusters of relatives...\n\n\n    167 relatives in 1 clusters; largest cluster = 167\n\n\nCreating block matrices for clusters...\n\n\n0 samples with no relatives included\n\n\n\n\nConstruct phenotype and merge covariates\nFor the sake of this demo, we will simulate a quantitative trait with a known genetic effect\n\nset.seed(99)\nN &lt;- length(samp.keep.id)\n# Use recorded sex from metadata for covariates (single chromosome: no sex-chr analysis needed)\nsex &lt;- metadata |&gt;\n    filter(IID %in% samp.keep.id) |&gt;\n    mutate(sex = case_when(sex == 1 ~ \"M\",\n                           TRUE ~ \"F\")) |&gt;\n    pull(sex)\n\n# Choose one moderately frequent SNP and simulate a quantitative trait with a planted effect\nmaf_keep &lt;- maf[snp.keep.id]\nix &lt;- which(!is.na(maf_keep) & maf_keep &gt; 0.2 & maf_keep &lt; 0.3)[1]\n\nG1 &lt;- GWASTools::getGenotypeSelection(geno_data, snpID = snp.keep.id[ix], scanID = samp.keep.id)\nG1 &lt;- as.numeric(G1) \ny &lt;- as.numeric(0.4* scale(G1) + 0.05 * (sex == \"M\") + rnorm(N))\n\nWe now have a phenotype vector y and covariates. We need to construct a ScanAnnotationDataFrame object for the null model fitting.\n\npcs_df &lt;- data.frame(\n  scanID = pcair_out$sample.id,\n  PC1 = pcair_out$vectors[, 1],\n  PC2 = pcair_out$vectors[, 2],\n  PC3 = pcair_out$vectors[, 3]\n)\n\nscanDF &lt;- dplyr::left_join(\n  data.frame(scanID = samp.keep.id, y = y, sex = sex),\n  pcs_df,\n  by = \"scanID\"\n)\n\nscanAnnot2 &lt;- GWASTools::ScanAnnotationDataFrame(scanDF)"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-3-modeling",
+    "href": "lectures/lecture-05.html#step-3-modeling",
+    "title": "Lecture 05: GWAS in R",
+    "section": "Step 3: Modeling",
+    "text": "Step 3: Modeling\n\nNull model\nWe first fit the mixed model under the null hypothesis that each SNP has no effect. The null includes covariates (age, sex, ancestry PCs) and a random genetic effect capturing relatedness; it does not include per‑SNP fixed effects.\nThe model:\n\ny = X\\beta + g + \\epsilon\n\nWhere y is the phenotype, X\\beta are fixed‑effect covariates, g \\sim \\mathcal{N}(0, \\sigma^2_g K) is the random genetic effect with relatedness matrix K, and \\epsilon \\sim \\mathcal{N}(0, \\sigma^2_e I) is residual error.\n\nNotes on estimation\n\nCovariance under the null: \\operatorname{Var}(y) = V = \\sigma^2_e I + \\sigma^2_g K.\nWe pass an ancestry‑adjusted GRM from PC‑Relate\n\nThis yields diagonals near 1 (via pcrelateToMatrix(scaleKin=2)) and controls for population structure in kinship estimation\n\nFixed effects (GLS) estimator given variance components: \\hat{\\beta} = (X^\\top V^{-1} X)^{-1} X^\\top V^{-1} y.\nVariance components for Gaussian outcomes are estimated by REML.\nHeritability estimate: h^2 = \\sigma^2_g/(\\sigma^2_g + \\sigma^2_e).\n\n\nnullmod &lt;- GENESIS::fitNullModel(\n    scanAnnot2,\n    outcome = \"y\",\n    covars = c(\"sex\", \"PC1\", \"PC2\", \"PC3\"),\n    cov.mat = pcrelMat, family = \"gaussian\"\n)\n\nComputing Variance Component Estimates...\n\n\nSigma^2_A     log-lik     RSS\n\n\n[1]    0.5717426    0.5717426 -243.7704375    1.0182557\n[1]    0.1884426    0.8753057 -242.1753414    1.0461782\n[1]    0.2420265    0.8685482 -242.1442635    1.0026855\n[1]    0.2408589    0.8726307 -242.1442236    1.0000083\n[1]    0.2411044    0.8724022 -242.1442228    1.0000000\n\nnullmod$varComp\n\n        V_A V_resid.var \n  0.2411044   0.8724022 \n\n\nvarComp reports the variance components from the mixed model. The entry V_A is the additive‑genetic variance captured by our GRM (PC‑Relate), and V_resid.var is the residual variance after adjusting for age, sex, and ancestry PCs. A convenient summary is the mixed‑model heritability on this working scale, h^2 = \\frac{V_A}{V_A + V_{resid}}\n\nvarc &lt;- nullmod$varComp\nh2 &lt;- unname(varc[\"V_A\"] / sum(varc))\n\ntibble::tibble(\n  component = c(\"V_A\", \"V_resid\", \"h2_mixed_model\"),\n  value = c(varc[\"V_A\"], varc[\"V_resid.var\"], h2)\n)\n\n# A tibble: 3 × 2\n  component      value\n  &lt;chr&gt;          &lt;dbl&gt;\n1 V_A            0.241\n2 V_resid        0.872\n3 h2_mixed_model 0.217\n\n\n\n\n\nAssociation testing\nWe now test each SNP for association with the phenotype using a score test. The score test is computationally efficient because it only requires fitting the null model once, rather than refitting for each SNP as in a Wald or likelihood ratio test.\n\n# Genotype iterator (block-wise scan of all SNPs kept by QC)\nit &lt;- GWASTools::GenotypeBlockIterator(\n    geno_data, \n    snpInclude = snp.keep.id, \n    snpBlock = 5000\n)\nassoc &lt;- GENESIS::assocTestSingle(it, null.model = nullmod, test = \"Score\")\n\nUsing 6 CPU cores\n\nres &lt;- data.frame(\n    SNP = assoc$variant.id,\n    CHR = as.numeric(assoc$chr),\n    BP = assoc$pos,\n    P = assoc$Score.pval,\n    BETA = assoc$Est,\n    SE = assoc$Est.SE\n)"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#step-4-postgwas",
+    "href": "lectures/lecture-05.html#step-4-postgwas",
+    "title": "Lecture 05: GWAS in R",
+    "section": "Step 4: Post‑GWAS",
+    "text": "Step 4: Post‑GWAS\n\nExtracting results\n\n\n        SNP    BP       BETA        SE            P\n6         6     6  0.8396265 0.1568205 8.600221e-08\n4628   4892  4892 -0.5765968 0.1501810 1.233630e-04\n9363   9895  9895 -0.5772324 0.1532537 1.655421e-04\n1796   1878  1878 -0.5223076 0.1415787 2.249887e-04\n17050 17968 17968  0.4745057 0.1312115 2.987953e-04\n\n\n[1] 6\n\n\nNote that our top SNP is the one we simulated to have an effect.\n\n\nManhattan plot\nWe visualize the genome‑wide p-values using a Manhattan plot. The blue line indicates a p-value threshold of 1 \\times 10^{-5}. Note that this is equivalent to a Bonferroni correction for 5,000 independent tests. The red line at 5 \\times 10^{-8} is a common genome‑wide significance threshold for GWAS, though it is conservative for smaller studies or those with fewer variants.\n\n# qqman expects columns named: CHR, BP, SNP, P\nqqman::manhattan(\n  res,\n  chr = \"CHR\", bp = \"BP\", snp = \"SNP\", p = \"P\",\n  suggestiveline = -log10(1e-5)\n)\n\n\n\n\n\n\n\n\n\n\nQQ Plot\nWe compare observed p‑values to the null expectation to assess calibration. Few true signals should deviate strongly.\n\nqqman::qq(res$P)\n\n\n\n\n\n\n\n\n\n\nGenomic-control inflation factor\nThe genomic-control inflation factor is a single-number summary (\\lambda_{GC}) of how inflated or conservative the genome‑wide test statistics are relative to the null. Values near 1 indicate well‑calibrated tests, &gt;1 suggests inflation (e.g., population structure, relatedness, batch), &lt;1 suggests conservative/underpowered tests\nFor 1‑df tests, the null statistic follows \\chi^2_1, whose median is qchisq(0.5, 1) \\approx 0.456. We will convert our p‑values to \\chi^2 statistics T_i = \\texttt{qchisq}(1 − p_i, df = 1). Then \\lambda_{GC} = \\text{median}(T_i) / m_0.\n\nlambda_gc &lt;- median(stats::qchisq(1 - res$P, df = 1), na.rm = TRUE) / 0.456\nlambda_gc\n\n[1] 0.9851403\n\n\n\n\nCleanup\nWhen done, close the GDS connection\n\nGWASTools::close(geno_reader)"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#when-to-use-a-different-tool",
+    "href": "lectures/lecture-05.html#when-to-use-a-different-tool",
+    "title": "Lecture 05: GWAS in R",
+    "section": "When to use a different tool?",
+    "text": "When to use a different tool?\n\nFor very large datasets (e.g., UK Biobank), specialized tools like BOLT-LMM, REGENIE, or SAIGE may be more efficient\nFor binary traits, consider tools that handle case-control imbalance and relatedness effectively, such as SAIGE\nFor rare variant analysis, consider burden tests or SKAT implemented in packages like SKAT or seqMeta"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#further-reading",
+    "href": "lectures/lecture-05.html#further-reading",
+    "title": "Lecture 05: GWAS in R",
+    "section": "Further reading",
+    "text": "Further reading\n\nPopulation Structure and Relatedness Inference using the GENESIS Package\nGenetic Association Testing using the GENESIS Package\nUsing PLINK for GWAS"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#session-info",
+    "href": "lectures/lecture-05.html#session-info",
+    "title": "Lecture 05: GWAS in R",
+    "section": "Session Info",
+    "text": "Session Info\n\nsessionInfo()\n\nR version 4.5.1 (2025-06-13)\nPlatform: aarch64-apple-darwin20\nRunning under: macOS Tahoe 26.0.1\n\nMatrix products: default\nBLAS:   /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRblas.0.dylib \nLAPACK: /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1\n\nlocale:\n[1] C.UTF-8/C.UTF-8/C.UTF-8/C/C.UTF-8/C.UTF-8\n\ntime zone: America/New_York\ntzcode source: internal\n\nattached base packages:\n[1] stats     graphics  grDevices datasets  utils     methods   base     \n\nother attached packages:\n [1] readr_2.1.5         dplyr_1.1.4         ggplot2_3.5.2      \n [4] qqman_0.1.9         GWASTools_1.54.0    Biobase_2.68.0     \n [7] BiocGenerics_0.54.0 generics_0.1.4      GENESIS_2.38.0     \n[10] SNPRelate_1.42.0    gdsfmt_1.44.1      \n\nloaded via a namespace (and not attached):\n  [1] Rdpack_2.6.4            DBI_1.2.3               gridExtra_2.3          \n  [4] sandwich_3.1-1          rlang_1.1.6             magrittr_2.0.3         \n  [7] SeqVarTools_1.46.0      compiler_4.5.1          RSQLite_2.4.3          \n [10] mgcv_1.9-3              reshape2_1.4.4          vctrs_0.6.5            \n [13] stringr_1.5.1           quantreg_6.1            pkgconfig_2.0.3        \n [16] shape_1.4.6.1           crayon_1.5.3            fastmap_1.2.0          \n [19] backports_1.5.0         XVector_0.48.0          labeling_0.4.3         \n [22] utf8_1.2.6              rmarkdown_2.29          tzdb_0.5.0             \n [25] UCSC.utils_1.4.0        nloptr_2.2.1            MatrixModels_0.5-4     \n [28] purrr_1.0.4             bit_4.6.0               xfun_0.52              \n [31] glmnet_4.1-10           jomo_2.7-6              logistf_1.26.1         \n [34] cachem_1.1.0            GenomeInfoDb_1.44.3     jsonlite_2.0.0         \n [37] blob_1.2.4              pan_1.9                 BiocParallel_1.42.2    \n [40] broom_1.0.8             parallel_4.5.1          R6_2.6.1               \n [43] stringi_1.8.7           RColorBrewer_1.1-3      boot_1.3-31            \n [46] DNAcopy_1.82.0          rpart_4.1.24            lmtest_0.9-40          \n [49] GenomicRanges_1.60.0    Rcpp_1.1.0              iterators_1.0.14       \n [52] knitr_1.50              zoo_1.8-14              IRanges_2.42.0         \n [55] igraph_2.1.4            Matrix_1.7-3            splines_4.5.1          \n [58] nnet_7.3-20             tidyselect_1.2.1        viridis_0.6.5          \n [61] yaml_2.3.10             codetools_0.2-20        curl_6.2.3             \n [64] plyr_1.8.9              lattice_0.22-7          tibble_3.3.0           \n [67] quantsmooth_1.74.0      withr_3.0.2             evaluate_1.0.3         \n [70] survival_3.8-3          Biostrings_2.76.0       pillar_1.11.0          \n [73] BiocManager_1.30.26     mice_3.18.0             renv_1.1.5             \n [76] foreach_1.5.2           stats4_4.5.1            reformulas_0.4.1       \n [79] vroom_1.6.5             S4Vectors_0.46.0        hms_1.1.3              \n [82] scales_1.4.0            minqa_1.2.8             calibrate_1.7.7        \n [85] GWASExactHW_1.2         glue_1.8.0              tools_4.5.1            \n [88] data.table_1.17.4       lme4_1.1-37             SparseM_1.84-2         \n [91] cowplot_1.2.0           grid_4.5.1              tidyr_1.3.1            \n [94] rbibutils_2.3           nlme_3.1-168            formula.tools_1.7.1    \n [97] GenomeInfoDbData_1.2.14 cli_3.6.5               SeqArray_1.48.3        \n[100] viridisLite_0.4.2       gtable_0.3.6            digest_0.6.37          \n[103] operator.tools_1.6.3    farver_2.1.2            memoise_2.0.1          \n[106] htmltools_0.5.8.1       lifecycle_1.0.4         httr_1.4.7             \n[109] mitml_0.4-5             bit64_4.6.0-1           MASS_7.3-65"
+  },
+  {
+    "objectID": "lectures/lecture-06.html#learning-objectives",
+    "href": "lectures/lecture-06.html#learning-objectives",
+    "title": "Lecture 06: Prediction models in genetics",
+    "section": "Learning Objectives",
+    "text": "Learning Objectives\n\nDistinguish association, prediction, and causation in statistical genetics and state the optimization target for each.\nFormalize genomic prediction for quantitative and binary traits; select appropriate metrics and calibration checks.\nCompare ridge/lasso/elastic‑net, BLUP/GBLUP, and tree/NN methods; understand when and why each is advantageous.\nDesign robust validation: nested CV, external validation, leakage avoidance with structure/kinship.\nAssess portability across ancestries and communicate limits and remedies."
+  },
+  {
+    "objectID": "lectures/lecture-06.html#where-we-are-lectures-0105-06",
+    "href": "lectures/lecture-06.html#where-we-are-lectures-0105-06",
+    "title": "Lecture 06: Prediction models in genetics",
+    "section": "Where We Are (Lectures 01–05 → 06)",
+    "text": "Where We Are (Lectures 01–05 → 06)\n\nL01–L04: likelihoods, variance components, population structure, Bayesian thinking.\nL05: GWAS with mixed models—great for locus discovery, not optimized for individual‑level prediction.\nToday: risk prediction (polygenic modeling) and evaluation beyond p‑values."
+  },
+  {
+    "objectID": "lectures/lecture-06.html#why-prediction-vs-association-vs-causation",
+    "href": "lectures/lecture-06.html#why-prediction-vs-association-vs-causation",
+    "title": "Lecture 06: Prediction models in genetics",
+    "section": "Why Prediction (vs Association vs Causation)?",
+    "text": "Why Prediction (vs Association vs Causation)?\n\nAssociation\n\nGoal: identify variants related to trait.\nTarget: low FDR/valid inference; effect estimates with SEs.\nTools: single‑variant tests, LMMs, fine‑mapping.\n\nPrediction\n\nGoal: accurate out‑of‑sample trait/risk estimates.\nTarget: minimize expected loss (MSE, log loss) and calibrate probabilities.\nTools: penalized GLMs, BLUP/GBLUP, ensembles, NNs.\n\n\n\n\n\n\n\n\nNote\n\n\nCausation: identify effects under interventions; target parameters and designs differ (e.g., MR, RCTs). A great predictor need not be causal, and a causal effect is not necessarily predictive."
+  },
+  {
+    "objectID": "lectures/lecture-06.html#when-to-do-prediction",
+    "href": "lectures/lecture-06.html#when-to-do-prediction",
+    "title": "Lecture 06: Prediction models in genetics",
+    "section": "When To Do Prediction",
+    "text": "When To Do Prediction\n\nYou have a clear decision/use‑case: screening, ranking, risk stratification, or prioritization.\nYou can evaluate externally (cohort/time/ancestry) and report calibration, not just discrimination.\nYou can incorporate non‑genetic covariates (age/sex/PCs) fairly and transparently."
+  },
+  {
+    "objectID": "lectures/lecture-06.html#when-not-to-or-not-yet",
+    "href": "lectures/lecture-06.html#when-not-to-or-not-yet",
+    "title": "Lecture 06: Prediction models in genetics",
+    "section": "When Not To (or Not Yet)",
+    "text": "When Not To (or Not Yet)\n\nNo external cohort; data leakage risks (relateds across folds, PCs fit on all data).\nLarge ancestry mismatch between training and target with no mitigation plan.\nClinical thresholds or utilities undefined (can’t translate scores to action)."
+  },
+  {
+    "objectID": "lectures/lecture-06.html#prediction-setup",
+    "href": "lectures/lecture-06.html#prediction-setup",
+    "title": "Lecture 06: Prediction models in genetics",
+    "section": "Prediction Setup",
+    "text": "Prediction Setup\n\nData: response y, genotype matrix G (N×P), covariates C (PCs/age/sex).\nObjective: learn f(G, C) minimizing expected loss.\nQuantitative: MSE, R^2 (out‑of‑sample). Binary: AUC/PR, Brier score, calibration slope/intercept."
+  },
+  {
+    "objectID": "lectures/lecture-06.html#penalized-glms-ridge-lasso-elasticnet",
+    "href": "lectures/lecture-06.html#penalized-glms-ridge-lasso-elasticnet",
+    "title": "Lecture 06: Prediction models in genetics",
+    "section": "Penalized GLMs: Ridge / Lasso / Elastic‑Net",
+    "text": "Penalized GLMs: Ridge / Lasso / Elastic‑Net\nLet standardized SNPs X and response y.\n\nRidge: \\hat\\beta = argmin ||y - X\\beta||^2 + \\lambda ||\\beta||_2^2 (dense, shrinkage; LD‑stable).\nLasso: \\hat\\beta = argmin ||y - X\\beta||^2 + \\lambda ||\\beta||_1 (sparse; feature selection; correlated SNPs → group instability).\nElastic‑Net: mix of L1/L2 to balance sparsity and LD stability.\nTuning: nested CV for \\lambda (and \\alpha for EN). Standardize predictors; stratify folds by ancestry/family."
+  },
+  {
+    "objectID": "lectures/lecture-06.html#mixed-models-and-blupgblup",
+    "href": "lectures/lecture-06.html#mixed-models-and-blupgblup",
+    "title": "Lecture 06: Prediction models in genetics",
+    "section": "Mixed Models And BLUP/GBLUP",
+    "text": "Mixed Models And BLUP/GBLUP\n\nLMM: y = X\\beta + g + \\epsilon, g ~ N(0, K\\sigma_g^2) with GRM K.\nDuality: BLUP of SNP effects \\approx ridge with LD‑aware penalty via K.\nWhen: highly polygenic traits, p &gt;&gt; n, strong LD, fast training with big P."
+  },
+  {
+    "objectID": "lectures/lecture-06.html#prs-workflows-individual-vs-summary-stats",
+    "href": "lectures/lecture-06.html#prs-workflows-individual-vs-summary-stats",
+    "title": "Lecture 06: Prediction models in genetics",
+    "section": "PRS Workflows (Individual vs Summary Stats)",
+    "text": "PRS Workflows (Individual vs Summary Stats)\n\nIndividual‑level: penalized GLM/GBLUP on X with PCs; careful CV.\nSummary‑stats: clumping+thresholding (C+T) vs LD‑aware Bayesian shrinkage; use when individual genotypes unavailable.\nKey choices: LD reference, ancestry matching, sample overlap checks."
+  },
+  {
+    "objectID": "lectures/lecture-06.html#nonlinear-models-rfgbmdnn",
+    "href": "lectures/lecture-06.html#nonlinear-models-rfgbmdnn",
+    "title": "Lecture 06: Prediction models in genetics",
+    "section": "Nonlinear Models: RF/GBM/DNN",
+    "text": "Nonlinear Models: RF/GBM/DNN\n\nCapture interactions and nonlinearities; risk of overfitting in p ≫ n with correlated SNPs.\nPros: robustness to monotone transforms (trees), potential epistasis capture.\nCons: compute, calibration, interpretability; gains often modest unless strong interactions."
+  },
+  {
+    "objectID": "lectures/lecture-06.html#validation-strategy",
+    "href": "lectures/lecture-06.html#validation-strategy",
+    "title": "Lecture 06: Prediction models in genetics",
+    "section": "Validation Strategy",
+    "text": "Validation Strategy\n\nSplit: train/validation/test or nested CV; keep relateds within folds; compute PCs on training only and project.\nReport: mean ± SE across folds; external validation on new cohort and ancestry.\nCalibration: reliability plots, Brier score, Platt/Isotonic if needed; decision thresholds derived from utility."
+  },
+  {
+    "objectID": "lectures/lecture-06.html#portability-fairness",
+    "href": "lectures/lecture-06.html#portability-fairness",
+    "title": "Lecture 06: Prediction models in genetics",
+    "section": "Portability & Fairness",
+    "text": "Portability & Fairness\n\nPerformance gaps across ancestries from LD/MAF differences and environment.\nRemedies: multi‑ancestry training, group‑aware reweighting, ancestry‑specific recalibration, transfer learning.\nReport per‑group metrics (R²/AUC, calibration slope/intercept), not just overall."
+  },
+  {
+    "objectID": "lectures/lecture-06.html#from-association-to-prediction-mindset-shift",
+    "href": "lectures/lecture-06.html#from-association-to-prediction-mindset-shift",
+    "title": "Lecture 06: Prediction models in genetics",
+    "section": "From Association To Prediction: Mindset Shift",
+    "text": "From Association To Prediction: Mindset Shift\n\nHypothesis testing → risk minimization.\nMultiple testing/FDR → CV/hold‑out and external replication.\nWinner’s curse/sample overlap → unbiased evaluation and strict data hygiene."
+  },
+  {
+    "objectID": "lectures/lecture-06.html#case-study-lassopenalized-logistic-regression-in-gwas",
+    "href": "lectures/lecture-06.html#case-study-lassopenalized-logistic-regression-in-gwas",
+    "title": "Lecture 06: Prediction models in genetics",
+    "section": "Case Study: Lasso‑Penalized Logistic Regression In GWAS",
+    "text": "Case Study: Lasso‑Penalized Logistic Regression In GWAS\n\nAnchor reading: Wu et al. (2009) “Genome‑wide association analysis by lasso‑penalized logistic regression”.\nIdea: coordinate descent for logistic loss + L1 penalty; scalable screening; interaction search extension; applied to coeliac disease.\nTakeaways (then vs now): sparsity helps ranking but LD induces instability; today we add PCs/kinship, LD‑aware priors, and stronger external validation."
+  },
+  {
+    "objectID": "lectures/lecture-06.html#math-box-lasso-softthresholding-1d",
+    "href": "lectures/lecture-06.html#math-box-lasso-softthresholding-1d",
+    "title": "Lecture 06: Prediction models in genetics",
+    "section": "Math Box: Lasso Soft‑Thresholding (1D)",
+    "text": "Math Box: Lasso Soft‑Thresholding (1D)\nFor standardized x and response y, the lasso estimator solves \\hat\\beta = S(\\hat\\beta_{OLS}, \\lambda) where S is soft‑thresholding; in correlated blocks (LD), support can be unstable → prefer EN or group penalties."
+  },
+  {
+    "objectID": "lectures/lecture-06.html#math-box-ridge-gaussian-prior-blup-dual",
+    "href": "lectures/lecture-06.html#math-box-ridge-gaussian-prior-blup-dual",
+    "title": "Lecture 06: Prediction models in genetics",
+    "section": "Math Box: Ridge ≡ Gaussian Prior; BLUP Dual",
+    "text": "Math Box: Ridge ≡ Gaussian Prior; BLUP Dual\n\nRidge ↔︎ \\beta_j ~ N(0, \\tau^2); BLUP emerges from the dual with K = XX^T/P.\nIntuition: ridge shrinks per‑SNP; BLUP shrinks in the individual space via K."
+  },
+  {
+    "objectID": "lectures/lecture-06.html#demo-toy-genomic-prediction-with-glmnet-57-min",
+    "href": "lectures/lecture-06.html#demo-toy-genomic-prediction-with-glmnet-57-min",
+    "title": "Lecture 06: Prediction models in genetics",
+    "section": "Demo: Toy Genomic Prediction With glmnet (5–7 min)",
+    "text": "Demo: Toy Genomic Prediction With glmnet (5–7 min)\n\n# Simulate LD blocks and a polygenic architecture\nN &lt;- 800; P &lt;- 2000\nblocks &lt;- 40; bsize &lt;- P / blocks\nrho &lt;- 0.9\n\nSigma_block &lt;- rho ^ abs(row(diag(bsize)) - col(diag(bsize)))\nX &lt;- do.call(cbind, replicate(blocks, MASS::mvrnorm(N, mu = rep(0, bsize), Sigma = Sigma_block), simplify = FALSE))\nX &lt;- scale(X)\n\n# True effects: mix of sparse + dense\nbeta &lt;- rep(0, P)\nsignal_idx &lt;- sample(P, 150)\nbeta[signal_idx] &lt;- rnorm(150, 0, 0.15)\n\ny &lt;- as.numeric(X %*% beta + rnorm(N, 0, 1))\n\n# Train/validation/test split (ancestry/relatives would stratify here in real data)\nset.seed(2)\nidx &lt;- sample.int(N)\ntr &lt;- idx[1:500]; va &lt;- idx[501:650]; te &lt;- idx[651:N]\n\ncv_grid &lt;- 10^seq(-3, 1, length.out = 50)\n\nfit_ridge &lt;- glmnet(X[tr,], y[tr], alpha = 0)\npred_va &lt;- sapply(cv_grid, function(l) predict(fit_ridge, X[va,], s = l))\nmse_va &lt;- colMeans((pred_va - y[va])^2)\nlambda_best &lt;- cv_grid[which.min(mse_va)]\n\npred_te &lt;- as.numeric(predict(fit_ridge, X[te,], s = lambda_best))\nmse_te &lt;- mean((pred_te - y[te])^2)\nr2_te &lt;- cor(pred_te, y[te])^2\ndata.frame(metric = c(\"MSE\", \"R2\"), value = c(mse_te, r2_te))\n\n  metric     value\n1    MSE 2.2356675\n2     R2 0.4159352"
+  },
+  {
+    "objectID": "lectures/lecture-06.html#demo-calibration-check-regression",
+    "href": "lectures/lecture-06.html#demo-calibration-check-regression",
+    "title": "Lecture 06: Prediction models in genetics",
+    "section": "Demo: Calibration Check (Regression)",
+    "text": "Demo: Calibration Check (Regression)\n\ndf_te &lt;- data.frame(y = y[te], yhat = pred_te)\nggplot(df_te, aes(yhat, y)) +\n  geom_point(alpha = .35) +\n  geom_smooth(method = \"lm\", se = FALSE, color = \"red\") +\n  labs(title = \"Calibration: observed vs predicted\", x = \"Predicted\", y = \"Observed\")\n\n`geom_smooth()` using formula = 'y ~ x'"
+  },
+  {
+    "objectID": "lectures/lecture-06.html#binary-trait-variant-optional",
+    "href": "lectures/lecture-06.html#binary-trait-variant-optional",
+    "title": "Lecture 06: Prediction models in genetics",
+    "section": "Binary Trait Variant (Optional)",
+    "text": "Binary Trait Variant (Optional)\n\n# Create a logistic trait with moderate heritability\neta &lt;- as.numeric(X %*% beta)\npr &lt;- plogis(scale(eta))\nybin &lt;- rbinom(N, 1, pr)\nfit_lasso &lt;- glmnet(X[tr,], ybin[tr], alpha = 1, family = \"binomial\")\ncv &lt;- cv.glmnet(X[tr,], ybin[tr], alpha = 1, family = \"binomial\", nfolds = 5)\nphat &lt;- as.numeric(predict(fit_lasso, X[te,], s = cv$lambda.min, type = \"response\"))\n# Compute AUC and reliability plot if pROC/yardstick available"
+  },
+  {
+    "objectID": "lectures/lecture-06.html#diagnostics-to-show-on-slides",
+    "href": "lectures/lecture-06.html#diagnostics-to-show-on-slides",
+    "title": "Lecture 06: Prediction models in genetics",
+    "section": "Diagnostics To Show On Slides",
+    "text": "Diagnostics To Show On Slides\n\nRegularization paths (coefficients vs log‑lambda) from plot(fit_ridge).\nRisk distributions by case/control (binary) and reliability plots.\nCoefficient Manhattan vs predictive performance to contrast discovery vs prediction."
+  },
+  {
+    "objectID": "lectures/lecture-06.html#common-pitfalls-and-fixes",
+    "href": "lectures/lecture-06.html#common-pitfalls-and-fixes",
+    "title": "Lecture 06: Prediction models in genetics",
+    "section": "Common Pitfalls (And Fixes)",
+    "text": "Common Pitfalls (And Fixes)\n\nData leakage: keep families/relateds within folds; compute PCs on train only; avoid sample overlap with discovery GWAS.\nAncestry mismatch: external validation and group‑wise calibration; consider multi‑ancestry training.\nHyperparameter overfit: nested CV; pre‑register analysis plan for high‑stakes use."
+  },
+  {
+    "objectID": "lectures/lecture-06.html#discussion-prompts",
+    "href": "lectures/lecture-06.html#discussion-prompts",
+    "title": "Lecture 06: Prediction models in genetics",
+    "section": "Discussion Prompts",
+    "text": "Discussion Prompts\n\nWhen is sparsity a good inductive bias for complex traits?\nHow would you incorporate biological priors (annotations/pathways) in penalties?\nWhat metric matters for your application: ranking, calibration, or decision utility?"
+  },
+  {
+    "objectID": "lectures/lecture-06.html#takeaways",
+    "href": "lectures/lecture-06.html#takeaways",
+    "title": "Lecture 06: Prediction models in genetics",
+    "section": "Takeaways",
+    "text": "Takeaways\n\nChoose the inductive bias to match trait architecture: ridge/GBLUP (dense polygenic), lasso/EN (sparser), nonlinear only with strong justification and careful validation.\nReport discrimination, calibration, and portability; external validation is essential before deployment."
+  },
+  {
+    "objectID": "lectures/lecture-06.html#references-for-this-lecture",
+    "href": "lectures/lecture-06.html#references-for-this-lecture",
+    "title": "Lecture 06: Prediction models in genetics",
+    "section": "References for This Lecture",
+    "text": "References for This Lecture\n\nWu, T. T., Chen, Y. F., Hastie, T., Sobel, E., & Lange, K. (2009). Genome‑wide association analysis by lasso‑penalized logistic regression. Bioinformatics, 25(6), 714–721. doi:10.1093/bioinformatics/btp041\nAdditional suggested readings on PRS evaluation, portability, and LD‑aware shrinkage (see course references list)."
   },
   {
     "objectID": "lectures/lecture-02.html#agenda",

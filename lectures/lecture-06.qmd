@@ -1,0 +1,222 @@
+---
+title: "Lecture 06: Prediction models in genetics"
+subtitle: PUBH 8878, Statistical Genetics
+format: 
+    revealjs:
+        theme: [default, "custom.scss"]
+        slide-number: true
+        html-math-method: katex
+execute:
+  freeze: auto
+  echo: true
+  warning: true
+engine: knitr
+bibliography: references.bib
+csl: https://www.zotero.org/styles/bioinformatics
+---
+
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+library(ggplot2)
+library(dplyr)
+library(glmnet)
+set.seed(8878)
+theme_set(theme_minimal(base_size = 16))
+theme_update(panel.grid.minor = element_blank())
+```
+
+## Learning Objectives
+
+- Distinguish association, prediction, and causation in statistical genetics and state the optimization target for each.
+- Formalize genomic prediction for quantitative and binary traits; select appropriate metrics and calibration checks.
+- Compare ridge/lasso/elastic‑net, BLUP/GBLUP, and tree/NN methods; understand when and why each is advantageous.
+- Design robust validation: nested CV, external validation, leakage avoidance with structure/kinship.
+- Assess portability across ancestries and communicate limits and remedies.
+
+## Where We Are (Lectures 01–05 → 06)
+
+- L01–L04: likelihoods, variance components, population structure, Bayesian thinking.
+- L05: GWAS with mixed models—great for locus discovery, not optimized for individual‑level prediction.
+- Today: risk prediction (polygenic modeling) and evaluation beyond p‑values.
+
+## Why Prediction (vs Association vs Causation)?
+
+- Association
+    - Goal: identify variants related to trait.
+    - Target: low FDR/valid inference; effect estimates with SEs.
+    - Tools: single‑variant tests, LMMs, fine‑mapping.
+
+- Prediction
+    - Goal: accurate out‑of‑sample trait/risk estimates.
+    - Target: minimize expected loss (MSE, log loss) and calibrate probabilities.
+    - Tools: penalized GLMs, BLUP/GBLUP, ensembles, NNs.
+
+::: callout-note
+**Causation**: identify effects under interventions; target parameters and designs differ (e.g., MR, RCTs). A great predictor need not be causal, and a causal effect is not necessarily predictive.
+:::
+
+## When To Do Prediction
+
+- You have a clear decision/use‑case: screening, ranking, risk stratification, or prioritization.
+- You can evaluate externally (cohort/time/ancestry) and report calibration, not just discrimination.
+- You can incorporate non‑genetic covariates (age/sex/PCs) fairly and transparently.
+
+## When Not To (or Not Yet)
+
+- No external cohort; data leakage risks (relateds across folds, PCs fit on all data).
+- Large ancestry mismatch between training and target with no mitigation plan.
+- Clinical thresholds or utilities undefined (can’t translate scores to action).
+
+## Prediction Setup
+
+- Data: response `y`, genotype matrix `G` (N×P), covariates `C` (PCs/age/sex).
+- Objective: learn `f(G, C)` minimizing expected loss.
+- Quantitative: MSE, `R^2` (out‑of‑sample). Binary: AUC/PR, Brier score, calibration slope/intercept.
+
+## Penalized GLMs: Ridge / Lasso / Elastic‑Net
+
+Let standardized SNPs `X` and response `y`.
+
+- Ridge: $\hat\beta = argmin ||y - X\beta||^2 + \lambda ||\beta||_2^2$ (dense, shrinkage; LD‑stable).
+- Lasso: $\hat\beta = argmin ||y - X\beta||^2 + \lambda ||\beta||_1$ (sparse; feature selection; correlated SNPs → group instability).
+- Elastic‑Net: mix of L1/L2 to balance sparsity and LD stability.
+- Tuning: nested CV for $\lambda$ (and $\alpha$ for EN). Standardize predictors; stratify folds by ancestry/family.
+
+## Mixed Models And BLUP/GBLUP
+
+- LMM: $y = X\beta + g + \epsilon$, $g ~ N(0, K\sigma_g^2)$ with GRM $K$.
+- Duality: BLUP of SNP effects $\approx$ ridge with LD‑aware penalty via `K`.
+- When: highly polygenic traits, $p >> n$, strong LD, fast training with big P.
+
+## PRS Workflows (Individual vs Summary Stats)
+
+- Individual‑level: penalized GLM/GBLUP on `X` with PCs; careful CV.
+- Summary‑stats: clumping+thresholding (C+T) vs LD‑aware Bayesian shrinkage; use when individual genotypes unavailable.
+- Key choices: LD reference, ancestry matching, sample overlap checks.
+
+## Nonlinear Models: RF/GBM/DNN
+
+- Capture interactions and nonlinearities; risk of overfitting in `p ≫ n` with correlated SNPs.
+- Pros: robustness to monotone transforms (trees), potential epistasis capture.
+- Cons: compute, calibration, interpretability; gains often modest unless strong interactions.
+
+## Validation Strategy
+
+- Split: train/validation/test or nested CV; keep relateds within folds; compute PCs on training only and project.
+- Report: mean ± SE across folds; external validation on new cohort and ancestry.
+- Calibration: reliability plots, Brier score, Platt/Isotonic if needed; decision thresholds derived from utility.
+
+## Portability & Fairness
+
+- Performance gaps across ancestries from LD/MAF differences and environment.
+- Remedies: multi‑ancestry training, group‑aware reweighting, ancestry‑specific recalibration, transfer learning.
+- Report per‑group metrics (R²/AUC, calibration slope/intercept), not just overall.
+
+## From Association To Prediction: Mindset Shift
+
+- Hypothesis testing → risk minimization.
+- Multiple testing/FDR → CV/hold‑out and external replication.
+- Winner’s curse/sample overlap → unbiased evaluation and strict data hygiene.
+
+## Case Study: Lasso‑Penalized Logistic Regression In GWAS
+
+- Anchor reading: Wu et al. (2009) “Genome‑wide association analysis by lasso‑penalized logistic regression”.
+- Idea: coordinate descent for logistic loss + L1 penalty; scalable screening; interaction search extension; applied to coeliac disease.
+- Takeaways (then vs now): sparsity helps ranking but LD induces instability; today we add PCs/kinship, LD‑aware priors, and stronger external validation.
+
+## Math Box: Lasso Soft‑Thresholding (1D)
+
+For standardized `x` and response `y`, the lasso estimator solves
+`\hat\beta = S(\hat\beta_{OLS}, \lambda)` where `S` is soft‑thresholding; in correlated blocks (LD), support can be unstable → prefer EN or group penalties.
+
+## Math Box: Ridge ≡ Gaussian Prior; BLUP Dual
+
+- Ridge ↔ `\beta_j ~ N(0, \tau^2)`; BLUP emerges from the dual with `K = XX^T/P`.
+- Intuition: ridge shrinks per‑SNP; BLUP shrinks in the individual space via `K`.
+
+## Demo: Toy Genomic Prediction With glmnet (5–7 min)
+
+```{r}
+# Simulate LD blocks and a polygenic architecture
+N <- 800; P <- 2000
+blocks <- 40; bsize <- P / blocks
+rho <- 0.9
+
+Sigma_block <- rho ^ abs(row(diag(bsize)) - col(diag(bsize)))
+X <- do.call(cbind, replicate(blocks, MASS::mvrnorm(N, mu = rep(0, bsize), Sigma = Sigma_block), simplify = FALSE))
+X <- scale(X)
+
+# True effects: mix of sparse + dense
+beta <- rep(0, P)
+signal_idx <- sample(P, 150)
+beta[signal_idx] <- rnorm(150, 0, 0.15)
+
+y <- as.numeric(X %*% beta + rnorm(N, 0, 1))
+
+# Train/validation/test split (ancestry/relatives would stratify here in real data)
+set.seed(2)
+idx <- sample.int(N)
+tr <- idx[1:500]; va <- idx[501:650]; te <- idx[651:N]
+
+cv_grid <- 10^seq(-3, 1, length.out = 50)
+
+fit_ridge <- glmnet(X[tr,], y[tr], alpha = 0)
+pred_va <- sapply(cv_grid, function(l) predict(fit_ridge, X[va,], s = l))
+mse_va <- colMeans((pred_va - y[va])^2)
+lambda_best <- cv_grid[which.min(mse_va)]
+
+pred_te <- as.numeric(predict(fit_ridge, X[te,], s = lambda_best))
+mse_te <- mean((pred_te - y[te])^2)
+r2_te <- cor(pred_te, y[te])^2
+data.frame(metric = c("MSE", "R2"), value = c(mse_te, r2_te))
+```
+
+## Demo: Calibration Check (Regression)
+
+```{r}
+df_te <- data.frame(y = y[te], yhat = pred_te)
+ggplot(df_te, aes(yhat, y)) +
+  geom_point(alpha = .35) +
+  geom_smooth(method = "lm", se = FALSE, color = "red") +
+  labs(title = "Calibration: observed vs predicted", x = "Predicted", y = "Observed")
+```
+
+## Binary Trait Variant (Optional)
+
+```{r, eval=FALSE}
+# Create a logistic trait with moderate heritability
+eta <- as.numeric(X %*% beta)
+pr <- plogis(scale(eta))
+ybin <- rbinom(N, 1, pr)
+fit_lasso <- glmnet(X[tr,], ybin[tr], alpha = 1, family = "binomial")
+cv <- cv.glmnet(X[tr,], ybin[tr], alpha = 1, family = "binomial", nfolds = 5)
+phat <- as.numeric(predict(fit_lasso, X[te,], s = cv$lambda.min, type = "response"))
+# Compute AUC and reliability plot if pROC/yardstick available
+```
+
+## Diagnostics To Show On Slides
+
+- Regularization paths (coefficients vs log‑lambda) from `plot(fit_ridge)`.
+- Risk distributions by case/control (binary) and reliability plots.
+- Coefficient Manhattan vs predictive performance to contrast discovery vs prediction.
+
+## Common Pitfalls (And Fixes)
+
+- Data leakage: keep families/relateds within folds; compute PCs on train only; avoid sample overlap with discovery GWAS.
+- Ancestry mismatch: external validation and group‑wise calibration; consider multi‑ancestry training.
+- Hyperparameter overfit: nested CV; pre‑register analysis plan for high‑stakes use.
+
+## Discussion Prompts
+
+- When is sparsity a good inductive bias for complex traits?
+- How would you incorporate biological priors (annotations/pathways) in penalties?
+- What metric matters for your application: ranking, calibration, or decision utility?
+
+## Takeaways
+
+- Choose the inductive bias to match trait architecture: ridge/GBLUP (dense polygenic), lasso/EN (sparser), nonlinear only with strong justification and careful validation.
+- Report discrimination, calibration, and portability; external validation is essential before deployment.
+
+## References for This Lecture
+
+- Wu, T. T., Chen, Y. F., Hastie, T., Sobel, E., & Lange, K. (2009). Genome‑wide association analysis by lasso‑penalized logistic regression. Bioinformatics, 25(6), 714–721. doi:10.1093/bioinformatics/btp041
+- Additional suggested readings on PRS evaluation, portability, and LD‑aware shrinkage (see course references list).
