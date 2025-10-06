@@ -605,12 +605,6 @@ p2
 :::
 :::::::::
 
-## Modeling, but make it Bayesian
-
-```{r, echo = F}
-img(src = knitr::include_graphics("scripts/_output/sequential_bayesian_update.gif"), alt = 'Bayesian updating')
-```
-
 ## Mendel’s Laws
 
 ::::: columns
