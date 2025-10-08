@@ -562,6 +562,8 @@ scanDF <- dplyr::left_join(
 scanAnnot2 <- GWASTools::ScanAnnotationDataFrame(scanDF)
 ```
 
+ 
+
 ## Step 3: Modeling
 
 ### Null model

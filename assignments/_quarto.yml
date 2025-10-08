@@ -4,3 +4,6 @@ project:
 format: 
   docx: default
   pdf: default
+
+execute: 
+  freeze: auto
