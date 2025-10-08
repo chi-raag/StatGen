@@ -264,7 +264,7 @@
 <section id="prediction-in-baseball" class="slide level2">
 <h2>Prediction in baseball</h2>
 <ul>
-<li>Task: predict a later‑season batting rate using the first 45 at‑bats for each player (following Efron–Morris)</li>
+<li>Task: predict a later‑season batting rate using the first 45 at‑bats for each player</li>
 </ul>
 </section>
 <section id="our-data" class="slide level2">
@@ -364,6 +364,7 @@
 <span id="cb1-9"><a></a>           <span class="at">estimator =</span> <span class="fu">paste0</span>(<span class="st">"k="</span>, k)</span>
 <span id="cb1-10"><a></a>           ) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<p>Note: <span class="math inline">k=0</span> corresponds to the (improper) Beta<span class="math inline">(0,0)</span> prior; in this limit the posterior mean reduces to the MLE <span class="math inline">h/n</span>.</p>
 </section>
 <section id="prediction-performance" class="slide level2">
 <h2>Prediction performance</h2>
@@ -417,48 +418,90 @@
 <h2>What is BLUP?</h2>
 <ul>
 <li>BLUP = Best Linear Unbiased Prediction of random effects in a mixed model.</li>
-<li>Model: <span class="math inline">y = X\beta + Zu + \varepsilon</span>, with <span class="math inline">u \sim \mathcal N(0, \sigma_g^2 K)</span> and <span class="math inline">\varepsilon \sim \mathcal N(0, \sigma_e^2 I)</span>.
+<li>Model (K-based view): <span class="math inline">y = \mu\,\mathbf 1 + g + \varepsilon</span>, with <span class="math inline">g \sim \mathcal N(0, \sigma_g^2 K)</span> and <span class="math inline">\varepsilon \sim \mathcal N(0, \sigma_e^2 I)</span>.</li>
+<li>Equivalent marker-effects view: <span class="math inline">y = \mu\,\mathbf 1 + Z\beta + \varepsilon</span> with <span class="math inline">\beta\sim\mathcal N(0,\sigma_\beta^2 I_m)</span>; then <span class="math inline">g=Z\beta</span> and <span class="math inline">\operatorname{Cov}(g)=\sigma_\beta^2 ZZ^\top = \sigma_g^2 K</span> with <span class="math inline">\sigma_g^2 = m\,\sigma_\beta^2</span> when <span class="math inline">K=ZZ^\top/m</span>.</li>
+<li>BLUP shrinks random effects toward 0; predictions <span class="math inline">\hat y</span> shrink toward the mean <span class="math inline">\mu</span>.
 <ul>
-<li><span class="math inline">u</span> collect latent genetic effects, <span class="math inline">K</span> encodes genetic similarity among individuals.</li>
-</ul></li>
-<li>BLUP shrinks predictions toward a common mean
-<ul>
-<li>The ratio <span class="math inline">\sigma_g^2/\sigma_e^2</span> determines shrinkage strength</li>
-<li>As <span class="math inline">\sigma_g^2/\sigma_e^2 \to 0</span>, predictions shrink to the mean</li>
+<li>As <span class="math inline">\sigma_g^2/\sigma_e^2 \to 0</span>, predictions shrink to the mean.</li>
 </ul></li>
 <li>Pedigree-based BLUP: use <span class="math inline">K = A</span>, the expected relatedness matrix from pedigrees.</li>
 <li>Genomic BLUP: use <span class="math inline">K = G</span>, the realized similarity matrix from marker data.</li>
 </ul>
 </section>
-<section id="relationship-matrices-a-and-g-how-we-build-them" class="slide level2">
-<h2>Relationship matrices A and G (how we build them)</h2>
+<section id="relationship-matrices-a-and-g" class="slide level2">
+<h2>Relationship matrices A and G</h2>
 <ul>
 <li>Pedigree <span class="math inline">A</span>:
 <ul>
-<li><span class="math inline">A_{ij}</span> = expected proportion of alleles identical‑by‑descent</li>
+<li><span class="math inline">A_{ij} = 2\,\phi_{ij}</span>, where <span class="math inline">\phi_{ij}</span> is the kinship (coancestry) coefficient; <span class="math inline">A_{ii} = 1 + F_i</span> (with inbreeding <span class="math inline">F_i</span>).</li>
 <li>Requires accurate pedigrees.</li>
 </ul></li>
 <li>Genomic <span class="math inline">G</span> (unified with ridge via standardized markers):
 <ul>
 <li>Build a standardized marker matrix <span class="math inline">Z</span> by centering each SNP by its allele frequency and scaling by its standard deviation.
 <ul>
-<li>0/1 SNPs (DArT): <span class="math inline">Z_{ij} = (X_{ij} - p_j)/\sqrt{p_j(1-p_j)}</span>.</li>
+<li>0/1 SNPs: <span class="math inline">Z_{ij} = (X_{ij} - p_j)/\sqrt{p_j(1-p_j)}</span>.</li>
 <li>0/1/2 SNPs: <span class="math inline">Z_{ij} = (X_{ij} - 2p_j)/\sqrt{2p_j(1-p_j)}</span>.</li>
 </ul></li>
 <li>Set <span class="math inline">G = ZZ^\top / m</span> with <span class="math inline">m</span> markers; then <span class="math inline">\operatorname{E}[\operatorname{diag}(G)] \approx 1</span>.</li>
-<li>Fit ridge on the same <span class="math inline">Z</span> with <code>standardize=FALSE</code> so ridge and GBLUP are directly comparable.</li>
 </ul></li>
 </ul>
 </section>
-<section id="ridge-kernel-ridge-and-gblup-equivalence" class="slide level2">
-<h2>Ridge, Kernel Ridge, and GBLUP: Equivalence</h2>
+<section id="ridge-kernel-ridge-and-gblup-one-model-three-views" class="slide level2">
+<h2>Ridge, Kernel Ridge, and GBLUP: One Model, Three Views</h2>
+<h3 id="setup-and-assumptions">Setup and assumptions</h3>
 <ul>
-<li>Setup: <span class="math inline">Z\in\mathbb R^{n\times p}</span> (standardized), <span class="math inline">K=ZZ^\top/p</span> (with <span class="math inline">p</span> markers), <span class="math inline">\tilde y = y - \bar y\,\mathbf 1</span>.</li>
-<li>Primal ridge: <span class="math inline">\hat\beta = (Z^\top Z + \lambda I)^{-1} Z^\top\tilde y</span>, predict <span class="math inline">\hat y = \bar y\,\mathbf 1 + Z\hat\beta</span>.</li>
-<li>Dual/kernel ridge: <span class="math inline">\hat\alpha = (K + \lambda_K I)^{-1}\tilde y</span>, predict <span class="math inline">\hat y = \bar y\,\mathbf 1 + K\hat\alpha</span>.</li>
-<li>Identity: <span class="math inline">(Z^\top Z + \lambda I)^{-1} Z^\top = Z^\top (ZZ^\top + \lambda I)^{-1}</span> ⇒ <span class="math inline">\hat\beta = Z^\top\hat\alpha</span> and <span class="math inline">Z\hat\beta = K\hat\alpha</span> ⇒ same <span class="math inline">\hat y</span>.</li>
-<li>Scaling: if <span class="math inline">K=ZZ^\top/p</span>, use <span class="math inline">\lambda_K=\lambda/p</span> to match primal.</li>
-<li>GBLUP: <span class="math inline">y=\mathbf 1\mu + g + \varepsilon</span>, <span class="math inline">g\sim\mathcal N(0,\sigma_g^2 K)</span>, <span class="math inline">\varepsilon\sim\mathcal N(0,\sigma_e^2 I)</span> ⇒ <span class="math display">\hat y = \hat\mu\,\mathbf 1 + K\big(K + (\sigma_e^2/\sigma_g^2)I\big)^{-1}(y-\hat\mu\,\mathbf 1),</span> i.e., kernel ridge on the same <span class="math inline">K</span> with <span class="math inline">\lambda_K=\sigma_e^2/\sigma_g^2</span>.</li>
+<li>Let <span class="math inline">Z\in\mathbb R^{n\times m}</span> be the standardized marker matrix: each column centered and scaled so <span class="math inline">\mathbf 1^\top Z = 0</span> and <span class="math inline">\mathrm{Var}(Z_{\cdot j})\approx 1</span>.</li>
+<li>Define the genomic similarity <span class="math inline">K = ZZ^\top/m</span>. Then <span class="math inline">K\,\mathbf 1 = 0</span> and <span class="math inline">\operatorname{E}[\operatorname{diag}(K)] \approx 1</span>.</li>
+<li>With an intercept, <span class="math inline">y=\mu\,\mathbf 1 + Z\beta + \varepsilon</span>, the centering implies the intercept decouples and <span class="math inline">\hat\mu = \bar y</span> (in cross‑validation, use the training‑fold mean <span class="math inline">\bar y_{\text{train}}</span>). Write <span class="math inline">\tilde y = y - \bar y\,\mathbf 1</span>.</li>
+</ul>
+</section>
+<section id="ridge-kernel-ridge-and-gblup-one-model-three-views-1" class="slide level2">
+<h2>Ridge, Kernel Ridge, and GBLUP: One Model, Three Views</h2>
+<h3 id="primal-ridge-markereffects-view">Primal ridge (marker‑effects view)</h3>
+<ul>
+<li>Objective: <span class="math inline">\min_\beta\; \tfrac12\Vert \tilde y - Z\beta\Vert_2^2 + \tfrac\lambda2\Vert\beta\Vert_2^2</span>.</li>
+<li>Closed form: <span class="math inline">\displaystyle \hat\beta = (Z^\top Z + \lambda I_m)^{-1} Z^\top \tilde y</span>, and predictions <span class="math inline">\hat y = \bar y\,\mathbf 1 + Z\hat\beta</span>.</li>
+<li>Bayesian view: <span class="math inline">\beta\sim\mathcal N(0,\sigma_\beta^2 I_m)</span>, <span class="math inline">\varepsilon\sim\mathcal N(0,\sigma_e^2 I_n)</span> gives <span class="math inline">\lambda = \sigma_e^2/\sigma_\beta^2</span>.</li>
+</ul>
+</section>
+<section id="ridge-kernel-ridge-and-gblup-one-model-three-views-2" class="slide level2">
+<h2>Ridge, Kernel Ridge, and GBLUP: One Model, Three Views</h2>
+<h3 id="dual-kernel-ridge">Dual (kernel) ridge</h3>
+<ul>
+<li>Work in the <span class="math inline">n</span>‑dimensional span of samples: solve <span class="math display">\hat\alpha = (K + \lambda_K I_n)^{-1}\tilde y,\qquad \hat y = \bar y\,\mathbf 1 + K\hat\alpha.</span></li>
+<li>Equivalence identity: <span class="math display">(Z^\top Z + \lambda I_m)^{-1} Z^\top = Z^\top (ZZ^\top + \lambda I_n)^{-1}.</span> Hence <span class="math inline">\hat\beta = Z^\top\hat\alpha</span> and <span class="math inline">Z\hat\beta = K\hat\alpha</span> ⇒ identical predictions when hyperparameters match.</li>
+<li>Hyperparameter mapping with <span class="math inline">K=ZZ^\top/m</span>: set <span class="math inline">\boxed{\;\lambda_K = \lambda/m\;}\;</span> (equivalently <span class="math inline">\lambda = m\,\lambda_K</span>).</li>
+</ul>
+</section>
+<section id="ridge-kernel-ridge-and-gblup-one-model-three-views-3" class="slide level2">
+<h2>Ridge, Kernel Ridge, and GBLUP: One Model, Three Views</h2>
+<h3 id="blup-mixedmodel-view">BLUP (mixed‑model view)</h3>
+<ul>
+<li>Model: <span class="math inline">y = \mu\,\mathbf 1 + g + \varepsilon</span>, with <span class="math inline">g\sim\mathcal N(0,\sigma_g^2 K)</span> and <span class="math inline">\varepsilon\sim\mathcal N(0,\sigma_e^2 I_n)</span>; let <span class="math inline">V = \sigma_g^2 K + \sigma_e^2 I_n</span>.</li>
+<li>GLS intercept: <span class="math inline">\hat\mu = (\mathbf 1^\top V^{-1}\mathbf 1)^{-1}\,\mathbf 1^\top V^{-1} y</span>. Because <span class="math inline">K\,\mathbf 1 = 0</span>, <span class="math inline">V\,\mathbf 1 = \sigma_e^2\mathbf 1</span> ⇒ <span class="math inline">\hat\mu = \bar y</span>.</li>
+<li>BLUP of genetic values: <span class="math display">\hat g = \sigma_g^2 K V^{-1}(y - \hat\mu\,\mathbf 1) = K\big(K + (\sigma_e^2/\sigma_g^2) I_n\big)^{-1}(y - \hat\mu\,\mathbf 1).</span> This is kernel ridge on <span class="math inline">K</span> with <span class="math inline">\boxed{\;\lambda_K = \sigma_e^2/\sigma_g^2\;}</span>. Predictions are <span class="math inline">\hat y = \hat\mu\,\mathbf 1 + \hat g</span>.</li>
+<li>Marker‑BLUP equivalence: if <span class="math inline">\beta\sim\mathcal N(\,0,\,\sigma_\beta^2 I_m)</span>, then <span class="math inline">g=Z\beta\sim\mathcal N(0,\sigma_g^2 K)</span> with <span class="math inline">\sigma_g^2 = m\,\sigma_\beta^2</span> (since <span class="math inline">\operatorname{Var}(Z\beta)=\sigma_\beta^2 ZZ^\top = m\sigma_\beta^2 K</span>). Thus <span class="math inline">\lambda = \sigma_e^2/\sigma_\beta^2</span> and <span class="math inline">\lambda_K = \sigma_e^2/\sigma_g^2</span> satisfy <span class="math inline">\lambda = m\,\lambda_K</span>.</li>
+</ul>
+</section>
+<section id="ridge-kernel-ridge-and-gblup-one-model-three-views-4" class="slide level2">
+<h2>Ridge, Kernel Ridge, and GBLUP: One Model, Three Views</h2>
+<h3 id="outofsample-prediction">Out‑of‑sample prediction</h3>
+<ul>
+<li>New individual with standardized genotype <span class="math inline">z_*\in\mathbb R^m</span>:
+<ul>
+<li>Primal: <span class="math inline">\hat y_* = \hat\mu + z_*^\top\hat\beta</span>.</li>
+<li>Kernel: form <span class="math inline">k_* = z_* Z^\top / m</span> and use <span class="math inline">\hat y_* = \hat\mu + k_*\hat\alpha</span>.</li>
+<li>Shapes: <span class="math inline">Z_{\text{train}}\in\mathbb R^{n\times m}</span>, <span class="math inline">z_*\in\mathbb R^m</span>, so <span class="math inline">k_*\in\mathbb R^n</span> and <span class="math inline">\alpha\in\mathbb R^n</span> solves <span class="math inline">(K_{\text{train}}+\lambda_K I)\alpha = y_{\text{train}} - \hat\mu\,\mathbf 1</span>.</li>
+</ul></li>
+</ul>
+</section>
+<section id="ridge-kernel-ridge-and-gblup-one-model-three-views-5" class="slide level2">
+<h2>Ridge, Kernel Ridge, and GBLUP: One Model, Three Views</h2>
+<h3 id="computational-notes">Computational notes</h3>
+<ul>
+<li>Choose the algebra that fits the dimension: primal solves a <span class="math inline">m\times m</span> system; dual/kernel solves an <span class="math inline">n\times n</span> system. When <span class="math inline">m\gg n</span>, the kernel view is cheaper; when <span class="math inline">n\gg m</span>, the primal view is cheaper. Conjugate‑gradient or Cholesky apply in either view.</li>
+<li>ABLUP uses <span class="math inline">K=A</span> (often exploited via sparse <span class="math inline">A^{-1}</span> in mixed‑model equations); GBLUP uses dense <span class="math inline">K=G</span>.</li>
 </ul>
 </section>
 <section id="prediction-for-crop-yield" class="slide level2">
@@ -480,7 +523,7 @@
 <h2>Breeding context: what are we predicting?</h2>
 <ul>
 <li>A “line” = inbred or DH line to be advanced or discarded; objective is to predict its genetic value (GEBV) for yield.</li>
-<li>“Environment (Env)” = location–year–management combination; yield varies by Env and by G×E (line×environment interaction)</li>
+<li>“Environment (Env)” = location-year-management combination. Yield varies by Env and by G×E (line×environment interaction)</li>
 <li>Target Population of Environments (TPE): we want models that generalize to the environments we care about</li>
 </ul>
 </section>
@@ -572,6 +615,7 @@
 </dl>
 </div>
 </div>
+<p>Because columns of <span class="math inline">Z</span> are mean‑zero and have variance near 1, <span class="math inline">K=ZZ^\top/m</span> has <span class="math inline">\operatorname{mean}(\operatorname{diag} K)\approx 1</span>. Dividing <span class="math inline">A</span> and <span class="math inline">G</span> by their mean diagonal sets that target exactly and places <span class="math inline">\sigma_g^2</span> on a comparable scale across kernels.</p>
 </section>
 <section id="cross-validation-folds" class="slide level2">
 <h2>Cross-validation folds</h2>
@@ -587,6 +631,7 @@
 <ul>
 <li>Create a function to generate cross-validation folds</li>
 <li>If we have multiple observations for the same line, ensure they are in the same fold</li>
+<li>Naming note: here <code>K</code> denotes the number of folds; elsewhere <span class="math inline">K</span> denotes a kernel/relationship matrix. Context distinguishes them.</li>
 </ul>
 </section>
 <section id="metrics-functions" class="slide level2">

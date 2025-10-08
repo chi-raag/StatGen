@@ -31,32 +31,30 @@ theme_update(panel.grid = element_blank())
 
 ## Inference vs Prediction
 
-- So far, we have talked about estimation of certain quantities of interest
-  - $p$: Allele frequencies
-  - $\beta$: Association effect sizes
-  - $\pi$: Ancestry proportions
+-   So far, we have talked about estimation of certain quantities of interest
+    -   $p$: Allele frequencies
+    -   $\beta$: Association effect sizes
+    -   $\pi$: Ancestry proportions
 
 ## Inference vs Prediction
 
-- Some tasks, however, focus on predicting outcomes rather than estimating parameters.
-  - Disease risk classification (polygenic risk scores, case vs control)
-  - Absolute/lifetime risk and time-to-event predictions 
-  - Drug response/toxicity prediction
+-   Some tasks, however, focus on predicting outcomes rather than estimating parameters.
+    -   Disease risk classification (polygenic risk scores, case vs control)
+    -   Absolute/lifetime risk and time-to-event predictions
+    -   Drug response/toxicity prediction
 
 ## Inference vs Prediction
 
 While not mutually exclusive, these tasks require different approaches and metrics
 
-- Association
-    - Goal: identify variants related to trait.
-    - Target: low FDR/valid inference, effect estimates with SEs.
-    - Tools: single‑variant tests, LMMs, fine‑mapping
-
-- Prediction
-    - Goal: accurate out‑of‑sample trait/risk estimates.
-    - Target: minimize expected loss (MSE, log loss)
-    - Tools: penalized GLMs, BLUP/GBLUP, ensembles, NNs
-
+-   Association
+    -   Goal: identify variants related to trait.
+    -   Target: low FDR/valid inference, effect estimates with SEs.
+    -   Tools: single‑variant tests, LMMs, fine‑mapping
+-   Prediction
+    -   Goal: accurate out‑of‑sample trait/risk estimates.
+    -   Target: minimize expected loss (MSE, log loss)
+    -   Tools: penalized GLMs, BLUP/GBLUP, ensembles, NNs
 
 ## Bait and Switch
 
@@ -66,7 +64,7 @@ Today we will be talking about baseball! (Briefly)
 
 ## Prediction in baseball
 
-- Task: predict a later‑season batting rate using the first 45 at‑bats for each player (following Efron–Morris)
+-   Task: predict a later‑season batting rate using the first 45 at‑bats for each player
 
 ## Our data
 
@@ -83,9 +81,9 @@ head(batting_averages) |>
 
 ## Estimating batting averages
 
-- If we assume that each player's batting average comes from a binomial distribution, then the MLE is the sample proportion $\hat{p_i} = h_i/n_i$
-- A different approach is to use a beta prior centered at the league average
-  - The prior is $p_i \sim \mathrm{Beta}(\alpha, \beta)$ with $\alpha = \bar p \kappa$ and $\beta = (1 - \bar p)\kappa$, where $\bar p$ is the league average
+-   If we assume that each player's batting average comes from a binomial distribution, then the MLE is the sample proportion $\hat{p_i} = h_i/n_i$
+-   A different approach is to use a beta prior centered at the league average
+    -   The prior is $p_i \sim \mathrm{Beta}(\alpha, \beta)$ with $\alpha = \bar p \kappa$ and $\beta = (1 - \bar p)\kappa$, where $\bar p$ is the league average
 
 ```{r}
 league_avg <- mean(batting_averages$hits / batting_averages$at_bats)
@@ -99,6 +97,8 @@ batting_avg_long <- tidyr::crossing(batting_averages, k_grid) |>
            estimator = paste0("k=", k)
            ) 
 ```
+
+Note: $k=0$ corresponds to the (improper) Beta$(0,0)$ prior; in this limit the posterior mean reduces to the MLE $h/n$.
 
 ## Prediction performance
 
@@ -126,95 +126,129 @@ batting_avg_long |>
 
 ## What are we doing here?
 
-- Our beta-binomial model makes an assumption that players regress toward the league average
-- More statistically, we are assuming that the true batting averages are drawn from a common prior distribution centered at the league average
+-   Our beta-binomial model makes an assumption that players regress toward the league average
+-   More statistically, we are assuming that the true batting averages are drawn from a common prior distribution centered at the league average
 
 ## Back to genetics
 
-- The same principles apply when performing prediction in genetics
-- Many problems involve a large number of genetic variants (p) and relatively small sample sizes (n)
-- When $p > n$, linear regression is singular
-  - This means the design matrix does not have full rank, leading to non-unique solutions
-  - We solve this by imposing strong structure (assumptions) on effects
+-   The same principles apply when performing prediction in genetics
+-   Many problems involve a large number of genetic variants (p) and relatively small sample sizes (n)
+-   When $p > n$, linear regression is singular
+    -   This means the design matrix does not have full rank, leading to non-unique solutions
+    -   We solve this by imposing strong structure (assumptions) on effects
 
 ## $p >> n$: structural assumptions we use
 
-- Sparsity: most variant effects are 0 (lasso, debiased lasso for inference)
-- Gaussian shrinkage: many small effects (ridge, BLUP/GBLUP, PRS-CS)
-- Low-rank/latent structure: factors, PCs, random effects (LMMs)
-- Smoothness/blocks: genomic locality/LD (fused/TV penalties, windowed methods)
-- Hybrid/empirical Bayes: estimate prior from data + partial pooling
+-   Sparsity: most variant effects are 0 (lasso, debiased lasso for inference)
+-   Gaussian shrinkage: many small effects (ridge, BLUP/GBLUP, PRS-CS)
+-   Low-rank/latent structure: factors, PCs, random effects (LMMs)
+-   Smoothness/blocks: genomic locality/LD (fused/TV penalties, windowed methods)
+-   Hybrid/empirical Bayes: estimate prior from data + partial pooling
 
 ## Examples of Shrinkage/Sparse Estimators
 
-- Ridge regression
-- Lasso regression
-- Elastic net
-- Bayesian linear regression with Gaussian priors
-- BLUP/GBLUP in genetics
-- DESeq2 (transcriptomics)
-
+-   Ridge regression
+-   Lasso regression
+-   Elastic net
+-   Bayesian linear regression with Gaussian priors
+-   BLUP/GBLUP in genetics
+-   DESeq2 (transcriptomics)
 
 ## What is BLUP?
 
-- BLUP = Best Linear Unbiased Prediction of random effects in a mixed model.
-- Model: $y = X\beta + Zu + \varepsilon$, with $u \sim \mathcal N(0, \sigma_g^2 K)$ and $\varepsilon \sim \mathcal N(0, \sigma_e^2 I)$.
-  - $u$ collect latent genetic effects, $K$ encodes genetic similarity among individuals.
-- BLUP shrinks predictions toward a common mean
-  - The ratio $\sigma_g^2/\sigma_e^2$ determines shrinkage strength
-  - As $\sigma_g^2/\sigma_e^2 \to 0$, predictions shrink to the mean
-- Pedigree-based BLUP: use $K = A$, the expected relatedness matrix from pedigrees.
-- Genomic BLUP: use $K = G$, the realized similarity matrix from marker data.
+-   BLUP = Best Linear Unbiased Prediction of random effects in a mixed model.
+-   Model (K-based view): $y = \mu\,\mathbf 1 + g + \varepsilon$, with $g \sim \mathcal N(0, \sigma_g^2 K)$ and $\varepsilon \sim \mathcal N(0, \sigma_e^2 I)$.
+-   Equivalent marker-effects view: $y = \mu\,\mathbf 1 + Z\beta + \varepsilon$ with $\beta\sim\mathcal N(0,\sigma_\beta^2 I_m)$; then $g=Z\beta$ and $\operatorname{Cov}(g)=\sigma_\beta^2 ZZ^\top = \sigma_g^2 K$ with $\sigma_g^2 = m\,\sigma_\beta^2$ when $K=ZZ^\top/m$.
+-   BLUP shrinks random effects toward 0; predictions $\hat y$ shrink toward the mean $\mu$.
+    -   As $\sigma_g^2/\sigma_e^2 \to 0$, predictions shrink to the mean.
+-   Pedigree-based BLUP: use $K = A$, the expected relatedness matrix from pedigrees.
+-   Genomic BLUP: use $K = G$, the realized similarity matrix from marker data.
 
-## Relationship matrices A and G (how we build them)
+## Relationship matrices A and G
 
-- Pedigree $A$:
-  - $A_{ij}$ = expected proportion of alleles identical‑by‑descent
-  - Requires accurate pedigrees.
-- Genomic $G$ (unified with ridge via standardized markers):
-  - Build a standardized marker matrix $Z$ by centering each SNP by its allele frequency and scaling by its standard deviation.
-    - 0/1 SNPs (DArT): $Z_{ij} = (X_{ij} - p_j)/\sqrt{p_j(1-p_j)}$.
-    - 0/1/2 SNPs: $Z_{ij} = (X_{ij} - 2p_j)/\sqrt{2p_j(1-p_j)}$.
-  - Set $G = ZZ^\top / m$ with $m$ markers; then $\operatorname{E}[\operatorname{diag}(G)] \approx 1$.
-  - Fit ridge on the same $Z$ with `standardize=FALSE` so ridge and GBLUP are directly comparable.
+-   Pedigree $A$:
+    -   $A_{ij} = 2\,\phi_{ij}$, where $\phi_{ij}$ is the kinship (coancestry) coefficient; $A_{ii} = 1 + F_i$ (with inbreeding $F_i$).
+    -   Requires accurate pedigrees.
+-   Genomic $G$ (unified with ridge via standardized markers):
+    -   Build a standardized marker matrix $Z$ by centering each SNP by its allele frequency and scaling by its standard deviation.
+        -   0/1 SNPs: $Z_{ij} = (X_{ij} - p_j)/\sqrt{p_j(1-p_j)}$.
+        -   0/1/2 SNPs: $Z_{ij} = (X_{ij} - 2p_j)/\sqrt{2p_j(1-p_j)}$.
+    -   Set $G = ZZ^\top / m$ with $m$ markers; then $\operatorname{E}[\operatorname{diag}(G)] \approx 1$.
 
+## Ridge, Kernel Ridge, and GBLUP: One Model, Three Views
 
-## Ridge, Kernel Ridge, and GBLUP: Equivalence
+### Setup and assumptions
 
-- Setup: $Z\in\mathbb R^{n\times p}$ (standardized), $K=ZZ^\top/p$ (with $p$ markers), $\tilde y = y - \bar y\,\mathbf 1$.
-- Primal ridge: $\hat\beta = (Z^\top Z + \lambda I)^{-1} Z^\top\tilde y$, predict $\hat y = \bar y\,\mathbf 1 + Z\hat\beta$.
-- Dual/kernel ridge: $\hat\alpha = (K + \lambda_K I)^{-1}\tilde y$, predict $\hat y = \bar y\,\mathbf 1 + K\hat\alpha$.
-- Identity: $(Z^\top Z + \lambda I)^{-1} Z^\top = Z^\top (ZZ^\top + \lambda I)^{-1}$ ⇒ $\hat\beta = Z^\top\hat\alpha$ and $Z\hat\beta = K\hat\alpha$ ⇒ same $\hat y$.
-- Scaling: if $K=ZZ^\top/p$, use $\lambda_K=\lambda/p$ to match primal.
-- GBLUP: $y=\mathbf 1\mu + g + \varepsilon$, $g\sim\mathcal N(0,\sigma_g^2 K)$, $\varepsilon\sim\mathcal N(0,\sigma_e^2 I)$ ⇒
-  $$\hat y = \hat\mu\,\mathbf 1 + K\big(K + (\sigma_e^2/\sigma_g^2)I\big)^{-1}(y-\hat\mu\,\mathbf 1),$$
-  i.e., kernel ridge on the same $K$ with $\lambda_K=\sigma_e^2/\sigma_g^2$.
+-   Let $Z\in\mathbb R^{n\times m}$ be the standardized marker matrix: each column centered and scaled so $\mathbf 1^\top Z = 0$ and $\mathrm{Var}(Z_{\cdot j})\approx 1$.
+-   Define the genomic similarity $K = ZZ^\top/m$. Then $K\,\mathbf 1 = 0$ and $\operatorname{E}[\operatorname{diag}(K)] \approx 1$.
+-   With an intercept, $y=\mu\,\mathbf 1 + Z\beta + \varepsilon$, the centering implies the intercept decouples and $\hat\mu = \bar y$ (in cross‑validation, use the training‑fold mean $\bar y_{\text{train}}$). Write $\tilde y = y - \bar y\,\mathbf 1$.
+
+## Ridge, Kernel Ridge, and GBLUP: One Model, Three Views
+
+### Primal ridge (marker‑effects view)
+
+-   Objective: $\min_\beta\; \tfrac12\Vert \tilde y - Z\beta\Vert_2^2 + \tfrac\lambda2\Vert\beta\Vert_2^2$.
+-   Closed form: $\displaystyle \hat\beta = (Z^\top Z + \lambda I_m)^{-1} Z^\top \tilde y$, and predictions $\hat y = \bar y\,\mathbf 1 + Z\hat\beta$.
+-   Bayesian view: $\beta\sim\mathcal N(0,\sigma_\beta^2 I_m)$, $\varepsilon\sim\mathcal N(0,\sigma_e^2 I_n)$ gives $\lambda = \sigma_e^2/\sigma_\beta^2$.
+
+## Ridge, Kernel Ridge, and GBLUP: One Model, Three Views
+
+### Dual (kernel) ridge
+
+-   Work in the $n$‑dimensional span of samples: solve $$\hat\alpha = (K + \lambda_K I_n)^{-1}\tilde y,\qquad \hat y = \bar y\,\mathbf 1 + K\hat\alpha.$$
+-   Equivalence identity: $$(Z^\top Z + \lambda I_m)^{-1} Z^\top = Z^\top (ZZ^\top + \lambda I_n)^{-1}.$$ Hence $\hat\beta = Z^\top\hat\alpha$ and $Z\hat\beta = K\hat\alpha$ ⇒ identical predictions when hyperparameters match.
+-   Hyperparameter mapping with $K=ZZ^\top/m$: set $\boxed{\;\lambda_K = \lambda/m\;}\;$ (equivalently $\lambda = m\,\lambda_K$).
+
+## Ridge, Kernel Ridge, and GBLUP: One Model, Three Views
+
+### BLUP (mixed‑model view)
+
+-   Model: $y = \mu\,\mathbf 1 + g + \varepsilon$, with $g\sim\mathcal N(0,\sigma_g^2 K)$ and $\varepsilon\sim\mathcal N(0,\sigma_e^2 I_n)$; let $V = \sigma_g^2 K + \sigma_e^2 I_n$.
+-   GLS intercept: $\hat\mu = (\mathbf 1^\top V^{-1}\mathbf 1)^{-1}\,\mathbf 1^\top V^{-1} y$. Because $K\,\mathbf 1 = 0$, $V\,\mathbf 1 = \sigma_e^2\mathbf 1$ ⇒ $\hat\mu = \bar y$.
+-   BLUP of genetic values: $$\hat g = \sigma_g^2 K V^{-1}(y - \hat\mu\,\mathbf 1) = K\big(K + (\sigma_e^2/\sigma_g^2) I_n\big)^{-1}(y - \hat\mu\,\mathbf 1).$$ This is kernel ridge on $K$ with $\boxed{\;\lambda_K = \sigma_e^2/\sigma_g^2\;}$. Predictions are $\hat y = \hat\mu\,\mathbf 1 + \hat g$.
+-   Marker‑BLUP equivalence: if $\beta\sim\mathcal N(\,0,\,\sigma_\beta^2 I_m)$, then $g=Z\beta\sim\mathcal N(0,\sigma_g^2 K)$ with $\sigma_g^2 = m\,\sigma_\beta^2$ (since $\operatorname{Var}(Z\beta)=\sigma_\beta^2 ZZ^\top = m\sigma_\beta^2 K$). Thus $\lambda = \sigma_e^2/\sigma_\beta^2$ and $\lambda_K = \sigma_e^2/\sigma_g^2$ satisfy $\lambda = m\,\lambda_K$.
+
+## Ridge, Kernel Ridge, and GBLUP: One Model, Three Views
+
+### Out‑of‑sample prediction
+
+-   New individual with standardized genotype $z_*\in\mathbb R^m$:
+    -   Primal: $\hat y_* = \hat\mu + z_*^\top\hat\beta$.
+    -   Kernel: form $k_* = z_* Z^\top / m$ and use $\hat y_* = \hat\mu + k_*\hat\alpha$.
+    -   Shapes: $Z_{\text{train}}\in\mathbb R^{n\times m}$, $z_*\in\mathbb R^m$, so $k_*\in\mathbb R^n$ and $\alpha\in\mathbb R^n$ solves $(K_{\text{train}}+\lambda_K I)\alpha = y_{\text{train}} - \hat\mu\,\mathbf 1$.
+
+## Ridge, Kernel Ridge, and GBLUP: One Model, Three Views
+
+### Computational notes
+
+-   Choose the algebra that fits the dimension: primal solves a $m\times m$ system; dual/kernel solves an $n\times n$ system. When $m\gg n$, the kernel view is cheaper; when $n\gg m$, the primal view is cheaper. Conjugate‑gradient or Cholesky apply in either view.
+-   ABLUP uses $K=A$ (often exploited via sparse $A^{-1}$ in mixed‑model equations); GBLUP uses dense $K=G$.
 
 ## Prediction for crop yield
 
-- Consider the problem of predicting grain yield for different wheat lines across multiple environments
-- We are interested in modeling the genetic and environmental effects on yield
+-   Consider the problem of predicting grain yield for different wheat lines across multiple environments
+-   We are interested in modeling the genetic and environmental effects on yield
 
 Dataset at a glance
 
-- Lines: 599 historical wheat lines
-- Environments: 4 mega-environments (columns in Y)
-- Phenotype (Y): average grain yield (one column per environment)
-- Markers (X): (0/1 after QC + imputation)
-- Pedigree (A): 599×599 additive relationship from multi-generation pedigree
+-   Lines: 599 historical wheat lines
+-   Environments: 4 mega-environments (columns in Y)
+-   Phenotype (Y): average grain yield (one column per environment)
+-   Markers (X): (0/1 after QC + imputation)
+-   Pedigree (A): 599×599 additive relationship from multi-generation pedigree
 
 ## Breeding context: what are we predicting?
 
-- A “line” = inbred or DH line to be advanced or discarded; objective is to predict its genetic value (GEBV) for yield.
-- “Environment (Env)” = location–year–management combination; yield varies by Env and by G×E (line×environment interaction)
-- Target Population of Environments (TPE): we want models that generalize to the environments we care about
+-   A “line” = inbred or DH line to be advanced or discarded; objective is to predict its genetic value (GEBV) for yield.
+-   “Environment (Env)” = location-year-management combination. Yield varies by Env and by G×E (line×environment interaction)
+-   Target Population of Environments (TPE): we want models that generalize to the environments we care about
 
 ## Cross‑validation that matches breeding decisions
 
-- Use line‑wise folds so the same line never appears in both train and test.
-- For multi‑environment data:
-  - Goal “new line, known environments” $\to$ mask whole lines across all environments in test.
-  - Goal “known lines, new environment” $\to$ environment‑wise holdouts and G×E models.
+-   Use line‑wise folds so the same line never appears in both train and test.
+-   For multi‑environment data:
+    -   Goal “new line, known environments” $\to$ mask whole lines across all environments in test.
+    -   Goal “known lines, new environment” $\to$ environment‑wise holdouts and G×E models.
 
 ## Loading data
 
@@ -252,11 +286,13 @@ G <- G / mean(diag(G)) # <5>
 A <- A / mean(diag(A)) # <5>
 ```
 
-1. Calculate allele frequencies per marker
-2. Calculate standard deviations for each marker
-3. Standardize markers into $Z$
-4. Build genomic relationship matrix $G = ZZ^\top / m$
-5. Normalize $A$ and $G$
+1.  Calculate allele frequencies per marker
+2.  Calculate standard deviations for each marker
+3.  Standardize markers into $Z$
+4.  Build genomic relationship matrix $G = ZZ^\top / m$
+5.  Normalize $A$ and $G$
+
+Because columns of $Z$ are mean‑zero and have variance near 1, $K=ZZ^\top/m$ has $\operatorname{mean}(\operatorname{diag} K)\approx 1$. Dividing $A$ and $G$ by their mean diagonal sets that target exactly and places $\sigma_g^2$ on a comparable scale across kernels.
 
 ## Cross-validation folds
 
@@ -270,8 +306,9 @@ K <- 5
 fold <- make_folds(n, K)
 ```
 
-- Create a function to generate cross-validation folds
-- If we have multiple observations for the same line, ensure they are in the same fold
+-   Create a function to generate cross-validation folds
+-   If we have multiple observations for the same line, ensure they are in the same fold
+-   Naming note: here `K` denotes the number of folds; elsewhere $K$ denotes a kernel/relationship matrix. Context distinguishes them.
 
 ## Metrics functions
 
@@ -290,7 +327,7 @@ by_fold_metrics <- function(y, pred, fold, model_label){
 }
 ```
 
-- Create functions to compute metrics
+-   Create functions to compute metrics
 
 ## Ridge regression
 
@@ -311,9 +348,8 @@ cv_ridge_Z <- function(y, Z, fold, inner_nfolds = 5){
 }
 ```
 
-- Create a function for ridge regression using `cv.glmnet`
-- Uses `Z`, the standardized marker matrix
-
+-   Create a function for ridge regression using `cv.glmnet`
+-   Uses `Z`, the standardized marker matrix
 
 ## A/G-BLUP Models
 
@@ -330,8 +366,8 @@ cv_bglr_kernel <- function(y, K, fold, nIter = 6000, burnIn = 1000){
 }
 ```
 
-- Use `BGLR` for kernel ridge regression with a given kernel matrix
-- The `"RKHS"` option directs BGLR to fit a kernel ridge model with covariance $\sigma_g^2 K$, so shrinkage follows the supplied similarity matrix
+-   Use `BGLR` for kernel ridge regression with a given kernel matrix
+-   The `"RKHS"` option directs BGLR to fit a kernel ridge model with covariance $\sigma_g^2 K$, so shrinkage follows the supplied similarity matrix
 
 ## A+G-BLUP Models
 
@@ -350,10 +386,8 @@ cv_bglr_AplusG <- function(y, A, G, fold, nIter = 6000, burnIn = 1000){
 }
 ```
 
-- Combine pedigree and genomic relationship matrices in a two-kernel model
-- This allows modeling both additive genetic effects from pedigree and genomic information
-
-
+-   Combine pedigree and genomic relationship matrices in a two-kernel model
+-   This allows modeling both additive genetic effects from pedigree and genomic information
 
 ```{r, echo = FALSE, cache = TRUE}
 y1 <- as.numeric(Y[, 1])
@@ -379,7 +413,7 @@ single_env_summary <- metrics_by_fold %>%
 single_env_summary
 ```
 
-## Results 
+## Results
 
 ```{r, echo=FALSE}
 # Per-fold points with mean ± 95% t-interval (better for small K)
