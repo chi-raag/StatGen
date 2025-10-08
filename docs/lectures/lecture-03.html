@@ -635,7 +635,7 @@ p_O^{(t+1)} &amp;= 1 - p_A^{(t+1)} - p_B^{(t+1)}
 <section id="em-parameter-trajectories" class="slide level2">
 <h2>EM Parameter Trajectories</h2>
 
-<img data-src="lecture-03_files/figure-html/unnamed-chunk-5-1.png" width="672" class="r-stretch"><aside class="notes">
+<img data-src="lecture-03_files/figure-revealjs/unnamed-chunk-5-1.png" width="960" class="r-stretch"><aside class="notes">
 <p><strong>Script:</strong><br>
 “Here are the trajectories for <span class="math inline">\(p_A\)</span>. Different starts head toward the same fixed point, and the paths are smooth. If you ever see oscillation or jaggedness here, it’s a warning sign about numerical underflow or a bad update rule.”</p>
 <style type="text/css">
@@ -1525,6 +1525,44 @@ r
         ]
       });
     </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {
         const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")

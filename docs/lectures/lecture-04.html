@@ -422,7 +422,7 @@ p | x \sim \text{Beta}(\alpha + x,\ \beta + n - x)
 <section id="visualization" class="slide level2">
 <h2>Visualization</h2>
 
-<img data-src="lecture-04_files/figure-html/viz-1.png" width="672" class="r-stretch"></section>
+<img data-src="lecture-04_files/figure-revealjs/viz-1.png" width="960" class="r-stretch"></section>
 <section id="non-conjugate-models" class="slide level2">
 <h2>Non-Conjugate Models</h2>
 <ul>
@@ -485,7 +485,7 @@ p | x \sim \text{Beta}(\alpha + x,\ \beta + n - x)
 <section id="prior-shapes-marginal-densities" class="slide level2">
 <h2>Prior Shapes (Marginal Densities)</h2>
 
-<img data-src="lecture-04_files/figure-html/unnamed-chunk-3-1.png" width="672" class="r-stretch"></section>
+<img data-src="lecture-04_files/figure-revealjs/unnamed-chunk-3-1.png" width="960" class="r-stretch"></section>
 <section id="how-to-fit-these-models" class="slide level2">
 <h2>How to fit these models?</h2>
 <div class="quarto-layout-panel" data-layout="[80, -1, 20]">
@@ -817,7 +817,7 @@ Total execution time: 0.2 seconds.</code></pre>
 <section id="posterior-histograms-weak-prior" class="slide level2">
 <h2>Posterior Histograms (Weak Prior)</h2>
 
-<img data-src="lecture-04_files/figure-html/unnamed-chunk-8-1.png" width="672" class="r-stretch"></section>
+<img data-src="lecture-04_files/figure-revealjs/unnamed-chunk-8-1.png" width="960" class="r-stretch"></section>
 <section id="em-vs-bayesian-point-estimates" class="slide level2">
 <h2>EM vs Bayesian Point Estimates</h2>
 <div class="cell">
@@ -833,7 +833,7 @@ Total execution time: 0.2 seconds.</code></pre>
 <section id="consolidated-posterior-comparison" class="slide level2">
 <h2>Consolidated Posterior Comparison</h2>
 
-<img data-src="lecture-04_files/figure-html/unnamed-chunk-11-1.png" width="672" class="r-stretch"></section></section>
+<img data-src="lecture-04_files/figure-revealjs/unnamed-chunk-11-1.png" width="960" class="r-stretch"></section></section>
 <section>
 <section id="population-structure" class="title-slide slide level1 center">
 <h1>Population Structure</h1>
@@ -941,7 +941,7 @@ Total execution time: 0.2 seconds.</code></pre>
 <section id="principal-components-for-structure-3" class="slide level2">
 <h2>Principal Components for Structure</h2>
 
-<img data-src="lecture-04_files/figure-html/unnamed-chunk-14-1.png" width="672" class="r-stretch"></section>
+<img data-src="lecture-04_files/figure-revealjs/unnamed-chunk-14-1.png" width="960" class="r-stretch"></section>
 <section id="structure-admixture" class="slide level2">
 <h2>STRUCTURE &amp; ADMIXTURE</h2>
 <ul>
@@ -1207,7 +1207,7 @@ Total execution time: 0.2 seconds.</code></pre>
 <section id="pca-on-simulated-genotypes-1" class="slide level2">
 <h2>PCA On Simulated Genotypes</h2>
 
-<img data-src="lecture-04_files/figure-html/unnamed-chunk-19-1.png" width="672" class="r-stretch"></section>
+<img data-src="lecture-04_files/figure-revealjs/unnamed-chunk-19-1.png" width="960" class="r-stretch"></section>
 <section id="fitting-the-model" class="slide level2">
 <h2>Fitting the Model</h2>
 <div class="cell">
@@ -1262,14 +1262,14 @@ Total execution time: 0.2 seconds.</code></pre>
 <pre><code>Chain 4 </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Chain 2 finished in 4.7 seconds.
-Chain 4 finished in 4.7 seconds.
-Chain 1 finished in 4.8 seconds.
-Chain 3 finished in 4.9 seconds.
+<pre><code>Chain 2 finished in 8.6 seconds.
+Chain 1 finished in 8.7 seconds.
+Chain 4 finished in 8.6 seconds.
+Chain 3 finished in 9.0 seconds.
 
 All 4 chains finished successfully.
-Mean chain execution time: 4.8 seconds.
-Total execution time: 5.0 seconds.</code></pre>
+Mean chain execution time: 8.7 seconds.
+Total execution time: 9.1 seconds.</code></pre>
 </div>
 </div>
 </section>
@@ -1319,14 +1319,14 @@ Total execution time: 5.0 seconds.</code></pre>
 <span id="cb29-7"><a></a><span class="fu">xlim</span>(<span class="dv">0</span>, <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
-<img data-src="lecture-04_files/figure-html/unnamed-chunk-22-1.png" width="672" class="r-stretch"></section>
+<img data-src="lecture-04_files/figure-revealjs/unnamed-chunk-22-1.png" width="960" class="r-stretch"></section>
 <section id="credible-intervals" class="slide level2">
 <h2>Credible Intervals</h2>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a></a><span class="fu">mcmc_intervals</span>(dm, <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">"pi[1,1]"</span>, <span class="st">"pi[3,1]"</span>, <span class="st">"pi[14,1]"</span>, <span class="st">"pi[38,1]"</span>)) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
-<img data-src="lecture-04_files/figure-html/unnamed-chunk-23-1.png" width="672" class="r-stretch"></section>
+<img data-src="lecture-04_files/figure-revealjs/unnamed-chunk-23-1.png" width="960" class="r-stretch"></section>
 <section id="summary-next-steps" class="slide level2">
 <h2>Summary &amp; Next Steps</h2>
 <ul>
@@ -1556,6 +1556,44 @@ Yamamoto,F. <em>et al.</em> (2012) <a href="https://doi.org/10.1016/j.tmrv.2011.
         ]
       });
     </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {
         const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
