@@ -15,7 +15,7 @@ csl: https://www.zotero.org/styles/biostatistics
 ## Purpose
 
 - Analyze real genetic data using methods from the course. Choose one of the tracks below (or propose your own) and produce a succinct, reproducible analysis using a public dataset.
-- This project emphasizes scientific reasoning, correct statistical practice, clear communication, and reproducible code. It is intentionally open‑ended: depth > breadth.
+- This project emphasizes scientific reasoning, correct statistical practice, clear communication, and reproducible code. It is intentionally open‑ended.
 
 ## Deliverables
 

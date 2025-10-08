@@ -19,205 +19,397 @@ draft: true
 ```{r, message=FALSE, warning=FALSE, include=FALSE}
 library(ggplot2)
 library(dplyr)
+library(purrr)
 library(glmnet)
+library(tibble)
+library(tidyr)
+library(BGLR)
 set.seed(8878)
 theme_set(theme_minimal(base_size = 16))
-theme_update(panel.grid.minor = element_blank())
+theme_update(panel.grid = element_blank())
 ```
 
-## Learning Objectives
+## Inference vs Prediction
 
-- Distinguish association, prediction, and causation in statistical genetics and state the optimization target for each.
-- Formalize genomic prediction for quantitative and binary traits; select appropriate metrics and calibration checks.
-- Compare ridge/lasso/elastic‑net, BLUP/GBLUP, and tree/NN methods; understand when and why each is advantageous.
-- Design robust validation: nested CV, external validation, leakage avoidance with structure/kinship.
-- Assess portability across ancestries and communicate limits and remedies.
+- So far, we have talked about estimation of certain quantities of interest
+  - $p$: Allele frequencies
+  - $\beta$: Association effect sizes
+  - $\pi$: Ancestry proportions
 
-## Where We Are (Lectures 01–05 → 06)
+## Inference vs Prediction
 
-- L01–L04: likelihoods, variance components, population structure, Bayesian thinking.
-- L05: GWAS with mixed models—great for locus discovery, not optimized for individual‑level prediction.
-- Today: risk prediction (polygenic modeling) and evaluation beyond p‑values.
+- Some tasks, however, focus on predicting outcomes rather than estimating parameters.
+  - Disease risk classification (polygenic risk scores, case vs control)
+  - Absolute/lifetime risk and time-to-event predictions 
+  - Drug response/toxicity prediction
 
-## Why Prediction (vs Association vs Causation)?
+## Inference vs Prediction
+
+While not mutually exclusive, these tasks require different approaches and metrics
 
 - Association
     - Goal: identify variants related to trait.
-    - Target: low FDR/valid inference; effect estimates with SEs.
-    - Tools: single‑variant tests, LMMs, fine‑mapping.
+    - Target: low FDR/valid inference, effect estimates with SEs.
+    - Tools: single‑variant tests, LMMs, fine‑mapping
 
 - Prediction
     - Goal: accurate out‑of‑sample trait/risk estimates.
-    - Target: minimize expected loss (MSE, log loss) and calibrate probabilities.
-    - Tools: penalized GLMs, BLUP/GBLUP, ensembles, NNs.
+    - Target: minimize expected loss (MSE, log loss)
+    - Tools: penalized GLMs, BLUP/GBLUP, ensembles, NNs
 
-::: callout-note
-**Causation**: identify effects under interventions; target parameters and designs differ (e.g., MR, RCTs). A great predictor need not be causal, and a causal effect is not necessarily predictive.
-:::
 
-## When To Do Prediction
+## Bait and Switch
 
-- You have a clear decision/use‑case: screening, ranking, risk stratification, or prioritization.
-- You can evaluate externally (cohort/time/ancestry) and report calibration, not just discrimination.
-- You can incorporate non‑genetic covariates (age/sex/PCs) fairly and transparently.
+Today we will be talking about baseball! (Briefly)
 
-## When Not To (or Not Yet)
+![[Joshua Peacock jcpeacock, CC0, via Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Pittsburgh_Pirates_park_(Unsplash).jpg)](https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Pittsburgh_Pirates_park_%28Unsplash%29.jpg/1599px-Pittsburgh_Pirates_park_%28Unsplash%29.jpg?20170823100406)
 
-- No external cohort; data leakage risks (relateds across folds, PCs fit on all data).
-- Large ancestry mismatch between training and target with no mitigation plan.
-- Clinical thresholds or utilities undefined (can’t translate scores to action).
+## Prediction in baseball
 
-## Prediction Setup
+- Task: predict a later‑season batting rate using the first 45 at‑bats for each player (following Efron–Morris)
 
-- Data: response `y`, genotype matrix `G` (N×P), covariates `C` (PCs/age/sex).
-- Objective: learn `f(G, C)` minimizing expected loss.
-- Quantitative: MSE, `R^2` (out‑of‑sample). Binary: AUC/PR, Brier score, calibration slope/intercept.
+## Our data
 
-## Penalized GLMs: Ridge / Lasso / Elastic‑Net
+```{r, echo = FALSE, message = FALSE}
+batting_averages <- readr::read_csv("https://www.key2stats.com/Batting_Averages_for_18_major_league_baseball_players__1970_1322_66.csv") |>
+  select(-c(1, 2), -n) |>
+  mutate(at_bats = 45) |>
+  rename(hits = r, early_avg = y, final_avg = p) |>
+  select(name, team, league, hits, at_bats, early_avg, final_avg)
 
-Let standardized SNPs `X` and response `y`.
+head(batting_averages) |>
+  knitr::kable()
+```
 
-- Ridge: $\hat\beta = argmin ||y - X\beta||^2 + \lambda ||\beta||_2^2$ (dense, shrinkage; LD‑stable).
-- Lasso: $\hat\beta = argmin ||y - X\beta||^2 + \lambda ||\beta||_1$ (sparse; feature selection; correlated SNPs → group instability).
-- Elastic‑Net: mix of L1/L2 to balance sparsity and LD stability.
-- Tuning: nested CV for $\lambda$ (and $\alpha$ for EN). Standardize predictors; stratify folds by ancestry/family.
+## Estimating batting averages
 
-## Mixed Models And BLUP/GBLUP
-
-- LMM: $y = X\beta + g + \epsilon$, $g ~ N(0, K\sigma_g^2)$ with GRM $K$.
-- Duality: BLUP of SNP effects $\approx$ ridge with LD‑aware penalty via `K`.
-- When: highly polygenic traits, $p >> n$, strong LD, fast training with big P.
-
-## PRS Workflows (Individual vs Summary Stats)
-
-- Individual‑level: penalized GLM/GBLUP on `X` with PCs; careful CV.
-- Summary‑stats: clumping+thresholding (C+T) vs LD‑aware Bayesian shrinkage; use when individual genotypes unavailable.
-- Key choices: LD reference, ancestry matching, sample overlap checks.
-
-## Nonlinear Models: RF/GBM/DNN
-
-- Capture interactions and nonlinearities; risk of overfitting in `p ≫ n` with correlated SNPs.
-- Pros: robustness to monotone transforms (trees), potential epistasis capture.
-- Cons: compute, calibration, interpretability; gains often modest unless strong interactions.
-
-## Validation Strategy
-
-- Split: train/validation/test or nested CV; keep relateds within folds; compute PCs on training only and project.
-- Report: mean ± SE across folds; external validation on new cohort and ancestry.
-- Calibration: reliability plots, Brier score, Platt/Isotonic if needed; decision thresholds derived from utility.
-
-## Portability & Fairness
-
-- Performance gaps across ancestries from LD/MAF differences and environment.
-- Remedies: multi‑ancestry training, group‑aware reweighting, ancestry‑specific recalibration, transfer learning.
-- Report per‑group metrics (R²/AUC, calibration slope/intercept), not just overall.
-
-## From Association To Prediction: Mindset Shift
-
-- Hypothesis testing → risk minimization.
-- Multiple testing/FDR → CV/hold‑out and external replication.
-- Winner’s curse/sample overlap → unbiased evaluation and strict data hygiene.
-
-## Case Study: Lasso‑Penalized Logistic Regression In GWAS
-
-- Anchor reading: Wu et al. (2009) “Genome‑wide association analysis by lasso‑penalized logistic regression”.
-- Idea: coordinate descent for logistic loss + L1 penalty; scalable screening; interaction search extension; applied to coeliac disease.
-- Takeaways (then vs now): sparsity helps ranking but LD induces instability; today we add PCs/kinship, LD‑aware priors, and stronger external validation.
-
-## Math Box: Lasso Soft‑Thresholding (1D)
-
-For standardized `x` and response `y`, the lasso estimator solves
-`\hat\beta = S(\hat\beta_{OLS}, \lambda)` where `S` is soft‑thresholding; in correlated blocks (LD), support can be unstable → prefer EN or group penalties.
-
-## Math Box: Ridge ≡ Gaussian Prior; BLUP Dual
-
-- Ridge ↔ `\beta_j ~ N(0, \tau^2)`; BLUP emerges from the dual with `K = XX^T/P`.
-- Intuition: ridge shrinks per‑SNP; BLUP shrinks in the individual space via `K`.
-
-## Demo: Toy Genomic Prediction With glmnet (5–7 min)
+- If we assume that each player's batting average comes from a binomial distribution, then the MLE is the sample proportion $\hat{p_i} = h_i/n_i$
+- A different approach is to use a beta prior centered at the league average
+  - The prior is $p_i \sim \mathrm{Beta}(\alpha, \beta)$ with $\alpha = \bar p \kappa$ and $\beta = (1 - \bar p)\kappa$, where $\bar p$ is the league average
 
 ```{r}
-# Simulate LD blocks and a polygenic architecture
-N <- 800; P <- 2000
-blocks <- 40; bsize <- P / blocks
-rho <- 0.9
+league_avg <- mean(batting_averages$hits / batting_averages$at_bats)
 
-Sigma_block <- rho ^ abs(row(diag(bsize)) - col(diag(bsize)))
-X <- do.call(cbind, replicate(blocks, MASS::mvrnorm(N, mu = rep(0, bsize), Sigma = Sigma_block), simplify = FALSE))
-X <- scale(X)
+k_grid <- tibble(k = seq(0, 50, by = 1))
 
-# True effects: mix of sparse + dense
-beta <- rep(0, P)
-signal_idx <- sample(P, 150)
-beta[signal_idx] <- rnorm(150, 0, 0.15)
-
-y <- as.numeric(X %*% beta + rnorm(N, 0, 1))
-
-# Train/validation/test split (ancestry/relatives would stratify here in real data)
-set.seed(2)
-idx <- sample.int(N)
-tr <- idx[1:500]; va <- idx[501:650]; te <- idx[651:N]
-
-cv_grid <- 10^seq(-3, 1, length.out = 50)
-
-fit_ridge <- glmnet(X[tr,], y[tr], alpha = 0)
-pred_va <- sapply(cv_grid, function(l) predict(fit_ridge, X[va,], s = l))
-mse_va <- colMeans((pred_va - y[va])^2)
-lambda_best <- cv_grid[which.min(mse_va)]
-
-pred_te <- as.numeric(predict(fit_ridge, X[te,], s = lambda_best))
-mse_te <- mean((pred_te - y[te])^2)
-r2_te <- cor(pred_te, y[te])^2
-data.frame(metric = c("MSE", "R2"), value = c(mse_te, r2_te))
+batting_avg_long <- tidyr::crossing(batting_averages, k_grid) |>
+    mutate(alpha = league_avg * k,
+           beta  = (1 - league_avg) * k,
+           p_k   = (alpha + hits) / (alpha + beta + at_bats),
+           estimator = paste0("k=", k)
+           ) 
 ```
 
-## Demo: Calibration Check (Regression)
+## Prediction performance
+
+```{r, echo = F}
+batting_avg_long |>
+  group_by(k) |>
+  summarize(mse = mean((p_k - final_avg)^2)) |>
+  ggplot(aes(x = k, y = mse)) +
+  geom_line() +
+  labs(title = "MSE of league-adjusted estimator vs k",
+       x = "k (equivalent at-bats weight)",
+       y = "Mean Squared Error")
+```
+
+## Shrinkage visualization
+
+```{r, echo = F}
+batting_avg_long |>
+  mutate(mle = hits / at_bats) |>
+  ggplot(aes(x = mle, y = p_k, color = k)) +
+  geom_point(alpha = 1) +
+  geom_hline(yintercept = league_avg, linetype = "dashed", color = "grey40") +
+  annotate("text", x = -Inf, y = league_avg, label = "League average", hjust = -0.05, vjust = -0.6, color = "grey40") 
+```
+
+## What are we doing here?
+
+- Our beta-binomial model makes an assumption that players regress toward the league average
+- More statistically, we are assuming that the true batting averages are drawn from a common prior distribution centered at the league average
+
+## Back to genetics
+
+- The same principles apply when performing prediction in genetics
+- Many problems involve a large number of genetic variants (p) and relatively small sample sizes (n)
+- When $p > n$, linear regression is singular
+  - This means the design matrix does not have full rank, leading to non-unique solutions
+  - We solve this by imposing strong structure (assumptions) on effects
+
+## $p >> n$: structural assumptions we use
+
+- Sparsity: most variant effects are 0 (lasso, debiased lasso for inference)
+- Gaussian shrinkage: many small effects (ridge, BLUP/GBLUP, PRS-CS)
+- Low-rank/latent structure: factors, PCs, random effects (LMMs)
+- Smoothness/blocks: genomic locality/LD (fused/TV penalties, windowed methods)
+- Hybrid/empirical Bayes: estimate prior from data + partial pooling
+
+## Examples of Shrinkage/Sparse Estimators
+
+- Ridge regression
+- Lasso regression
+- Elastic net
+- Bayesian linear regression with Gaussian priors
+- BLUP/GBLUP in genetics
+- DESeq2 (transcriptomics)
+
+
+## What is BLUP?
+
+- BLUP = Best Linear Unbiased Prediction of random effects in a mixed model.
+- Model: $y = X\beta + Zu + \varepsilon$, with $u \sim \mathcal N(0, \sigma_g^2 K)$ and $\varepsilon \sim \mathcal N(0, \sigma_e^2 I)$.
+  - $u$ collect latent genetic effects, $K$ encodes genetic similarity among individuals.
+- BLUP shrinks predictions toward a common mean
+  - The ratio $\sigma_g^2/\sigma_e^2$ determines shrinkage strength
+  - As $\sigma_g^2/\sigma_e^2 \to 0$, predictions shrink to the mean
+- Pedigree-based BLUP: use $K = A$, the expected relatedness matrix from pedigrees.
+- Genomic BLUP: use $K = G$, the realized similarity matrix from marker data.
+
+## Relationship matrices A and G (how we build them)
+
+- Pedigree $A$:
+  - $A_{ij}$ = expected proportion of alleles identical‑by‑descent
+  - Requires accurate pedigrees.
+- Genomic $G$ (unified with ridge via standardized markers):
+  - Build a standardized marker matrix $Z$ by centering each SNP by its allele frequency and scaling by its standard deviation.
+    - 0/1 SNPs (DArT): $Z_{ij} = (X_{ij} - p_j)/\sqrt{p_j(1-p_j)}$.
+    - 0/1/2 SNPs: $Z_{ij} = (X_{ij} - 2p_j)/\sqrt{2p_j(1-p_j)}$.
+  - Set $G = ZZ^\top / m$ with $m$ markers; then $\operatorname{E}[\operatorname{diag}(G)] \approx 1$.
+  - Fit ridge on the same $Z$ with `standardize=FALSE` so ridge and GBLUP are directly comparable.
+
+
+## Ridge, Kernel Ridge, and GBLUP: Equivalence
+
+- Setup: $Z\in\mathbb R^{n\times p}$ (standardized), $K=ZZ^\top/p$ (with $p$ markers), $\tilde y = y - \bar y\,\mathbf 1$.
+- Primal ridge: $\hat\beta = (Z^\top Z + \lambda I)^{-1} Z^\top\tilde y$, predict $\hat y = \bar y\,\mathbf 1 + Z\hat\beta$.
+- Dual/kernel ridge: $\hat\alpha = (K + \lambda_K I)^{-1}\tilde y$, predict $\hat y = \bar y\,\mathbf 1 + K\hat\alpha$.
+- Identity: $(Z^\top Z + \lambda I)^{-1} Z^\top = Z^\top (ZZ^\top + \lambda I)^{-1}$ ⇒ $\hat\beta = Z^\top\hat\alpha$ and $Z\hat\beta = K\hat\alpha$ ⇒ same $\hat y$.
+- Scaling: if $K=ZZ^\top/p$, use $\lambda_K=\lambda/p$ to match primal.
+- GBLUP: $y=\mathbf 1\mu + g + \varepsilon$, $g\sim\mathcal N(0,\sigma_g^2 K)$, $\varepsilon\sim\mathcal N(0,\sigma_e^2 I)$ ⇒
+  $$\hat y = \hat\mu\,\mathbf 1 + K\big(K + (\sigma_e^2/\sigma_g^2)I\big)^{-1}(y-\hat\mu\,\mathbf 1),$$
+  i.e., kernel ridge on the same $K$ with $\lambda_K=\sigma_e^2/\sigma_g^2$.
+
+## Prediction for crop yield
+
+- Consider the problem of predicting grain yield for different wheat lines across multiple environments
+- We are interested in modeling the genetic and environmental effects on yield
+
+Dataset at a glance
+
+- Lines: 599 historical wheat lines
+- Environments: 4 mega-environments (columns in Y)
+- Phenotype (Y): average grain yield (one column per environment)
+- Markers (X): (0/1 after QC + imputation)
+- Pedigree (A): 599×599 additive relationship from multi-generation pedigree
+
+## Breeding context: what are we predicting?
+
+- A “line” = inbred or DH line to be advanced or discarded; objective is to predict its genetic value (GEBV) for yield.
+- “Environment (Env)” = location–year–management combination; yield varies by Env and by G×E (line×environment interaction)
+- Target Population of Environments (TPE): we want models that generalize to the environments we care about
+
+## Cross‑validation that matches breeding decisions
+
+- Use line‑wise folds so the same line never appears in both train and test.
+- For multi‑environment data:
+  - Goal “new line, known environments” $\to$ mask whole lines across all environments in test.
+  - Goal “known lines, new environment” $\to$ environment‑wise holdouts and G×E models.
+
+## Loading data
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE}
+set.seed(2025)
+
+# Load data (BGLR wheat)
+data(wheat)
+X <- wheat.X
+Y <- wheat.Y
+A <- wheat.A
+n <- nrow(X)
+m <- ncol(X)
+e <- ncol(Y)
+```
+
+## Looking at our data
 
 ```{r}
-df_te <- data.frame(y = y[te], yhat = pred_te)
-ggplot(df_te, aes(yhat, y)) +
-  geom_point(alpha = .35) +
-  geom_smooth(method = "lm", se = FALSE, color = "red") +
-  labs(title = "Calibration: observed vs predicted", x = "Predicted", y = "Observed")
+X[1:3, 1:3]
+Y[1:3,]
+A[1:3, 1:3]
 ```
 
-## Binary Trait Variant (Optional)
+## Standardizing markers
 
-```{r, eval=FALSE}
-# Create a logistic trait with moderate heritability
-eta <- as.numeric(X %*% beta)
-pr <- plogis(scale(eta))
-ybin <- rbinom(N, 1, pr)
-fit_lasso <- glmnet(X[tr,], ybin[tr], alpha = 1, family = "binomial")
-cv <- cv.glmnet(X[tr,], ybin[tr], alpha = 1, family = "binomial", nfolds = 5)
-phat <- as.numeric(predict(fit_lasso, X[te,], s = cv$lambda.min, type = "response"))
-# Compute AUC and reliability plot if pROC/yardstick available
+```{r}
+p <- colMeans(X) # <1>
+s <- sqrt(p * (1 - p)) # <2>
+s[s == 0] <- 1
+Z <- sweep(sweep(X, 2, p, "-"), 2, s, "/") # <3>
+G <- tcrossprod(Z) / ncol(Z) # <4>
+
+G <- G / mean(diag(G)) # <5>
+A <- A / mean(diag(A)) # <5>
 ```
 
-## Diagnostics To Show On Slides
+1. Calculate allele frequencies per marker
+2. Calculate standard deviations for each marker
+3. Standardize markers into $Z$
+4. Build genomic relationship matrix $G = ZZ^\top / m$
+5. Normalize $A$ and $G$
 
-- Regularization paths (coefficients vs log‑lambda) from `plot(fit_ridge)`.
-- Risk distributions by case/control (binary) and reliability plots.
-- Coefficient Manhattan vs predictive performance to contrast discovery vs prediction.
+## Cross-validation folds
 
-## Common Pitfalls (And Fixes)
+```{r}
+make_folds <- function(n, K = 5, seed = 2025) { 
+  set.seed(seed)
+  sample(rep(seq_len(K), length.out = n)) 
+}
 
-- Data leakage: keep families/relateds within folds; compute PCs on train only; avoid sample overlap with discovery GWAS.
-- Ancestry mismatch: external validation and group‑wise calibration; consider multi‑ancestry training.
-- Hyperparameter overfit: nested CV; pre‑register analysis plan for high‑stakes use.
+K <- 5
+fold <- make_folds(n, K)
+```
 
-## Discussion Prompts
+- Create a function to generate cross-validation folds
+- If we have multiple observations for the same line, ensure they are in the same fold
 
-- When is sparsity a good inductive bias for complex traits?
-- How would you incorporate biological priors (annotations/pathways) in penalties?
-- What metric matters for your application: ranking, calibration, or decision utility?
+## Metrics functions
 
-## Takeaways
+```{r}
+metrics <- function(obs, pred) { 
+  accuracy <- suppressWarnings(cor(obs, pred))
+  rmse <- sqrt(mean((obs - pred)^2))
+  c(Accuracy = accuracy, RMSE = rmse)
+}
 
-- Choose the inductive bias to match trait architecture: ridge/GBLUP (dense polygenic), lasso/EN (sparser), nonlinear only with strong justification and careful validation.
-- Report discrimination, calibration, and portability; external validation is essential before deployment.
+by_fold_metrics <- function(y, pred, fold, model_label){
+  idx <- split(seq_along(y), fold)
+  acc <- sapply(idx, function(ii) suppressWarnings(cor(y[ii], pred[ii])))
+  rmse <- sapply(idx, function(ii) sqrt(mean((y[ii] - pred[ii])^2)))
+  tibble(Model = model_label, Fold = seq_along(idx), Accuracy = acc, RMSE = rmse)
+}
+```
 
-## References for This Lecture
+- Create functions to compute metrics
 
-- Wu, T. T., Chen, Y. F., Hastie, T., Sobel, E., & Lange, K. (2009). Genome‑wide association analysis by lasso‑penalized logistic regression. Bioinformatics, 25(6), 714–721. doi:10.1093/bioinformatics/btp041
-- Additional suggested readings on PRS evaluation, portability, and LD‑aware shrinkage (see course references list).
+## Ridge regression
+
+```{r}
+cv_ridge_Z <- function(y, Z, fold, inner_nfolds = 5){
+  K <- max(fold)
+  pred <- rep(NA_real_, length(y))
+  lambda <- numeric(K)
+  for(k in seq_len(K)){
+    tr <- fold != k; te <- !tr
+    fit <- cv.glmnet(Z[tr, , drop = FALSE], y[tr],
+                     alpha = 0, standardize = FALSE, intercept = TRUE,
+                     nfolds = inner_nfolds)
+    pred[te] <- as.numeric(predict(fit, newx = Z[te, , drop = FALSE], s = "lambda.min"))
+    lambda[k] <- fit$lambda.min
+  }
+  list(pred = pred, lambda = lambda)
+}
+```
+
+- Create a function for ridge regression using `cv.glmnet`
+- Uses `Z`, the standardized marker matrix
+
+
+## A/G-BLUP Models
+
+```{r}
+cv_bglr_kernel <- function(y, K, fold, nIter = 6000, burnIn = 1000){
+  pred <- rep(NA_real_, length(y))
+  for(k in seq_len(max(fold))){
+    ytr <- y; ytr[fold == k] <- NA
+    fit <- BGLR(y = ytr, ETA = list(list(K = K, model = "RKHS")),
+                nIter = nIter, burnIn = burnIn, verbose = FALSE)
+    pred[fold == k] <- fit$yHat[fold == k]
+  }
+  list(pred = pred)
+}
+```
+
+- Use `BGLR` for kernel ridge regression with a given kernel matrix
+- The `"RKHS"` option directs BGLR to fit a kernel ridge model with covariance $\sigma_g^2 K$, so shrinkage follows the supplied similarity matrix
+
+## A+G-BLUP Models
+
+```{r}
+cv_bglr_AplusG <- function(y, A, G, fold, nIter = 6000, burnIn = 1000){
+  pred <- rep(NA_real_, length(y))
+  for(k in seq_len(max(fold))){
+    ytr <- y; ytr[fold == k] <- NA
+    fit <- BGLR(y = ytr,
+                ETA = list(list(K = A, model = "RKHS"),
+                           list(K = G, model = "RKHS")),
+                nIter = nIter, burnIn = burnIn, verbose = FALSE)
+    pred[fold == k] <- fit$yHat[fold == k]
+  }
+  list(pred = pred)
+}
+```
+
+- Combine pedigree and genomic relationship matrices in a two-kernel model
+- This allows modeling both additive genetic effects from pedigree and genomic information
+
+
+
+```{r, echo = FALSE, cache = TRUE}
+y1 <- as.numeric(Y[, 1])
+ridge_res <- cv_ridge_Z(y1, Z, fold)
+a_res     <- cv_bglr_kernel(y1, A, fold)
+g_res     <- cv_bglr_kernel(y1, G, fold)
+ag_res    <- cv_bglr_AplusG(y1, A, G, fold)
+
+metrics_by_fold <- bind_rows(
+  by_fold_metrics(y1, ridge_res$pred, fold, "Ridge(Z)"),
+  by_fold_metrics(y1, a_res$pred, fold, "A-BLUP (A)"),
+  by_fold_metrics(y1, g_res$pred,     fold, "GBLUP (G)"),
+  by_fold_metrics(y1, ag_res$pred,    fold, "A+G (two-kernel)")
+)
+
+single_env_summary <- metrics_by_fold %>%
+  group_by(Model) %>%
+  summarize(avg_acc = mean(Accuracy, na.rm = TRUE),
+            sd_acc = sd(Accuracy, na.rm = TRUE),
+            avg_rmse = mean(RMSE, na.rm = TRUE),
+            sd_rmse = sd(RMSE, na.rm = TRUE), .groups = "drop")
+
+single_env_summary
+```
+
+## Results 
+
+```{r, echo=FALSE}
+# Per-fold points with mean ± 95% t-interval (better for small K)
+metrics_long <- metrics_by_fold %>%
+  tidyr::pivot_longer(c(Accuracy, RMSE), names_to = "Metric", values_to = "Value")
+
+summary_long <- metrics_long %>%
+  dplyr::group_by(Model, Metric) %>%
+  dplyr::summarise(
+    n = dplyr::n(),
+    mean = mean(Value, na.rm = TRUE),
+    sd = sd(Value, na.rm = TRUE),
+    .groups = "drop_last"
+  ) %>%
+  dplyr::mutate(
+    se = sd / sqrt(n),
+    tcrit = qt(0.975, df = pmax(n - 1, 1)),
+    lo = mean - tcrit * se,
+    hi = mean + tcrit * se
+  ) %>%
+  dplyr::ungroup()
+
+ggplot() +
+  geom_jitter(data = metrics_long, aes(x = Model, y = Value),
+              width = 0.15, alpha = 0.6, size = 1.8) +
+  geom_point(data = summary_long, aes(x = Model, y = mean), size = 2.6) +
+  geom_errorbar(data = summary_long, aes(x = Model, ymin = lo, ymax = hi),
+                width = 0.15) +
+  coord_flip() +
+  facet_wrap(~ Metric, scales = "free_x") +
+  labs(x = NULL, y = NULL, title = "Per-fold results with mean ± 95% CI") +
+  theme_minimal(base_size = 14)
+```

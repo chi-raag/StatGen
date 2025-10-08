@@ -103,7 +103,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<meta name="quarto:status" content="draft">
 
   <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
   <script>document.addEventListener("DOMContentLoaded", function () {
@@ -155,7 +154,7 @@ window.Quarto = {
 <body class="nav-sidebar docked quarto-light">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top"><div id="quarto-draft-alert" class="alert alert-warning"><i class="bi bi-pencil-square"></i>Draft</div>
+  <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -284,7 +283,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="purpose">Purpose</h2>
 <ul>
 <li>Analyze real genetic data using methods from the course. Choose one of the tracks below (or propose your own) and produce a succinct, reproducible analysis using a public dataset.</li>
-<li>This project emphasizes scientific reasoning, correct statistical practice, clear communication, and reproducible code. It is intentionally open‑ended: depth &gt; breadth.</li>
+<li>This project emphasizes scientific reasoning, correct statistical practice, clear communication, and reproducible code. It is intentionally open‑ended.</li>
 </ul>
 </section>
 <section id="deliverables" class="level2">
@@ -368,11 +367,8 @@ window.Quarto = {
 <li>(Mouse) <a href="https://phenome.jax.org/">Mouse Phenome Database (MPD)</a>: strain, Collaborative Cross (CC), and Diversity Outbred (DO) resources with extensive phenotypes. Måany datasets include genotypes or QTL‑ready files. Good for GWAS/QTL and replication.</li>
 <li>(Mouse) <a href="https://www.mousephenotype.org/">International Mouse Phenotyping Consortium (IMPC)</a>: high‑throughput knockout phenotypes with rich metadata. Best for functional interpretation.</li>
 <li>(Mouse) <a href="https://www.informatics.jax.org/">MGI (Mouse Genome Informatics)</a>: curated QTL/phenotype annotations and cross references.</li>
-<li>(Mouse/Rat) <a href="https://www.genenetwork.org/">GeneNetwork</a>: genotypes and thousands of phenotypes for reference panels (e.g., BXD, LXS, HXB/BXH). Interactive QTL mapping and downloads.</li>
-<li>(Rat) <a href="https://rgd.mcw.edu/">Rat Genome Database (RGD)</a> and <a href="https://rgd.mcw.edu/phenominer/">PhenoMiner</a>: strain genotypes/variants with curated phenotypes, supports QTL/GWAS in rat panels.</li>
-<li>(Drosophila) <a href="https://dgrpool.org/">Drosophila Genetic Reference Panel (DGRP)</a>: fully inbred lines with whole‑genome genotypes and many published phenotypes, designed for GWAS across lines.</li>
+<li>(Rat) <a href="https://rgd.mcw.edu/">Rat Genome Database (RGD)</a>: strain genotypes/variants with curated phenotypes, supports QTL/GWAS in rat panels.</li>
 <li>(Drosophila) <a href="https://flybase.org/">FlyBase</a>: genome and phenotype annotations, links to population panels and datasets.</li>
-<li>(C. elegans) <a href="https://www.elegansvariation.org/">CeNDR</a>: natural isolates with genotypes and trait data, built‑in GWAS and download portal.</li>
 <li>(C. elegans) <a href="https://wormbase.org/">WormBase</a>: phenotype and functional annotations, pairs well with CeNDR for interpretation.</li>
 <li>(Arabidopsis) <a href="https://aragwas.1001genomes.org/">AraGWAS Catalog</a> and <a href="https://arapheno.1001genomes.org/">AraPheno</a>: GWAS results, phenotypes, and links to <a href="https://1001genomes.org/">1001 Genomes</a> genotypes, GWAS‑ready.</li>
 </ul>
@@ -402,10 +398,10 @@ window.Quarto = {
 <section id="simulation-with-real-ld" class="level3">
 <h3 class="anchored" data-anchor-id="simulation-with-real-ld">Simulation with real LD</h3>
 <ul>
-<li><a href="http://cnsgenomics.com/software/gcta/">GCTA — simulate phenotypes</a>: <code>--simu-qt</code>/<code>--simu-cc</code> generate traits on top of real genotype panels (e.g., chr22 PLINK files) using specified architectures.</li>
+<li><a href="http://cnsgenomics.com/software/gcta/">GCTA - simulate phenotypes</a>: generate traits on top of real genotype panels (e.g., chr22 PLINK files) using specified architectures.</li>
 <li><a href="https://privefl.github.io/bigsnpr/articles/LDpred2.html">bigsnpr</a>: R tooling for large genotype matrices. Simulate phenotypes with real LD and evaluate polygenic methods efficiently.</li>
 <li><a href="https://mathgen.stats.ox.ac.uk/genetics_software/hapgen/hapgen2.html">HAPGEN2</a>: simulate new genotypes from reference haplotypes (1000G/UKBB) to preserve realistic LD patterns.</li>
-<li><a href="https://tskit.dev/msprime/docs/stable/">msprime/stdpopsim</a> and <a href="https://stdpopsim.readthedocs.io/">stdpopsim</a>: coalescent simulations with recombination and demographic models, combine with empirical LD panels for hybrid designs.</li>
+<li><a href="https://stdpopsim.readthedocs.io/">stdpopsim</a>: coalescent simulations with recombination and demographic models, combine with empirical LD panels for hybrid designs.</li>
 </ul>
 
 
@@ -878,110 +874,106 @@ window.Quarto = {
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="an">format-links:</span><span class="co"> [pdf, docx]</span></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="an">bibliography:</span><span class="co"> references.bib</span></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="an">csl:</span><span class="co"> https://www.zotero.org/styles/biostatistics</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="an">draft:</span><span class="co"> true</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">## Purpose</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Analyze real genetic data using methods from the course. Choose one of the tracks below (or propose your own) and produce a succinct, reproducible analysis using a public dataset.</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>This project emphasizes scientific reasoning, correct statistical practice, clear communication, and reproducible code. It is intentionally open‑ended: depth &gt; breadth.</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="fu">## Deliverables</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Project proposal (approx. 1 page): question(s), dataset(s), methods, risks/mitigations, expected outputs. **Due: Wednesday, October 15th by 11:59pm.** </span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Ensure that you are able to access/download your proposed dataset(s)</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Final report (8–12 pages, PDF only): format details below. **Due: Wednesday, November 12th by 11:59pm.**</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Reproducible materials: a self‑contained folder or repo with your <span class="in">`.qmd`</span>/R scripts, environment notes, and seeds. Include a <span class="in">`README`</span> with run instructions.</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>8–10 minute in‑class presentation of key results on **Wednesday, November 12th**</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="fu">## Format</span></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>We will follow the format of the journal <span class="co">[</span><span class="ot">Genetics</span><span class="co">](https://academic.oup.com/genetics)</span>. An Overleaf template can be found <span class="co">[</span><span class="ot">here</span><span class="co">](https://www.overleaf.com/latex/templates/template-for-preparing-your-submission-to-genetics-using-overleaf/stmpddtqcxtx)</span>. The paper should adhere to the following:</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Begin the paper with an original title, followed by your name, the course, and the date</span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>The paper should have the following sections:</span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Introduction: state the general problem or issue you are addressing.</span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Materials and Methods: describe the methods used to obtain data, analyze data, and to test hypotheses associated with the data.</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Results: describe the results of the data analysis and hypothesis testing.</span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Discussion: here you draw conclusions about the problem you studied; this section should include a synthesis of ideas.</span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>References: List the relevant literature you have read and used to support your arguments/analyze your data. The literature cited should be in the format of the journal Genetics.</span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="fu">## Evaluation (20% of course grade)</span></span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Clarity and scope (20%): well‑posed question, appropriate scope for time/resources.</span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Methods and correctness (35%): sound statistical modeling, assumptions stated, correct inference, sensible QC.</span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Interpretation and communication (25%): figures/tables support claims, limitations, ethical awareness.</span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Reproducibility (20%): organized code, seeds, instructions, figures regenerate.</span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example Topics</span></span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Primary GWAS analysis (individual-level data): perform QC, PCA, GWAS, and post-GWAS analyses. Data is typically available for non-human model organisms.</span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Secondary GWAS analysis (summary statistics): pick one trait and perform quality checks, Manhattan plot, locus zoom(s), gene/annotation enrichment, and short literature triangulation, SNP‑heritability via LD Score Regression, cross‑trait genetic correlation.</span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Population structure and diversity: PCA/UMAP on a reference genotype panel, compute $F_{ST}$ between populations, visualize allele frequency spectra, explore LD decay, ADMIXTURE/LEA ancestry components.</span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Causal inference with two‑sample Mendelian randomization: select a well‑powered exposure/outcome with strong instruments, run multiple MR estimators, perform sensitivity and heterogeneity checks, discuss assumptions and violations.</span>
-<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Fine‑mapping or colocalization: focus on 1–2 loci, use LD from a reference panel, apply SuSiE/FINEMAP, test GWAS–eQTL colocalization for a tissue of interest.</span>
-<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Simulation with real LD: simulate phenotypes on a real genotype panel (e.g., chromosome 22) to study power, inflation, or PRS performance under different architectures.</span>
-<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="fu">## Ethics &amp; Responsible Use</span></span>
-<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Use population labels with care</span>
-<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Avoid essentialist interpretations</span>
-<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Discuss portability and fairness when comparing groups</span>
-<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Do not attempt re‑identification</span>
-<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Respect each dataset’s license/terms.</span>
-<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data Sources (curated)</span></span>
-<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">GWAS Catalog (NHGRI–EBI)</span><span class="co">](https://www.ebi.ac.uk/gwas/)</span>: comprehensive registry of GWAS with summary statistics where available; good for trait curation and downloading per‑study results.</span>
-<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">OpenGWAS (MRC IEU)</span><span class="co">](https://gwas.mrcieu.ac.uk/)</span>: programmatic access to &gt;40k GWAS summary-stat datasets; integrates well with R packages <span class="in">`ieugwasr`</span> and <span class="in">`TwoSampleMR`</span>.</span>
-<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Pan-UK Biobank (Broad)</span><span class="co">](https://pan.ukbb.broadinstitute.org/)</span>: pan‑ancestry GWAS results across thousands of phenotypes with interactive PheWeb and bulk download.</span>
-<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">FinnGen</span><span class="co">](https://www.finngen.fi/en/access_results)</span>: large disease‑focused GWAS summary stats and phenotype documentation.</span>
-<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Biobank Japan</span><span class="co">](https://pheweb.jp/)</span>: GWAS results across many traits; multi‑ancestry comparison opportunities.</span>
-<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">GIANT Consortium</span><span class="co">](https://portals.broadinstitute.org/collaboration/giant/index.php/GIANT_consortium)</span>: anthropometric trait GWAS (e.g., height, BMI) — classic, clean testbeds.</span>
-<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Psychiatric Genomics Consortium (PGC)</span><span class="co">](https://www.med.unc.edu/pgc/download-results/)</span>: summary stats for psychiatric disorders; read and follow data use terms.</span>
-<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">1000 Genomes Project (IGSR)</span><span class="co">](https://www.internationalgenome.org/data)</span>: open, phased whole‑genome reference panel with population labels; ideal for PCA, F_ST, LD, and as an LD reference.</span>
-<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">HGDP + 1000G combined callset (gnomAD)</span><span class="co">](https://gnomad.broadinstitute.org/downloads#v3-hgdp-1kg)</span>: harmonized WGS panel for global structure analyses (VCF/PLINK).</span>
-<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">gnomAD v4</span><span class="co">](https://gnomad.broadinstitute.org/downloads)</span>: aggregated exome/genome allele frequencies; excellent for frequency‑based analyses and QC (not individual‑level genotypes).</span>
-<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">GTEx/eQTL resources</span><span class="co">](https://www.ebi.ac.uk/eqtl/)</span> and <span class="co">[</span><span class="ot">GTEx v8 summary statistics</span><span class="co">](https://gtexportal.org/home/datasets)</span> for colocalization.</span>
-<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">LD reference (for LDSC/fine‑mapping)</span><span class="co">](https://data.broadinstitute.org/alkesgroup/LDSCORE/)</span> and <span class="co">[</span><span class="ot">baseline annotations</span><span class="co">](https://github.com/bulik/ldsc)</span>: precomputed 1000G LD scores.</span>
-<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a><span class="fu">### Model‑organism data sources (genotypes + phenotypes where noted)</span></span>
-<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>(Mouse) <span class="co">[</span><span class="ot">Mouse Phenome Database (MPD)</span><span class="co">](https://phenome.jax.org/)</span>: strain, Collaborative Cross (CC), and Diversity Outbred (DO) resources with extensive phenotypes. Måany datasets include genotypes or QTL‑ready files. Good for GWAS/QTL and replication.</span>
-<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>(Mouse) <span class="co">[</span><span class="ot">International Mouse Phenotyping Consortium (IMPC)</span><span class="co">](https://www.mousephenotype.org/)</span>: high‑throughput knockout phenotypes with rich metadata. Best for functional interpretation.</span>
-<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>(Mouse) <span class="co">[</span><span class="ot">MGI (Mouse Genome Informatics)</span><span class="co">](https://www.informatics.jax.org/)</span>: curated QTL/phenotype annotations and cross references.</span>
-<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>(Mouse/Rat) <span class="co">[</span><span class="ot">GeneNetwork</span><span class="co">](https://www.genenetwork.org/)</span>: genotypes and thousands of phenotypes for reference panels (e.g., BXD, LXS, HXB/BXH). Interactive QTL mapping and downloads.</span>
-<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>(Rat) <span class="co">[</span><span class="ot">Rat Genome Database (RGD)</span><span class="co">](https://rgd.mcw.edu/)</span> and <span class="co">[</span><span class="ot">PhenoMiner</span><span class="co">](https://rgd.mcw.edu/phenominer/)</span>: strain genotypes/variants with curated phenotypes, supports QTL/GWAS in rat panels.</span>
-<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>(Drosophila) <span class="co">[</span><span class="ot">Drosophila Genetic Reference Panel (DGRP)</span><span class="co">](https://dgrpool.org/)</span>: fully inbred lines with whole‑genome genotypes and many published phenotypes, designed for GWAS across lines.</span>
-<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>(Drosophila) <span class="co">[</span><span class="ot">FlyBase</span><span class="co">](https://flybase.org/)</span>: genome and phenotype annotations, links to population panels and datasets.</span>
-<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>(C. elegans) <span class="co">[</span><span class="ot">CeNDR</span><span class="co">](https://www.elegansvariation.org/)</span>: natural isolates with genotypes and trait data, built‑in GWAS and download portal.</span>
-<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>(C. elegans) <span class="co">[</span><span class="ot">WormBase</span><span class="co">](https://wormbase.org/)</span>: phenotype and functional annotations, pairs well with CeNDR for interpretation.</span>
-<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>(Arabidopsis) <span class="co">[</span><span class="ot">AraGWAS Catalog</span><span class="co">](https://aragwas.1001genomes.org/)</span> and <span class="co">[</span><span class="ot">AraPheno</span><span class="co">](https://arapheno.1001genomes.org/)</span>: GWAS results, phenotypes, and links to <span class="co">[</span><span class="ot">1001 Genomes</span><span class="co">](https://1001genomes.org/)</span> genotypes, GWAS‑ready.</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">## Purpose</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Analyze real genetic data using methods from the course. Choose one of the tracks below (or propose your own) and produce a succinct, reproducible analysis using a public dataset.</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>This project emphasizes scientific reasoning, correct statistical practice, clear communication, and reproducible code. It is intentionally open‑ended.</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="fu">## Deliverables</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Project proposal (approx. 1 page): question(s), dataset(s), methods, risks/mitigations, expected outputs. **Due: Wednesday, October 15th by 11:59pm.** </span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Ensure that you are able to access/download your proposed dataset(s)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Final report (8–12 pages, PDF only): format details below. **Due: Wednesday, November 12th by 11:59pm.**</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Reproducible materials: a self‑contained folder or repo with your <span class="in">`.qmd`</span>/R scripts, environment notes, and seeds. Include a <span class="in">`README`</span> with run instructions.</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>8–10 minute in‑class presentation of key results on **Wednesday, November 12th**</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="fu">## Format</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>We will follow the format of the journal <span class="co">[</span><span class="ot">Genetics</span><span class="co">](https://academic.oup.com/genetics)</span>. An Overleaf template can be found <span class="co">[</span><span class="ot">here</span><span class="co">](https://www.overleaf.com/latex/templates/template-for-preparing-your-submission-to-genetics-using-overleaf/stmpddtqcxtx)</span>. The paper should adhere to the following:</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Begin the paper with an original title, followed by your name, the course, and the date</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>The paper should have the following sections:</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Introduction: state the general problem or issue you are addressing.</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Materials and Methods: describe the methods used to obtain data, analyze data, and to test hypotheses associated with the data.</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Results: describe the results of the data analysis and hypothesis testing.</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Discussion: here you draw conclusions about the problem you studied; this section should include a synthesis of ideas.</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>References: List the relevant literature you have read and used to support your arguments/analyze your data. The literature cited should be in the format of the journal Genetics.</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="fu">## Evaluation (20% of course grade)</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Clarity and scope (20%): well‑posed question, appropriate scope for time/resources.</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Methods and correctness (35%): sound statistical modeling, assumptions stated, correct inference, sensible QC.</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Interpretation and communication (25%): figures/tables support claims, limitations, ethical awareness.</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Reproducibility (20%): organized code, seeds, instructions, figures regenerate.</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example Topics</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Primary GWAS analysis (individual-level data): perform QC, PCA, GWAS, and post-GWAS analyses. Data is typically available for non-human model organisms.</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Secondary GWAS analysis (summary statistics): pick one trait and perform quality checks, Manhattan plot, locus zoom(s), gene/annotation enrichment, and short literature triangulation, SNP‑heritability via LD Score Regression, cross‑trait genetic correlation.</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Population structure and diversity: PCA/UMAP on a reference genotype panel, compute $F_{ST}$ between populations, visualize allele frequency spectra, explore LD decay, ADMIXTURE/LEA ancestry components.</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Causal inference with two‑sample Mendelian randomization: select a well‑powered exposure/outcome with strong instruments, run multiple MR estimators, perform sensitivity and heterogeneity checks, discuss assumptions and violations.</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Fine‑mapping or colocalization: focus on 1–2 loci, use LD from a reference panel, apply SuSiE/FINEMAP, test GWAS–eQTL colocalization for a tissue of interest.</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Simulation with real LD: simulate phenotypes on a real genotype panel (e.g., chromosome 22) to study power, inflation, or PRS performance under different architectures.</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="fu">## Ethics &amp; Responsible Use</span></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Use population labels with care</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Avoid essentialist interpretations</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Discuss portability and fairness when comparing groups</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Do not attempt re‑identification</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Respect each dataset’s license/terms.</span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data Sources (curated)</span></span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">GWAS Catalog (NHGRI–EBI)</span><span class="co">](https://www.ebi.ac.uk/gwas/)</span>: comprehensive registry of GWAS with summary statistics where available; good for trait curation and downloading per‑study results.</span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">OpenGWAS (MRC IEU)</span><span class="co">](https://gwas.mrcieu.ac.uk/)</span>: programmatic access to &gt;40k GWAS summary-stat datasets; integrates well with R packages <span class="in">`ieugwasr`</span> and <span class="in">`TwoSampleMR`</span>.</span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Pan-UK Biobank (Broad)</span><span class="co">](https://pan.ukbb.broadinstitute.org/)</span>: pan‑ancestry GWAS results across thousands of phenotypes with interactive PheWeb and bulk download.</span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">FinnGen</span><span class="co">](https://www.finngen.fi/en/access_results)</span>: large disease‑focused GWAS summary stats and phenotype documentation.</span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Biobank Japan</span><span class="co">](https://pheweb.jp/)</span>: GWAS results across many traits; multi‑ancestry comparison opportunities.</span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">GIANT Consortium</span><span class="co">](https://portals.broadinstitute.org/collaboration/giant/index.php/GIANT_consortium)</span>: anthropometric trait GWAS (e.g., height, BMI) — classic, clean testbeds.</span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Psychiatric Genomics Consortium (PGC)</span><span class="co">](https://www.med.unc.edu/pgc/download-results/)</span>: summary stats for psychiatric disorders; read and follow data use terms.</span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">1000 Genomes Project (IGSR)</span><span class="co">](https://www.internationalgenome.org/data)</span>: open, phased whole‑genome reference panel with population labels; ideal for PCA, F_ST, LD, and as an LD reference.</span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">HGDP + 1000G combined callset (gnomAD)</span><span class="co">](https://gnomad.broadinstitute.org/downloads#v3-hgdp-1kg)</span>: harmonized WGS panel for global structure analyses (VCF/PLINK).</span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">gnomAD v4</span><span class="co">](https://gnomad.broadinstitute.org/downloads)</span>: aggregated exome/genome allele frequencies; excellent for frequency‑based analyses and QC (not individual‑level genotypes).</span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">GTEx/eQTL resources</span><span class="co">](https://www.ebi.ac.uk/eqtl/)</span> and <span class="co">[</span><span class="ot">GTEx v8 summary statistics</span><span class="co">](https://gtexportal.org/home/datasets)</span> for colocalization.</span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">LD reference (for LDSC/fine‑mapping)</span><span class="co">](https://data.broadinstitute.org/alkesgroup/LDSCORE/)</span> and <span class="co">[</span><span class="ot">baseline annotations</span><span class="co">](https://github.com/bulik/ldsc)</span>: precomputed 1000G LD scores.</span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a><span class="fu">### Model‑organism data sources (genotypes + phenotypes where noted)</span></span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>(Mouse) <span class="co">[</span><span class="ot">Mouse Phenome Database (MPD)</span><span class="co">](https://phenome.jax.org/)</span>: strain, Collaborative Cross (CC), and Diversity Outbred (DO) resources with extensive phenotypes. Måany datasets include genotypes or QTL‑ready files. Good for GWAS/QTL and replication.</span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>(Mouse) <span class="co">[</span><span class="ot">International Mouse Phenotyping Consortium (IMPC)</span><span class="co">](https://www.mousephenotype.org/)</span>: high‑throughput knockout phenotypes with rich metadata. Best for functional interpretation.</span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>(Mouse) <span class="co">[</span><span class="ot">MGI (Mouse Genome Informatics)</span><span class="co">](https://www.informatics.jax.org/)</span>: curated QTL/phenotype annotations and cross references.</span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>(Rat) <span class="co">[</span><span class="ot">Rat Genome Database (RGD)</span><span class="co">](https://rgd.mcw.edu/)</span>: strain genotypes/variants with curated phenotypes, supports QTL/GWAS in rat panels.</span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>(Drosophila) <span class="co">[</span><span class="ot">FlyBase</span><span class="co">](https://flybase.org/)</span>: genome and phenotype annotations, links to population panels and datasets.</span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>(C. elegans) <span class="co">[</span><span class="ot">WormBase</span><span class="co">](https://wormbase.org/)</span>: phenotype and functional annotations, pairs well with CeNDR for interpretation.</span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>(Arabidopsis) <span class="co">[</span><span class="ot">AraGWAS Catalog</span><span class="co">](https://aragwas.1001genomes.org/)</span> and <span class="co">[</span><span class="ot">AraPheno</span><span class="co">](https://arapheno.1001genomes.org/)</span>: GWAS results, phenotypes, and links to <span class="co">[</span><span class="ot">1001 Genomes</span><span class="co">](https://1001genomes.org/)</span> genotypes, GWAS‑ready.</span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a><span class="fu">## Helpful Resources by Topic</span></span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a>Here are some resources for topics that we will not cover in depth in this course, if you choose to explore them for this project.</span>
 <span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a><span class="fu">## Helpful Resources by Topic</span></span>
+<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a><span class="fu">### Causal inference (Mendelian randomization)</span></span>
 <span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a>Here are some resources for topics that we will not cover in depth in this course, if you choose to explore them for this project.</span>
-<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a><span class="fu">### Causal inference (Mendelian randomization)</span></span>
-<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">TwoSampleMR documentation</span><span class="co">](https://mrcieu.github.io/TwoSampleMR/)</span> and <span class="co">[</span><span class="ot">ieugwasr</span><span class="co">](https://mrcieu.github.io/ieugwasr/)</span>: end‑to‑end two‑sample MR from OpenGWAS, with instrument selection, Steiger filtering, heterogeneity, and sensitivity analyses.</span>
-<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">MendelianRandomization (CRAN)</span><span class="co">](https://cran.r-project.org/package=MendelianRandomization)</span>: MR‑Egger, IVW, weighted median/mode, useful for triangulation.</span>
-<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">MR‑PRESSO (CRAN)</span><span class="co">](https://cran.r-project.org/package=MRPRESSO)</span>: outlier detection/correction to assess horizontal pleiotropy.</span>
-<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">CAUSE</span><span class="co">](https://jean997.github.io/cause/)</span>: robust MR under correlated pleiotropy, helpful when standard assumptions are doubtful.</span>
-<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a><span class="fu">### Fine‑mapping and colocalization</span></span>
-<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">susieR</span><span class="co">](https://stephenslab.github.io/susieR/)</span>: Bayesian variable selection and credible sets for fine‑mapping; works with in‑sample or reference LD.</span>
-<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">FINEMAP</span><span class="co">](http://www.finemap.me/)</span>: summary‑stat fine‑mapping with shotgun stochastic search, supports multiple causal variants per locus.</span>
-<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">coloc</span><span class="co">](https://cran.r-project.org/package=coloc)</span>: Bayesian colocalization testing for two traits (e.g., GWAS–eQTL), simple priors, clear summaries.</span>
-<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">eCAVIAR</span><span class="co">](https://github.com/fhormoz/caviar)</span>: probabilistic colocalization allowing multiple causal variants, requires LD and summary stats.</span>
-<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a><span class="fu">### Simulation with real LD</span></span>
-<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">GCTA — simulate phenotypes</span><span class="co">](http://cnsgenomics.com/software/gcta/)</span>: <span class="in">`--simu-qt`</span>/<span class="in">`--simu-cc`</span> generate traits on top of real genotype panels (e.g., chr22 PLINK files) using specified architectures.</span>
-<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">bigsnpr</span><span class="co">](https://privefl.github.io/bigsnpr/articles/LDpred2.html)</span>: R tooling for large genotype matrices. Simulate phenotypes with real LD and evaluate polygenic methods efficiently.</span>
-<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">HAPGEN2</span><span class="co">](https://mathgen.stats.ox.ac.uk/genetics_software/hapgen/hapgen2.html)</span>: simulate new genotypes from reference haplotypes (1000G/UKBB) to preserve realistic LD patterns.</span>
-<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">msprime/stdpopsim</span><span class="co">](https://tskit.dev/msprime/docs/stable/)</span> and <span class="co">[</span><span class="ot">stdpopsim</span><span class="co">](https://stdpopsim.readthedocs.io/)</span>: coalescent simulations with recombination and demographic models, combine with empirical LD panels for hybrid designs.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">TwoSampleMR documentation</span><span class="co">](https://mrcieu.github.io/TwoSampleMR/)</span> and <span class="co">[</span><span class="ot">ieugwasr</span><span class="co">](https://mrcieu.github.io/ieugwasr/)</span>: end‑to‑end two‑sample MR from OpenGWAS, with instrument selection, Steiger filtering, heterogeneity, and sensitivity analyses.</span>
+<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">MendelianRandomization (CRAN)</span><span class="co">](https://cran.r-project.org/package=MendelianRandomization)</span>: MR‑Egger, IVW, weighted median/mode, useful for triangulation.</span>
+<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">MR‑PRESSO (CRAN)</span><span class="co">](https://cran.r-project.org/package=MRPRESSO)</span>: outlier detection/correction to assess horizontal pleiotropy.</span>
+<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">CAUSE</span><span class="co">](https://jean997.github.io/cause/)</span>: robust MR under correlated pleiotropy, helpful when standard assumptions are doubtful.</span>
+<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a><span class="fu">### Fine‑mapping and colocalization</span></span>
+<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">susieR</span><span class="co">](https://stephenslab.github.io/susieR/)</span>: Bayesian variable selection and credible sets for fine‑mapping; works with in‑sample or reference LD.</span>
+<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">FINEMAP</span><span class="co">](http://www.finemap.me/)</span>: summary‑stat fine‑mapping with shotgun stochastic search, supports multiple causal variants per locus.</span>
+<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">coloc</span><span class="co">](https://cran.r-project.org/package=coloc)</span>: Bayesian colocalization testing for two traits (e.g., GWAS–eQTL), simple priors, clear summaries.</span>
+<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">eCAVIAR</span><span class="co">](https://github.com/fhormoz/caviar)</span>: probabilistic colocalization allowing multiple causal variants, requires LD and summary stats.</span>
+<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a><span class="fu">### Simulation with real LD</span></span>
+<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">GCTA - simulate phenotypes</span><span class="co">](http://cnsgenomics.com/software/gcta/)</span>: generate traits on top of real genotype panels (e.g., chr22 PLINK files) using specified architectures.</span>
+<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">bigsnpr</span><span class="co">](https://privefl.github.io/bigsnpr/articles/LDpred2.html)</span>: R tooling for large genotype matrices. Simulate phenotypes with real LD and evaluate polygenic methods efficiently.</span>
+<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">HAPGEN2</span><span class="co">](https://mathgen.stats.ox.ac.uk/genetics_software/hapgen/hapgen2.html)</span>: simulate new genotypes from reference haplotypes (1000G/UKBB) to preserve realistic LD patterns.</span>
+<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">stdpopsim</span><span class="co">](https://stdpopsim.readthedocs.io/)</span>: coalescent simulations with recombination and demographic models, combine with empirical LD panels for hybrid designs.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 
