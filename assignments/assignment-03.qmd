@@ -14,11 +14,11 @@ csl: https://www.zotero.org/styles/biostatistics
 
 **Requirements:**
 
-- Show complete mathematical work for any derivations.
-- Submit well-documented R code with clear comments and set seeds.
-- Interpret results in a genetic/biological context where applicable.
-- Submit the rendered PDF; do not submit the source `.qmd`.
-- You may reuse and adapt your Lab 03 code, but your write‑up must be self‑contained.
+-   Show complete mathematical work for any derivations.
+-   Submit well-documented R code with clear comments and set seeds.
+-   Interpret results in a genetic/biological context where applicable.
+-   Submit the rendered PDF; do not submit the source `.qmd`.
+-   You may reuse and adapt your Lab 03 code, but your write‑up must be self‑contained.
 
 ## Problem 1: EM for ABO gene frequencies; derivation, inference, and sensitivity (25 pts)
 
@@ -30,33 +30,29 @@ Derive the EM updates shown in lecture. Specifically, show that the E‑step all
 
 $$
 \tilde n_{AA} = n_A \dfrac{p_A^2}{p_A^2 + 2p_Ap_O}
-$$ 
+$$
 
 $$
 \tilde n_{AO} = n_A \dfrac{2p_Ap_O}{p_A^2 + 2p_Ap_O}
 $$
 
-and similarly for $BB, BO$, and that the M‑step is
-$$
+and similarly for $BB, BO$, and that the M‑step is $$
 p_A^{(t+1)}=\frac{2\tilde n_{AA}+\tilde n_{AO}+n_{AB}}{2N}
-$$
-$$
+$$ $$
 p_B^{(t+1)}=\frac{2\tilde n_{BB}+\tilde n_{BO}+n_{AB}}{2N}
-$$
-$$
+$$ $$
 p_O^{(t+1)}=1-p_A^{(t+1)}-p_B^{(t+1)}
 $$
 
 Hint (how to derive EM generally):
 
-1) Choose latent variables so the complete data are simple. Here, treat latent genotype counts, 
-$$
-(n_{AA}, n_{AO}, n_{AB}, n_{BB}, n_{BO}, n_{OO})
-$$ 
+1)  Choose latent variables so the complete data are simple. Here, treat latent genotype counts, $$
+    (n_{AA}, n_{AO}, n_{AB}, n_{BB}, n_{BO}, n_{OO})
+    $$
 
 as missing, with only phenotype totals observed.
 
-2) Write the complete‑data log‑likelihood
+2)  Write the complete‑data log‑likelihood
 
 \begin{align*}
 \ell_c(p_A,p_B) =
@@ -66,13 +62,13 @@ as missing, with only phenotype totals observed.
 
 using $p_O=1-p_A-p_B$.
 
-3. E‑step: replace latent counts by their conditional expectations given the observed phenotypes under current parameters, e.g., for phenotype $A$, and form $Q(p\,|\,p^{(t)}) = \mathbb E[\ell_c(p)\mid\text{data}, p^{(t)}]$. 
+3.  E‑step: replace latent counts by their conditional expectations given the observed phenotypes under current parameters, e.g., for phenotype $A$, and form $Q(p\,|\,p^{(t)}) = \mathbb E[\ell_c(p)\mid\text{data}, p^{(t)}]$.
 
-4. M‑step: M-step: Maximize $Q(p|p^{(t)})$ subject to $p_A + p_B + p_O = 1$. Hint: Consider rewriting the objective in terms of allele counts rather than genotype counts.
+4.  M‑step: M-step: Maximize $Q(p|p^{(t)})$ subject to $p_A + p_B + p_O = 1$. Hint: Consider rewriting the objective in terms of allele counts rather than genotype counts.
 
 ### Part B (10 pts)
 
-Consider two biallelic SNPs with haplotypes $\{ab, aB, Ab, AB\}$ under HWE and unphased genotypes $(g_1,g_2)\in\{0,1,2\}^2$. Note that $(ab, ab)$ yields $(0,0)$, $(ab, aB)$ or $(ab, Ab)$ yields $(0,1)$, $(AB, AB)$ yields $(2,2)$, etc. 
+Consider two biallelic SNPs with haplotypes $\{ab, aB, Ab, AB\}$ under HWE and unphased genotypes $(g_1,g_2)\in\{0,1,2\}^2$. Note that $(ab, ab)$ yields $(0,0)$, $(ab, aB)$ or $(ab, Ab)$ yields $(0,1)$, $(AB, AB)$ yields $(2,2)$, etc.
 
 Show that if every observed genotype is $(1,1)$, then $P\{(1,1)\}=2\,\big(p_{ab}p_{AB}+p_{aB}p_{Ab}\big)$ and the likelihood depends only on the cross‑sum $S=p_{ab}p_{AB}+p_{aB}p_{Ab}$ (a ridge; parameters not identifiable).
 
@@ -80,10 +76,9 @@ Show that if every observed genotype is $(1,1)$, then $P\{(1,1)\}=2\,\big(p_{ab}
 
 Suppose one heterozygous transmitting parent ($A/a$ and $B/b$) is crossed to an $aabb$ mate, yielding child haplotype counts $(n_{AB}, n_{Ab}, n_{aB}, n_{ab})$. Let $n_{\text{NR}}=n_{AB}+n_{ab}$ and $n_{\text{R}}=n_{Ab}+n_{aB}$.
 
-### Part A: LOD from counts (10 pts). 
+### Part A: LOD from counts (10 pts).
 
-Show that for a given recombination fraction $\theta\in(0,0.5)$ the two‑point LOD relative to independence ($\theta=0.5$) is
-$$
+Show that for a given recombination fraction $\theta\in(0,0.5)$ the two‑point LOD relative to independence ($\theta=0.5$) is $$
 \mathrm{LOD}(\theta) 
 = \log_{10}\!\left\{ \frac{\theta^{\,n_{\text{R}}} (1-\theta)^{\,n_{\text{NR}}}}{0.5^{\,n_{\text{R}}+n_{\text{NR}}}} \right\}.
 $$
@@ -92,8 +87,7 @@ Derive the MLE $\hat\theta$ and show it equals $n_{\text{R}}/(n_{\text{R}}+n_{\t
 
 ### Part B: Unknown phase and LD‑informed LOD (15 pts)
 
-A heterozygous transmitting parent $(A/a,\;B/b)$ has **unknown phase**: either **coupling** $(AB/ab)$ or **repulsion** $(Ab/aB)$. Let
-$$
+A heterozygous transmitting parent $(A/a,\;B/b)$ has **unknown phase**: either **coupling** $(AB/ab)$ or **repulsion** $(Ab/aB)$. Let $$
 n_{\mathrm{NR}} = n_{AB}+n_{ab},\qquad
 n_{\mathrm{R}}  = n_{Ab}+n_{aB},\qquad
 N=n_{\mathrm{NR}}+n_{\mathrm{R}}.
@@ -101,16 +95,13 @@ $$
 
 Let $w=\Pr\{\text{coupling }(AB/ab)\}$ and $1-w=\Pr\{\text{repulsion }(Ab/aB)\}$.
 
-**(i) Mixture likelihood (5 pts).**  
-Show that with unknown phase the observed‑data likelihood is a **mixture** of the two phase‑specific binomial likelihoods:
-$$
+**(i) Mixture likelihood (5 pts).**\
+Show that with unknown phase the observed‑data likelihood is a **mixture** of the two phase‑specific binomial likelihoods: $$
 L(\theta; w)
 = w\,(1-\theta)^{\,n_{\mathrm{NR}}}\,\theta^{\,n_{\mathrm{R}}}
 \;+\;
 (1-w)\,(1-\theta)^{\,n_{\mathrm{R}}}\,\theta^{\,n_{\mathrm{NR}}}.
-$$
-Hence the two‑point LOD relative to independence $(\theta=0.5)$ is
-$$
+$$ Hence the two‑point LOD relative to independence $(\theta=0.5)$ is $$
 \mathrm{LOD}(\theta; w)
 = \log_{10}\!\left\{
 \frac{w\,(1-\theta)^{\,n_{\mathrm{NR}}}\theta^{\,n_{\mathrm{R}}}
@@ -119,10 +110,9 @@ $$
 \right\}.
 $$
 
-**(ii) Linking LD to $w$ (5 pts).**  
-Let population haplotype frequencies be $p=(p_{ab}, p_{aB}, p_{Ab}, p_{AB})$ (sum to 1).  
-Condition on the parent being the **double heterozygote** $(g_1,g_2)=(1,1)$. Use Bayes’ rule to show
-$$
+**(ii) Linking LD to** $w$ (5 pts).\
+Let population haplotype frequencies be $p=(p_{ab}, p_{aB}, p_{Ab}, p_{AB})$ (sum to 1).\
+Condition on the parent being the **double heterozygote** $(g_1,g_2)=(1,1)$. Use Bayes’ rule to show $$
 w
 = \Pr\{(ab,AB)\mid(1,1)\}
 = \frac{p_{ab}\,p_{AB}}{p_{ab}\,p_{AB}+p_{aB}\,p_{Ab}},
@@ -135,23 +125,22 @@ $$
 
 Define $D = p_{ab}p_{AB}-p_{aB}p_{Ab}$ and note that $\operatorname{sign}(D)$ indicates whether **coupling** ($D>0$) or **repulsion** ($D<0$) phase is a priori more likely.
 
-**(iii) Quick numerical check (5 pts).**  
-Take $p^\star=(0.40,\,0.10,\,0.25,\,0.25)$.  
-Compute $w$ and $1-w$. Then, using the example counts $(n_{AB}, n_{Ab}, n_{aB}, n_{ab})=(18, 5, 4, 17)$ (so $N=44$, $n_{\mathrm{R}}=9$, $n_{\mathrm{NR}}=35$), evaluate and **compare**
-$\mathrm{LOD}(\hat\theta; w=\tfrac12)$ versus $\mathrm{LOD}(\hat\theta; w)$ at $\hat\theta = n_{\mathrm{R}}/N$.  
+**(iii) Quick numerical check (5 pts).**\
+Take $p^\star=(0.40,\,0.10,\,0.25,\,0.25)$.\
+Compute $w$ and $1-w$. Then, using the example counts $(n_{AB}, n_{Ab}, n_{aB}, n_{ab})=(18, 5, 4, 17)$ (so $N=44$, $n_{\mathrm{R}}=9$, $n_{\mathrm{NR}}=35$), evaluate and **compare** $\mathrm{LOD}(\hat\theta; w=\tfrac12)$ versus $\mathrm{LOD}(\hat\theta; w)$ at $\hat\theta = n_{\mathrm{R}}/N$.\
 Briefly explain (one sentence) how LD information ($w\neq\tfrac12$) can increase or decrease the peak LOD when phase is unknown.
 
 ## Problem 3: Two‑SNP haplotype EM and LD measures (25 pts)
 
 ### Part A (10 pts)
 
-For two biallelic SNPs with haplotypes $\{ab, aB, Ab, AB\}$ at frequencies $\{p_{ab},p_{aB},p_{Ab},p_{AB}\}$ (summing to 1), enumerate the possible haplotype pairs consistent with each unphased genotype $(g_1,g_2)\in\{0,1,2\}^2$. 
+For two biallelic SNPs with haplotypes $\{ab, aB, Ab, AB\}$ at frequencies $\{p_{ab},p_{aB},p_{Ab},p_{AB}\}$ (summing to 1), enumerate the possible haplotype pairs consistent with each unphased genotype $(g_1,g_2)\in\{0,1,2\}^2$.
 
-Show that only $(g_1,g_2)=(1,1)$ is ambiguous with two possible pairs: $(ab,AB)$ and $(aB,Ab)$. 
+Show that only $(g_1,g_2)=(1,1)$ is ambiguous with two possible pairs: $(ab,AB)$ and $(aB,Ab)$.
 
 ### Part B (10 pts)
 
-Simulate $N=1000$ individuals from true haplotype frequencies $p^{\star}=(0.40,0.10,0.25,0.25)$ and estimate $\hat p$ via EM from a uniform start. Report $\hat p$ and absolute errors $|\hat p - p^{\star}|$. 
+Simulate $N=1000$ individuals from true haplotype frequencies $p^{\star}=(0.40,0.10,0.25,0.25)$ and estimate $\hat p$ via EM from a uniform start. Report $\hat p$ and absolute errors $|\hat p - p^{\star}|$.
 
 Note that the E‑step weights for $(1,1)$ are proportional to $p_{ab}p_{AB}$ and $p_{aB}p_{Ab}$, and the M‑step update is $p^{(t+1)}=\text{(expected hap counts)}/(2N)$.
 
@@ -192,4 +181,4 @@ Generate $(G_C,G_T,Y)$ by first simulating haplotypes for $(C,T)$ with a chosen 
 
 ### Part B (10 pts)
 
-Introduce a basic QC step: test HWE in the controls of a case–control subsample formed by thresholding $Y$ at its 80th percentile to define cases (cases are the top 20\% of $Y$). Compute an exact or $\chi^2$ HWE p‑value in controls for $T$; state whether you would flag $T$ using a threshold of $10^{-6}$ and why QC is typically done in controls only.
+Introduce a basic QC step: test HWE in the controls of a case–control subsample formed by thresholding $Y$ at its 80th percentile to define cases (cases are the top 20% of $Y$). Compute an exact or $\chi^2$ HWE p‑value in controls for $T$; state whether you would flag $T$ using a threshold of $10^{-6}$ and why QC is typically done in controls only.
