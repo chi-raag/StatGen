@@ -78,7 +78,8 @@ Suppose one heterozygous transmitting parent ($A/a$ and $B/b$) is crossed to an 
 
 ### Part A: LOD from counts (10 pts).
 
-Show that for a given recombination fraction $\theta\in(0,0.5)$ the two‑point LOD relative to independence ($\theta=0.5$) is $$
+Show that for a given recombination fraction $\theta\in(0,0.5)$ the two‑point LOD relative to independence ($\theta=0.5$) is 
+$$
 \mathrm{LOD}(\theta) 
 = \log_{10}\!\left\{ \frac{\theta^{\,n_{\text{R}}} (1-\theta)^{\,n_{\text{NR}}}}{0.5^{\,n_{\text{R}}+n_{\text{NR}}}} \right\}.
 $$
@@ -87,7 +88,9 @@ Derive the MLE $\hat\theta$ and show it equals $n_{\text{R}}/(n_{\text{R}}+n_{\t
 
 ### Part B: Unknown phase and LD‑informed LOD (15 pts)
 
-A heterozygous transmitting parent $(A/a,\;B/b)$ has **unknown phase**: either **coupling** $(AB/ab)$ or **repulsion** $(Ab/aB)$. Let $$
+A heterozygous transmitting parent $(A/a,\;B/b)$ has **unknown phase**: either **coupling** $(AB/ab)$ or **repulsion** $(Ab/aB)$. Let 
+
+$$
 n_{\mathrm{NR}} = n_{AB}+n_{ab},\qquad
 n_{\mathrm{R}}  = n_{Ab}+n_{aB},\qquad
 N=n_{\mathrm{NR}}+n_{\mathrm{R}}.
@@ -96,12 +99,16 @@ $$
 Let $w=\Pr\{\text{coupling }(AB/ab)\}$ and $1-w=\Pr\{\text{repulsion }(Ab/aB)\}$.
 
 **(i) Mixture likelihood (5 pts).**\
-Show that with unknown phase the observed‑data likelihood is a **mixture** of the two phase‑specific binomial likelihoods: $$
+Show that with unknown phase the observed‑data likelihood is a **mixture** of the two phase‑specific binomial likelihoods: 
+$$
 L(\theta; w)
 = w\,(1-\theta)^{\,n_{\mathrm{NR}}}\,\theta^{\,n_{\mathrm{R}}}
 \;+\;
 (1-w)\,(1-\theta)^{\,n_{\mathrm{R}}}\,\theta^{\,n_{\mathrm{NR}}}.
-$$ Hence the two‑point LOD relative to independence $(\theta=0.5)$ is $$
+$$ 
+
+Hence the two‑point LOD relative to independence $(\theta=0.5)$ is 
+$$
 \mathrm{LOD}(\theta; w)
 = \log_{10}\!\left\{
 \frac{w\,(1-\theta)^{\,n_{\mathrm{NR}}}\theta^{\,n_{\mathrm{R}}}
@@ -112,7 +119,8 @@ $$
 
 **(ii) Linking LD to** $w$ (5 pts).\
 Let population haplotype frequencies be $p=(p_{ab}, p_{aB}, p_{Ab}, p_{AB})$ (sum to 1).\
-Condition on the parent being the **double heterozygote** $(g_1,g_2)=(1,1)$. Use Bayes’ rule to show $$
+Condition on the parent being the **double heterozygote** $(g_1,g_2)=(1,1)$. Use Bayes’ rule to show 
+$$
 w
 = \Pr\{(ab,AB)\mid(1,1)\}
 = \frac{p_{ab}\,p_{AB}}{p_{ab}\,p_{AB}+p_{aB}\,p_{Ab}},
