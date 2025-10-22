@@ -1,7 +1,7 @@
 ---
-title: "Schedule"
-subtitle: "PUBH 8878, Fall '25"
-page-layout: full
+title: "PUBH 8878: Statistical Genetics"
+subtitle: "Fall '25"
+format: gfm
 ---
 
 *Article links direct to files hosted on the Zotero group library*
