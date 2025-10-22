@@ -1,0 +1,627 @@
+---
+title: "Lecture 08: Binary Data"
+subtitle: PUBH 8878, Statistical Genetics
+format: 
+    revealjs:
+        theme: [default, "custom.scss"]
+        css: "styles.css"
+        slide-number: true
+        html-math-method: mathjax
+execute:
+  freeze: auto
+  echo: true
+  warning: true
+engine: knitr
+bibliography: references.bib
+csl: https://www.zotero.org/styles/journal-of-the-royal-statistical-society
+---
+
+```{r}
+#| label: libraries
+#| echo: false
+#| message: false
+
+library(ggplot2)
+library(cmdstanr)
+library(dplyr)
+library(mvtnorm)
+library(tidyr)
+theme_set(theme_minimal(base_size = 16, base_family = "NewComputerModernSans10"))
+theme_update(panel.grid = element_blank())
+```
+
+
+## Binary classification overview
+
+**Setup.** Observations $(Y_i, x_i)$ with $Y_i\in\{0,1\}$, $x_i\in\mathbb{R}^p$.
+
+- A **classifier** returns a score $s(x_i)\in[0,1]$
+- We predict $\hat Y_i=\mathbf 1\{s(x_i)>t\}$ for threshold $t\in[0,1]$.  
+- With $s(x)=\Pr(Y=1\mid x)$ and $t=0.5$, **Bayes rule** minimizes $\Pr(\hat Y\neq Y)$.
+
+**Two viewpoints.**
+
+- **Direct probability (GLM):** model $\pi(x)=\Pr(Y=1\mid x)$ via a link $g$; logistic uses $g=\mathrm{logit}$, probit uses $g=\Phi^{-1}$.
+- **Latent‑threshold (liability):** let $U=\mu+x^\top\beta+\varepsilon$ and $Y=\mathbf 1\{U>0\}$. If $\varepsilon\sim\mathcal N(0,1)$ we obtain probit; if $\varepsilon$ is logistic we obtain logistic. 
+
+## Types of models
+
+### Logistic model 
+$$
+\Pr(Y=1\mid x)=\frac{\exp(x^\top\beta)}{1+\exp(x^\top\beta)},\quad
+\text{logit}\,\Pr(Y=1\mid x)=x^\top\beta .
+$$
+
+### Probit model 
+$$
+\Pr(Y=1\mid x)=\Phi(\mu+x^\top b),\quad \Phi^{-1}\Pr(Y=1\mid x)=\mu+x^\top b .
+$$
+
+
+## Logit vs probit: one predictor
+
+**Visual comparison.** For a single covariate $x$, fix $(\mu,\beta)$ and plot
+$$
+\pi_{\text{logit}}(x)=\mathrm{logit}^{-1}(\mu+\beta x),\quad
+\pi_{\text{probit}}(x)=\Phi(\mu+\beta x),\quad
+$$
+
+```{r}
+#| label: logit-vs-probit-ggplot
+#| echo: false
+#| eval: true
+
+# Example inputs (replace with your X, Y, mu, beta)
+set.seed(42)
+n <- 300
+X <- runif(n, -3, 3)
+mu <- -0.5
+beta <- 1.2
+p_true <- plogis(mu + beta * X)      # simulate from logistic for illustration
+Y <- rbinom(n, 1, p_true)
+
+# Smooth grid for the two links
+grid <- data.frame(x = seq(min(X), max(X), length.out = 400))
+grid$p_logit  <- plogis(mu + beta * grid$x)
+grid$p_probit <- pnorm (mu + beta * grid$x)
+grid$diff     <- grid$p_logit - grid$p_probit
+
+# Optional: align scales so curves nearly overlap (rule of thumb ~1.6)
+# grid$p_probit_scaled <- pnorm(mu + (beta/1.6) * grid$x)
+
+# Overlay of curves + observed points
+ggplot() +
+  geom_point(aes(X, Y), alpha = 0.35, 
+             position = position_jitter(height = 0.03), size = 1.2) +
+  geom_line(data = grid, aes(x, p_logit, color = "Logistic"), linewidth = 1) +
+  geom_line(data = grid, aes(x, p_probit, color = "Probit"), linewidth = 1, linetype = 2) +
+  scale_color_manual(values = c(Logistic = "#1f77b4", Probit = "#d62728")) +
+  labs(x = "x", y = "Pr(Y = 1 | x)", color = "Link")
+```
+
+## Logit vs probit: one predictor
+
+**Visual comparison.** For a single covariate $x$, fix $(\mu,\beta)$ and plot
+
+$$
+\Delta(x)=\pi_{\text{logit}}(x)-\pi_{\text{probit}}(x)
+$$
+
+```{r}
+#| label: logit-vs-probit-diff
+#| echo: false
+ggplot(grid, aes(x, diff)) +
+  geom_hline(yintercept = 0, color = "grey60") +
+  geom_line(color = "black", linewidth = 0.9) +
+  labs(x = "x", y = "Logistic - Probit") +
+  theme_minimal(base_size = 12)
+```
+
+## Losses for binary outcomes
+
+- **0–1 error / error rate:** $(y_i-\hat y_i)^2$ equals $1$ if misclassified, $0$ otherwise.  
+- **Training vs validating MSE:**  
+  $$
+  \widehat{E}(\mathrm{MSE}_v)
+  =\frac{1}{N}\sum_{i=1}^N (y_i-\hat y_i)^2
+  + \frac{2}{N}\sum_{i=1}^N \mathrm{Cov}(\hat y_i,y_i)
+  $$
+  where the second term is **expected optimism**.
+
+  - **Why it appears.** Because $\hat y_i$ is fit using $y_i$, they co‑move: training loss looks too small. On fresh data (independent of the fit), this advantage vanishes, so loss increases.
+  - **Interpreting $\mathrm{Cov}(\hat y_i,y_i)$.** It measures how much the prediction at $i$ chases noise in $y_i$
+    - more model flexibility increases this covariance (more optimism), while regularization/shrinkage reduces it.
+
+## Losses for binary outcomes
+
+- **Brier score (probability forecasts):**  
+  $$
+  \mathrm{MSE}^{\text{Brier}}_v=\frac{1}{N_v}\sum_{i=1}^{N_v}\big(y_i-\hat \pi_i\big)^2.
+  $$
+
+## Penalized logistic regression (ridge)
+
+We minimize
+$$
+J(\mu,\beta)= -\ell(\mu,\beta\mid y,X)+\frac{\lambda}{2}\lVert \beta\rVert_2^2
+$$
+$$
+\ell=\sum_{i=1}^n\Big[y_i f_i-\log\{1+\exp(f_i)\}\Big]
+$$
+
+$$
+f_i=\mu+x_i^\top\beta 
+$$
+
+## Logistic lasso
+
+Solve
+$$
+\max_{\beta_0,\beta}\;\sum_{i=1}^n \Big[ y_i(\beta_0+x_i^\top\beta)-\log\{1+\exp(\beta_0+x_i^\top\beta)\}\Big]
+-\lambda\sum_{j=1}^p|\beta_j|,
+$$
+with standardized predictors, unpenalized intercept.
+
+```{r}
+#| label: glmnet-lasso
+#| echo: true
+#| eval: false
+library(glmnet)
+set.seed(3337)
+# X,y should be prepared beforehand
+cv.out <- cv.glmnet(X, y, alpha=1, intercept=TRUE, family="binomial", type.measure="class")
+bestlam <- cv.out$lambda.min
+coef(cv.out, s=bestlam)              
+pred_class <- predict(cv.out, s=bestlam, newx=X, type="class")
+pred_prob  <- predict(cv.out, s=bestlam, newx=X, type="response")
+err_rate   <- mean((as.numeric(pred_class)-y)^2)
+brier      <- mean((as.numeric(pred_prob)-y)^2)
+```
+
+## Bayesian spike-and-slab (binary via probit)
+
+**Latent liability:** $U_i=\mu+x_i^\top b + e_i$, $e_i\sim\mathcal N(0,1)$; $Y_i=\mathbf 1\{U_i>0\}$.  
+**Spike-slab prior:** $b_j=\alpha_j\delta_j$, $\alpha_j\sim\mathcal N(0,\sigma_b^2)$, $\delta_j\sim\mathrm{Bernoulli}(\pi)$.
+
+## Bayesian spike-and-slab
+
+![@biziaevUsingPriordataConflict2025a](images/spike.png){fig-align="left"}
+
+
+## ROC curves and AUC
+
+- True Positive Rate (TPR): $\text{Pr}(\hat{Y} = 1 | Y = 1)$
+- False Positive Rate (FPR): $\text{Pr}(\hat{Y} = 1 | Y = 0)$
+- True Negative Rate (TNR): $\text{Pr}(\hat{Y} = 0 | Y = 0)$
+- False Negative Rate (FNR): $\text{Pr}(\hat{Y} = 0 | Y = 1)$
+- Prevalance or Incidence: $\text{Pr}(Y = 1)$
+
+I will use these terms instead of sensitivity and specificity
+
+## ROC curves and AUC
+
+- Receiver operating characteristic curve (ROC(t)): plot $\mathrm{TPR}(t)=\Pr(s(X)>t\mid Y=1)$ against $\mathrm{FPR}(t)=\Pr(s(X)>t\mid Y=0)$.  
+- Area under the curve (AUC): The area under the curve of the ROC is a measure of model performance 
+- AUC can be understood as the probability that a random positive is ranked higher than a random negative:
+
+\begin{align*}
+\mathrm{AUC} &=\Pr\big(s_1>s_0\big) \\
+&=\int_{-\infty}^{\infty}[1-F_1(t)] f_0(t)\,dt \\
+&=\iint \mathbf 1\{u>t\} f_1(u) f_0(t)\,du\,dt 
+\end{align*}
+
+## ROC curves and AUC
+
+![@parikhChapterTwoStatistical2017](images/roc.jpg){fig-align="left"}
+
+## Choosing a threshold
+
+- $t=0.5$ minimizes the overall error rate $\Pr(\hat Y\neq Y)$ when $s(x)=\Pr(Y=1\mid x)$.  
+- But clinical priorities may prefer **lower FNR** at the expense of higher FPR.
+
+## Example: rare disease prevalance
+
+- Prevalance of a disease is the proportion in the population that have the disease: $\text{P}(\hat{Y} = 1)$
+- Given a random sample of $n$ individuals, we generate predictions $\hat{Y}$ using some rule $s(x)$, which declares $T$ individuals as positive, so
+
+$$
+\widehat{\text{Pr}}\left(\hat{Y} = 1\right) = \frac{T}{n}
+$$
+
+## Example: rare disease prevalance
+
+- What's the relationship between $\text{P}(\hat{Y} = 1)$ and $\text{P}(Y = 1)$?
+
+$$
+\text{P}(\hat{Y} = 1) = \underbrace{\text{P}(\hat{Y} = 1 | Y = 1)}_{\text{TPR}}\text{P}(Y = 1) + \underbrace{\text{P}(\hat{Y} = 1 | Y = 0)}_{\text{FPR}}\text{P}(Y = 0) 
+$$
+
+- Thus, we instead compute the unbiased estimator:
+
+\begin{align*}
+\frac
+{
+  \text{P}(\hat{Y} = 1) - \text{P}(\hat{Y} = 1 | Y = 0)
+}
+{
+\text{P}(\hat{Y} = 1 | Y = 1) - \text{P}(\hat{Y} = 1 | Y = 0)
+} &= 
+\frac{T - n(\text{P}(\hat{Y} = 1 | Y = 0))}{n(\text{P}(\hat{Y} = 1 | Y = 1) - \text{P}(\hat{Y} = 1 | Y = 0))} \\[1em]
+&= \frac{(T/n) - \text{FPR}}{\text{TPR} - \text{FPR}}
+\end{align*}
+
+## Example: rare disease prevalance
+
+Fix the observed positive rate $T/n$ and vary $(\mathrm{TPR},\mathrm{FPR})$ to see how the prevalence estimate
+$$
+\widehat{\pi}=\frac{T/n-\mathrm{FPR}}{\mathrm{TPR}-\mathrm{FPR}}
+$$
+changes.
+
+## Example: rare disease prevalance
+
+```{r}
+#| label: prevalence-sensitivity
+#| echo: false
+
+# Example values from the slide
+n <- 10000
+T <- 900
+pi_biased = T/n
+
+# Grid of TPR and FPR values
+tpr <- seq(0.60, 1, length.out = 50)
+fpr <- seq(0, pi_biased, length.out = 50)
+
+# Boundary where pi_unbiased equals naive prevalence pi_biased = T/n
+line_df <- data.frame(tpr = seq(.6, 1, length.out = 200))
+line_df$fpr <- pi_biased * (1 - line_df$tpr) / (1 - pi_biased) 
+
+tidyr::crossing(tpr, fpr) |>
+  mutate("n" = n,
+         "T" = T,
+         "pi_unbiased" = (T/n - fpr)/(tpr - fpr)
+         ) |>
+  ggplot(aes(x = fpr, y = tpr, fill = pi_unbiased)) +
+  geom_tile() +
+  geom_line(data = line_df, aes(x = fpr, y = tpr),
+            inherit.aes = FALSE, color = "orange", linewidth = 1) +
+  viridis::scale_fill_viridis() +
+  annotate("label", x = .01, y = .7, label = "Estimator > T/n") +
+  annotate("label", x = .06, y = .85, label = "Estimator < T/n")
+```
+
+## Example: rare disease prevalance
+
+- This correction requires knowledge of the test’s operating characteristics.
+- Use TPR, FPR, TNR, FNR terminology:
+  - TPR = Pr($\hat Y=1\mid Y=1$), FNR = $1-\text{TPR}$
+  - FPR = Pr($\hat Y=1\mid Y=0$), TNR = $1-\text{FPR}$
+- We can use a Bayesian model to account for uncertainty in TPR and FPR and infer prevalence $\pi$.
+- **Example.** $n=10{,}000$, $T=900$, $\text{TPR}\approx0.85$, $\text{TNR}\approx0.95$ (so $\text{FPR}\approx0.05$, $\text{FNR}\approx0.15$).
+
+**Bayesian model with cmdstanr.** Let $T\sim\mathrm{Binomial}\big(n,\,\pi\,\mathrm{TPR}+(1-\pi)\,\mathrm{FPR}\big)$ with Beta priors for $\pi$, TPR, and FPR. Stan program saved at `lectures/stan/prevalence_from_pred.stan`.
+
+```{r}
+#| label: prevalence-stan-fit
+#| echo: false
+#| cache: true
+#| results: 'hide'
+
+
+stan_file <- "stan/prevalence_from_pred.stan"
+mod <- cmdstan_model(stan_file)
+
+# Data
+n <- 10000
+T_pos <- 900
+
+# Prior means from validation/prior knowledge
+tpr_mean <- 0.85
+tnr_mean <- 0.95
+fpr_mean <- 1 - tnr_mean
+
+# Prior strengths (pseudo sample sizes)
+k_tpr <- 50
+k_fpr <- 50
+
+a_tpr <- tpr_mean * k_tpr; 
+b_tpr <- (1 - tpr_mean) * k_tpr
+a_fpr <- fpr_mean * k_fpr; 
+b_fpr <- (1 - fpr_mean) * k_fpr
+
+data_list <- list(
+  n = n, T = T_pos,
+  a_pi = 1.0, b_pi = 1.0,          # flat prior on prevalence
+  a_tpr = a_tpr, b_tpr = b_tpr,
+  a_fpr = a_fpr, b_fpr = b_fpr
+)
+
+fit <- mod$sample(
+  data = data_list,
+  seed = 2025,
+  chains = 4, parallel_chains = 4,
+  iter_warmup = 1000, iter_sampling = 1000
+)
+
+# Summarize key quantities
+fit$summary(c("pi","tpr","fpr","tnr","fnr","p_pos","pi_hat_unbiased","J"))
+```
+
+
+## Posterior histograms
+
+```{r}
+#| label: prevalence-stan-hists
+#| echo: false
+#| warning: false
+
+# Requires 'fit' from the previous chunk.
+post <- fit$draws(c("pi","p_pos","tpr","fpr"), format = "df")
+post_long <- post |>
+  dplyr::select(pi, p_pos, tpr, fpr) |>
+  tidyr::pivot_longer(dplyr::everything(), names_to = "param", values_to = "value") |>
+  dplyr::mutate(
+    param = factor(param, levels = c("pi","p_pos","tpr","fpr")),
+    param_label = dplyr::case_when(
+      param == "pi"    ~ "hat(P)(Y==1)",
+      param == "p_pos" ~ "hat(P)(hat(Y)==1)",
+      param == "tpr"   ~ "TPR",
+      param == "fpr"   ~ "FPR"
+    )
+  )
+
+summ <- post_long |>
+  dplyr::group_by(param, param_label) |>
+  dplyr::summarise(
+    med = median(value),
+    lo  = quantile(value, 0.025),
+    hi  = quantile(value, 0.975), .groups = "drop"
+  )
+
+post_long |>
+  filter(param %in% c("pi", "p_pos")) |>
+  ggplot(aes(value)) +
+  geom_histogram(bins = 60, fill = "grey85", color = "black") +
+  geom_vline(data = summ |> filter(param %in% c("pi", "p_pos")), aes(xintercept = med), color = "red") +
+  geom_vline(data = summ |> filter(param %in% c("pi", "p_pos")), aes(xintercept = lo),  color = "red", linetype = "dashed") +
+  geom_vline(data = summ |> filter(param %in% c("pi", "p_pos")), aes(xintercept = hi),  color = "red", linetype = "dashed") +
+  facet_wrap(~ param_label, labeller = label_parsed, scales = "free_x", nrow = 1) +
+  labs(x = NULL, y = "Posterior draws")
+```
+
+## Example: GWAS
+
+```{r, message = "F"}
+library(snpStats)
+data(testdata)
+X <- as(Autosomes, "numeric")
+Y <- subject.data["cc"]
+metadata <- subject.data[c("sex", "region")]
+```
+
+\
+
+:::: {.columns}
+
+::: {.column width="33%"}
+
+```{r}
+X[1:5, 1:5]
+```
+
+:::
+
+::: {.column width="33%"}
+
+```{r}
+head(Y)
+```
+
+:::
+
+::: {.column width="33%"}
+
+```{r}
+head(metadata)
+```
+
+:::
+
+::::
+
+## Spike-Slab Model
+
+- Consider a probit model for $Y_i\in\{0,1\}$ with genotypes $X_i\in\{0,1,2\}^p$:
+$$
+\Pr(Y_i=1\mid X_i)=\Phi(\alpha+X_i^\top\beta)
+$$
+- Spike-and-slab prior on $\beta_j$:
+$$
+\beta_j=\alpha_j\delta_j,\quad
+\alpha_j\sim\mathcal N(0,\sigma_b^2),\quad
+\delta_j\sim\mathrm{Bernoulli}(\pi)
+$$
+
+- Goal: identify associated variants (nonzero $\beta_j$) and predict case/control status.
+
+## Spike-Slab Model ROC
+
+```{r}
+#| label: spike-slab-prep
+#| echo: false
+
+# Outcome 0/1
+y <- as.integer(subject.data$cc %in% c("case", 1))
+
+# Genotypes -> numeric 0/1/2
+X_raw <- as(Autosomes, "numeric")
+
+# --- Train/test split (training-only preprocessing) ---
+set.seed(2025)
+n_all <- nrow(X_raw)
+idx <- sample.int(n_all)
+n_tr <- floor(0.7 * n_all)
+tr <- idx[1:n_tr]
+te <- idx[(n_tr + 1):n_all]
+
+# 1) Variant call-rate filter and monomorphic removal computed on training
+min_callrate <- 0.95
+callrate_tr <- colMeans(!is.na(X_raw[tr, , drop = FALSE]))
+is_mono_tr <- vapply(seq_len(ncol(X_raw)), function(j) {
+  vals <- X_raw[tr, j]
+  vals <- vals[!is.na(vals)]
+  length(unique(vals)) <= 1
+}, logical(1))
+keep_cols <- (callrate_tr >= min_callrate) & (!is_mono_tr)
+
+Xtr_raw <- X_raw[tr, keep_cols, drop = FALSE]
+Xte_raw <- X_raw[te, keep_cols, drop = FALSE]
+
+# 2) Mean impute per SNP using training means
+col_means_tr <- colMeans(Xtr_raw, na.rm = TRUE)
+na_tr <- which(is.na(Xtr_raw), arr.ind = TRUE)
+if (nrow(na_tr) > 0) Xtr_raw[na_tr] <- col_means_tr[na_tr[, 2]]
+na_te <- which(is.na(Xte_raw), arr.ind = TRUE)
+if (nrow(na_te) > 0) Xte_raw[na_te] <- col_means_tr[na_te[, 2]]
+
+# 3) Standardize columns using training moments; drop zero-variance from training
+mu_tr <- colMeans(Xtr_raw)
+sd_tr <- apply(Xtr_raw, 2, sd)
+keep_var <- is.finite(sd_tr) & (sd_tr > 0)
+if (any(!keep_var)) {
+  Xtr_raw <- Xtr_raw[, keep_var, drop = FALSE]
+  Xte_raw <- Xte_raw[, keep_var, drop = FALSE]
+  mu_tr <- mu_tr[keep_var]
+  sd_tr <- sd_tr[keep_var]
+}
+X_tr <- sweep(sweep(Xtr_raw, 2, mu_tr, FUN = "-"), 2, sd_tr, FUN = "/")
+X_te <- sweep(sweep(Xte_raw, 2, mu_tr, FUN = "-"), 2, sd_tr, FUN = "/")
+
+y_tr <- as.integer(y[tr])
+y_te <- as.integer(y[te])
+
+n <- nrow(X_tr); p <- ncol(X_tr)
+```
+
+```{r}
+#| label: spike-slab-cmdstanr
+#| echo: false
+#| cache: true
+#| results: hide
+#| message: false
+
+library(cmdstanr)
+stan_file <- "stan/probit_spike_slab_mixture.stan"
+mod_ss <- cmdstan_model(stan_file)
+
+# Hyperparameters (on standardized X)
+sigma_spike <- 0.05
+sigma_slab  <- 0.5
+a_pi <- 1
+b_pi <- 9   # Beta(1,9) prior on inclusion probability (sparse)
+
+data_list_tr <- list(
+  n = n, p = p, X = unclass(X_tr), y = y_tr,
+  sigma_spike = sigma_spike, sigma_slab = sigma_slab,
+  a_pi = a_pi, b_pi = b_pi
+)
+
+fit_ss <- mod_ss$sample(
+  data = data_list_tr,
+  seed = 2025,
+  chains = 4, parallel_chains = 4,
+  iter_warmup = 1000, iter_sampling = 1000,
+  init = 0
+)
+
+# Posterior predictive mean on test: average probabilities over draws
+library(posterior)
+dr <- fit_ss$draws(c("alpha","beta"), format = "draws_matrix")
+b_cols <- grep("^beta\\[", colnames(dr), value = TRUE)
+B <- dr[, b_cols, drop = FALSE]             # draws x p
+A <- dr[, "alpha"]                           # draws
+
+eta_te <- X_te %*% t(B)                      # n_test x draws
+eta_te <- sweep(eta_te, 2, A, "+")           # add alpha per draw
+p_te <- rowMeans(pnorm(eta_te))              # posterior predictive mean
+
+# Metrics
+brier <- mean((y_te - p_te)^2)
+pred_class <- as.integer(p_te > 0.5)
+err_rate <- mean((pred_class - y_te)^2)
+
+library(pROC)
+roc_obj <- pROC::roc(response = y_te, predictor = p_te, quiet = TRUE)
+auc <- as.numeric(pROC::auc(roc_obj))
+
+plot(roc_obj)
+```
+
+## Spike-Slab Posterior Inclusion Probabilities (PIPs)
+
+PIP is the posterior probability that SNP $j$ is included in the model
+
+```{r}
+#| label: spike-slab-pips
+#| echo: false
+#| eval: true
+#| cache: true
+#| warning: false
+
+# Posterior mean PIP per SNP (on training SNPs)
+draws_pip <- fit_ss$draws("pip", format = "df")
+pip_cols <- grep("^pip\\[", names(draws_pip), value = TRUE)
+pip_mean <- colMeans(draws_pip[, pip_cols, drop = FALSE])
+
+snps <- colnames(X_tr)
+df_pip <- tibble(SNP = snps, PIP = pip_mean) |>
+  arrange(desc(PIP)) |>
+  mutate(rank = row_number())
+
+top_k <- 30
+ggplot(df_pip |> slice_head(n = top_k), aes(x = reorder(SNP, PIP), y = PIP)) +
+  geom_col(fill = "steelblue") +
+  coord_flip() +
+  labs(x = NULL, y = "Posterior inclusion probability",
+       title = paste0("Top ", top_k, " SNPs by PIP (probit spike–slab)"))
+```
+
+
+## Polygenic Risk Scores (PRS)
+
+- A PRS is a weighted sum of genotype dosages, $PRS_i = Σ_j x_{ij} w_j$, used to estimate an individual’s genetic liability or risk. It is a linear predictor like the ones we’ve fit, applied genome‑wide[@choiPRSTutorial2020]
+- From individual‑level data: learning $w$ is exactly the supervised learning we covered
+- Evaluation: report Brier/ROC‑AUC/PR‑AUC and calibration on held‑out data, assess across ancestry groups when relevant
+
+## Other Predictive Models and Scores
+
+- Beyond linear PRS: random forests, gradient boosting, SVMs, neural nets, and deep learning can capture non‑linear effects and interactions
+- Not always PRS‑compatible: these models produce complex functions of all SNPs, you cannot summarize them as a single vector of per‑SNP weights
+- Many ML models output scores that are not well‑calibrated probabilities, post‑hoc calibration (e.g., Platt scaling, isotonic regression) may be needed for risk communication [@niculescuMizilCaruana2005; @guoCalibrationNN2017].
+- Shareability/portability: PRS is easy to share (weights) and recompute, black‑box models typically require access to the full model object and identical feature preprocessing, and may transport poorly across ancestries [@duncanPRSPerformanceDiverse2019; @martinPRSHealthDisparities2019].
+
+## PRS from Summary Statistics
+
+- Setup: summary statistics give, for each SNP j, a marginal effect $\hat{\beta}_j$ (and SE, p‑value, sample size) from a GWAS; we do not have individual genotypes $X$.
+- Why LD matters: SNPs are correlated (linkage disequilibrium, LD). If you naively use $\hat{\beta}_j$ as weights, nearby correlated SNPs can be counted multiple times. “Clumping+thresholding” (C+T) keeps one SNP per LD region to reduce double‑counting but discards signal [see @choiPRSTutorial2020].
+
+## PRS from Summary Statistics
+
+- LD matrices: let $R = \operatorname{cor}(X)$ be the LD (correlation) matrix.
+  - In‑sample LD: correlations computed from the original GWAS training genotypes. With individual‑level data, your model implicitly uses this through $X^{\top}X$.
+  - Reference LD: when only summary stats are available, we approximate LD using a separate reference panel (e.g., 1000G or a matched biobank subset) chosen to match the ancestry and QC of the target data.
+- LD‑aware summary methods (big picture): jointly shrink correlated $\hat{\beta}$ using the LD matrix $R$ to get adjusted effects $\hat{w}$ you can apply to target genotypes. Examples: LDpred/LDpred2 [@vilhjalmssonLDpred2015; @priveLDpred22020], PRS‑CS [@gePRSCs2019], lassosum [@makLassosum2017].
+
+## PRS from Summary Statistics
+
+- Typical pipeline (summary‑level PRS):
+
+  1) Harmonize alleles, build the intersecting SNP set across summary stats, LD reference, and target.
+  2) Construct block‑wise LD matrices $R_b$ from the reference (e.g., 1–3 cM windows).
+  3) Provide z‑scores or $(\hat{\beta}, \mathrm{SE}, N)$ to the method along with $R_b$.
+  4) Run an LD‑aware algorithm (e.g., LDpred2‑grid/auto, PRS‑CS) to obtain posterior mean effects.
+  5) Compute PRS in the target by $$\mathrm{PRS} = X_{\text{target}}\, \hat{w}$$ and evaluate on held‑out data.
+
+
+## References
